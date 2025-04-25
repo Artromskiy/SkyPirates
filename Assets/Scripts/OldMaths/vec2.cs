@@ -1,8 +1,8 @@
 #pragma warning disable IDE1006
 using System;
-using static DVG.Maths.math;
+using static DVG.MathsOld.math;
 
-namespace DVG.Maths
+namespace DVG.MathsOld
 {
     /// <summary>
     /// Main vec2 struct

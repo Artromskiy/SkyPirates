@@ -2,8 +2,8 @@ using System;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
-using DVG.Maths;
-using static DVG.Maths.math;
+using DVG.MathsOld;
+using static DVG.MathsOld.math;
 
 namespace DVG.Editor.AssetPrepareTools
 {

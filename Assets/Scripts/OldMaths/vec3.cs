@@ -1,9 +1,9 @@
 #pragma warning disable IDE1006 // Стили именования
 using System;
 using System.Runtime.CompilerServices;
-using static DVG.Maths.math;
+using static DVG.MathsOld.math;
 
-namespace DVG.Maths
+namespace DVG.MathsOld
 {
     /// <summary>
     /// Main vec3 struct

@@ -2,7 +2,7 @@ using System;
 using System.Runtime.CompilerServices;
 #pragma warning disable IDE1006
 
-namespace DVG.Maths
+namespace DVG.MathsOld
 {
     public static partial class math
     {

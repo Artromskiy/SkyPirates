@@ -1,5 +1,5 @@
 ﻿using DVG.Core;
-using DVG.Maths;
+using DVG.MathsOld;
 using DVG.SkyPirates.Client.IViews;
 using DVG.SkyPirates.Shared.Models;
 using VContainer.Unity;

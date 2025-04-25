@@ -1,7 +1,7 @@
 using System;
-using static DVG.Maths.math;
+using static DVG.MathsOld.math;
 
-namespace DVG.Maths
+namespace DVG.MathsOld
 {
     public struct int4
     {

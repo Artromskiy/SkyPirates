@@ -1,10 +1,10 @@
-using DVG.Maths;
+using DVG.MathsOld;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using static DVG.Maths.math;
-using static DVG.Maths.vec2;
-using static DVG.Maths.vec3;
+using static DVG.MathsOld.math;
+using static DVG.MathsOld.vec2;
+using static DVG.MathsOld.vec3;
 
 [Obsolete]
 public class SquadControllerPm

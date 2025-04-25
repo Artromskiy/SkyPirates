@@ -1,8 +1,8 @@
 using System;
-using static DVG.Maths.math;
+using static DVG.MathsOld.math;
 #pragma warning disable IDE1006
 
-namespace DVG.Maths
+namespace DVG.MathsOld
 {
     [Serializable]
     public partial struct quat

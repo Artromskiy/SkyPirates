@@ -3,7 +3,7 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Scripting;
 
-namespace DVG.Maths
+namespace DVG.MathsOld
 {
     [Preserve]
     partial struct vec2: INetworkSerializeByMemcpy

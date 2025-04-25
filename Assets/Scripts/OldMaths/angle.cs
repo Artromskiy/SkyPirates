@@ -1,9 +1,9 @@
 #pragma warning disable IDE1006
 using System;
-using static DVG.Maths.math;
-using static DVG.Maths.vec2;
+using static DVG.MathsOld.math;
+using static DVG.MathsOld.vec2;
 
-namespace DVG.Maths
+namespace DVG.MathsOld
 {
     public partial struct angle : IEquatable<angle>
     {

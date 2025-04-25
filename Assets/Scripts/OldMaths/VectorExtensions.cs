@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace DVG.Maths
+namespace DVG.MathsOld
 {
     /// <summary>
     /// Vector Extensions
