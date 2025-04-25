@@ -2,8 +2,7 @@ using System;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
-using DVG.MathsOld;
-using static DVG.MathsOld.math;
+using DVG;
 
 namespace DVG.Editor.AssetPrepareTools
 {
@@ -23,14 +22,14 @@ namespace DVG.Editor.AssetPrepareTools
             {
                 Texture2D texture = Copy(item.texture);
                 var minmaxT = GetMinMax(texture);
-                minmax = minmax.minMax(minmaxT);
+                minmax = minMax(minmax, minmaxT);
                 DestroyImmediate(texture);
             }
 
-            minmax.x = max(minmax.x - 1, 0);
-            minmax.y = max(minmax.y - 1, 0);
-            minmax.z = min(minmax.z + 1, _toResize[0].texture.width);
-            minmax.w = min(minmax.w + 1, _toResize[0].texture.height);
+            minmax.x = Maths.Max(minmax.x - 1, 0);
+            minmax.y = Maths.Max(minmax.y - 1, 0);
+            minmax.z = Maths.Min(minmax.z + 1, _toResize[0].texture.width);
+            minmax.w = Maths.Min(minmax.w + 1, _toResize[0].texture.height);
 
             int width = minmax.z - minmax.x;
             int height = minmax.w - minmax.y;
@@ -46,6 +45,17 @@ namespace DVG.Editor.AssetPrepareTools
                 DestroyImmediate(texture);
             }
             AssetDatabase.Refresh();
+        }
+
+
+        private static int4 minMax(int4 source, int4 compare)
+        {
+            var temp = source;
+            temp[0] = Maths.Min(temp[0], compare[0]);
+            temp[1] = Maths.Min(temp[1], compare[1]);
+            temp[2] = Maths.Max(temp[2], compare[2]);
+            temp[3] = Maths.Max(temp[3], compare[3]);
+            return temp;
         }
 
         [ContextMenu("Group PoT")]
@@ -150,7 +160,7 @@ namespace DVG.Editor.AssetPrepareTools
             var prevWidth = originalTexture.width;
             var prevHeight = originalTexture.height;
 
-            int size = max(prevHeight, prevWidth);
+            int size = Maths.Max(prevHeight, prevWidth);
             Texture2D newTexture = CreateTexture(size, size);
 
             var newx = (size - prevWidth) / 2;
@@ -221,10 +231,10 @@ namespace DVG.Editor.AssetPrepareTools
                 {
                     if (vals[i])
                         continue;
-                    minmax[0] = min(minmax[0], x);
-                    minmax[1] = min(minmax[1], y);
-                    minmax[2] = max(minmax[2], x);
-                    minmax[3] = max(minmax[3], y);
+                    minmax[0] = Maths.Min(minmax[0], x);
+                    minmax[1] = Maths.Min(minmax[1], y);
+                    minmax[2] = Maths.Max(minmax[2], x);
+                    minmax[3] = Maths.Max(minmax[3], y);
                 }
             }
             return minmax;

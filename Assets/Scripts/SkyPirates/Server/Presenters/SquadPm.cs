@@ -56,7 +56,7 @@ namespace DVG.SkyPirates.Server.Presenters
             for (int i = 0; i < count; i++)
             {
                 var posI = _units[i].Position;
-                float firstDist = posI.DistanceSqrdXZ(targets[i]);
+                float firstDist = vec2.sqrlength(posI.xz, targets[i].xz);
                 if (firstDist <= 1)
                     continue;
 
@@ -65,8 +65,8 @@ namespace DVG.SkyPirates.Server.Presenters
                 for (int j = i + 1; j < count; j++)
                 {
                     var posJ = _units[j].Position;
-                    var swapSum = posI.DistanceSqrdXZ(targets[j]) + posJ.DistanceSqrdXZ(targets[i]);
-                    if (swapSum < minSwap && swapSum < firstDist + posJ.DistanceSqrdXZ(targets[j]))
+                    var swapSum = vec2.sqrlength(posI.xz,targets[j].xz) + vec2.sqrlength(posJ.xz, targets[i].xz);
+                    if (swapSum < minSwap && swapSum < firstDist + vec2.sqrlength(posJ.xz, targets[j].xz))
                     {
                         minSwap = swapSum;
                         swapIndex = j;

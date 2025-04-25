@@ -32,7 +32,7 @@ namespace DVG.SkyPirates.Shared.Views
             if (IsServer)
             {
                 float latency = (float)TimeSpan.FromTicks(NetworkManager.Singleton.NetworkTimeSystem.TickLatency).TotalSeconds;
-                _position.Value = (vec2)transform.position.NoY() + Velocity * latency;
+                _position.Value = new vec2(transform.position.x, transform.position.z) + Velocity * latency;
                 _rotation.Value = transform.eulerAngles.y;
             }
             if (IsClient && !IsServer)
