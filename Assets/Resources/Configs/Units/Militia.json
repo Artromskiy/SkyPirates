@@ -1,0 +1,9 @@
+{
+  "health": 100.0,
+  "damage": 15.0,
+  "speed": 10.0,
+  "attackDistance": 3.0,
+  "reload": 0.3,
+  "preAttack": 0.7,
+  "postAttack": 0.3
+}

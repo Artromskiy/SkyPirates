@@ -1,0 +1,87 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!319 &31900000
+AvatarMask:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: buccaneerRotate
+  m_Mask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+  m_Elements:
+  - m_Path: 
+    m_Weight: 1
+  - m_Path: DeformationSystem
+    m_Weight: 0
+  - m_Path: DeformationSystem/root_zero
+    m_Weight: 0
+  - m_Path: DeformationSystem/root_zero/object01
+    m_Weight: 0
+  - m_Path: DeformationSystem/root_zero/Root_M
+    m_Weight: 0
+  - m_Path: DeformationSystem/root_zero/Root_M/Chest_M
+    m_Weight: 0
+  - m_Path: DeformationSystem/root_zero/Root_M/Chest_M/HandPlate_L
+    m_Weight: 0
+  - m_Path: DeformationSystem/root_zero/Root_M/Chest_M/HandPlate_R
+    m_Weight: 0
+  - m_Path: DeformationSystem/root_zero/Root_M/Chest_M/Head_M
+    m_Weight: 1
+  - m_Path: DeformationSystem/root_zero/Root_M/Chest_M/Head_M/hat_M
+    m_Weight: 0
+  - m_Path: DeformationSystem/root_zero/Root_M/Chest_M/quiver_R
+    m_Weight: 0
+  - m_Path: DeformationSystem/root_zero/Root_M/Chest_M/Wing_L
+    m_Weight: 0
+  - m_Path: DeformationSystem/root_zero/Root_M/Chest_M/Wing_R
+    m_Weight: 0
+  - m_Path: DeformationSystem/root_zero/Root_M/Chest_M/Wrist_L
+    m_Weight: 0
+  - m_Path: DeformationSystem/root_zero/Root_M/Chest_M/Wrist_L/holdObject_L
+    m_Weight: 0
+  - m_Path: DeformationSystem/root_zero/Root_M/Chest_M/Wrist_L/holdObject_L/bowString_L
+    m_Weight: 0
+  - m_Path: DeformationSystem/root_zero/Root_M/Chest_M/Wrist_R
+    m_Weight: 0
+  - m_Path: DeformationSystem/root_zero/Root_M/Chest_M/Wrist_R/holdObject_R
+    m_Weight: 0
+  - m_Path: DeformationSystem/root_zero/Root_M/Hip_L
+    m_Weight: 0
+  - m_Path: DeformationSystem/root_zero/Root_M/Hip_L/Knee_L
+    m_Weight: 0
+  - m_Path: DeformationSystem/root_zero/Root_M/Hip_L/Knee_L/Ankle_L
+    m_Weight: 0
+  - m_Path: DeformationSystem/root_zero/Root_M/Hip_L/Knee_L/Ankle_L/Toes_L
+    m_Weight: 0
+  - m_Path: DeformationSystem/root_zero/Root_M/Hip_R
+    m_Weight: 0
+  - m_Path: DeformationSystem/root_zero/Root_M/Hip_R/Knee_R
+    m_Weight: 0
+  - m_Path: DeformationSystem/root_zero/Root_M/Hip_R/Knee_R/Ankle_R
+    m_Weight: 0
+  - m_Path: DeformationSystem/root_zero/Root_M/Hip_R/Knee_R/Ankle_R/Toes_R
+    m_Weight: 0
+  - m_Path: DeformationSystem/root_zero/shadow
+    m_Weight: 0
+  - m_Path: Geometry
+    m_Weight: 0
+  - m_Path: Geometry/mesh_Bandit
+    m_Weight: 0
+  - m_Path: Geometry/mesh_Bes
+    m_Weight: 0
+  - m_Path: Geometry/mesh_Bucaneer
+    m_Weight: 0
+  - m_Path: Geometry/mesh_Demon
+    m_Weight: 0
+  - m_Path: Geometry/mesh_Militia
+    m_Weight: 0
+  - m_Path: Geometry/mesh_MilitiaHat
+    m_Weight: 0
+  - m_Path: Geometry/mesh_Pirate
+    m_Weight: 0
+  - m_Path: Geometry/mesh_Sailor
+    m_Weight: 0
+  - m_Path: Geometry/mesh_SkeletonArcher
+    m_Weight: 0
+  - m_Path: Geometry/mesh_SkeletonSoldier
+    m_Weight: 0

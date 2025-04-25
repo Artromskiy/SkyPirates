@@ -1,0 +1,20 @@
+{
+  "cards": [
+    {
+      "unitId": "Sailor",
+      "level": 1
+    },
+    {
+      "unitId": "Pirate",
+      "level": 1
+    },
+    {
+      "unitId": "Skelly",
+      "level": 1
+    },
+    {
+      "unitId": "Rogue",
+      "level": 1
+    }
+  ]
+}
