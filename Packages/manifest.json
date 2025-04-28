@@ -14,7 +14,6 @@
     "com.unity.test-framework": "1.5.1",
     "com.unity.ugui": "2.0.0",
     "com.vertx.debugging": "https://github.com/vertxxyz/Vertx.Debugging.git",
-    "jp.hadashikick.vcontainer": "https://github.com/hadashiA/VContainer.git?path=VContainer/Assets/VContainer",
     "com.unity.modules.accessibility": "1.0.0",
     "com.unity.modules.androidjni": "1.0.0",
     "com.unity.modules.animation": "1.0.0",

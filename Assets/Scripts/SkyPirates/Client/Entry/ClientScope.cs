@@ -5,46 +5,55 @@ using DVG.SkyPirates.Client.Presenters;
 using DVG.SkyPirates.Shared.Factories;
 using DVG.SkyPirates.Shared.IFactories;
 using DVG.SkyPirates.Shared.Models;
-
+using SimpleInjector;
 using Unity.Multiplayer;
 using UnityEngine;
-using VContainer;
-using VContainer.Unity;
+
+
 
 namespace DVG.SkyPirates.Client.Entry
 {
 
-    public class ClientScope : LifetimeScope
+    public class ClientScope : MonoBehaviour
     {
         [SerializeField]
         private GameObject[] _views;
 
-        protected override void Configure(IContainerBuilder builder)
+        protected void Start()
         {
             if (MultiplayerRolesManager.ActiveMultiplayerRoleMask != MultiplayerRoleFlags.Client)
                 return;
 
-            builder.Register<IInputFactory, InputFactory>(Lifetime.Scoped);
-            builder.Register<IPathFactory<CameraModel>, ResourcesFactory<CameraModel>>(Lifetime.Scoped);
+            var builder = new Container();
+
+            builder.Register<IInputFactory, InputFactory>(Lifestyle.Scoped);
+            builder.Register<IPathFactory<CameraModel>, ResourcesFactory<CameraModel>>(Lifestyle.Scoped);
 
 
-            builder.Register<JoystickPm>(Lifetime.Scoped);
-            builder.Register<MoveTargetPm>(Lifetime.Scoped);
-            builder.Register<CardsPm>(Lifetime.Scoped);
-
-            builder.Register<CameraPm>(Lifetime.Scoped).WithParameter((r) =>
-                r.Resolve<IPathFactory<CameraModel>>().Create("Configs/Camera/LandCamera"));
-
+            builder.Register<JoystickPm>(Lifestyle.Scoped);
+            builder.Register<MoveTargetPm>(Lifestyle.Scoped);
+            builder.Register<CardsPm>(Lifestyle.Scoped);
+            builder.Register<CameraPm>(Lifestyle.Scoped);
+            RegisterIPathFactoryMethod<CameraModel>(builder, "Configs/Camera/SeaCamera");
 
             foreach (var item in _views)
-                builder.RegisterComponent(item.GetComponent(typeof(IView))).AsImplementedInterfaces();
+                builder.RegisterInstance(item.GetComponent<IView>());
 
             //builder.RegisterComponent<ICardsView>(_cardsView);
             //builder.RegisterComponent<IJoystickView>(_joystickView);
             //builder.RegisterComponent<ICameraView>(_cameraView);
             //builder.RegisterComponent<IMoveTargetView>(_moveTargetView);
 
-            builder.RegisterEntryPoint<PresenterClient>(Lifetime.Scoped);
+            builder.Register<PresenterClient>(Lifestyle.Scoped);
+        }
+
+        private void RegisterIPathFactoryMethod<T>(Container builder, string parameter)
+        {
+            builder.ResolveUnregisteredType += (s, e) =>
+            {
+                if (e.UnregisteredServiceType.IsClosedTypeOf(typeof(T)))
+                    e.Register(() => builder.GetInstance<IPathFactory<T>>().Create(parameter));
+            };
         }
     }
 }
