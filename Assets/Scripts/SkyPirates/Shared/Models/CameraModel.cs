@@ -13,9 +13,6 @@ namespace DVG.SkyPirates.Shared.Models
         public float maxFov;
         public float minDistance;
         public float maxDistance;
-        public bool yAxis;
         public float smoothMoveTime;
-        public float minOffset;
-        public float maxOffset;
     }
 }

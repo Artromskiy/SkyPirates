@@ -43,10 +43,10 @@ namespace DVG.MathsOld
         public static bool operator >=(angle left, angle right) => left == right || left.turn > right.turn;
         public static bool operator !=(angle left, angle right) => !(left == right);
         public static bool operator ==(angle left, angle right) => distance(left.turn, right.turn) <= EqualityPrecision;
-        public override int GetHashCode() => turn.GetHashCode();
-        public override bool Equals(object other) => other is angle vec && Equals(vec);
-        public bool Equals(angle other) => turn == other.turn;
-        public override string ToString() => turn.ToString("0.000");
+        public readonly override int GetHashCode() => turn.GetHashCode();
+        public readonly override bool Equals(object other) => other is angle vec && Equals(vec);
+        public readonly bool Equals(angle other) => turn == other.turn;
+        public readonly override string ToString() => turn.ToString("0.000");
         public static float2 rotate(float2 vec, angle a)
         {
             var cs = cos(a);
