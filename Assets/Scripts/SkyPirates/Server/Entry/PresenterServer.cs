@@ -5,7 +5,7 @@ using DVG.SkyPirates.Shared.Models;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
-
+using DVG.Core;
 
 namespace DVG.SkyPirates.Server.Entry
 {
