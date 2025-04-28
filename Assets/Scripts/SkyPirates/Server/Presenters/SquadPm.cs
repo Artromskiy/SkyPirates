@@ -16,7 +16,7 @@ namespace DVG.SkyPirates.Server.Presenters
         private readonly IPathFactory<PackedCirclesModel> _circlesModelFactory;
         private PackedCirclesModel _packedCircles;
 
-        private vec3[] _targetPositions;
+        private float3[] _targetPositions;
 
         public SquadPm(InputPm input, IPathFactory<PackedCirclesModel> circlesModelFactory)
         {
@@ -34,13 +34,13 @@ namespace DVG.SkyPirates.Server.Presenters
         private void UpdatePackedCircles(int count)
         {
             _packedCircles = _circlesModelFactory.Create("Configs/PackedCircles/PackedCirclesModel" + count);
-            _targetPositions = new vec3[count];
+            _targetPositions = new float3[count];
         }
 
         public void Tick()
         {
             for (int i = 0; i < _targetPositions.Length; i++)
-                _targetPositions[i] = _input.Position + angle.rotate(_packedCircles.points[i] * 0.5f, _input.Rotation).x0y;
+                _targetPositions[i] = _input.Position + angle.rotate(_packedCircles.points[i] * 0.5f, _input.Rotation).x_y;
 
             ReorderUnitsToNearest(_targetPositions);
             for (int i = 0; i < _units.Count; i++)
@@ -50,13 +50,13 @@ namespace DVG.SkyPirates.Server.Presenters
                 item.Tick();
         }
 
-        private void ReorderUnitsToNearest(vec3[] targets)
+        private void ReorderUnitsToNearest(float3[] targets)
         {
-            int count = math.min(targets.Length, _units.Count);
+            int count = Maths.Min(targets.Length, _units.Count);
             for (int i = 0; i < count; i++)
             {
                 var posI = _units[i].Position;
-                float firstDist = vec2.sqrlength(posI.xz, targets[i].xz);
+                float firstDist = float2.SqrDistance(posI.xz, targets[i].xz);
                 if (firstDist <= 1)
                     continue;
 
@@ -65,8 +65,8 @@ namespace DVG.SkyPirates.Server.Presenters
                 for (int j = i + 1; j < count; j++)
                 {
                     var posJ = _units[j].Position;
-                    var swapSum = vec2.sqrlength(posI.xz,targets[j].xz) + vec2.sqrlength(posJ.xz, targets[i].xz);
-                    if (swapSum < minSwap && swapSum < firstDist + vec2.sqrlength(posJ.xz, targets[j].xz))
+                    var swapSum = float2.SqrDistance(posI.xz, targets[j].xz) + float2.SqrDistance(posJ.xz, targets[i].xz);
+                    if (swapSum < minSwap && swapSum < firstDist + float2.SqrDistance(posJ.xz, targets[j].xz))
                     {
                         minSwap = swapSum;
                         swapIndex = j;

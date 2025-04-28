@@ -9,16 +9,17 @@ namespace DVG.SkyPirates.Client.Views
         [SerializeField]
         private CharacterController _controller;
 
-        public vec3 Position => transform.position;
+        public float3 Position => transform.position;
         public angle Rotation => transform.eulerAngles.y;
 
-        public vec2 Direction { set; private get; }
+        public float2 Direction { set; private get; }
 
         public void Update()
         {
-            _controller.SimpleMove(Direction.x0y);
+            float3 dir = new(Direction.x, 0, Direction.y);
+            _controller.SimpleMove(dir);
             var rot = transform.eulerAngles;
-            transform.eulerAngles = new(rot.x, Direction.isZero ? rot.y : new angle(Direction).deg, rot.z);
+            transform.eulerAngles = new(rot.x, Direction == float2.zero ? rot.y : new angle(Direction).deg, rot.z);
         }
     }
 }

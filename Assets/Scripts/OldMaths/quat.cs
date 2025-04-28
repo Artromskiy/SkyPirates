@@ -1,5 +1,4 @@
 using System;
-using static DVG.MathsOld.math;
 #pragma warning disable IDE1006
 
 namespace DVG.MathsOld
@@ -23,7 +22,7 @@ namespace DVG.MathsOld
             return new quat((lhs.w * rhs.x) + (lhs.x * rhs.w) + (lhs.y * rhs.z) - (lhs.z * rhs.y), (lhs.w * rhs.y) + (lhs.y * rhs.w) + (lhs.z * rhs.x) - (lhs.x * rhs.z), (lhs.w * rhs.z) + (lhs.z * rhs.w) + (lhs.x * rhs.y) - (lhs.y * rhs.x), (lhs.w * rhs.w) - (lhs.x * rhs.x) - (lhs.y * rhs.y) - (lhs.z * rhs.z));
         }
 
-        public static vec3 operator *(quat rotation, vec3 point)
+        public static float3 operator *(quat rotation, float3 point)
         {
             float x = rotation.x;
             float y = rotation.y;
@@ -43,7 +42,7 @@ namespace DVG.MathsOld
             float num12 = w * num3;
             float num13 = w * num4;
 
-            vec3 result;
+            float3 result;
             result.x = (1f - (num6 + num7)) * point.x + (num8 - num13) * point.y + (num9 + num12) * point.z;
             result.y = (num8 + num13) * point.x + (1f - (num5 + num7)) * point.y + (num10 - num11) * point.z;
             result.z = (num9 - num12) * point.x + (num10 + num11) * point.y + (1f - (num5 + num6)) * point.z;
@@ -53,18 +52,18 @@ namespace DVG.MathsOld
 
         public static quat euler(float x, float y, float z)
         {
-            var yaw = x * deg2rad;
-            var pitch = y * deg2rad;
-            var roll = z * deg2rad;
+            var yaw = Maths.Radians(x);
+            var pitch = Maths.Radians(y);
+            var roll = Maths.Radians(z);
             float rollOver2 = roll * 0.5f;
-            float sinRollOver2 = sin(rollOver2);
-            float cosRollOver2 = cos(rollOver2);
+            float sinRollOver2 = Maths.Sin(rollOver2);
+            float cosRollOver2 = Maths.Cos(rollOver2);
             float pitchOver2 = pitch * 0.5f;
-            float sinPitchOver2 = sin(pitchOver2);
-            float cosPitchOver2 = cos(pitchOver2);
+            float sinPitchOver2 = Maths.Sin(pitchOver2);
+            float cosPitchOver2 = Maths.Cos(pitchOver2);
             float yawOver2 = yaw * 0.5f;
-            float sinYawOver2 = sin(yawOver2);
-            float cosYawOver2 = cos(yawOver2);
+            float sinYawOver2 = Maths.Sin(yawOver2);
+            float cosYawOver2 = Maths.Cos(yawOver2);
             quat result;
             result.x = cosYawOver2 * cosPitchOver2 * cosRollOver2 + sinYawOver2 * sinPitchOver2 * sinRollOver2;
             result.y = cosYawOver2 * cosPitchOver2 * sinRollOver2 - sinYawOver2 * sinPitchOver2 * cosRollOver2;
@@ -73,11 +72,11 @@ namespace DVG.MathsOld
             return result;
         }
 
-        public static quat look(vec3 forward, vec3 up)
+        public static quat look(float3 forward, float3 up)
         {
-            forward = vec3.normalize(forward);
-            vec3 right = vec3.normalize(vec3.cross(up, forward));
-            up = vec3.cross(forward, right);
+            forward = float3.Normalize(forward);
+            float3 right = float3.Normalize(float3.Cross(up, forward));
+            up = float3.Cross(forward, right);
             var m00 = right.x;
             var m01 = right.y;
             var m02 = right.z;
@@ -93,7 +92,7 @@ namespace DVG.MathsOld
             var quaternion = new quat();
             if (num8 > 0f)
             {
-                var num = sqrt(num8 + 1f);
+                var num = Maths.Sqrt(num8 + 1f);
                 quaternion.w = num * 0.5f;
                 num = 0.5f / num;
                 quaternion.x = (m12 - m21) * num;
@@ -103,7 +102,7 @@ namespace DVG.MathsOld
             }
             if ((m00 >= m11) && (m00 >= m22))
             {
-                var num7 = sqrt(((1f + m00) - m11) - m22);
+                var num7 = Maths.Sqrt(((1f + m00) - m11) - m22);
                 var num4 = 0.5f / num7;
                 quaternion.x = 0.5f * num7;
                 quaternion.y = (m01 + m10) * num4;
@@ -113,7 +112,7 @@ namespace DVG.MathsOld
             }
             if (m11 > m22)
             {
-                var num6 = sqrt(((1f + m11) - m00) - m22);
+                var num6 = Maths.Sqrt(((1f + m11) - m00) - m22);
                 var num3 = 0.5f / num6;
                 quaternion.x = (m10 + m01) * num3;
                 quaternion.y = 0.5f * num6;
@@ -121,7 +120,7 @@ namespace DVG.MathsOld
                 quaternion.w = (m20 - m02) * num3;
                 return quaternion;
             }
-            var num5 = sqrt(((1f + m22) - m00) - m11);
+            var num5 = Maths.Sqrt(((1f + m22) - m00) - m11);
             var num2 = 0.5f / num5;
             quaternion.x = (m20 + m02) * num2;
             quaternion.y = (m21 + m12) * num2;
@@ -139,11 +138,11 @@ namespace DVG.MathsOld
         public static float angle(quat a, quat b)
         {
             float num = dot(a, b);
-            return isEqualUsingDot(num) ? 0f : (math.acos(math.min(math.abs(num), 1f)) * math.rad2deg2);
+            return isEqualUsingDot(num) ? 0f : Maths.Degrees(Maths.Acos(Maths.Min(Maths.Abs(num), 1f))) * 2;
         }
         public static quat normalize(quat q)
         {
-            float num = math.sqrt(dot(q, q));
+            float num = Maths.Sqrt(dot(q, q));
             return num < float.Epsilon ? identity : new quat(q.x / num, q.y / num, q.z / num, q.w / num);
         }
     }

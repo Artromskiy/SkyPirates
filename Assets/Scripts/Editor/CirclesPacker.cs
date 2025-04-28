@@ -28,7 +28,7 @@ namespace DVG.Editor
         {
             foreach (var item in _packedCircles)
             {
-                var pos = new List<vec2>();
+                var pos = new List<float2>();
                 var lines = item.text.Split(SplitLines, StringSplitOptions.RemoveEmptyEntries);
 
                 for (int i = 0; i < lines.Length; i++)
@@ -42,19 +42,19 @@ namespace DVG.Editor
                         continue;
 
                     var culture = CultureInfo.InvariantCulture;
-                    pos.Add(new vec2(float.Parse(split[1], culture), float.Parse(split[2], culture)));
+                    pos.Add(new float2(float.Parse(split[1], culture), float.Parse(split[2], culture)));
                 }
                 float minSqrLength = float.MaxValue;
                 for (int i = 0; i < pos.Count; i++)
                 {
                     for (int j = i + 1; j < pos.Count; j++)
                     {
-                        var sqrLength = vec2.sqrlength(pos[i], pos[j]);
+                        var sqrLength = float2.SqrDistance(pos[i], pos[j]);
                         if (sqrLength < minSqrLength)
                             minSqrLength = sqrLength;
                     }
                 }
-                float radius = pos.Count == 1 ? 1 : math.sqrt(minSqrLength) / 2f;
+                float radius = pos.Count == 1 ? 1 : Maths.Sqrt(minSqrLength) / 2f;
                 var modifier = 1f / radius;
                 pos = pos.ConvertAll(v => (v * modifier));
                 var model = new PackedCirclesModel(modifier, pos.ToArray());

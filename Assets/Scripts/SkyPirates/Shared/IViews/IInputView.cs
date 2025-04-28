@@ -6,7 +6,7 @@ namespace DVG.SkyPirates.Shared.IViews
 {
     public interface IInputView : IView
     {
-        public vec3 Position { get; set; }
+        public float3 Position { get; set; }
         public angle Rotation { get; set; }
         public bool Fixation { get; set; }
         public void SpawnUnit(int index);

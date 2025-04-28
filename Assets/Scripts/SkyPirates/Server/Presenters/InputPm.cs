@@ -9,7 +9,7 @@ namespace DVG.SkyPirates.Server.Presenters
     {
         public InputPm(IInputView view) : base(view, null) { }
 
-        public vec3 Position => View.Position;
+        public float3 Position => View.Position;
         public angle Rotation => View.Rotation;
         public bool Fixation => View.Fixation;
 

@@ -11,7 +11,7 @@ namespace DVG.SkyPirates.Client.Views
         [SerializeField]
         private AudioListener _listener;
 
-        public void SetData(vec3 camPosition, quat camRotation, float camFov, vec3 listenerPosition)
+        public void SetData(float3 camPosition, quat camRotation, float camFov, float3 listenerPosition)
         {
             transform.SetPositionAndRotation(camPosition, camRotation);
             _camera.fieldOfView = Camera.HorizontalToVerticalFieldOfView(camFov, _camera.aspect);

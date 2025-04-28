@@ -5,9 +5,9 @@ namespace DVG.SkyPirates.Client.IViews
 {
     public interface IMoveTargetView : IView
     {
-        public vec3 Position { get; }
+        public float3 Position { get; }
         public angle Rotation { get; }
 
-        public vec2 Direction { set; }
+        public float2 Direction { set; }
     }
 }

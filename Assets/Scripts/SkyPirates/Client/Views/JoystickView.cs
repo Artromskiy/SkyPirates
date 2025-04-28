@@ -1,4 +1,3 @@
-using DVG.MathsOld;
 using DVG.SkyPirates.Client.IViews;
 using UnityEngine;
 
@@ -6,7 +5,7 @@ namespace DVG.SkyPirates.Client.Views
 {
     public class JoystickView : MonoBehaviour, IJoystickView
     {
-        public vec2 Direction { get; private set; }
+        public float2 Direction { get; private set; }
         public bool Fixation { get; private set; }
 
         private void Update()
@@ -15,7 +14,7 @@ namespace DVG.SkyPirates.Client.Views
             var y = Input.GetAxisRaw("Vertical");
             Fixation = Input.GetKeyDown(KeyCode.Space);
             Fixation = Fixation || x != 0 || y != 0;
-            Direction = vec2.clamp1(new vec2(x, y));
+            Direction = float2.ClampLength(new float2(x, y), 1);
         }
     }
 }

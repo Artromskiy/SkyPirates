@@ -5,6 +5,6 @@ namespace DVG.SkyPirates.Client.IViews
 {
     public interface ICameraView : IView
     {
-        public void SetData(vec3 camPosition, quat camRotation, float camFov, vec3 listenerPosition);
+        public void SetData(float3 camPosition, quat camRotation, float camFov, float3 listenerPosition);
     }
 }

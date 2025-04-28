@@ -5,9 +5,9 @@ namespace DVG.SkyPirates.Shared.IViews
 {
     public interface IUnitView : IView
     {
-        public vec2 Velocity { set; }
+        public float2 Velocity { set; }
         public angle Rotation { set; }
 
-        public vec3 Position { get; }
+        public float3 Position { get; }
     }
 }

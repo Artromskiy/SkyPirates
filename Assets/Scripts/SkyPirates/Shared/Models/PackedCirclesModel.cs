@@ -9,9 +9,9 @@ namespace DVG.SkyPirates.Shared.Models
     public partial class PackedCirclesModel
     {
         public float radius;
-        public vec2[] points;
+        public float2[] points;
 
-        public PackedCirclesModel(float radius, vec2[] points)
+        public PackedCirclesModel(float radius, float2[] points)
         {
             this.radius = radius;
             this.points = points;

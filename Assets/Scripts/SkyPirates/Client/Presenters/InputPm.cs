@@ -8,7 +8,7 @@ namespace DVG.SkyPirates.Client.Presenters
     {
         public InputPm(IInputView view) : base(view, null) { }
 
-        public vec3 Position { set => View.Position = value; }
+        public float3 Position { set => View.Position = value; }
         public angle Rotation { set => View.Rotation = value; }
         public bool Fixation { set => View.Fixation = value; }
         public void SpawnUnit(int index) => View.SpawnUnit(index);

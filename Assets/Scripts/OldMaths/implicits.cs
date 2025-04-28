@@ -5,22 +5,6 @@ using UnityEngine.Scripting;
 
 namespace DVG.MathsOld
 {
-    [Preserve]
-    partial struct vec2: INetworkSerializeByMemcpy
-    {
-        public static implicit operator Vector2(vec2 v) => new(v.x, v.y);
-        public static implicit operator vec2(Vector2 v) => new(v.x, v.y);
-    }
-
-    [Preserve]
-    partial struct vec3 : INetworkSerializeByMemcpy
-    {
-        public static implicit operator Vector3(vec3 v) => new(v.x, v.y, v.z);
-        public static implicit operator vec3(Vector3 v) => new(v.x, v.y, v.z);
-
-        public static implicit operator Color(vec3 v) => new(v.x, v.y, v.z);
-        public static implicit operator vec3(Color c) => new(c.r, c.g, c.b);
-    }
 
     [Preserve]
     partial struct quat : INetworkSerializeByMemcpy
@@ -33,5 +17,26 @@ namespace DVG.MathsOld
     partial struct angle : INetworkSerializeByMemcpy
     {
     }
+}
+
+namespace DVG
+{
+    [Preserve]
+    partial struct float2 : INetworkSerializeByMemcpy
+    {
+        public static implicit operator Vector2(float2 v) => new(v.x, v.y);
+        public static implicit operator float2(Vector2 v) => new(v.x, v.y);
+    }
+
+    [Preserve]
+    partial struct float3 : INetworkSerializeByMemcpy
+    {
+        public static implicit operator Vector3(float3 v) => new(v.x, v.y, v.z);
+        public static implicit operator float3(Vector3 v) => new(v.x, v.y, v.z);
+    
+        public static implicit operator Color(float3 v) => new(v.x, v.y, v.z);
+        public static implicit operator float3(Color c) => new(c.r, c.g, c.b);
+    }
+
 }
 #endif

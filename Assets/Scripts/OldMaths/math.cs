@@ -21,29 +21,9 @@ namespace DVG.MathsOld
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float max(float x, float y) => x >= y ? x : y;
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float min(float x, float y, out float res) => res = min(x, y);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float max(float x, float y, out float res) => res = max(x, y);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float minmax(float x, float y, out float min, out float max) => min = x + y - (max = math.max(x, y));
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int min(int x, int y) => x <= y ? x : y;
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int step(float edge, float x) => x < edge ? 0 : 1;
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int max(int x, int y) => x >= y ? x : y;
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float clamp01(float value) => value < 0f ? 0f : value > 1f ? 1f : value;
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float clamp(float value, float min, float max) => value < min ? min : value > max ? max : value;
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int clamp(int value, int min, int max) => value < min ? min : value > max ? max : value;
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float autoclamp(float value, float r1, float r2) => value < minmax(r1, r2, out var mi, out var ma) ? mi : value > ma ? ma : value;
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float floor(float value) => MathF.Floor(value);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float repeat(float t, float length) => clamp(t - (floor(t / length) * length), 0f, length);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float sin(float radians) => MathF.Sin(radians);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -53,25 +33,12 @@ namespace DVG.MathsOld
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float asin(float sin) => MathF.Asin(sin);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float atan2(float y, float x) => MathF.Atan2(y, x);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float abs(float value) => MathF.Abs(value);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float sign(float value) => value < 0f ? -1f : value > 0f ? 1f : 0f;
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float sqrt(float value) => MathF.Sqrt(value);
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float cbrt(float value) => MathF.Pow(value, 1.0f / 3.0f);
-        public static float absmin(float x, float y) => abs(x) <= abs(y) ? x : y;
         public static float absmax(float x, float y) => abs(x) >= abs(y) ? x : y;
-        public static float tan(float a) => MathF.Tan(a);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int MinSqrt(int value1, int value2)
-        {
-            int m = min(value1, value2);
-            return m <= 3 ? m : (int)sqrt(m);
-        }
     }
 
 
@@ -86,86 +53,6 @@ namespace DVG.MathsOld
         {
             var delta = b - a;
             return autoclamp(a + (absmax(sign(delta) * (delta * delta), delta) * value), a, b);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float unlerp(float a, float b, float value) => a == b ? 0 : clamp01((value - a) / (b - a));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float moveto(float current, float target, float maxDelta)
-        {
-            float delta = target - current;
-            return current + (sign(delta) * min(maxDelta, abs(delta)));
-        }
-
-        public static float smoothstep(float from, float to, float t)
-        {
-            t = tocossin(t);
-            return (to * t) + (from * (1f - t));
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float arclerp(float start, float end, float height, float percent) => lerp(start, end, percent) + (height * arc(percent));
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float remap(float source, float sourceFrom, float sourceTo, float targetFrom, float targetTo) => targetFrom + ((source - sourceFrom) * (targetTo - targetFrom) / (sourceTo - sourceFrom));
-
-        public static vec3 Shoot(vec3 start, vec3 end, float height, float percent) => lerpAs2(start, end, tosin(percent), arclerp(start.y, end.y, height, tosincos(percent)));
-        public static vec3 arclerp(vec3 start, vec3 end, float height, float percent) => lerpAs2(start, end, percent, arclerp(start.y, end.y, height, percent));
-        private static vec3 lerpAs2(vec3 a, vec3 b, float t, float y) => new(a.x + ((b.x - a.x) * t), y, a.z + ((b.z - a.z) * t));
-
-        public static float smoothdamp(float src, float trg, ref float vel, float smoothTime, float dt, float maxSpeed = float.PositiveInfinity)
-        {
-            smoothTime = max(0.0001f, smoothTime);
-            float maxDelta = maxSpeed * smoothTime;
-            float omega = 2f / smoothTime;
-            float delta = clamp(src - trg, -maxDelta, maxDelta);
-            trg = src - delta;
-            float x = dt * omega;
-            float exp = 1f / (1f + x + (x * x * ((x * 0.235f) + 0.48f)));
-            float temp = (vel * dt) + (x * delta);
-            vel = (vel - (omega * temp)) * exp;
-            float move = (delta + temp) * exp;
-            float finalPosition = trg + move;
-            if ((-delta > 0f) == (move > 0))
-            {
-                finalPosition = trg;
-                vel = (finalPosition - trg) / dt;
-            }
-
-            return finalPosition;
-        }
-        public static float smoothdamper(float src, float trg, ref float vel, float smoothTime, float dt)
-        {
-            float omega = 2f / smoothTime;
-            float delta = src - trg;
-            float x = dt * omega;
-            float exp = 1f / (1f + x + (x * x * ((x * 0.235f) + 0.48f)));
-            float temp = (vel * dt) + (x * delta);
-            vel = (vel - (omega * temp)) * exp;
-            float move = (delta + temp) * exp;
-            bool finalized = sign(-delta) == sign(move);
-            float final = finalized ? trg : trg + move;
-            vel = finalized ? 0 : vel;
-            return final;
-        }
-
-        public static float SmoothDampold(float current, float target, ref float currentVelocity, float smoothTime, float deltaTime, float maxSpeed = float.PositiveInfinity)
-        {
-            smoothTime = max(0.0001f, smoothTime);
-            float velocityFactor = 2f / smoothTime;
-            float deltaTimeFactor = velocityFactor * deltaTime;
-            float alpha = 1f / (1f + deltaTimeFactor + (0.48f * deltaTimeFactor * deltaTimeFactor) + (0.235f * deltaTimeFactor * deltaTimeFactor * deltaTimeFactor));
-            float distanceToTarget = current - target;
-            float clampedDistance = clamp(distanceToTarget, 0f - (maxSpeed * smoothTime), maxSpeed * smoothTime);
-            target = current - clampedDistance;
-            float velocityTerm = (currentVelocity + (velocityFactor * distanceToTarget)) * deltaTime;
-            currentVelocity = (currentVelocity - (velocityFactor * velocityTerm)) * alpha;
-            float finalPosition = target + ((distanceToTarget + velocityTerm) * alpha);
-            if (((target - current) > 0f) == (finalPosition > target))
-            {
-                finalPosition = target;
-                currentVelocity = (finalPosition - target) / deltaTime;
-            }
-            return finalPosition;
         }
     }
 

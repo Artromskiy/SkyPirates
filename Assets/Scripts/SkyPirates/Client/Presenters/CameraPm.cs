@@ -10,14 +10,14 @@ namespace DVG.SkyPirates.Client.Presenters
     {
         private float _distance;
         private float _distanceVelocity;
-        private vec3 _position;
-        private vec3 _positionVelocity;
+        private float3 _position;
+        private float3 _positionVelocity;
 
-        public vec3 ListenerPosition;
+        public float3 ListenerPosition;
 
         public CameraPm(ICameraView view, CameraModel model) : base(view, model) { }
 
-        public vec3 TargetPosition { get; set; }
+        public float3 TargetPosition { get; set; }
         public float TargetVisibleZone { get; set; }
         public float TargetNormalizedDistance { get; set; }
         public bool AudioOnTarget { get; set; }
@@ -25,25 +25,24 @@ namespace DVG.SkyPirates.Client.Presenters
         public void UpdateCamera(float deltaTime)
         {
             float value = TargetNormalizedDistance;
-            float distance = math.smoothstep(Model.minDistance, Model.maxDistance, value);
-            _distance = math.smoothdamper(_distance, distance, ref _distanceVelocity, 1, deltaTime);
+            float distance = Maths.SmoothStep(Model.minDistance, Model.maxDistance, value);
+            _distance = Maths.SmoothDamp(_distance, distance, ref _distanceVelocity, 1, deltaTime);
             value = Model.maxDistance == Model.minDistance ? TargetNormalizedDistance :
-                math.clamp01(math.unlerp(Model.minDistance, Model.maxDistance, _distance));
-            float xAngle = math.lerp(Model.minXAngle, Model.maxXAngle, value);
-            var rotatedDir = angle.rotate(vec2.left, xAngle);
-            vec3 angleDir = new(0, rotatedDir.y, rotatedDir.x);
-            vec3 pos = (Model.yAxis ? TargetPosition : TargetPosition.zeroY()) + (angleDir * _distance);
-            _position = vec3.smoothDamp(_position, pos, ref _positionVelocity, Model.smoothMoveTime, deltaTime);
-
-            distance = vec3.length(_position, Model.yAxis ? TargetPosition : TargetPosition.zeroY());
+                Maths.Clamp(Maths.InvLerp(Model.minDistance, Model.maxDistance, _distance), 0, 1);
+            float xAngle = Maths.Lerp(Model.minXAngle, Model.maxXAngle, value);
+            float3 angleDir = angle.rotate(new float2(-1,0), xAngle)._yx;
+            float3 pos = (Model.yAxis ? TargetPosition : TargetPosition.x_z) + (angleDir * _distance);
+            _position = float3.SmoothDamp(_position, pos, ref _positionVelocity, Model.smoothMoveTime, deltaTime);
+            
+            distance = float3.Distance(_position, Model.yAxis ? TargetPosition : TargetPosition.x_z);
             value = Model.minDistance == Model.maxDistance ? TargetNormalizedDistance :
-                math.clamp01(math.unlerp(Model.minDistance, Model.maxDistance, distance));
+                Maths.Clamp(Maths.InvLerp(Model.minDistance, Model.maxDistance, distance), 0, 1);
 
-            float fovRemaped = math.lerp(Model.minFov, MaxFov(TargetVisibleZone, Model.maxDistance), value);
-            var offsetDir = angle.rotate(new vec2(0, math.tan(fovRemaped * math.deg2rad) * distance), xAngle - 90);
-            vec3 offset = new (0, offsetDir.y, offsetDir.x);
-            offset *= math.lerp(Model.minOffset, Model.maxOffset, 1 - value);
-            quat rot = quat.look(-angleDir, vec3.up); // TODO simplify
+            float fovRemaped = Maths.Lerp(Model.minFov, MaxFov(TargetVisibleZone, Model.maxDistance), value);
+            var offsetDir = angle.rotate(new float2(0, Maths.Tan(Maths.Radians(fovRemaped)) * distance), xAngle - 90);
+            float3 offset = new(0, offsetDir.y, offsetDir.x);
+            offset *= Maths.Lerp(Model.minOffset, Model.maxOffset, 1 - value);
+            quat rot = quat.look(-angleDir, new(0, 1, 0)); // TODO simplify
 
             var currentPosition = _position + offset;
             var currentRotation = rot;
@@ -56,22 +55,21 @@ namespace DVG.SkyPirates.Client.Presenters
         public void SetCameraFast()
         {
             var value = TargetNormalizedDistance;
-            float distance = math.smoothstep(Model.minDistance, Model.maxDistance, value);
+            float distance = Maths.SmoothStep(Model.minDistance, Model.maxDistance, value);
             _distance = distance;
-            float xAngle = math.smoothstep(Model.minXAngle, Model.maxXAngle, value);
-            var rotatedDir = angle.rotate(vec2.left, xAngle);
-            vec3 angleDir = new(0, rotatedDir.y, rotatedDir.x);
-            vec3 pos = (Model.yAxis ? TargetPosition : TargetPosition.zeroY()) + (angleDir * _distance);
+            float xAngle = Maths.SmoothStep(Model.minXAngle, Model.maxXAngle, value);
+            float3 angleDir = angle.rotate(new float2(-1,0), xAngle)._yx;
+            float3 pos = (Model.yAxis ? TargetPosition : TargetPosition.x_z) + (angleDir * _distance);
             _position = pos;
 
-            distance = vec3.length(_position, Model.yAxis ? TargetPosition : TargetPosition.zeroY());
-            value = Model.minDistance == Model.maxDistance ? 0 : math.clamp01(math.remap(distance, Model.minDistance, Model.maxDistance, 0, 1));
+            distance = float3.Distance(_position, Model.yAxis ? TargetPosition : TargetPosition.x_z);
+            value = Model.minDistance == Model.maxDistance ? 0 : Maths.Clamp(Maths.Remap(distance, Model.minDistance, Model.maxDistance, 0, 1), 0, 1);
 
-            float fovRemaped = math.lerp(Model.minFov, MaxFov(TargetVisibleZone, Model.maxDistance), value);
-            var offsetDir = angle.rotate(new vec2(0, math.tan(fovRemaped * math.deg2rad) * distance), xAngle - 90);
-            vec3 offset = new(0, offsetDir.y, offsetDir.x);
-            offset *= math.lerp(Model.minOffset, Model.maxOffset, 1 - value);
-            quat rot = quat.look(-angleDir, vec3.up); // TODO simplify
+            float fovRemaped = Maths.Lerp(Model.minFov, MaxFov(TargetVisibleZone, Model.maxDistance), value);
+            var offsetDir = angle.rotate(new float2(0, Maths.Tan(Maths.Radians(fovRemaped)) * distance), xAngle - 90);
+            float3 offset = new(0, offsetDir.y, offsetDir.x);
+            offset *= Maths.Lerp(Model.minOffset, Model.maxOffset, 1 - value);
+            quat rot = quat.look(-angleDir, new(0, 1, 0)); // TODO simplify
 
             var currentPosition = _position + offset;
             var currentRotation = rot;
@@ -83,8 +81,8 @@ namespace DVG.SkyPirates.Client.Presenters
 
         private float MaxFov(float horizontal, float distance)
         {
-            var fov = math.atan2(horizontal, distance) * math.rad2deg;
-            return math.max(Model.maxFov, fov);
+            var fov = Maths.Degrees(Maths.Atan2(horizontal, distance));
+            return Maths.Max(Model.maxFov, fov);
         }
 
         public void Tick()
