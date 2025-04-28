@@ -1,9 +1,9 @@
 using DVG.MathsOld;
-using System;
-using Vertx.Debugging;
-using Unity.Netcode;
 using DVG.SkyPirates.Shared.IViews;
+using System;
+using Unity.Netcode;
 using UnityEngine;
+using Vertx.Debugging;
 
 namespace DVG.SkyPirates.Shared.Views
 {

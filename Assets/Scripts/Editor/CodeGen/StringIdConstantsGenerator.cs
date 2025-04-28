@@ -1,8 +1,8 @@
-﻿using System;
+﻿using DVG.Editor.Configs;
+using System;
 using System.Collections.Generic;
 using UnityCodeGen;
 using UnityEditor;
-using DVG.Editor.Configs;
 
 namespace DVG.Editor.CodeGen
 {

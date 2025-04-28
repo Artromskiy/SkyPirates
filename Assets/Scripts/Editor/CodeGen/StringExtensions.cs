@@ -10,7 +10,7 @@ namespace DVG.Editor.CodeGen
         {
             StringBuilder code = new();
             foreach (var arg in args)
-                if(!string.IsNullOrEmpty( arg))
+                if (!string.IsNullOrEmpty(arg))
                     code.Append(converter(arg));
             return code.ToString();
         }

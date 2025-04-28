@@ -2,7 +2,7 @@ namespace DVG.Core
 {
     public class Presenter : IPresenter { }
     public class Presenter<V, M> : Presenter, IPresenter<V, M>
-        where V: IView
+        where V : IView
     {
         public V View { get; set; }
         public M Model { get; set; }

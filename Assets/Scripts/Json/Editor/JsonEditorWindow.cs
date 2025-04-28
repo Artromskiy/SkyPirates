@@ -86,7 +86,7 @@ namespace DVG.Json.Editor
             if (_objectWrapper == null || !File.Exists(JsonPath))
                 return;
             var json = JsonConvert.SerializeObject(_objectWrapper.Value, Formatting.Indented, DebugConfigSerializerSettings.Instance);
-            File.WriteAllText(JsonPath, json); 
+            File.WriteAllText(JsonPath, json);
             AssetDatabase.ImportAsset(JsonPath);
         }
 

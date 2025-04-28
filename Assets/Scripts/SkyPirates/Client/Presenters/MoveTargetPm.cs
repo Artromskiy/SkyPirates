@@ -6,7 +6,7 @@ namespace DVG.SkyPirates.Client.Presenters
 {
     public class MoveTargetPm : Presenter<IMoveTargetView, object>
     {
-        const float Speed = 7;
+        private const float Speed = 7;
         public float3 Position => View.Position;
         public angle Rotation => View.Rotation;
 

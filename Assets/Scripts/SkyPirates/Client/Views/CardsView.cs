@@ -1,6 +1,6 @@
-using UnityEngine;
 using DVG.SkyPirates.Client.IViews;
 using System;
+using UnityEngine;
 
 namespace DVG.SkyPirates.Client.Views
 {

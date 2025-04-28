@@ -1,5 +1,4 @@
 ﻿using DVG.Json.Editor;
-using DVG.MathsOld;
 using DVG.SkyPirates.Shared.Models;
 using System;
 using System.Collections.Generic;

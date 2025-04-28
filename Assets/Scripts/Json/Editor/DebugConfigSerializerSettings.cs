@@ -19,10 +19,10 @@ namespace DVG.Json.Editor
             NullValueHandling = NullValueHandling.Ignore;
             ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             ContractResolver = new DebugSerializeContractResolver();
-            Converters.Add(new CustomEnumConverter() { AllowIntegerValues = false});
+            Converters.Add(new CustomEnumConverter() { AllowIntegerValues = false });
         }
 
-        private class CustomEnumConverter: StringEnumConverter
+        private class CustomEnumConverter : StringEnumConverter
         {
             private readonly HashSet<int> _enumsSet = new();
             public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
@@ -71,7 +71,7 @@ namespace DVG.Json.Editor
                 _ => null,
             };
 
-            const BindingFlags bindingFlags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
+            private const BindingFlags bindingFlags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
 
             private object GetPropertyValue(object instance, string memberName) => instance.GetType().GetProperty(memberName, bindingFlags)?.GetValue(instance, null);
             private object GetFieldValue(object instance, string memberName) => instance.GetType().GetField(memberName, bindingFlags)?.GetValue(instance);

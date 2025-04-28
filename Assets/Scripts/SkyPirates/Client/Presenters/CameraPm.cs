@@ -30,10 +30,10 @@ namespace DVG.SkyPirates.Client.Presenters
             value = Model.maxDistance == Model.minDistance ? TargetNormalizedDistance :
                 Maths.Clamp(Maths.InvLerp(Model.minDistance, Model.maxDistance, _distance), 0, 1);
             float xAngle = Maths.Lerp(Model.minXAngle, Model.maxXAngle, value);
-            float3 angleDir = angle.rotate(new float2(-1,0), xAngle)._yx;
+            float3 angleDir = angle.rotate(new float2(-1, 0), xAngle)._yx;
             float3 pos = (Model.yAxis ? TargetPosition : TargetPosition.x_z) + (angleDir * _distance);
             _position = float3.SmoothDamp(_position, pos, ref _positionVelocity, Model.smoothMoveTime, deltaTime);
-            
+
             distance = float3.Distance(_position, Model.yAxis ? TargetPosition : TargetPosition.x_z);
             value = Model.minDistance == Model.maxDistance ? TargetNormalizedDistance :
                 Maths.Clamp(Maths.InvLerp(Model.minDistance, Model.maxDistance, distance), 0, 1);
@@ -58,7 +58,7 @@ namespace DVG.SkyPirates.Client.Presenters
             float distance = Maths.SmoothStep(Model.minDistance, Model.maxDistance, value);
             _distance = distance;
             float xAngle = Maths.SmoothStep(Model.minXAngle, Model.maxXAngle, value);
-            float3 angleDir = angle.rotate(new float2(-1,0), xAngle)._yx;
+            float3 angleDir = angle.rotate(new float2(-1, 0), xAngle)._yx;
             float3 pos = (Model.yAxis ? TargetPosition : TargetPosition.x_z) + (angleDir * _distance);
             _position = pos;
 

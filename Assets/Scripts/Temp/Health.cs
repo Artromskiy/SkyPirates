@@ -111,7 +111,7 @@ namespace Game
                 RiseOnHeal(value);
             if (value == 0 && _points != 0)
                 RiseOnDead();
-            
+
             _points = value;
         }
 

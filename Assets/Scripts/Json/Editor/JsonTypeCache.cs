@@ -11,7 +11,7 @@ namespace DVG.Json.Editor
     {
         [SerializeField]
         private List<JsonToType> _jsonGuidToType = new();
-        const string NoneType = "None";
+        private const string NoneType = "None";
 
         private void OnEnable()
         {
