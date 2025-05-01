@@ -5,6 +5,5 @@
   "maxFov": 10.0,
   "minDistance": 30.0,
   "maxDistance": 150.0,
-  "smoothMoveTime": 0.25,
-  "maxOffset": 0.15
+  "smoothMoveTime": 0.25
 }
