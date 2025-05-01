@@ -5,14 +5,6 @@ using UnityEngine.Scripting;
 
 namespace DVG.MathsOld
 {
-
-    [Preserve]
-    public partial struct quat : INetworkSerializeByMemcpy
-    {
-        public static implicit operator Quaternion(quat v) => new(v.x, v.y, v.z, v.w);
-        public static implicit operator quat(Quaternion v) => new(v.x, v.y, v.z, v.w);
-    }
-
     [Preserve]
     public partial struct angle : INetworkSerializeByMemcpy
     {
