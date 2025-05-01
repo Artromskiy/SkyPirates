@@ -1,5 +1,5 @@
-[submodule "Assets/Scripts/Maths"]
-	path = Assets/Scripts/Maths
+[submodule "Assets/Scripts/GLSH"]
+	path = Assets/Scripts/GLSH
 	url = https://github.com/Artromskiy/DVG.Maths.git
 [submodule "Assets/Scripts/Core"]
 	path = Assets/Scripts/Core
