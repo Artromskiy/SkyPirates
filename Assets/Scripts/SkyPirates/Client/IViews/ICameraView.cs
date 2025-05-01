@@ -1,5 +1,4 @@
 ﻿using DVG.Core;
-using DVG.MathsOld;
 
 namespace DVG.SkyPirates.Client.IViews
 {

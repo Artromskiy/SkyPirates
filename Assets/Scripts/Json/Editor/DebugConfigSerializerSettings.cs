@@ -1,4 +1,5 @@
-﻿using DVG.Core.Ids;
+﻿using DVG.Core;
+using DVG.Core.Ids;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;

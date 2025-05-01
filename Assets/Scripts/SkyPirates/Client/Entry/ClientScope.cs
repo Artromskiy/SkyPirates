@@ -6,54 +6,79 @@ using DVG.SkyPirates.Shared.Factories;
 using DVG.SkyPirates.Shared.IFactories;
 using DVG.SkyPirates.Shared.Models;
 using SimpleInjector;
+using SimpleInjector.Diagnostics;
+using SimpleInjector.Lifestyles;
 using Unity.Multiplayer;
 using UnityEngine;
 
-
-
 namespace DVG.SkyPirates.Client.Entry
 {
-
     public class ClientScope : MonoBehaviour
     {
+        private Scope scope;
         [SerializeField]
         private GameObject[] _views;
-
         protected void Start()
         {
             if (MultiplayerRolesManager.ActiveMultiplayerRoleMask != MultiplayerRoleFlags.Client)
                 return;
 
-            var builder = new Container();
+            var container = new Container();
+            container.Options.DefaultScopedLifestyle = ScopedLifestyle.Flowing;
+            container.Register<IPlayerLoopSystem, PlayerLoopSystem>(Lifestyle.Scoped);
+            container.RegisterInitializer<IPlayerLoopItem>((item) => container.GetInstance<IPlayerLoopSystem>().Add(item));
 
-            builder.Register<IInputFactory, InputFactory>(Lifestyle.Scoped);
-            builder.Register<IPathFactory<CameraModel>, ResourcesFactory<CameraModel>>(Lifestyle.Scoped);
+            container.Register<IInputFactory, InputFactory>(Lifestyle.Scoped);
+            container.Register<IPathFactory<CameraModel>, ResourcesFactory<CameraModel>>(Lifestyle.Scoped);
 
-
-            builder.Register<JoystickPm>(Lifestyle.Scoped);
-            builder.Register<MoveTargetPm>(Lifestyle.Scoped);
-            builder.Register<CardsPm>(Lifestyle.Scoped);
-            builder.Register<CameraPm>(Lifestyle.Scoped);
-            RegisterIPathFactoryMethod<CameraModel>(builder, "Configs/Camera/SeaCamera");
-
+            container.Register<JoystickPm>(Lifestyle.Scoped);
+            container.Register<MoveTargetPm>(Lifestyle.Scoped);
+            container.Register<CardsPm>(Lifestyle.Scoped);
+            container.Register<CameraPm>(Lifestyle.Scoped);
+            RegisterIPathFactoryMethod<CameraModel>(container, "Configs/Camera/SeaCamera");
             foreach (var item in _views)
-                builder.RegisterInstance(item.GetComponent<IView>());
+            {
+                var instance = item.GetComponent<IView>();
+                foreach (var type in instance.GetType().GetInterfaces())
+                    if (type != typeof(IView))
+                        container.RegisterInstance(type, instance);
+            }
+            container.Register<PresenterClient>(Lifestyle.Scoped);
 
-            //builder.RegisterComponent<ICardsView>(_cardsView);
-            //builder.RegisterComponent<IJoystickView>(_joystickView);
-            //builder.RegisterComponent<ICameraView>(_cameraView);
-            //builder.RegisterComponent<IMoveTargetView>(_moveTargetView);
-
-            builder.Register<PresenterClient>(Lifestyle.Scoped);
+            scope = AsyncScopedLifestyle.BeginScope(container);
+            container.Verify();
+            scope.GetInstance<PresenterClient>();
+            Analyze(container);
         }
 
         private void RegisterIPathFactoryMethod<T>(Container builder, string parameter)
         {
             builder.ResolveUnregisteredType += (s, e) =>
             {
-                if (e.UnregisteredServiceType.IsClosedTypeOf(typeof(T)))
+                if (e.UnregisteredServiceType == typeof(T) || e.UnregisteredServiceType.IsClosedTypeOf(typeof(T)))
                     e.Register(() => builder.GetInstance<IPathFactory<T>>().Create(parameter));
             };
+        }
+
+        private void Analyze(Container container)
+        {
+            foreach (var item in Analyzer.Analyze(container))
+            {
+                if (item.Severity == DiagnosticSeverity.Information)
+                    Debug.Log(item.Description);
+                else
+                    Debug.LogWarning(item.Description);
+            }
+        }
+
+        private void Update()
+        {
+            scope?.GetInstance<IPlayerLoopSystem>().Start();
+            scope?.GetInstance<IPlayerLoopSystem>().Tick();
+        }
+        private void FixedUpdate()
+        {
+            scope?.GetInstance<IPlayerLoopSystem>().FixedTick();
         }
     }
 }

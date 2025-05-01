@@ -1,5 +1,4 @@
-﻿using DVG.MathsOld;
-using DVG.SkyPirates.Client.IViews;
+﻿using DVG.SkyPirates.Client.IViews;
 using UnityEngine;
 
 namespace DVG.SkyPirates.Client.Views

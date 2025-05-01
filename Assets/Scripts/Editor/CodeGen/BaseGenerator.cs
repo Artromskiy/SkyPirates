@@ -9,7 +9,7 @@ namespace DVG.Editor.CodeGen
     {
         public const string RuntimeCodePath = "Assets/Scripts/Generated/Runtime";
         public const string EditorCodePath = "Assets/Scripts/Generated/Editor";
-        private const string GeneratedCodeFileExtension = "g.cs";
+        private const string GeneratedCodeFileExtension = ".g.cs";
 
         protected abstract CodePath CodePath { get; }
         protected abstract void Generate(Context ctx);
@@ -41,7 +41,7 @@ namespace DVG.Editor.CodeGen
 
             public readonly void AddCode(string fileName, string code, [CallerFilePath] string generatorPath = default)
             {
-                string fullPath = Path.ChangeExtension(fileName, GeneratedCodeFileExtension);
+                string fullPath = fileName + GeneratedCodeFileExtension;
                 ctx.AddCode(fullPath, GeneratorNote(generatorPath) + code);
             }
 

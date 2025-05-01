@@ -16,6 +16,7 @@ using System.ComponentModel;
 using System;
 using Newtonsoft.Json;
 using UnityEngine;
+using DVG.Core;
 
 namespace DVG.SkyPirates.Shared.Ids
 {
