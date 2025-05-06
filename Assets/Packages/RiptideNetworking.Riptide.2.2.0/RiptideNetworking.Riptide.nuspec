@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>RiptideNetworking.Riptide</id>
+    <version>2.2.0</version>
+    <title>Riptide Networking</title>
+    <authors>Tom Weiland</authors>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <license type="expression">MIT</license>
+    <licenseUrl>https://licenses.nuget.org/MIT</licenseUrl>
+    <icon>package-icon.png</icon>
+    <readme>nuget-readme.md</readme>
+    <projectUrl>https://riptide.tomweiland.net/</projectUrl>
+    <description>Riptide Networking is a lightweight C# networking library primarily designed for use in multiplayer games.</description>
+    <releaseNotes>Check out the full release notes: https://riptide.tomweiland.net/manual/updates/release-notes/v2.2.0.html</releaseNotes>
+    <copyright>Copyright © Tom Weiland 2022</copyright>
+    <tags>riptide networking multiplayer game development server client multiplayer games udp rudp</tags>
+    <repository type="git" url="https://github.com/RiptideNetworking/Riptide" />
+    <dependencies>
+      <group targetFramework=".NETStandard2.0" />
+    </dependencies>
+  </metadata>
+</package>
