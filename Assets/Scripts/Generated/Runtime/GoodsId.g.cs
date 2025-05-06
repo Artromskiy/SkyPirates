@@ -10,7 +10,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using DVG.Core.Ids;
 using DVG.Core.Ids.Utilities;
 using System.ComponentModel;
 using System;

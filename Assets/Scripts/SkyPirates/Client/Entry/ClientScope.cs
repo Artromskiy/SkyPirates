@@ -35,18 +35,21 @@ namespace DVG.SkyPirates.Client.Entry
             container.Register<MoveTargetPm>(Lifestyle.Scoped);
             container.Register<CardsPm>(Lifestyle.Scoped);
             container.Register<CameraPm>(Lifestyle.Scoped);
+
             RegisterIPathFactoryMethod<CameraModel>(container, "Configs/Camera/SeaCamera");
+
             foreach (var item in _views)
             {
-                var instance = item.GetComponent<IView>();
-                foreach (var type in instance.GetType().GetInterfaces())
-                    if (type != typeof(IView))
-                        container.RegisterInstance(type, instance);
+                if (item.TryGetComponent<IView>(out var instance))
+                    foreach (var type in instance.GetType().GetInterfaces())
+                        if (type != typeof(IView))
+                            container.RegisterInstance(type, instance);
             }
+
             container.Register<PresenterClient>(Lifestyle.Scoped);
+            container.Verify();
 
             scope = AsyncScopedLifestyle.BeginScope(container);
-            container.Verify();
             scope.GetInstance<PresenterClient>();
             Analyze(container);
         }

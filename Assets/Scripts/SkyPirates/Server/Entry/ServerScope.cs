@@ -35,9 +35,9 @@ namespace DVG.SkyPirates.Server.Entry
             container.Register<IInputFactory, InputFactory>(Lifestyle.Scoped);
             container.Register<PresenterServer>(Lifestyle.Scoped);
 
-            scope = AsyncScopedLifestyle.BeginScope(container);
             container.Verify(VerificationOption.VerifyAndDiagnose);
 
+            scope = AsyncScopedLifestyle.BeginScope(container);
             scope.GetInstance<PresenterServer>();
             Analyze(container);
         }
