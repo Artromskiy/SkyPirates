@@ -1,5 +1,5 @@
 using DVG.MathsOld;
-using DVG.SkyPirates.OldShared.IViews;
+using DVG.SkyPirates.Shared.IViews;
 using System;
 using Unity.Netcode;
 using UnityEngine;
@@ -12,7 +12,7 @@ namespace DVG.SkyPirates.OldShared.Views
         private Rigidbody _rigidbody;
 
         public float2 Velocity { set; private get; }
-        public angle Rotation { set => transform.eulerAngles = new(0, value.deg, 0); }
+        public float Rotation { set => transform.eulerAngles = new(0, value, 0); }
 
         public float3 Position { get => transform.position; }
 

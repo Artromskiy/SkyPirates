@@ -13,37 +13,37 @@
 using DVG.Json.Editor;
 
 
-namespace DVG.SkyPirates.OldShared.Models
+namespace DVG.SkyPirates.Shared.Models
 {
     public class JsonWrapperFortModel : JsonWrapper<FortModel>{ }
 }
 
 
-namespace DVG.SkyPirates.OldShared.Models
+namespace DVG.SkyPirates.Shared.Models
 {
     public class JsonWrapperUnitModel : JsonWrapper<UnitModel>{ }
 }
 
 
-namespace DVG.SkyPirates.OldShared.Models
+namespace DVG.SkyPirates.Shared.Models
 {
     public class JsonWrapperUnitAndLevel : JsonWrapper<UnitAndLevel>{ }
 }
 
 
-namespace DVG.SkyPirates.OldShared.Models
+namespace DVG.SkyPirates.Shared.Models
 {
     public class JsonWrapperPackedCirclesModel : JsonWrapper<PackedCirclesModel>{ }
 }
 
 
-namespace DVG.SkyPirates.OldShared.Models
+namespace DVG.SkyPirates.Shared.Models
 {
     public class JsonWrapperSquadModel : JsonWrapper<SquadModel>{ }
 }
 
 
-namespace DVG.SkyPirates.OldShared.Models
+namespace DVG.SkyPirates.Shared.Models
 {
     public class JsonWrapperCameraModel : JsonWrapper<CameraModel>{ }
 }
