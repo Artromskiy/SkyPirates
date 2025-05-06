@@ -1,7 +1,7 @@
 using DVG.Core;
 using DVG.MathsOld;
 
-namespace DVG.SkyPirates.Shared.IViews
+namespace DVG.SkyPirates.OldShared.IViews
 {
     public interface IUnitView : IView
     {

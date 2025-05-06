@@ -1,6 +1,6 @@
 using DVG.Core.Ids.Attributes;
 
-namespace DVG.SkyPirates.Shared.Ids
+namespace DVG.SkyPirates.OldShared.Ids
 {
     [StringId]
     [StringIdDrawer(DrawerType.Editor)]

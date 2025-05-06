@@ -1,9 +1,8 @@
 using DVG.Core;
 using DVG.SkyPirates.Server.Factories;
 using DVG.SkyPirates.Server.IFactories;
-using DVG.SkyPirates.Shared.Factories;
-using DVG.SkyPirates.Shared.IFactories;
-using DVG.SkyPirates.Shared.Models;
+using DVG.SkyPirates.OldShared.Factories;
+using DVG.SkyPirates.OldShared.Models;
 using SimpleInjector;
 using SimpleInjector.Diagnostics;
 using SimpleInjector.Lifestyles;

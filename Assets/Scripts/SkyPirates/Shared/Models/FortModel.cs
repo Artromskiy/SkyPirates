@@ -1,7 +1,7 @@
 using DVG.Json;
 using System;
 
-namespace DVG.SkyPirates.Shared.Models
+namespace DVG.SkyPirates.OldShared.Models
 {
     [JsonAsset]
     [Serializable]

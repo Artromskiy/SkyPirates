@@ -1,6 +1,6 @@
 using DVG.SkyPirates.Client.IFactories;
 using DVG.SkyPirates.Client.Presenters;
-using DVG.SkyPirates.Shared.IViews;
+using DVG.SkyPirates.OldShared.IViews;
 using Unity.Netcode;
 using UnityEngine.Scripting;
 

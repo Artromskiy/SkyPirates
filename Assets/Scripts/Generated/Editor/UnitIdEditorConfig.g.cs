@@ -10,7 +10,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using DVG.SkyPirates.Shared.Ids;
+using DVG.SkyPirates.OldShared.Ids;
 using UnityEngine;
 
 namespace DVG.Editor.Configs

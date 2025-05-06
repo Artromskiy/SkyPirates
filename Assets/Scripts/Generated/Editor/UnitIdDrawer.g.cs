@@ -14,7 +14,7 @@ using UnityEditor;
 using DVG.Editor.Configs;
 using DVG.Editor.CustomDrawers;
 
-namespace DVG.SkyPirates.Shared.Ids
+namespace DVG.SkyPirates.OldShared.Ids
 {
     [CustomPropertyDrawer(typeof(UnitId))]
     public class UnitIdDrawer : PopupStringIdDrawer<UnitId>

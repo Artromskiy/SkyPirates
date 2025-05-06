@@ -17,7 +17,7 @@ using Newtonsoft.Json;
 using UnityEngine;
 using DVG.Core;
 
-namespace DVG.SkyPirates.Shared.Ids
+namespace DVG.SkyPirates.OldShared.Ids
 {
     [TypeConverter(typeof(IdTypeConverter))]
     [JsonConverter(typeof(IdJsonConverter))]

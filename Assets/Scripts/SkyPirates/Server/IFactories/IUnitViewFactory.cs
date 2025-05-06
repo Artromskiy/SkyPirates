@@ -1,6 +1,6 @@
 ﻿using DVG.Core;
-using DVG.SkyPirates.Shared.Ids;
-using DVG.SkyPirates.Shared.IViews;
+using DVG.SkyPirates.OldShared.Ids;
+using DVG.SkyPirates.OldShared.IViews;
 
 namespace DVG.SkyPirates.Server.IFactories
 {

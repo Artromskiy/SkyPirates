@@ -10,7 +10,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DVG.SkyPirates.Shared.Ids
+namespace DVG.SkyPirates.OldShared.Ids
 {
     partial struct GoodsId
     {

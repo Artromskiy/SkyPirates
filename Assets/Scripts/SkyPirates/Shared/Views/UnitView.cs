@@ -1,10 +1,10 @@
 using DVG.MathsOld;
-using DVG.SkyPirates.Shared.IViews;
+using DVG.SkyPirates.OldShared.IViews;
 using System;
 using Unity.Netcode;
 using UnityEngine;
 
-namespace DVG.SkyPirates.Shared.Views
+namespace DVG.SkyPirates.OldShared.Views
 {
     public class UnitView : NetworkBehaviour, IUnitView
     {

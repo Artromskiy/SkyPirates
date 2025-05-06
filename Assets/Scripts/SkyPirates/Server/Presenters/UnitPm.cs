@@ -1,7 +1,7 @@
 using DVG.Core;
 using DVG.MathsOld;
-using DVG.SkyPirates.Shared.IViews;
-using DVG.SkyPirates.Shared.Models;
+using DVG.SkyPirates.OldShared.IViews;
+using DVG.SkyPirates.OldShared.Models;
 using UnityEngine;
 
 

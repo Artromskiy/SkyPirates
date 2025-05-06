@@ -1,8 +1,7 @@
 using DVG.Core;
 using DVG.SkyPirates.Server.IFactories;
 using DVG.SkyPirates.Server.Presenters;
-using DVG.SkyPirates.Shared.IFactories;
-using DVG.SkyPirates.Shared.Models;
+using DVG.SkyPirates.OldShared.Models;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;

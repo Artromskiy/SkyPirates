@@ -1,6 +1,6 @@
 using DVG.SkyPirates.Server.IFactories;
 using DVG.SkyPirates.Server.Presenters;
-using DVG.SkyPirates.Shared.IViews;
+using DVG.SkyPirates.OldShared.IViews;
 using Unity.Netcode;
 
 namespace DVG.SkyPirates.Server.Factories

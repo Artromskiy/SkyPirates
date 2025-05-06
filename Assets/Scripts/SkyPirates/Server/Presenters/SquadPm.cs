@@ -1,7 +1,6 @@
 using DVG.Core;
 using DVG.MathsOld;
-using DVG.SkyPirates.Shared.IFactories;
-using DVG.SkyPirates.Shared.Models;
+using DVG.SkyPirates.OldShared.Models;
 using System.Collections.Generic;
 
 

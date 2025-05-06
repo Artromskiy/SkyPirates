@@ -1,6 +1,6 @@
 using DVG.Core;
 using DVG.MathsOld;
-using DVG.SkyPirates.Shared.IViews;
+using DVG.SkyPirates.OldShared.IViews;
 using System;
 
 namespace DVG.SkyPirates.Server.Presenters
@@ -8,6 +8,7 @@ namespace DVG.SkyPirates.Server.Presenters
     public class InputPm : Presenter<IInputView, object>
     {
         public InputPm(IInputView view) : base(view, null) { }
+
 
         public float3 Position => View.Position;
         public angle Rotation => View.Rotation;

@@ -1,6 +1,6 @@
 using DVG.Core;
 using DVG.MathsOld;
-using DVG.SkyPirates.Shared.IViews;
+using DVG.SkyPirates.OldShared.IViews;
 
 namespace DVG.SkyPirates.Client.Presenters
 {

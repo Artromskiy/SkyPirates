@@ -2,7 +2,7 @@ using DVG.Core;
 using DVG.MathsOld;
 using System;
 
-namespace DVG.SkyPirates.Shared.IViews
+namespace DVG.SkyPirates.OldShared.IViews
 {
     public interface IInputView : IView
     {

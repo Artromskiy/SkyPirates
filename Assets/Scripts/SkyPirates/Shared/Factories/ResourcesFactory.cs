@@ -1,8 +1,8 @@
-using DVG.SkyPirates.Shared.IFactories;
+using DVG.Core;
 using Newtonsoft.Json;
 using UnityEngine;
 
-namespace DVG.SkyPirates.Shared.Factories
+namespace DVG.SkyPirates.OldShared.Factories
 {
     public class ResourcesFactory<T> : IPathFactory<T>
     {

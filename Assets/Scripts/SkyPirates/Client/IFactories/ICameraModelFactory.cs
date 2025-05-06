@@ -1,5 +1,5 @@
-﻿using DVG.SkyPirates.Shared.IFactories;
-using DVG.SkyPirates.Shared.Models;
+﻿using DVG.Core;
+using DVG.SkyPirates.OldShared.Models;
 
 namespace DVG.SkyPirates.Client.IFactories
 {
