@@ -13,42 +13,42 @@
 using UnityEngine.Scripting;
 
 
-namespace DVG.SkyPirates.OldShared.Models
+namespace DVG.SkyPirates.Shared.Models
 {
     [Preserve]
     partial class FortModel { }
 }
 
 
-namespace DVG.SkyPirates.OldShared.Models
+namespace DVG.SkyPirates.Shared.Models
 {
     [Preserve]
     partial class UnitModel { }
 }
 
 
-namespace DVG.SkyPirates.OldShared.Models
+namespace DVG.SkyPirates.Shared.Models
 {
     [Preserve]
     partial class UnitAndLevel { }
 }
 
 
-namespace DVG.SkyPirates.OldShared.Models
+namespace DVG.SkyPirates.Shared.Models
 {
     [Preserve]
     partial class PackedCirclesModel { }
 }
 
 
-namespace DVG.SkyPirates.OldShared.Models
+namespace DVG.SkyPirates.Shared.Models
 {
     [Preserve]
     partial class SquadModel { }
 }
 
 
-namespace DVG.SkyPirates.OldShared.Models
+namespace DVG.SkyPirates.Shared.Models
 {
     [Preserve]
     partial class CameraModel { }
