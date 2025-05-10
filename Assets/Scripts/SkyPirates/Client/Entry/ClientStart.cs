@@ -1,3 +1,4 @@
+#nullable enable
 using DVG.Core;
 using SimpleInjector;
 using SimpleInjector.Lifestyles;

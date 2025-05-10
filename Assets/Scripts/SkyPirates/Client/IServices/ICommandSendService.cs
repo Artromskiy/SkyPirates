@@ -1,4 +1,5 @@
-﻿namespace DVG.SkyPirates.Client.IServices
+﻿#nullable enable
+namespace DVG.SkyPirates.Client.IServices
 {
     internal interface ICommandSendService
     {

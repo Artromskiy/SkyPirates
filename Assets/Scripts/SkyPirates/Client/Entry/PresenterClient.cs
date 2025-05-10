@@ -1,3 +1,4 @@
+#nullable enable
 using DVG.Core;
 using DVG.SkyPirates.Client.IServices;
 using DVG.SkyPirates.Client.Presenters;

@@ -1,4 +1,5 @@
-﻿using DVG.Json.Editor;
+﻿#nullable enable
+using DVG.Json.Editor;
 using DVG.SkyPirates.Shared.Models;
 using System;
 using System.Collections.Generic;
@@ -12,10 +13,12 @@ namespace DVG.Editor
     [CreateAssetMenu(fileName = "CirclesPacker", menuName = "Tools/CirclesPacker")]
     public class CirclesPacker : ScriptableObject
     {
+#nullable disable
         [SerializeField]
         private TextAsset[] _packedCircles;
         [SerializeField]
         private string _folderPath;
+#nullable restore
 
         private static readonly string[] SplitLines = new string[] { "\r\n", "\r", "\n" };
         private static readonly string[] WhiteSpace = new string[] { " " };

@@ -1,4 +1,5 @@
-﻿using DVG.SkyPirates.Client.IServices;
+﻿#nullable enable
+using DVG.SkyPirates.Client.IServices;
 using DVG.SkyPirates.Shared.Commands;
 using DVG.SkyPirates.Shared.Ids;
 using DVG.SkyPirates.Shared.IFactories;
@@ -14,9 +15,10 @@ namespace DVG.SkyPirates.Client.Services
 
         private readonly Dictionary<int, IUnitView> _views = new Dictionary<int, IUnitView>();
 
-        public NetworkedUnitViewSyncer(ICommandRecieveService messageRecieveService)
+        public NetworkedUnitViewSyncer(ICommandRecieveService messageRecieveService, IUnitViewFactory unitViewFactory)
         {
             _messageRecieveService = messageRecieveService;
+            _unitViewFactory = unitViewFactory;
 
             _messageRecieveService.RegisterReciever<RegisterUnitCommand>(RegisterUnit);
             _messageRecieveService.RegisterReciever<UpdateUnitCommand>(UpdateUnit);

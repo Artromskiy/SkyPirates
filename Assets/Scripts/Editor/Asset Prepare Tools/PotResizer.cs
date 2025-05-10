@@ -1,3 +1,4 @@
+#nullable enable
 using System;
 using System.IO;
 using UnityEditor;
@@ -9,13 +10,15 @@ namespace DVG.Editor.AssetPrepareTools
     public class PotResizer : ScriptableObject
     {
         [SerializeField]
-        private Sprite[] _toResize;
+        private Sprite[]? _toResize;
 
         private Color32[] _clearArray = new Color32[0];
 
         [ContextMenu("Group Crop")]
         public void GroupCrop()
         {
+            if (_toResize == null)
+                return;
             int4 minmax = new(int.MaxValue, int.MaxValue, int.MinValue, int.MinValue);
             foreach (var item in _toResize)
             {
@@ -60,6 +63,8 @@ namespace DVG.Editor.AssetPrepareTools
         [ContextMenu("Group PoT")]
         public void GroupPot()
         {
+            if (_toResize == null)
+                return;
             foreach (var item in _toResize)
             {
                 if (Mathf.IsPowerOfTwo(item.texture.width) && Mathf.IsPowerOfTwo(item.texture.height))
@@ -76,6 +81,8 @@ namespace DVG.Editor.AssetPrepareTools
         [ContextMenu("Group Square")]
         public void GroupSquare()
         {
+            if (_toResize == null)
+                return;
             foreach (var item in _toResize)
             {
                 if (item.texture.width == item.texture.height)
@@ -92,6 +99,8 @@ namespace DVG.Editor.AssetPrepareTools
         [ContextMenu("Group PoT Aspect")]
         public void GroupPoTAspect()
         {
+            if (_toResize == null)
+                return;
             foreach (var item in _toResize)
             {
                 if (item.texture.width == item.texture.height)

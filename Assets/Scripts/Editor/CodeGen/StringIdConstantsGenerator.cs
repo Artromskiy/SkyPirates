@@ -19,7 +19,7 @@ namespace DVG.Editor.CodeGen
                 var instance = item.BaseType.BaseType.GetProperty("Instance").GetValue(null);
                 if (instance == null)
                     continue;
-                var values = (instance as IStringIdEditorConfig).Values;
+                var values = (instance as IStringIdEditorConfig)?.Values;
                 if (values == null)
                     continue;
                 var idType = item.BaseType.GenericTypeArguments[0];

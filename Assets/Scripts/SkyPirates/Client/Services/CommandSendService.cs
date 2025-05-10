@@ -1,4 +1,5 @@
-﻿using DVG.SkyPirates.Client.IServices;
+﻿#nullable enable
+using DVG.SkyPirates.Client.IServices;
 using DVG.SkyPirates.Shared.Commands;
 using DVG.SkyPirates.Shared.IServices;
 using Riptide;

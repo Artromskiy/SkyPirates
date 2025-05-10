@@ -1,4 +1,5 @@
-﻿using DVG.Core;
+﻿#nullable enable
+using DVG.Core;
 using DVG.SkyPirates.Shared.Models;
 
 namespace DVG.SkyPirates.Client.IFactories

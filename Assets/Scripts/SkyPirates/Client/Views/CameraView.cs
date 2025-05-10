@@ -1,4 +1,5 @@
-﻿using DVG.SkyPirates.Client.IViews;
+﻿#nullable enable
+using DVG.SkyPirates.Client.IViews;
 using UnityEngine;
 
 namespace DVG.SkyPirates.Client.Views

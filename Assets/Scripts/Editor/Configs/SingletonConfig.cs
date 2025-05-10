@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿#nullable enable
+using UnityEditor;
 using UnityEngine;
 
 namespace DVG.Editor.Configs
@@ -9,7 +10,7 @@ namespace DVG.Editor.Configs
         private const string Folder = "Assets/Editor/Configs/";
         private static readonly string Path = $"{Folder}{typeof(Type).Name}.asset";
 
-        private static Type _instance;
+        private static Type? _instance;
         public static Type Instance => _instance = _instance == null ? AssetDatabase.LoadAssetAtPath<Type>(Path) : _instance;
     }
 }

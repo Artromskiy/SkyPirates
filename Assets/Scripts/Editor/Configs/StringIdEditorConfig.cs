@@ -1,3 +1,4 @@
+#nullable enable
 using DVG.Core;
 using UnityEngine;
 
@@ -8,7 +9,7 @@ namespace DVG.Editor.Configs
         where Id : IStringId
     {
         [field: SerializeField]
-        public string[] Values { get; private set; }
+        public string[] Values { get; private set; } = null!;
     }
 
     public interface IStringIdEditorConfig

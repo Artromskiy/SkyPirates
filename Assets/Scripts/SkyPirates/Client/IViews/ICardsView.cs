@@ -1,3 +1,4 @@
+#nullable enable
 using DVG.Core;
 using System;
 

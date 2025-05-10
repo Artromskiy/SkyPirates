@@ -1,4 +1,5 @@
-﻿using DVG.Core;
+﻿#nullable enable
+using DVG.Core;
 
 namespace DVG.SkyPirates.Client.IViews
 {
