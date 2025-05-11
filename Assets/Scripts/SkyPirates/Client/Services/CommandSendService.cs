@@ -4,6 +4,7 @@ using DVG.SkyPirates.Shared.Commands;
 using DVG.SkyPirates.Shared.IServices;
 using Riptide;
 using System;
+using UnityEngine;
 
 namespace DVG.SkyPirates.Client.Services
 {
@@ -16,6 +17,7 @@ namespace DVG.SkyPirates.Client.Services
         public CommandSendService(Riptide.Client client, ICommandSerializer commandSerializer)
         {
             _client = client;
+            Debug.Log(_client.GetHashCode());
             _commandSerializer = commandSerializer;
         }
 

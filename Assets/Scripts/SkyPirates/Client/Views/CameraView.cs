@@ -7,9 +7,9 @@ namespace DVG.SkyPirates.Client.Views
     internal class CameraView : MonoBehaviour, ICameraView
     {
         [SerializeField]
-        private Camera _camera;
+        private Camera _camera = null!;
         [SerializeField]
-        private AudioListener _listener;
+        private AudioListener _listener = null!;
 
         public void SetData(float3 camPosition, float xRotation, float camFov, float3 listenerPosition)
         {

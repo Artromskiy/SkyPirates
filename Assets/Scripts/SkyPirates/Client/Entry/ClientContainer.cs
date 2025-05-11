@@ -1,13 +1,16 @@
 using DVG.Core;
 using DVG.SkyPirates.Client.Entry;
-using DVG.SkyPirates.Shared.Models;
+using DVG.SkyPirates.Client.Factories;
+using DVG.SkyPirates.Client.IServices;
 using DVG.SkyPirates.Client.Presenters;
-using DVG.SkyPirates.OldShared.Factories;
+using DVG.SkyPirates.Client.Services;
+using DVG.SkyPirates.Shared.IFactories;
+using DVG.SkyPirates.Shared.IServices;
+using DVG.SkyPirates.Shared.Models;
+using DVG.SkyPirates.Shared.Services;
 using SimpleInjector;
 using SimpleInjector.Diagnostics;
 using UnityEngine;
-using DVG.SkyPirates.Client.IServices;
-using DVG.SkyPirates.Client.Services;
 
 namespace DVG
 {
@@ -15,24 +18,26 @@ namespace DVG
     {
         public ClientContainer(GameObject[] views)
         {
-            Options.DefaultScopedLifestyle = ScopedLifestyle.Flowing;
+            Register(() => new Riptide.Client(), Lifestyle.Singleton);
+            Register<ICommandSerializer, CommandSerializer>(Lifestyle.Singleton);
+            Register<ICommandSendService, CommandSendService>(Lifestyle.Singleton);
+            Register<ICommandRecieveService, CommandRecieveService>(Lifestyle.Singleton);
 
-            Register<Riptide.Client>(() => new Riptide.Client(), Lifestyle.Scoped);
-            Register<ICommandSendService, CommandSendService>(Lifestyle.Scoped);
-            Register<ICommandRecieveService, CommandRecieveService>(Lifestyle.Scoped);
+            Register<IUnitViewSyncer, NetworkedUnitViewSyncer>(Lifestyle.Singleton);
+            Register<IUnitViewFactory, UnitViewFactory>(Lifestyle.Singleton);
 
-            Register<IPlayerLoopSystem, PlayerLoopSystem>(Lifestyle.Scoped);
+            Register<IPlayerLoopSystem, PlayerLoopSystem>(Lifestyle.Singleton);
             RegisterInitializer<IPlayerLoopItem>((item) => GetInstance<IPlayerLoopSystem>().Add(item));
 
-            Register<IPathFactory<CameraModel>, ResourcesFactory<CameraModel>>(Lifestyle.Scoped);
-            Register<CameraModel>(() => GetInstance<IPathFactory<CameraModel>>().Create("Configs/Camera/SeaCamera"), Lifestyle.Scoped);
+            Register<IPathFactory<CameraModel>, ResourcesFactory<CameraModel>>(Lifestyle.Singleton);
+            Register<CameraModel>(() => GetInstance<IPathFactory<CameraModel>>().Create("Configs/Camera/SeaCamera"), Lifestyle.Singleton);
 
-            Register<JoystickPm>(Lifestyle.Scoped);
-            Register<MoveTargetPm>(Lifestyle.Scoped);
-            Register<CardsPm>(Lifestyle.Scoped);
-            Register<CameraPm>(Lifestyle.Scoped);
+            Register<JoystickPm>(Lifestyle.Singleton);
+            Register<MoveTargetPm>(Lifestyle.Singleton);
+            Register<CardsPm>(Lifestyle.Singleton);
+            Register<CameraPm>(Lifestyle.Singleton);
 
-            Register<PresenterClient>(Lifestyle.Scoped);
+            Register<PresenterClient>(Lifestyle.Singleton);
 
             foreach (var item in views)
                 if (item.TryGetComponent<IView>(out var instance))

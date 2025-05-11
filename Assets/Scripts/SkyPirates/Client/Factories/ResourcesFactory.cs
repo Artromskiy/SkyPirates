@@ -3,7 +3,7 @@ using DVG.Core;
 using Newtonsoft.Json;
 using UnityEngine;
 
-namespace DVG.SkyPirates.OldShared.Factories
+namespace DVG.SkyPirates.Client.Factories
 {
     public class ResourcesFactory<T> : IPathFactory<T>
     {
@@ -11,7 +11,7 @@ namespace DVG.SkyPirates.OldShared.Factories
         {
             var textAsset = Resources.Load<TextAsset>(parameters);
             var text = textAsset.text;
-            return JsonConvert.DeserializeObject<T>(text);
+            return JsonConvert.DeserializeObject<T>(text)!;
         }
     }
 }

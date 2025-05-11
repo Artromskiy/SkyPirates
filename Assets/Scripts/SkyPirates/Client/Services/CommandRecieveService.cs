@@ -5,6 +5,7 @@ using DVG.SkyPirates.Shared.IServices;
 using Riptide;
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace DVG.SkyPirates.Client.Services
 {
@@ -19,12 +20,12 @@ namespace DVG.SkyPirates.Client.Services
         {
             _commandSerializer = commandSerializer;
             _client = client;
-
-            _client.MessageReceived += OnMessageRecieved;
+            Debug.Log(_client.GetHashCode());
             _registeredRecievers = new Dictionary<int, IActionContainer>();
+            _client.MessageReceived += OnMessageRecieved;
         }
 
-        private void OnMessageRecieved(object? _, MessageReceivedEventArgs e)
+        private void OnMessageRecieved(object? sender, MessageReceivedEventArgs e)
         {
             if (_registeredRecievers.TryGetValue(e.MessageId, out var callback))
                 callback.Invoke(e.Message);

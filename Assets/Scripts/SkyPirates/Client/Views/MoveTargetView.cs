@@ -8,7 +8,7 @@ namespace DVG.SkyPirates.Client.Views
     public class MoveTargetView : MonoBehaviour, IMoveTargetView
     {
         [SerializeField]
-        private CharacterController _controller;
+        private CharacterController _controller = null!;
 
         public float3 Position => transform.position;
         public angle Rotation => transform.eulerAngles.y;

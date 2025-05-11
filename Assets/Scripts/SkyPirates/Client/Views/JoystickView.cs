@@ -13,7 +13,7 @@ namespace DVG.SkyPirates.Client.Views
         {
             var x = Input.GetAxisRaw("Horizontal");
             var y = Input.GetAxisRaw("Vertical");
-            Fixation = Input.GetKeyDown(KeyCode.Space);
+            Fixation = Input.GetKey(KeyCode.Space);
             Fixation = Fixation || x != 0 || y != 0;
             Direction = float2.ClampLength(new float2(x, y), 1);
         }

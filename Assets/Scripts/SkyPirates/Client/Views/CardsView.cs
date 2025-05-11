@@ -7,7 +7,7 @@ namespace DVG.SkyPirates.Client.Views
 {
     public class CardsView : MonoBehaviour, ICardsView
     {
-        public event Action<int> OnCardClicked;
+        public event Action<int>? OnCardClicked;
 
         private void Update()
         {

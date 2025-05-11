@@ -12,29 +12,34 @@ namespace DVG.SkyPirates.Client.Entry
         private readonly JoystickPm _joystickPm;
         private readonly CardsPm _cardsPm;
         private readonly CameraPm _cameraPm;
-        private readonly ICommandSendService _messageSendService;
+        private readonly ICommandSendService _commandSendService;
 
-        public PresenterClient(ICommandSendService messageSendService, MoveTargetPm moveTargetPm, JoystickPm joystickPm, CardsPm cardsPm, CameraPm cameraPm)
+        private int _unitToSpawn = -1;
+
+        public PresenterClient(ICommandSendService commandSendService, MoveTargetPm moveTargetPm, JoystickPm joystickPm, CardsPm cardsPm, CameraPm cameraPm)
         {
-            _messageSendService = messageSendService;
+            _commandSendService = commandSendService;
             _moveTargetPm = moveTargetPm;
             _joystickPm = joystickPm;
             _cardsPm = cardsPm;
             _cameraPm = cameraPm;
-            _cardsPm.OnSpawnUnit += id => _messageSendService.SendCommand(new SpawnUnitCommand() { id = id });
+            _cardsPm.OnSpawnUnit += id => _unitToSpawn = id;
         }
 
         public void Tick()
         {
             _moveTargetPm.Direction = _joystickPm.Direction;
 
-            _messageSendService.SendCommand(new UpdateInputCommand()
+            _commandSendService.SendCommand(new UpdateInputCommand()
             {
                 position = _moveTargetPm.Position,
                 rotation = _moveTargetPm.Rotation.deg,
                 fixation = _joystickPm.Fixation
             });
 
+            if (_unitToSpawn != -1)
+                _commandSendService.SendCommand(new SpawnUnitCommand() { id = _unitToSpawn });
+            _unitToSpawn = -1;
 
             _cameraPm.TargetPosition = _moveTargetPm.Position;
             _cameraPm.TargetVisibleZone = 10;
