@@ -4,9 +4,6 @@
 [submodule "Assets/Scripts/Core"]
 	path = Assets/Scripts/Core
 	url = https://github.com/Artromskiy/DVG.Core.git
-[submodule "Assets/Scripts/Json"]
-	path = Assets/Scripts/Json
-	url = https://github.com/Artromskiy/DVG.Json.git
 [submodule "Assets/Scripts/SkyPirates/Shared"]
 	path = Assets/Scripts/SkyPirates/Shared
 	url = https://github.com/Artromskiy/DVG.SkyPirates.Shared.git
