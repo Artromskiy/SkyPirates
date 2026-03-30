@@ -1,0 +1,13 @@
+<linker>
+  <assembly fullname="System.Text.Json" preserve="all"/>
+  <assembly fullname="System.Collections.Immutable" preserve="all"/>
+  <assembly fullname="SimpleInjector" preserve="all"/> 
+
+  <assembly fullname="DVG.Main" preserve="all"/>
+  <assembly fullname="DVG.Maths" preserve="all"/>
+  <assembly fullname="DVG.UniTools" preserve="all"/>
+  <assembly fullname="DVG.SkyPirates.Meta" preserve="all"/>
+  <assembly fullname="DVG.SkyPirates.Shared" preserve="all"/>
+  <assembly fullname="DVG.SkyPirates.Shared" preserve="all"/>
+  <assembly fullname="DVG.SkyPirates.Tooling" preserve="all"/>
+</linker>

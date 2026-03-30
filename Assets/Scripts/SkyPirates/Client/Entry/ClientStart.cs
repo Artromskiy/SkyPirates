@@ -1,71 +1,76 @@
 #nullable enable
-using DVG.Core;
+using DVG.SkyPirates.Client.DI;
+using Riptide;
 using Riptide.Utils;
 using SimpleInjector;
-using SimpleInjector.Lifestyles;
 using System;
-using UnityEngine;
+using System.Diagnostics;
 
 namespace DVG.SkyPirates.Client.Entry
 {
-    public class ClientStart : MonoBehaviour
+    public class ClientStart : UnityEngine.MonoBehaviour
     {
-        [SerializeField]
-        private GameObject[] _views = null!;
+        private Container _container = null!;
 
-        private Scope? _scope;
-        private Container? _container;
-        protected void Start()
+        private void Start()
         {
-            RiptideLogger.Initialize(Debug.Log, true);
+            Message.MaxPayloadSize = 256;
+            RiptideLogger.Initialize(UnityEngine.Debug.Log, true);
+            RiptideLogger.EnableLoggingFor(LogType.Debug, UnityEngine.Debug.Log);
+            RiptideLogger.EnableLoggingFor(LogType.Info, UnityEngine.Debug.Log);
+            RiptideLogger.EnableLoggingFor(LogType.Warning, UnityEngine.Debug.LogWarning);
+            RiptideLogger.EnableLoggingFor(LogType.Error, UnityEngine.Debug.LogError);
 
-            _container = new ClientContainer(_views);
-            _scope = AsyncScopedLifestyle.BeginScope(_container);
-            _container.GetInstance<PresenterClient>();
-            _container.GetInstance<IPlayerLoopSystem>().ExceptionHandler += Debug.LogException;
+            _container = new ClientContainer();
+
+            _container.RegisterAndInjectViewModels();
+
             Connect();
         }
 
         private void Connect()
         {
-            if (_scope == null || _container == null)
+            if (_container == null)
                 return;
+
             var client = _container.GetInstance<Riptide.Client>();
-            var client2 = _container.GetInstance<Riptide.Client>();
-            Debug.Log(client.GetHashCode());
-            Debug.Log(client2.GetHashCode());
-            int port = 7777;
-            string ip = "127.0.0.1";
+
             client.Connected += OnConnected;
             client.Disconnected += OnDisconnected;
+
+            string port = ClientSetupData.Port;
+            string ip = ClientSetupData.IP;
             client.Connect($"{ip}:{port}", useMessageHandlers: false);
         }
 
         private void OnConnected(object sender, EventArgs e)
         {
-            Debug.Log("Connected");
+            var client = _container.GetInstance<Riptide.Client>();
+            client.Connection.CanQualityDisconnect = false;
+
+            Debug.WriteLine("Connected");
         }
 
         private void OnDisconnected(object sender, Riptide.DisconnectedEventArgs e)
         {
-            Debug.Log("Disconnected");
-            Debug.Log(e.Message);
-            Debug.Log(e.Reason);
+            Debug.WriteLine(e.Message);
+            Debug.WriteLine(e.Reason);
+            Debug.Fail("Disconnected");
         }
 
         private void Update()
         {
-            if (_scope == null || _container == null)
-                return;
-            _container?.GetInstance<IPlayerLoopSystem>().Start();
-            _container?.GetInstance<IPlayerLoopSystem>().Tick();
+            try
+            {
+                var startController = _container.GetInstance<GameStartController>();
+                startController.Update();
+            }
+            catch (Exception e)
+            {
+                UnityEngine.Debug.Break();
+                Trace.TraceError($"[LocalStart] Update failed: {e.Message} \n {e.StackTrace}");
+            }
         }
-        private void FixedUpdate()
-        {
-            if (_scope == null || _container == null)
-                return;
-            _container?.GetInstance<Riptide.Client>().Update();
-            _container?.GetInstance<IPlayerLoopSystem>().FixedTick();
-        }
+
     }
 }

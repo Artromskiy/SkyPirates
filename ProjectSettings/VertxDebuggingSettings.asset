@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DepthWrite: 0
-  DepthTest: 3
+  DepthTest: 0
   AllocationsForGizmos:
     Lines: 50000
     DashedLines: 10000

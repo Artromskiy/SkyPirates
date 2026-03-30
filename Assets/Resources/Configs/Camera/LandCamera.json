@@ -1,9 +1,0 @@
-{
-  "minXAngle": 55.0,
-  "maxXAngle": 55.0,
-  "minFov": 20.5,
-  "maxFov": 20.5,
-  "minDistance": 33.7,
-  "maxDistance": 33.8,
-  "smoothMoveTime": 0.1
-}

@@ -1,44 +1,32 @@
 ﻿#nullable enable
+using DVG.Commands;
 using DVG.SkyPirates.Client.IServices;
-using DVG.SkyPirates.Shared.Commands;
-using DVG.SkyPirates.Shared.IServices;
+using DVG.SkyPirates.Shared.Services;
 using Riptide;
-using System;
-using UnityEngine;
+using System.Collections.Generic;
 
 namespace DVG.SkyPirates.Client.Services
 {
-    internal class CommandSendService : ICommandSendService
+    internal class CommandSendService : ICommandSender
     {
         private readonly Riptide.Client _client;
-        private byte[] _tempBytes = Array.Empty<byte>();
-        private readonly ICommandSerializer _commandSerializer;
+        private readonly MessageIO _messageIO;
+        private readonly List<Message> _messages = new();
 
-        public CommandSendService(Riptide.Client client, ICommandSerializer commandSerializer)
+        public CommandSendService(Riptide.Client client)
         {
+            _messageIO = new();
             _client = client;
-            Debug.Log(_client.GetHashCode());
-            _commandSerializer = commandSerializer;
         }
 
-        public void SendCommand<T>(T data) where T : unmanaged
+        public void SendCommand<T>(Command<T> cmd)
         {
-            var message = CreateMessage(data);
-            _client.Send(message);
-        }
-
-        private Message CreateMessage<T>(T data) where T : unmanaged
-        {
-            var span = _commandSerializer.Serialize(ref data);
-            int length = span.Length;
-            if (length > _tempBytes.Length)
-                Array.Resize(ref _tempBytes, length);
-            span.CopyTo(_tempBytes);
-
-            int id = CommandIds.GetId<T>();
-            Message message = Message.Create(MessageSendMode.Reliable, (ushort)id);
-            message.AddBytes(_tempBytes, 0, length);
-            return message;
+            _messages.Clear();
+            _messageIO.GetMessages(cmd, _messages);
+            foreach (var message in _messages)
+            {
+                _client.Send(message);
+            }
         }
     }
 }

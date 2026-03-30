@@ -1,6 +1,6 @@
 #nullable enable
 using DVG.Core;
-using Newtonsoft.Json;
+using DVG.SkyPirates.Shared.Tools.Json;
 using UnityEngine;
 
 namespace DVG.SkyPirates.Client.Factories
@@ -11,7 +11,7 @@ namespace DVG.SkyPirates.Client.Factories
         {
             var textAsset = Resources.Load<TextAsset>(parameters);
             var text = textAsset.text;
-            return JsonConvert.DeserializeObject<T>(text)!;
+            return SerializationUTF8.Deserialize<T>(text);
         }
     }
 }

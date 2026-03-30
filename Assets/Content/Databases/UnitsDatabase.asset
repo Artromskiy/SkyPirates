@@ -1,0 +1,51 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2b20e9f24867d649a6c702738b5d8de, type: 3}
+  m_Name: UnitsDatabase
+  m_EditorClassIdentifier: DVG.SkyPirates.Client::DVG.SkyPirates.Client.Databases.UnitsDatabase
+  _items:
+  - Key:
+      Value: Sailor
+    Value:
+      Sprite: {fileID: 21300000, guid: b6a90fbad59a862439c97ade114d2fa3, type: 3}
+  - Key:
+      Value: Pirate
+    Value:
+      Sprite: {fileID: 21300000, guid: 858472270a3b28d40ab714d164390648, type: 3}
+  - Key:
+      Value: Rogue
+    Value:
+      Sprite: {fileID: 21300000, guid: fa741ed7ec933a443a7c72547b48fa82, type: 3}
+  - Key:
+      Value: Skelly
+    Value:
+      Sprite: {fileID: 21300000, guid: 82b467bdeca8bdf4e8140e2c5fac44bd, type: 3}
+  - Key:
+      Value: Bonny
+    Value:
+      Sprite: {fileID: 21300000, guid: c51eb1257e2b1b14eb5e089f71cff65f, type: 3}
+  - Key:
+      Value: Buccaneer
+    Value:
+      Sprite: {fileID: 21300000, guid: 0b543c738273a9f4db1ebcbf2a5b5064, type: 3}
+  - Key:
+      Value: Imp
+    Value:
+      Sprite: {fileID: 21300000, guid: 919059167ffba114a9bd434bdab302f5, type: 3}
+  - Key:
+      Value: Daemon
+    Value:
+      Sprite: {fileID: 21300000, guid: 873462d4a63c51b4eb5beafac204a2c8, type: 3}
+  - Key:
+      Value: Militia
+    Value:
+      Sprite: {fileID: 21300000, guid: 57b7af96800d6154e8c68aa021d282d3, type: 3}

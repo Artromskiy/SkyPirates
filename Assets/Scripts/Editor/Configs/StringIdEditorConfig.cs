@@ -1,12 +1,12 @@
 #nullable enable
-using DVG.Core;
+using DVG.Ids;
 using UnityEngine;
 
 namespace DVG.Editor.Configs
 {
     public abstract class StringIdEditorConfig<Id, Type> : SingletonConfig<Type>, IStringIdEditorConfig
         where Type : StringIdEditorConfig<Id, Type>
-        where Id : IStringId
+        where Id : IId
     {
         [field: SerializeField]
         public string[] Values { get; private set; } = null!;
@@ -14,6 +14,6 @@ namespace DVG.Editor.Configs
 
     public interface IStringIdEditorConfig
     {
-        public string[] Values { get; }
+        string[] Values { get; }
     }
 }

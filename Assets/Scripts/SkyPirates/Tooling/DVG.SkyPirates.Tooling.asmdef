@@ -1,0 +1,21 @@
+{
+    "name": "DVG.SkyPirates.Tooling",
+    "rootNamespace": "",
+    "references": [
+        "DVG.Main",
+        "DVG.Maths",
+        "DVG.SkyPirates.Shared",
+        "DVG.SkyPirates.Client",
+        "NaughtyAttributes.Core",
+        "Unity.RenderPipelines.Universal.Runtime"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

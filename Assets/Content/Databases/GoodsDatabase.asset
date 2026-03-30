@@ -1,0 +1,51 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78b299eadead2db4bac0615658c00370, type: 3}
+  m_Name: GoodsDatabase
+  m_EditorClassIdentifier: DVG.SkyPirates.Client::DVG.SkyPirates.Client.Databases.GoodsDatabase
+  _items:
+  - Key:
+      Value: Gold
+    Value:
+      Sprite: {fileID: 21300000, guid: 526859aa06a6d4b4a9f2acf729c6afc0, type: 3}
+  - Key:
+      Value: Coffee
+    Value:
+      Sprite: {fileID: 21300000, guid: 59aee2b19787f944fa2fb5c990afd189, type: 3}
+  - Key:
+      Value: Rope
+    Value:
+      Sprite: {fileID: 21300000, guid: cf0d5eb147b9f8a4596d72c3e3f8aa49, type: 3}
+  - Key:
+      Value: Sail
+    Value:
+      Sprite: {fileID: 21300000, guid: 6e4b6f548da58ab40a4b16933dd9708f, type: 3}
+  - Key:
+      Value: Spice
+    Value:
+      Sprite: {fileID: 21300000, guid: 99e1c3085c55cdb4dae33dfe260b5dfa, type: 3}
+  - Key:
+      Value: Sugar
+    Value:
+      Sprite: {fileID: 21300000, guid: 683acabfb2813f548969e016acaeabb4, type: 3}
+  - Key:
+      Value: Tea
+    Value:
+      Sprite: {fileID: 21300000, guid: 714f93ce84ab9e64bace35e5ce96ba5d, type: 3}
+  - Key:
+      Value: Rum
+    Value:
+      Sprite: {fileID: 21300000, guid: daa0008703383fb4191f756685caaa0d, type: 3}
+  - Key:
+      Value: Wood
+    Value:
+      Sprite: {fileID: 21300000, guid: 212681ee1ab6bcd46adc586710f0a2be, type: 3}

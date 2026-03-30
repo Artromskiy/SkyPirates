@@ -1,0 +1,195 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8296187255569164714
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5509234527777714279}
+  m_Layer: 0
+  m_Name: VisualRoot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5509234527777714279
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8296187255569164714}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4188941506159778156}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &9210316857832955404
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4188941506159778156}
+  - component: {fileID: 7555552472377530712}
+  - component: {fileID: 7425052853913789391}
+  - component: {fileID: 1862366546750641979}
+  - component: {fileID: 4760704735062532338}
+  - component: {fileID: 5449093755541170743}
+  - component: {fileID: -1044544908040930330}
+  - component: {fileID: -8505252161964659786}
+  - component: {fileID: -202616505504618215}
+  - component: {fileID: 8081746297075840984}
+  m_Layer: 0
+  m_Name: Unit
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4188941506159778156
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9210316857832955404}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.6772, y: -0, z: -13.73371}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 5509234527777714279}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7555552472377530712
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9210316857832955404}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31a0d32fd59f84f4c83e938ee37d8900, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: SkyPirates.Client::DVG.SkyPirates.Client.Views.Gameplay.EntityView
+  _disposingDelay: 2
+--- !u!114 &7425052853913789391
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9210316857832955404}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6d599fa8256b1e48a519ddb53e83c46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: SkyPirates.Client::DVG.SkyPirates.Client.Views.Components.TransformComponentView
+  _mode: 3
+  _sharpness: 4
+  _realPosition:
+    x: 0
+    y: 0
+    z: 0
+--- !u!114 &1862366546750641979
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9210316857832955404}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47138f36901d72c4f901abcce6ffe8d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: SkyPirates.Client::DVG.SkyPirates.Client.Views.Components.UnitComponentView
+  _visualRoot: {fileID: 5509234527777714279}
+  _randomizeScale: 0
+  _id:
+    Value: 
+--- !u!114 &4760704735062532338
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9210316857832955404}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31974ba26a2769e42a636dd2ff67de03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: SkyPirates.Client::DVG.SkyPirates.Client.Views.Components.BehaviourAnimatorComponentView
+  _animate: 1
+--- !u!114 &5449093755541170743
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9210316857832955404}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 915fe3fbcfd27af4b84bce5e0b126a39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: SkyPirates.Client::DVG.SkyPirates.Client.Views.Components.MoveAnimatorComponentView
+--- !u!114 &-1044544908040930330
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9210316857832955404}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 320165013f4ad784b84a5f9783bf8e57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: SkyPirates.Client::DeadAnimatorComponentView
+--- !u!114 &-8505252161964659786
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9210316857832955404}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fb0590b4b8a7034c8c07a461b5a0647, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: SkyPirates.Client::DVG.SkyPirates.Client.Views.Components.Animators.DamagedAnimatorComponentView
+--- !u!114 &-202616505504618215
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9210316857832955404}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3417a5ab8fbe1ec4fbcab3d77ca9d5a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: SkyPirates.Client::DVG.SkyPirates.Client.Views.Components.DisposeScaleComponentView
+  _delay: 2
+--- !u!114 &8081746297075840984
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9210316857832955404}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fa7e934cf1094947a9315f3a95ce155, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: DVG.SkyPirates.Client::DVG.SkyPirates.Client.Views.Components.DamageVibrationComponentView

@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31d4bc7cab22e7248b5cfed15d81412f, type: 3}
+  m_Name: TileConfig
+  m_EditorClassIdentifier: 
+  _tiles:
+  - Key: Land1
+    Prefab: {fileID: 7481249665567694172, guid: e3988d075cc9d404f89a66e89a5caabf, type: 3}
+  - Key: Land2
+    Prefab: {fileID: 5267762503974468374, guid: 452a4992155d14f4a83a450defd55d81, type: 3}
+  - Key: Land3
+    Prefab: {fileID: 493663879251155229, guid: 3b09e07b542ff7f41b1a1af5edb22c63, type: 3}
+  - Key: Land4
+    Prefab: {fileID: 527190221523613575, guid: 0ed51f2a46ac7d5489c41866c940d223, type: 3}
+  - Key: Land5
+    Prefab: {fileID: 7333893072177367175, guid: 54835348139e2e74abf52e2ba6a63688, type: 3}
+  - Key: Air
+    Prefab: {fileID: 7481249665567694172, guid: b0fb9ffd9389f3b46bb57563d67816fd, type: 3}

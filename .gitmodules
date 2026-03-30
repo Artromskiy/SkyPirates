@@ -1,8 +1,8 @@
 [submodule "Assets/Scripts/GLSH"]
-	path = Assets/Scripts/GLSH
+	path = Assets/Scripts/DVG/Maths
 	url = https://github.com/Artromskiy/DVG.Maths.git
 [submodule "Assets/Scripts/Core"]
-	path = Assets/Scripts/Core
+	path = Assets/Scripts/DVG/Main
 	url = https://github.com/Artromskiy/DVG.Core.git
 [submodule "Assets/Scripts/SkyPirates/Shared"]
 	path = Assets/Scripts/SkyPirates/Shared
