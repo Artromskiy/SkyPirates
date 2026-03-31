@@ -4,6 +4,10 @@
 
 ---
 
+![VideoPreview](https://github.com/user-attachments/assets/39c4e8aa-c8f9-4988-a3d4-a10c03bc98df)
+
+---
+
 ## Overview
 
 Sky Pirates is a prototype tactical game where the player controls a squad of units in a world of floating islands, pirates, and rum.
