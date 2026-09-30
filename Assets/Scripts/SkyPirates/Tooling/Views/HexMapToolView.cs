@@ -6,7 +6,6 @@
     public class HexMapToolView : View<IHexMapVM>
     {
         [SerializeField]
-        [Dropdown(nameof(Ids))]
         private string _currentTile = TileId.Constants.Land2;
         [SerializeField]
         [Range(0, 30)]

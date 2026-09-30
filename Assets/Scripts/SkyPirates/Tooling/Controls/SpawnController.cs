@@ -7,7 +7,6 @@ using DVG.SkyPirates.Shared.Components.Runtime;
 using DVG.SkyPirates.Shared.Data;
 using DVG.SkyPirates.Shared.IFactories;
 using DVG.SkyPirates.Shared.IServices;
-using NaughtyAttributes;
 using System;
 using UnityEngine;
 
@@ -21,13 +20,9 @@ namespace DVG.SkyPirates.Tooling.Controls
         where T : struct, IId, IEquatable<T>
     {
         [SerializeField]
-        [Dropdown(nameof(Ids))]
-        [OnValueChanged(nameof(OnValidate))]
         private T _id;
 
-        [ReadOnly]
         [SerializeField]
-        [ShowAssetPreview(512, 512)]
         private GameObject _preview;
 
         [SerializeField]

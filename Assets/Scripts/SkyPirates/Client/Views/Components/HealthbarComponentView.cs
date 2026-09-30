@@ -1,7 +1,6 @@
 ﻿using DG.Tweening;
 using DVG.SkyPirates.Shared.Components.Config;
 using DVG.SkyPirates.Shared.Components.Runtime;
-using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -60,7 +59,7 @@ namespace DVG.SkyPirates.Client.Views.Components
             }
         }
 
-        [Button]
+        [ContextMenu("Debug/Recolor")]
         private void DebugRecolor()
         {
             Recolor(_debugRecolorId);

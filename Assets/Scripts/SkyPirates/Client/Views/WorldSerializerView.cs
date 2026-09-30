@@ -1,7 +1,6 @@
 ﻿using DVG.SkyPirates.Client.DI;
 using DVG.SkyPirates.Shared.IServices.TickableExecutors;
 using DVG.SkyPirates.Shared.Tools.Json;
-using NaughtyAttributes;
 using System.IO;
 using UnityEngine;
 using UnityEngine.Profiling;
@@ -20,7 +19,7 @@ namespace DVG.SkyPirates.Client.Views
         [Inject]
         private readonly ITickCounterService _tickCounterService;
 
-        [Button]
+        [ContextMenu("Serialize World Snapshot")]
         public void Serialize()
         {
             Profiler.BeginSample("SerializeMap");

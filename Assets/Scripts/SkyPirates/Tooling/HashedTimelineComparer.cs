@@ -2,7 +2,6 @@
 using DVG.SkyPirates.Shared.Commands;
 using DVG.SkyPirates.Shared.Data;
 using DVG.SkyPirates.Shared.Tools.Json;
-using NaughtyAttributes;
 using System;
 using System.Buffers;
 using System.Collections.Generic;
@@ -30,21 +29,21 @@ namespace DVG.SkyPirates.Tooling
 
         private HashedTimeline[] _timelines;
 
-        [Button]
+        [ContextMenu("Timeline/Next")]
         private void Next()
         {
             _tick++;
             Compare();
         }
 
-        [Button]
+        [ContextMenu("Timeline/Previous")]
         private void Prev()
         {
             _tick--;
             Compare();
         }
 
-        [Button]
+        [ContextMenu("Timeline/Reload")]
         private void Reload()
         {
             _loaded = false;
@@ -80,7 +79,7 @@ namespace DVG.SkyPirates.Tooling
             }
         }
 
-        [Button]
+        [ContextMenu("Timeline/Export World")]
         public void ExportWorld()
         {
             if (!_loaded)
@@ -89,7 +88,7 @@ namespace DVG.SkyPirates.Tooling
             File.WriteAllText(GetPath("Snapshot"), res);
         }
 
-        [Button]
+        [ContextMenu("Timeline/Export Commands at Tick")]
         public void ExportCommands()
         {
             if (!_loaded)
@@ -101,7 +100,7 @@ namespace DVG.SkyPirates.Tooling
             File.WriteAllText(GetPath("Command"), res);
         }
 
-        [Button]
+        [ContextMenu("Timeline/Export All Commands")]
         public void ExportCommandsFull()
         {
             if (!_loaded)

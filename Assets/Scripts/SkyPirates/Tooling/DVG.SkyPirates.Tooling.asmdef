@@ -2,11 +2,10 @@
     "name": "DVG.SkyPirates.Tooling",
     "rootNamespace": "",
     "references": [
-        "DVG.Main",
+        "DVG.Core",
         "DVG.Maths",
         "DVG.SkyPirates.Shared",
         "DVG.SkyPirates.Client",
-        "NaughtyAttributes.Core",
         "Unity.RenderPipelines.Universal.Runtime"
     ],
     "includePlatforms": [],

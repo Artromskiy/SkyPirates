@@ -1,7 +1,6 @@
 ﻿using DVG.Commands;
 using DVG.SkyPirates.Shared.Commands;
 using DVG.SkyPirates.Shared.Tools.Json;
-using NaughtyAttributes;
 using System.IO;
 using System.Linq;
 using UnityEngine;
@@ -23,7 +22,7 @@ namespace DVG.SkyPirates.Tooling
 
         }
 
-        [Button]
+        [ContextMenu("Commands/Export Left")]
         public void ExportLeft()
         {
             var left = GetLeft();
@@ -32,7 +31,7 @@ namespace DVG.SkyPirates.Tooling
             File.WriteAllText(GetPath(), res);
         }
 
-        [Button]
+        [ContextMenu("Commands/Export Right")]
         public void ExportRight()
         {
             var right = GetRight();

@@ -8,7 +8,6 @@ using DVG.SkyPirates.Client.Views.Gameplay;
 using DVG.SkyPirates.Shared.Components.Config;
 using DVG.SkyPirates.Shared.Ids;
 using DVG.SkyPirates.Shared.Tools.Json;
-using NaughtyAttributes;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -46,7 +45,7 @@ public class HexDrawer : MonoBehaviour
         Load();
     }
 
-    [Button]
+    [ContextMenu("Map/Load")]
     private void Load()
     {
         _hexMap = new ResourcesFactory<HexMap>().Create(_loadPath);
@@ -66,7 +65,7 @@ public class HexDrawer : MonoBehaviour
         }
     }
 
-    [Button]
+    [ContextMenu("Map/Save JSON")]
     private void Save()
     {
         _hexMapJson = SerializationUTF8.Serialize(_hexMap);

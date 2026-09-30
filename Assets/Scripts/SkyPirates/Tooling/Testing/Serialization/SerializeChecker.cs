@@ -1,5 +1,4 @@
 using DVG.SkyPirates.Shared.Tools.Json;
-using NaughtyAttributes;
 using System.IO;
 using UnityEngine;
 using HashedTimeline = System.ValueTuple<System.Collections.Generic.Dictionary<int, DVG.SkyPirates.Shared.Data.WorldData>, DVG.SkyPirates.Shared.Commands.CommandsData>;
@@ -16,7 +15,7 @@ namespace DVG.SkyPirates.Tooling.Testing
             TestSerialize();
         }
 
-        [Button]
+        [ContextMenu("Serialization/Test Serialize")]
         private void TestSerialize()
         {
             var commandsData = SerializationUTF8.
