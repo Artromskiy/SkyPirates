@@ -1,4 +1,4 @@
-﻿namespace DVG
+﻿namespace Delta
 {
     public static class float2Extensions
     {
