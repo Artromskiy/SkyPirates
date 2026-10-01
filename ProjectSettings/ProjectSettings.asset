@@ -843,23 +843,23 @@ PlayerSettings:
   webWasm2023: 0
   webEnableSubmoduleStrippingCompatibility: 0
   scriptingDefineSymbols:
-    Android: DOTWEEN
-    EmbeddedLinux: DOTWEEN
-    GameCoreScarlett: DOTWEEN
-    GameCoreXboxOne: DOTWEEN
-    LinuxHeadlessSimulation: DOTWEEN
-    Nintendo Switch: DOTWEEN
-    PS4: DOTWEEN
-    PS5: DOTWEEN
-    QNX: DOTWEEN
-    ReservedCFE: DOTWEEN
-    Standalone: DOTWEEN
-    VisionOS: DOTWEEN
-    WebGL: DOTWEEN
-    Windows Store Apps: DOTWEEN
-    XboxOne: DOTWEEN
-    iPhone: DOTWEEN
-    tvOS: DOTWEEN
+    Android: DOTWEEN;DELTAMATHS_UNITY
+    EmbeddedLinux: DOTWEEN;DELTAMATHS_UNITY
+    GameCoreScarlett: DOTWEEN;DELTAMATHS_UNITY
+    GameCoreXboxOne: DOTWEEN;DELTAMATHS_UNITY
+    LinuxHeadlessSimulation: DOTWEEN;DELTAMATHS_UNITY
+    Nintendo Switch: DOTWEEN;DELTAMATHS_UNITY
+    PS4: DOTWEEN;DELTAMATHS_UNITY
+    PS5: DOTWEEN;DELTAMATHS_UNITY
+    QNX: DOTWEEN;DELTAMATHS_UNITY
+    ReservedCFE: DOTWEEN;DELTAMATHS_UNITY
+    Standalone: DOTWEEN;DELTAMATHS_UNITY
+    VisionOS: DOTWEEN;DELTAMATHS_UNITY
+    WebGL: DOTWEEN;DELTAMATHS_UNITY
+    Windows Store Apps: DOTWEEN;DELTAMATHS_UNITY
+    XboxOne: DOTWEEN;DELTAMATHS_UNITY
+    iPhone: DOTWEEN;DELTAMATHS_UNITY
+    tvOS: DOTWEEN;DELTAMATHS_UNITY
   additionalCompilerArguments:
     Standalone:
     - -nullable:enable

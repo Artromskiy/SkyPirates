@@ -1,4 +1,5 @@
-﻿using DVG.Core;
+﻿using Delta;
+using DVG.Core;
 
 namespace DVG.SkyPirates.Client.IViewModels
 {

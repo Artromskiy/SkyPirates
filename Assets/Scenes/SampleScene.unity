@@ -573,6 +573,7 @@ MonoBehaviour:
   _standaloneViews:
   - {fileID: 1352839583}
   - {fileID: 1040287308}
+  _useTestPlatform: 0
   _testPlatform: 11
 --- !u!1 &796119639
 GameObject:

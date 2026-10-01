@@ -102,7 +102,7 @@ Tradeoff:
 
 ---
 
-### Fixed-point Math ([DVG.Maths](https://github.com/Artromskiy/DVG.Maths))
+### Fixed-point Math ([DeltaMaths](https://www.nuget.org/packages/DeltaMaths))
 
 Chosen instead of floating-point to guarantee:
 
@@ -168,10 +168,9 @@ Used for:
 
 ## Submodules
 
-The project relies on git submodules:
+The Unity project installs fixed-point math from NuGetForUnity, and the .NET projects reference the same NuGet package. The remaining Git submodules are:
 
 * **[SkyPirates.Shared](https://github.com/Artromskiy/DVG.SkyPirates.Shared)** — shared simulation code (client/server)
-* **[DVG.Maths](https://github.com/Artromskiy/DVG.Maths)** — fixed-point math implementation
 * **[DVG.Main](https://github.com/Artromskiy/DVG.Core)** — core utilities and infrastructure
 
 ---

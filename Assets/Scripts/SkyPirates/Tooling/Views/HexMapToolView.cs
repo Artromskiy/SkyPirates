@@ -1,4 +1,5 @@
-﻿namespace DVG.SkyPirates.Tooling.Views
+﻿using Delta;
+namespace DVG.SkyPirates.Tooling.Views
 {
     /*
 

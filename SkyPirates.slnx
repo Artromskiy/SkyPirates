@@ -6,7 +6,6 @@
   <Project Path="DVG.SkyPirates.Shared.csproj" />
   <Project Path="DVG.Main.csproj" />
   <Project Path="NativeShare.Editor.csproj" />
-  <Project Path="DVG.Maths.csproj" />
   <Project Path="Assembly-CSharp-firstpass.csproj" />
   <Project Path="DVG.UniTools.csproj" />
   <Project Path="SkyPirates.Meta.csproj" />

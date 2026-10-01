@@ -3,7 +3,6 @@
     "rootNamespace": "",
     "references": [
         "DVG.Core",
-        "DVG.Maths",
         "DVG.SkyPirates.Shared",
         "DVG.SkyPirates.Client",
         "Unity.RenderPipelines.Universal.Runtime"

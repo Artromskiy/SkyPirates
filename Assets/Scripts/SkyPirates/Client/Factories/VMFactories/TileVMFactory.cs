@@ -1,4 +1,5 @@
-﻿using DVG.Core;
+﻿using Delta;
+using DVG.Core;
 using DVG.SkyPirates.Client.IViewModels;
 using DVG.SkyPirates.Client.ViewModels;
 using DVG.SkyPirates.Shared.Components.Config;

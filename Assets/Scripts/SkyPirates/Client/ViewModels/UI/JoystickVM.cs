@@ -1,4 +1,5 @@
-﻿using DVG.Commands;
+﻿using Delta;
+using DVG.Commands;
 using DVG.SkyPirates.Client.IServices;
 using DVG.SkyPirates.Client.IViewModels;
 using DVG.SkyPirates.Shared.Commands;

@@ -4,7 +4,7 @@
   <assembly fullname="SimpleInjector" preserve="all"/> 
 
   <assembly fullname="DVG.Main" preserve="all"/>
-  <assembly fullname="DVG.Maths" preserve="all"/>
+  <assembly fullname="DeltaMaths" preserve="all"/>
   <assembly fullname="DVG.UniTools" preserve="all"/>
   <assembly fullname="DVG.SkyPirates.Meta" preserve="all"/>
   <assembly fullname="DVG.SkyPirates.Shared" preserve="all"/>

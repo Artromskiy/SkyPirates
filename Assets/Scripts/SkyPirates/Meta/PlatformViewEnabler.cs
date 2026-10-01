@@ -9,13 +9,16 @@ namespace DVG.SkyPirates.Tooling
         [SerializeField]
         private GameObject[] _standaloneViews;
         [SerializeField]
+        private bool _useTestPlatform;
+        [SerializeField]
         private RuntimePlatform _testPlatform;
 
         private void Awake()
         {
             var platform = Application.platform;
 #if UNITY_EDITOR
-            platform = _testPlatform;
+            if (_useTestPlatform)
+                platform = _testPlatform;
 #endif
 
             foreach (var view in _mobileViews)
@@ -31,6 +34,7 @@ namespace DVG.SkyPirates.Tooling
             if (mobile) foreach (var view in _mobileViews)
                 view.SetActive(true);
 
+            // macOS editor and player platforms use the keyboard controls in _standaloneViews.
             else foreach (var view in _standaloneViews)
                 view.SetActive(true);
         }
