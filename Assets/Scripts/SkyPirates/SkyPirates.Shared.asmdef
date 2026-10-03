@@ -1,0 +1,16 @@
+{
+    "name": "DVG.SkyPirates.Shared",
+    "rootNamespace": "DVG.SkyPirates.Shared",
+    "references": [
+        "GUID:a45afb8c7ae9ccf479b80d8e9e514a0f"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
