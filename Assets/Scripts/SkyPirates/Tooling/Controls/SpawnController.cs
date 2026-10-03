@@ -1,5 +1,5 @@
 ﻿using Delta;
-using Arch.Core;
+using Delta.ECS;
 using DVG.Components;
 using DVG.Ids;
 using DVG.SkyPirates.Client.DI;
@@ -59,9 +59,9 @@ namespace DVG.SkyPirates.Tooling.Controls
                 _id;
             EntityParameters parameters = new(entityId, reserve, rnd);
             var entity = _configedEntityFactory.Create((id, parameters));
-            _world.Get<Position>(entity).Value = (fix3)position;
+            _world.GetRef<Position>(entity).Value = (fix3)position;
             var rotation = _randomizeRotation ? UnityEngine.Random.Range(0, 360) : 0;
-            _world.Get<Rotation>(entity).Value = rotation;
+            _world.GetRef<Rotation>(entity).Value = rotation;
         }
 
         private float3 GetWorldXZ()

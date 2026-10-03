@@ -1,9 +1,10 @@
-﻿using Arch.Core;
+﻿using Delta.ECS;
 using DVG.SkyPirates.Client.IFactories;
 using DVG.SkyPirates.Client.IServices;
 using DVG.SkyPirates.Shared.IServices.TickableExecutors;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace DVG.SkyPirates.Client.Systems
 {
@@ -13,6 +14,8 @@ namespace DVG.SkyPirates.Client.Systems
         private readonly World _world;
         private readonly IEntityVMFactory _vmFactory;
         private readonly IEntityViewProvider[] _viewProviders;
+        private Query? _allEntitiesCache;
+        private Query _allEntities => _allEntitiesCache ??= _world.WhereAll(ReadOnlySpan<ComponentId>.Empty);
 
         public EntityViewSystem(World world, IEntityVMFactory vmFactory, IEnumerable<IEntityViewProvider> viewProviders)
         {
@@ -24,10 +27,11 @@ namespace DVG.SkyPirates.Client.Systems
         public void Tick(int tick)
         {
             var query = new CreateVMQuery(_world, _created, _vmFactory, _viewProviders);
-            _world.InlineQuery(QueryDescription.Null, ref query);
+            var allEntities = _allEntities;
+            _world.ForEachEntity(in allEntities, query.Invoke);
         }
 
-        private readonly struct CreateVMQuery : IForEach
+        private sealed class CreateVMQuery
         {
             private readonly World _world;
             private readonly HashSet<Entity> _created;
@@ -42,7 +46,7 @@ namespace DVG.SkyPirates.Client.Systems
                 _viewProviders = viewProviders;
             }
 
-            public void Update(Entity entity)
+            public void Invoke(Entity entity)
             {
                 if (!_created.Add(entity))
                     return;

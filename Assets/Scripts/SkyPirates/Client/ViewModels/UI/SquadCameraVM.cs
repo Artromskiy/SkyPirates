@@ -1,6 +1,6 @@
 #nullable enable
 using Delta;
-using Arch.Core;
+using Delta.ECS;
 using DVG.Components;
 using DVG.SkyPirates.Client.IServices;
 using DVG.SkyPirates.Client.IViewModels;

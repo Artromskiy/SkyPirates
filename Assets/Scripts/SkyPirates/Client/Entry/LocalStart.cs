@@ -40,22 +40,14 @@ namespace DVG.SkyPirates.Local.Entry
             }
             catch (Exception e)
             {
-                Trace.TraceError($"[LocalStart] Start failed: {e.Message}\n{e.StackTrace}");
+                UnityEngine.Debug.LogError($"[LocalStart] Start failed: {e.Message}\n{e.StackTrace}");
             }
         }
 
         private void Update()
         {
-            try
-            {
-                var startController = _container.GetInstance<GameStartController>();
-                startController.Update();
-            }
-            catch (Exception e)
-            {
-                UnityEngine.Debug.Break();
-                Trace.TraceError($"[LocalStart] Update failed: {e.Message}\n{e.StackTrace}");
-            }
+            var startController = _container.GetInstance<GameStartController>();
+            startController.Update();
         }
     }
 }

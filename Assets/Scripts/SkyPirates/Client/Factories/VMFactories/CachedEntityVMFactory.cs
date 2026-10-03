@@ -1,4 +1,4 @@
-﻿using Arch.Core;
+﻿using Delta.ECS;
 using DVG.SkyPirates.Client.IFactories;
 using DVG.SkyPirates.Client.IViewModels;
 using DVG.SkyPirates.Client.ViewModels;

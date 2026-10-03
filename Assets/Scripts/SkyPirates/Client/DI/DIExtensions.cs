@@ -101,7 +101,7 @@ namespace DVG.SkyPirates.Client.DI
             }
             catch (Exception e)
             {
-                Trace.Fail(e.Message, e.StackTrace);
+                UnityEngine.Debug.LogError(e.Message + " " + e.StackTrace);
             }
 
             foreach (var item in Analyzer.Analyze(container))

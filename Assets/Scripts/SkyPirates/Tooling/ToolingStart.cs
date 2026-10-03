@@ -1,9 +1,10 @@
-using Arch.Core;
+using Delta.ECS;
 using DVG.SkyPirates.Client.DI;
 using DVG.SkyPirates.Shared.IServices;
 using DVG.SkyPirates.Shared.IServices.TickableExecutors;
 using SimpleInjector;
 using System.Diagnostics;
+using System;
 using UnityEngine;
 
 namespace DVG.SkyPirates.Tooling.Entry
@@ -18,7 +19,9 @@ namespace DVG.SkyPirates.Tooling.Entry
         {
             _container = new LocalContainer();
             _container.RegisterAndInjectViewModels();
-            _container.GetInstance<World>().Clear();
+            var world = _container.GetInstance<World>();
+            var allEntities = world.WhereAll(ReadOnlySpan<ComponentId>.Empty);
+            world.Destroy(in allEntities);
         }
 
         public void Update()

@@ -10,8 +10,6 @@ using System.IO;
 using System.IO.Hashing;
 using System.Threading.Tasks;
 using UnityEngine;
-using HashedTimeline = System.ValueTuple<System.Collections.Generic.Dictionary<int, DVG.SkyPirates.Shared.Data.WorldData>, DVG.SkyPirates.Shared.Commands.CommandsData>;
-
 namespace DVG.SkyPirates.Tooling
 {
     public class HashedTimelineComparer : MonoBehaviour
@@ -28,7 +26,7 @@ namespace DVG.SkyPirates.Tooling
         [SerializeField]
         private WorldDataInfo[] _infos;
 
-        private HashedTimeline[] _timelines;
+        private (Dictionary<int, WorldData> WorldData, CommandsData Commands)[] _timelines;
 
         [ContextMenu("Timeline/Next")]
         private void Next()
@@ -48,7 +46,7 @@ namespace DVG.SkyPirates.Tooling
         private void Reload()
         {
             _loaded = false;
-            _timelines = new HashedTimeline[_assets.Length];
+            _timelines = new (Dictionary<int, WorldData> WorldData, CommandsData Commands)[_assets.Length];
             Task[] tasks = new Task[_timelines.Length];
             var bytes = new byte[_timelines.Length][];
             _infos = new WorldDataInfo[_timelines.Length];
@@ -61,7 +59,7 @@ namespace DVG.SkyPirates.Tooling
                 tasks[index] = Task.Run(() =>
                 {
                     _timelines[index] = SerializationUTF8.
-                        DeserializeCompressed<HashedTimeline>(bytes[index]);
+                        DeserializeCompressed<(Dictionary<int, WorldData> WorldData, CommandsData Commands)>(bytes[index]);
                 });
             }
             Task.WhenAll(tasks).ContinueWith((_) => _loaded = true);
@@ -73,7 +71,7 @@ namespace DVG.SkyPirates.Tooling
                 return;
             for (int i = 0; i < _timelines.Length; i++)
             {
-                var data = Get(i).Item1;
+                var data = Get(i).WorldData;
                 var worldData = data?.GetValueOrDefault(_tick);
                 _infos[i].Contains = worldData is not null;
                 _infos[i].Hash = worldData is null ? 0 : (int)GetWorldHash(worldData);
@@ -94,7 +92,7 @@ namespace DVG.SkyPirates.Tooling
         {
             if (!_loaded)
                 return;
-            var commands = Get(_timelineIndex).Item2;
+            var commands = Get(_timelineIndex).Commands;
             var atTick = GetAtTick(commands, _tick);
             var res = SerializationUTF8.SerializeOrdered(atTick);
             Console.WriteLine(res);
@@ -106,7 +104,7 @@ namespace DVG.SkyPirates.Tooling
         {
             if (!_loaded)
                 return;
-            var commands = Get(_timelineIndex).Item2;
+            var commands = Get(_timelineIndex).Commands;
             var res = SerializationUTF8.SerializeOrdered(commands);
             Console.WriteLine(res);
             File.WriteAllText(GetPath("CommandsData"), res);
@@ -121,7 +119,7 @@ namespace DVG.SkyPirates.Tooling
             return path;
         }
 
-        private HashedTimeline Get(int index)
+        private (Dictionary<int, WorldData> WorldData, CommandsData Commands) Get(int index)
         {
             index = Maths.Clamp(index, 0, _assets.Length);
             return _timelines[index];

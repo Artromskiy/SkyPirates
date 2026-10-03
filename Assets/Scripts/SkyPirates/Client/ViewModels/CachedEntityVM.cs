@@ -1,4 +1,4 @@
-﻿using Arch.Core;
+﻿using Delta.ECS;
 using DVG.Collections;
 using DVG.Components;
 using DVG.SkyPirates.Client.IViewModels;
@@ -70,7 +70,7 @@ namespace DVG.SkyPirates.Client.ViewModels
 
         public ref T Set<T>() =>
 #if UNITY_EDITOR
-            ref _world.Get<T>(_entity);
+            ref _world.GetRef<T>(_entity);
 #else
             throw new System.InvalidOperationException(
                 $"Attempt to write {typeof(T).Name} from ViewModel in runtime mode");

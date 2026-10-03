@@ -62,7 +62,7 @@ namespace DVG.SkyPirates.Tooling.Editor
             }
             catch (Exception e)
             {
-                Trace.TraceError($"[GlobalConfigLoader] Parse failed: {e.Message}\n{e.StackTrace}");
+                UnityEngine.Debug.LogError($"[GlobalConfigLoader] Parse failed: {e.Message}\n{e.StackTrace}");
                 throw new();
             }
         }
@@ -98,7 +98,7 @@ namespace DVG.SkyPirates.Tooling.Editor
             }
             catch (Exception e)
             {
-                Trace.TraceError($"[GlobalConfigLoader] Serialize check failed: {e.Message}\n{e.StackTrace}");
+                UnityEngine.Debug.LogError($"[GlobalConfigLoader] Serialize check failed: {e.Message}\n{e.StackTrace}");
                 throw new();
             }
         }

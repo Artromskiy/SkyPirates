@@ -1,7 +1,9 @@
+using DVG.SkyPirates.Shared.Commands;
+using DVG.SkyPirates.Shared.Data;
 using DVG.SkyPirates.Shared.Tools.Json;
+using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
-using HashedTimeline = System.ValueTuple<System.Collections.Generic.Dictionary<int, DVG.SkyPirates.Shared.Data.WorldData>, DVG.SkyPirates.Shared.Commands.CommandsData>;
 
 namespace DVG.SkyPirates.Tooling.Testing
 {
@@ -19,7 +21,7 @@ namespace DVG.SkyPirates.Tooling.Testing
         private void TestSerialize()
         {
             var commandsData = SerializationUTF8.
-                DeserializeCompressed<HashedTimeline>(_textAsset.bytes).Item2;
+                DeserializeCompressed<(Dictionary<int, WorldData> WorldData, CommandsData Commands)>(_textAsset.bytes).Commands;
 
             var commandsDataJson = SerializationUTF8.SerializeOrdered(commandsData);
             File.WriteAllText(GetPath("CommandsData"), commandsDataJson);

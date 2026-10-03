@@ -1,12 +1,15 @@
-﻿using Arch.Core;
+﻿using Delta.ECS;
 using DVG.Components;
 using DVG.SkyPirates.Client.IServices;
 using DVG.SkyPirates.Client.IViewModels;
 using DVG.SkyPirates.Shared.Components.Config;
+using DVG.SkyPirates.Shared.Components.Framed;
 using DVG.SkyPirates.Shared.Components.Runtime;
+using DVG.SkyPirates.Shared.Ecs;
 using DVG.SkyPirates.Shared.Ids;
 using DVG.SkyPirates.Shared.IServices;
 using DVG.SkyPirates.Shared.Systems;
+using System;
 using System.Collections.Generic;
 
 namespace DVG.SkyPirates.Client.ViewModels.UI
@@ -18,6 +21,8 @@ namespace DVG.SkyPirates.Client.ViewModels.UI
         private readonly IEntityRegistry _entityRegistry;
 
         private readonly Dictionary<GoodsId, int> _goods = new();
+        private Query? _squadMembersCache;
+        private Query _squadMembers => _squadMembersCache ??= _world.WhereAll<SquadMember, GoodsDrop>().WhereAll<Alive>();
 
         public GoodsVM(World world, IPlayer player, IEntityRegistry entityRegistry)
         {
@@ -42,16 +47,14 @@ namespace DVG.SkyPirates.Client.ViewModels.UI
 
                 var squadGoods = _world.Get<GoodsDrop>(squad);
                 if (squadGoods.Values != null)
-                    foreach (var item in squadGoods.Values)
-                        _goods.Add(item.Key, item.Value);
+                foreach (var item in squadGoods.Values)
+                    _goods.Add(item.Key, item.Value);
 
-                var desc = new QueryDescription().WithAll<SquadMember>().Alive();
-                _world.Query(desc, (ref SquadMember member, ref GoodsDrop drop, ref SyncId syncId) =>
+                var query = _squadMembers;
+                (int SquadId, Dictionary<GoodsId, int> Goods) goodsState = (_player.SquadEntityId.Value, _goods);
+                _world.ForEach<(int SquadId, Dictionary<GoodsId, int> Goods), SquadMember, GoodsDrop>(in query, ref goodsState, static (ref (int SquadId, Dictionary<GoodsId, int> Goods) context, ref SquadMember member, ref GoodsDrop drop) =>
                 {
-                    if (drop.Values == null)
-                        return;
-
-                    if (member.SquadId != _player.SquadEntityId)
+                    if (drop.Values == null || member.SquadId != context.SquadId)
                         return;
 
                     foreach (var item in drop.Values)
@@ -59,8 +62,8 @@ namespace DVG.SkyPirates.Client.ViewModels.UI
                         if (item.Value <= 0)
                             continue;
 
-                        if (!_goods.TryAdd(item.Key, item.Value))
-                            _goods[item.Key] += item.Value;
+                        if (!context.Goods.TryAdd(item.Key, item.Value))
+                            context.Goods[item.Key] += item.Value;
                     }
                 });
                 return _goods;

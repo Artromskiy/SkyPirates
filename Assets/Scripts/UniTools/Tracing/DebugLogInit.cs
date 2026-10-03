@@ -1,4 +1,5 @@
-﻿using DVG.UniTools.Tracing;
+﻿using Delta.ECS;
+using DVG.UniTools.Tracing;
 using System;
 using System.Diagnostics;
 
@@ -13,6 +14,7 @@ namespace DVG.SkyPirates.Client.Init
 #endif
         private static void Init()
         {
+            return;
             UnityEngine.Debug.Log($"{nameof(DebugLogInit)}");
 
             Console.SetOut(new UnityDebugLogWriter());
