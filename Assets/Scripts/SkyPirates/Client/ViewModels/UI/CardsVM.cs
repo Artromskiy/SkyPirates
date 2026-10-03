@@ -5,7 +5,6 @@ using DVG.SkyPirates.Shared.Commands;
 using DVG.SkyPirates.Shared.Data;
 using DVG.SkyPirates.Shared.Ids;
 using System;
-using System.Diagnostics;
 
 namespace DVG.SkyPirates.Client.ViewModels.UI
 {
@@ -25,7 +24,7 @@ namespace DVG.SkyPirates.Client.ViewModels.UI
 
         public CardsVM(IPlayer player, ICommandSendScheduler sendScheduler, UnitsInfoConfig unitsConfig)
         {
-            Debug.WriteLine("[CardsVM] created");
+            DVG.Trace.Info("[CardsVM] created");
             _player = player;
             _sendScheduler = sendScheduler;
             UnitsConfig = unitsConfig;

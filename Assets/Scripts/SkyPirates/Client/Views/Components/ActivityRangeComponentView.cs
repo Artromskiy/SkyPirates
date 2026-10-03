@@ -19,10 +19,10 @@ namespace DVG.SkyPirates.Client.Views.Components
             minMax.xy = pos - new fix2(range);
             minMax.zw = pos + new fix2(range);
             //                           xz/yw                  xz/yw
-            Debug.DrawLine((float3)minMax.xy.x_y, (float3)minMax.xw.x_y, Color.red);
-            Debug.DrawLine((float3)minMax.xy.x_y, (float3)minMax.zy.x_y, Color.red);
-            Debug.DrawLine((float3)minMax.zw.x_y, (float3)minMax.xw.x_y, Color.red);
-            Debug.DrawLine((float3)minMax.zw.x_y, (float3)minMax.zy.x_y, Color.red);
+            UnityEngine.Debug.DrawLine((float3)minMax.xy.x_y, (float3)minMax.xw.x_y, Color.red);
+            UnityEngine.Debug.DrawLine((float3)minMax.xy.x_y, (float3)minMax.zy.x_y, Color.red);
+            UnityEngine.Debug.DrawLine((float3)minMax.zw.x_y, (float3)minMax.xw.x_y, Color.red);
+            UnityEngine.Debug.DrawLine((float3)minMax.zw.x_y, (float3)minMax.zy.x_y, Color.red);
 
         }
     }

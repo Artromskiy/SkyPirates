@@ -9,7 +9,6 @@ using DVG.SkyPirates.Shared.IServices;
 using DVG.SkyPirates.Shared.IServices.TickableExecutors;
 using SimpleInjector;
 using System;
-using System.Diagnostics;
 using UnityEngine;
 
 namespace DVG.SkyPirates.Local.Entry
@@ -22,25 +21,25 @@ namespace DVG.SkyPirates.Local.Entry
         {
             try
             {
-                Trace.TraceInformation("[LocalStart] Container creation");
+                DVG.Trace.Info("[LocalStart] Container creation");
                 _container = new LocalContainer();
-                Trace.TraceInformation("[LocalStart] Container register and inject ViewModels");
+                DVG.Trace.Info("[LocalStart] Container register and inject ViewModels");
                 _container.RegisterAndInjectViewModels();
 
-                Trace.TraceInformation("[LocalStart] Container get instances");
+                DVG.Trace.Info("[LocalStart] Container get instances");
                 var comandReciever = _container.GetInstance<ICommandReciever>();
                 var client = _container.GetInstance<IClientService>();
                 var worldData = _container.GetInstance<IPathFactory<WorldData>>().Create("Configs/Maps/Map1");
-                Trace.TraceInformation("[LocalStart] Load map");
+                DVG.Trace.Info("[LocalStart] Load map");
                 var history = _container.GetInstance<IHistorySystem>();
                 history.ApplySnapshot(worldData);
                 history.SaveBaseline();
-                Trace.TraceInformation("[LocalStart] Spawn squad");
+                DVG.Trace.Info("[LocalStart] Spawn squad");
                 comandReciever.InvokeCommand(new Command<SpawnSquadCommand>(client.Id, 5, new SpawnSquadCommand()));
             }
             catch (Exception e)
             {
-                UnityEngine.Debug.LogError($"[LocalStart] Start failed: {e.Message}\n{e.StackTrace}");
+                DVG.Debug.Error(e);
             }
         }
 

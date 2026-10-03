@@ -1,7 +1,9 @@
 {
     "name": "DVG.UniTools",
     "rootNamespace": "",
-    "references": [],
+    "references": [
+        "GUID:a45afb8c7ae9ccf479b80d8e9e514a0f"
+    ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

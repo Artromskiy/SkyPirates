@@ -4,7 +4,6 @@ using Riptide;
 using Riptide.Utils;
 using SimpleInjector;
 using System;
-using System.Diagnostics;
 
 namespace DVG.SkyPirates.Client.Entry
 {
@@ -15,11 +14,11 @@ namespace DVG.SkyPirates.Client.Entry
         private void Start()
         {
             Message.MaxPayloadSize = 256;
-            RiptideLogger.Initialize(UnityEngine.Debug.Log, true);
-            RiptideLogger.EnableLoggingFor(LogType.Debug, UnityEngine.Debug.Log);
-            RiptideLogger.EnableLoggingFor(LogType.Info, UnityEngine.Debug.Log);
-            RiptideLogger.EnableLoggingFor(LogType.Warning, UnityEngine.Debug.LogWarning);
-            RiptideLogger.EnableLoggingFor(LogType.Error, UnityEngine.Debug.LogError);
+            RiptideLogger.Initialize(LogRiptideInfo, true);
+            RiptideLogger.EnableLoggingFor(LogType.Debug, LogRiptideInfo);
+            RiptideLogger.EnableLoggingFor(LogType.Info, LogRiptideInfo);
+            RiptideLogger.EnableLoggingFor(LogType.Warning, LogRiptideWarning);
+            RiptideLogger.EnableLoggingFor(LogType.Error, LogRiptideError);
 
             _container = new ClientContainer();
 
@@ -48,15 +47,20 @@ namespace DVG.SkyPirates.Client.Entry
             var client = _container.GetInstance<Riptide.Client>();
             client.Connection.CanQualityDisconnect = false;
 
-            Debug.WriteLine("Connected");
+            DVG.Trace.Info("Connected");
         }
 
         private void OnDisconnected(object sender, Riptide.DisconnectedEventArgs e)
         {
-            Debug.WriteLine(e.Message);
-            Debug.WriteLine(e.Reason);
-            Debug.Fail("Disconnected");
+            DVG.Trace.Info(e.Message.GetString());
+            DVG.Trace.Assert(false, context: $"Disconnected: {e.Reason}");
         }
+
+        private static void LogRiptideInfo(string message) => DVG.Trace.Info(message);
+
+        private static void LogRiptideWarning(string message) => DVG.Trace.Warn(message);
+
+        private static void LogRiptideError(string message) => DVG.Trace.Error(new Exception(message));
 
         private void Update()
         {

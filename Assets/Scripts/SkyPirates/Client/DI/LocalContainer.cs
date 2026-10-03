@@ -17,7 +17,6 @@ using DVG.SkyPirates.Shared.IServices.TickableExecutors;
 using DVG.SkyPirates.Shared.Services;
 using SimpleInjector;
 using System;
-using System.Diagnostics;
 
 namespace DVG.SkyPirates.Client.DI
 {
@@ -25,7 +24,7 @@ namespace DVG.SkyPirates.Client.DI
     {
         public LocalContainer()
         {
-            Debug.WriteLine("[DI] LocalContainer creation start");
+            DVG.Trace.Info("[DI] LocalContainer creation start");
             RegisterSingleton<IClientService, FakeClient>();
             RegisterSingleton<IPlayer, Player>();
             RegisterSingleton<ICommandSender, LocalCommandSendService>();
@@ -50,7 +49,7 @@ namespace DVG.SkyPirates.Client.DI
             RegisterSingleton<ITickCounterService, TickCounterService>();
             RegisterSingleton<IHashSumService, HashSumService>();
 
-            Debug.WriteLine("[DI] Collections registration");
+            DVG.Trace.Info("[DI] Collections registration");
 
             Collection.Register<IPreTickable>(PreTickableExecutors, Lifestyle.Singleton);
             Collection.Register<IPostTickable>(PostTickableExecutors, Lifestyle.Singleton);

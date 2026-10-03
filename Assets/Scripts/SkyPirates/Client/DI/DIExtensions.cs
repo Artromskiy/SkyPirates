@@ -2,7 +2,6 @@
 using SimpleInjector;
 using SimpleInjector.Diagnostics;
 using System;
-using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using UnityEngine;
@@ -13,27 +12,27 @@ namespace DVG.SkyPirates.Client.DI
     {
         public static void RegisterAndInjectViewModels(this Container container)
         {
-            Trace.TraceInformation("[DI] Searching Views");
+            DVG.Trace.Info("[DI] Searching Views");
             var all = UnityEngine.Object.FindObjectsByType<MonoBehaviour>(
                 FindObjectsInactive.Exclude,
                 FindObjectsSortMode.None);
 
             var views = all.OfType<IView>().ToArray();
-            Trace.TraceInformation($"[DI] Found Views:\n{string.Join('\n', views.Select(v => v.GetType().GetFormattedName()))}");
+            DVG.Trace.Info($"[DI] Found Views:\n{string.Join('\n', views.Select(v => v.GetType().GetFormattedName()))}");
 
-            Trace.TraceInformation("[DI] Registering Views");
+            DVG.Trace.Info("[DI] Registering Views");
             foreach (var item in views)
                 container.RegisterView(item);
 
-            Trace.TraceInformation("[DI] Injecting ViewModels");
+            DVG.Trace.Info("[DI] Injecting ViewModels");
             foreach (var item in views)
                 container.InjectVM(item);
 
-            Trace.TraceInformation("[DI] Injecting Attributed");
+            DVG.Trace.Info("[DI] Injecting Attributed");
             foreach (var item in all)
                 container.InjectAttributed(item);
 
-            Trace.TraceInformation("[DI] Container Analyze");
+            DVG.Trace.Info("[DI] Container Analyze");
             container.Analyze();
         }
 
@@ -45,9 +44,9 @@ namespace DVG.SkyPirates.Client.DI
             {
                 if (interf != iviewType && iviewType.IsAssignableFrom(interf))
                 {
-                    Trace.TraceInformation($"[DI] {interf.GetFormattedName()} registration");
+                    DVG.Trace.Info($"[DI] {interf.GetFormattedName()} registration");
                     container.RegisterInstance(interf, view);
-                    Trace.TraceInformation($"[DI] {interf.GetFormattedName()} registered");
+                    DVG.Trace.Info($"[DI] {interf.GetFormattedName()} registered");
                 }
             }
         }
@@ -55,17 +54,17 @@ namespace DVG.SkyPirates.Client.DI
         public static void InjectVM(this Container container, IView view)
         {
             var viewType = view.GetType();
-            Trace.TraceInformation($"[DI] {viewType.GetFormattedName()} injection");
+            DVG.Trace.Info($"[DI] {viewType.GetFormattedName()} injection");
             var vmProp = viewType.GetProperty("ViewModel");
             var injectMethod = vmProp?.SetMethod;
             if (injectMethod == null)
                 return;
 
             var vmPropType = vmProp.PropertyType;
-            Trace.TraceInformation($"[DI] GetInstance: {vmPropType.GetFormattedName()}");
+            DVG.Trace.Info($"[DI] GetInstance: {vmPropType.GetFormattedName()}");
             var vmInstance = container.GetInstance(vmPropType);
             injectMethod.Invoke(view, new object[] { vmInstance });
-            Trace.TraceInformation($"[DI] {viewType.GetFormattedName()} registered");
+            DVG.Trace.Info($"[DI] {viewType.GetFormattedName()} registered");
         }
 
         public static void InjectAttributed(this Container container, object obj)
@@ -74,7 +73,7 @@ namespace DVG.SkyPirates.Client.DI
 
             while (type?.GetCustomAttribute<InjectAttribute>() != null)
             {
-                Trace.TraceInformation($"[DI] {type.GetFormattedName()} injecting");
+                DVG.Trace.Info($"[DI] {type.GetFormattedName()} injecting");
                 var fields = type.GetFields(
                     BindingFlags.Instance |
                     BindingFlags.Public |
@@ -88,7 +87,7 @@ namespace DVG.SkyPirates.Client.DI
                     field.SetValue(obj, container.GetInstance(field.FieldType));
                 }
 
-                Trace.TraceInformation($"[DI] {type.GetFormattedName()} injected");
+                DVG.Trace.Info($"[DI] {type.GetFormattedName()} injected");
                 type = type.BaseType;
             }
         }
@@ -101,12 +100,12 @@ namespace DVG.SkyPirates.Client.DI
             }
             catch (Exception e)
             {
-                UnityEngine.Debug.LogError(e.Message + " " + e.StackTrace);
+                DVG.Debug.Error(e);
             }
 
             foreach (var item in Analyzer.Analyze(container))
             {
-                Trace.TraceInformation(item.Description);
+                DVG.Trace.Info(item.Description);
             }
         }
     }

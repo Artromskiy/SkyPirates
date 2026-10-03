@@ -5,7 +5,6 @@ using DVG.SkyPirates.Shared.Tools.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text.Json.Nodes;
@@ -46,7 +45,7 @@ namespace DVG.SkyPirates.Tooling.Editor
             config = SerializeCheck(config);
             SaveGlobal(config);
             AssetDatabase.Refresh();
-            Trace.TraceInformation("[GlobalConfigLoader] Sync completed");
+            DVG.Trace.Info("[GlobalConfigLoader] Sync completed");
         }
 
 
@@ -62,7 +61,7 @@ namespace DVG.SkyPirates.Tooling.Editor
             }
             catch (Exception e)
             {
-                UnityEngine.Debug.LogError($"[GlobalConfigLoader] Parse failed: {e.Message}\n{e.StackTrace}");
+                DVG.Debug.Error(e);
                 throw new();
             }
         }
@@ -98,7 +97,7 @@ namespace DVG.SkyPirates.Tooling.Editor
             }
             catch (Exception e)
             {
-                UnityEngine.Debug.LogError($"[GlobalConfigLoader] Serialize check failed: {e.Message}\n{e.StackTrace}");
+                DVG.Debug.Error(e);
                 throw new();
             }
         }
