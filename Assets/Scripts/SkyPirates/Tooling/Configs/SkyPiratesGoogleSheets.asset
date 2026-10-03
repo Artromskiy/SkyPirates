@@ -1,0 +1,59 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e949393d8644dcd81d236871a440bef, type: 3}
+  m_Name: SkyPiratesGoogleSheets
+  m_EditorClassIdentifier:
+  Sheets:
+  - Name: UnitsStats
+    Url: https://docs.google.com/spreadsheets/d/1Ovc14Sui7WKz4-JLyYwa629HNSdWGwXNS2y4FphMKEA/edit?gid=0#gid=0
+    HeaderRows: 3
+    Separator: 0
+  - Name: CactusesStats
+    Url: https://docs.google.com/spreadsheets/d/1Ovc14Sui7WKz4-JLyYwa629HNSdWGwXNS2y4FphMKEA/edit?gid=292970565#gid=292970565
+    HeaderRows: 3
+    Separator: 0
+  - Name: TreesStats
+    Url: https://docs.google.com/spreadsheets/d/1Ovc14Sui7WKz4-JLyYwa629HNSdWGwXNS2y4FphMKEA/edit?gid=1360315137#gid=1360315137
+    HeaderRows: 2
+    Separator: 0
+  - Name: RocksStats
+    Url: https://docs.google.com/spreadsheets/d/1Ovc14Sui7WKz4-JLyYwa629HNSdWGwXNS2y4FphMKEA/edit?gid=1427219889#gid=1427219889
+    HeaderRows: 2
+    Separator: 0
+  - Name: GoodsStats
+    Url: https://docs.google.com/spreadsheets/d/1Ovc14Sui7WKz4-JLyYwa629HNSdWGwXNS2y4FphMKEA/edit?gid=1938501206#gid=1938501206
+    HeaderRows: 1
+    Separator: 0
+  - Name: FramedComponentDependencies
+    Url: https://docs.google.com/spreadsheets/d/1Ovc14Sui7WKz4-JLyYwa629HNSdWGwXNS2y4FphMKEA/edit?gid=1488722279#gid=1488722279
+    HeaderRows: 1
+    Separator: 0
+  - Name: ComponentDependencies
+    Url: https://docs.google.com/spreadsheets/d/1Ovc14Sui7WKz4-JLyYwa629HNSdWGwXNS2y4FphMKEA/edit?gid=608707911#gid=608707911
+    HeaderRows: 1
+    Separator: 0
+  - Name: ComponentDefaults
+    Url: https://docs.google.com/spreadsheets/d/1Ovc14Sui7WKz4-JLyYwa629HNSdWGwXNS2y4FphMKEA/edit?gid=519411523#gid=519411523
+    HeaderRows: 3
+    Separator: 0
+  - Name: SquadStats
+    Url: https://docs.google.com/spreadsheets/d/1Ovc14Sui7WKz4-JLyYwa629HNSdWGwXNS2y4FphMKEA/edit?gid=1555186190#gid=1555186190
+    HeaderRows: 1
+    Separator: 0
+  - Name: CameraConfig
+    Url: https://docs.google.com/spreadsheets/d/1Ovc14Sui7WKz4-JLyYwa629HNSdWGwXNS2y4FphMKEA/edit?gid=715522005#gid=715522005
+    HeaderRows: 1
+    Separator: 0
+  - Name: UnitsInfos
+    Url: https://docs.google.com/spreadsheets/d/1Ovc14Sui7WKz4-JLyYwa629HNSdWGwXNS2y4FphMKEA/edit?gid=1805816128#gid=1805816128
+    HeaderRows: 1
+    Separator: 0

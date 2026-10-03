@@ -1,0 +1,9 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+  <ui:Style src="GoogleSheetsConfigWindow.uss" />
+  <ui:VisualElement class="window-root">
+    <ui:Label text="Google Sheets config" class="window-title" />
+    <uie:ObjectField name="loader-field" label="Loader asset" />
+    <ui:Button name="sync-button" text="Load configs" />
+    <ui:Label name="status-label" class="status-label" />
+  </ui:VisualElement>
+</ui:UXML>

@@ -1,4 +1,4 @@
-﻿#if UNITY_EDITOR
+#if UNITY_EDITOR
 using DVG.Sheets;
 using DVG.SkyPirates.Shared.Data;
 using DVG.SkyPirates.Shared.Tools.Json;
@@ -6,111 +6,165 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text.Json.Nodes;
-using System.Threading.Tasks;
 using UnityEditor;
+using UnityEditor.UIElements;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace DVG.SkyPirates.Tooling.Editor
 {
-    public sealed class GlobalConfigLoader
+    public sealed class GlobalConfigLoader : EditorWindow
     {
-        private static readonly string PathFormat = "{0}/Scripts/SkyPirates/Shared/Resources/Configs/{1}.json";
-        private static readonly string TableId = "1Ovc14Sui7WKz4-JLyYwa629HNSdWGwXNS2y4FphMKEA";
-        private static readonly Sheet[] Sheets = new Sheet[]
-        {
-            new("UnitsStats", 3, 0),
-            new("CactusesStats", 3, 292970565),
-            new("TreesStats", 2, 1360315137),
-            new("RocksStats", 2, 1427219889),
-            new("GoodsStats", 1, 1938501206),
-            new("FramedComponentDependencies", 1, 1488722279),
-            new("ComponentDependencies", 1, 608707911),
-            new("ComponentDefaults", 3, 519411523),
-            new("SquadStats", 1, 1555186190),
-            new("CameraConfig", 1, 715522005),
-            new("UnitsInfos", 1, 1805816128),
-        };
+        private const string LayoutPath = "Assets/Scripts/SkyPirates/Tooling/Editor/GoogleSheetsConfigWindow.uxml";
+        private const string ConfigDirectory = "Scripts/SkyPirates/Shared/Resources/Configs";
+
+        private ObjectField _loaderField = null!;
+        private Button _loadButton = null!;
+        private Label _statusLabel = null!;
 
         [MenuItem("Tools/DVG/Configs/Sync", false, 0)]
-        public static async Task Sync()
+        public static void Open()
         {
-            SheetLoader loader = new(TableId, Sheets);
-            var result = await loader.LoadAsCsv();
-            foreach (var item in result)
-                Save(item.Key, item.Value.ToJsonString(SerializationUTF8.Options));
-
-            var config = Parse(result);
-            config = SerializeCheck(config);
-            SaveGlobal(config);
-            AssetDatabase.Refresh();
-            DVG.Trace.Info("[GlobalConfigLoader] Sync completed");
+            var window = GetWindow<GlobalConfigLoader>();
+            window.titleContent = new GUIContent("Config Loader");
+            window.minSize = new Vector2(420, 180);
         }
 
+        public void CreateGUI()
+        {
+            var layout = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(LayoutPath);
+            if (layout == null)
+            {
+                rootVisualElement.Add(new HelpBox($"UI layout not found: {LayoutPath}", HelpBoxMessageType.Error));
+                return;
+            }
+
+            layout.CloneTree(rootVisualElement);
+            _loaderField = rootVisualElement.Q<ObjectField>("loader-field");
+            _loadButton = rootVisualElement.Q<Button>("sync-button");
+            _statusLabel = rootVisualElement.Q<Label>("status-label");
+            _loaderField.objectType = typeof(GoogleSheetsConfigLoader);
+            _loaderField.allowSceneObjects = false;
+            _loadButton.clicked += Load;
+
+            var loaders = AssetDatabase.FindAssets("t:GoogleSheetsConfigLoader");
+            if (loaders.Length == 1)
+                _loaderField.SetValueWithoutNotify(AssetDatabase.LoadAssetAtPath<GoogleSheetsConfigLoader>(AssetDatabase.GUIDToAssetPath(loaders[0])));
+        }
+
+        private async void Load()
+        {
+            if (_loaderField.value is not GoogleSheetsConfigLoader loader)
+            {
+                _statusLabel.text = "Select a Google Sheets loader asset.";
+                return;
+            }
+
+            _loadButton.SetEnabled(false);
+            try
+            {
+                _statusLabel.text = "Loading sheets…";
+                var result = new Dictionary<string, JsonArray>();
+                var tableLoaders = new Dictionary<string, SheetLoader>();
+                foreach (var source in loader.Sheets)
+                {
+                    var (tableId, sheetId) = ParseSheetUrl(source.Url);
+                    var separator = source.Separator == DsvSeparator.Tab ? '\t' : ',';
+                    if (!tableLoaders.TryGetValue(tableId, out var tableLoader))
+                        tableLoaders.Add(tableId, tableLoader = new SheetLoader(tableId));
+
+                    var sheet = new Sheet(source.Name, source.HeaderRows, sheetId);
+                    result.Add(source.Name, await tableLoader.LoadAsDsv(sheet, separator));
+                }
+
+                var config = SerializeCheck(Parse(result));
+                foreach (var item in result)
+                    Save(item.Key, item.Value.ToJsonString(SerializationUTF8.Options));
+
+                Save("GlobalConfig", config);
+                AssetDatabase.Refresh();
+                _statusLabel.text = "Configs loaded.";
+            }
+            catch (Exception exception)
+            {
+                _statusLabel.text = exception.Message;
+            }
+            finally
+            {
+                _loadButton.SetEnabled(true);
+            }
+        }
 
         private static string Parse(Dictionary<string, JsonArray> result)
         {
-            try
-            {
-                JsonObject config = new();
-                foreach (var item in result)
-                    ParseConfigElement(config, item);
-
-                return config.ToJsonString(SerializationUTF8.Options);
-            }
-            catch (Exception e)
-            {
-                DVG.Debug.Error(e);
-                throw new();
-            }
+            var config = new JsonObject();
+            foreach (var item in result)
+                ParseConfigElement(config, item);
+            return config.ToJsonString(SerializationUTF8.Options);
         }
 
         private static void ParseConfigElement(JsonObject config, KeyValuePair<string, JsonArray> result)
         {
-            var fieldType = typeof(GlobalConfig).GetField(result.Key).FieldType;
-            if (typeof(IList).IsAssignableFrom(fieldType))
-            {
+            var field = typeof(GlobalConfig).GetField(result.Key)
+                ?? throw new InvalidOperationException($"GlobalConfig has no field '{result.Key}'.");
+            var fieldType = field.FieldType;
+            var genericType = fieldType.IsGenericType ? fieldType.GetGenericTypeDefinition() : null;
+            if (typeof(IList).IsAssignableFrom(fieldType)
+                || genericType == typeof(IReadOnlyList<>)
+                || genericType == typeof(IReadOnlyCollection<>))
                 config[result.Key] = result.Value.ToList();
-                return;
-            }
-            if (typeof(IDictionary).IsAssignableFrom(fieldType))
+            else if (typeof(IDictionary).IsAssignableFrom(fieldType) || genericType == typeof(IReadOnlyDictionary<,>))
             {
-                var keyTypeName = fieldType.BaseType.GetGenericArguments()[0].Name;
-                config[result.Key] = result.Value.ToDictionary(keyTypeName);
-                return;
+                var keyType = genericType == typeof(IReadOnlyDictionary<,>)
+                    ? fieldType.GetGenericArguments()[0]
+                    : fieldType.BaseType!.GetGenericArguments()[0];
+                config[result.Key] = result.Value.ToDictionary(keyType.Name);
             }
             else
-            {
                 config[result.Key] = result.Value.ToSingle();
-            }
         }
-
-
 
         private static string SerializeCheck(string json)
         {
-            try
-            {
-                var configObject = SerializationUTF8.Deserialize<GlobalConfig>(json);
-                return SerializationUTF8.Serialize(configObject);
-            }
-            catch (Exception e)
-            {
-                DVG.Debug.Error(e);
-                throw new();
-            }
+            var config = SerializationUTF8.Deserialize<GlobalConfig>(json);
+            return SerializationUTF8.Serialize(config);
         }
 
-        private static void SaveGlobal(string json)
+        private static (string tableId, int sheetId) ParseSheetUrl(string input)
         {
-            var path = string.Format(PathFormat, Application.dataPath, "GlobalConfig");
-            File.WriteAllText(path, json);
+            if (!Uri.TryCreate(input, UriKind.Absolute, out var uri)
+                || !string.Equals(uri.Host, "docs.google.com", StringComparison.OrdinalIgnoreCase))
+                throw new InvalidOperationException("Enter a direct URL from docs.google.com.");
+
+            var path = uri.AbsolutePath.Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
+            var spreadsheetsIndex = Array.IndexOf(path, "spreadsheets");
+            var documentIndex = spreadsheetsIndex < 0 ? -1 : Array.IndexOf(path, "d", spreadsheetsIndex + 1);
+            if (documentIndex < 0 || documentIndex + 1 >= path.Length || path[documentIndex + 1] == "e")
+                throw new InvalidOperationException("The URL must contain a standard Google Sheets document ID.");
+
+            var gid = GetQueryValue(uri.Query, "gid") ?? GetQueryValue(uri.Fragment, "gid");
+            if (!int.TryParse(gid, out var sheetId))
+                throw new InvalidOperationException("The tab ID (gid) is missing or invalid in the URL.");
+
+            return (Uri.UnescapeDataString(path[documentIndex + 1]), sheetId);
+        }
+
+        private static string? GetQueryValue(string query, string key)
+        {
+            foreach (var pair in query.TrimStart('?', '#').Split('&'))
+            {
+                var separatorIndex = pair.IndexOf('=');
+                if (separatorIndex >= 0 && string.Equals(pair.Substring(0, separatorIndex), key, StringComparison.OrdinalIgnoreCase))
+                    return Uri.UnescapeDataString(pair.Substring(separatorIndex + 1));
+            }
+
+            return null;
         }
 
         private static void Save(string name, string json)
         {
-            var path = string.Format(PathFormat, Application.dataPath, name);
+            var path = Path.Combine(Application.dataPath, ConfigDirectory, name + ".json");
             File.WriteAllText(path, json);
         }
     }
