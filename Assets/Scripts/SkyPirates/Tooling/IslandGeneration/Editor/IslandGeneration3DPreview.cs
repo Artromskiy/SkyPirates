@@ -170,7 +170,8 @@ namespace DVG.SkyPirates.Tooling.IslandGeneration.Editor
             lights[0].intensity = 1.2f;
             lights[0].transform.rotation = Quaternion.Euler(45f, -35f, 0f);
             lights[1].intensity = 1f;
-            lights[1].transform.rotation = Quaternion.Euler(25f, 145f, 0f);
+            lights[1].enabled = true;
+            lights[1].transform.rotation = Quaternion.Euler(35f, 90f, 0f);
         }
 
         private void ConfigureCamera(Rect rect)

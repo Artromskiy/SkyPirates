@@ -267,7 +267,13 @@ namespace DVG.SkyPirates.Tooling.IslandGeneration.Editor
         {
             _serializedProfile.ApplyModifiedProperties();
             if (profile != null)
-                _preview3d?.SetMap(profile.LastGeneratedMap, profile.HeightGradient, profile.PreviewVerticalScale, true);
+            {
+                var map = profile.LastGeneratedMap;
+                IslandGenerationGenerator.RefreshPreviewAppearance(map, profile.HeightGradient);
+                _preview.image = map != null ? map.Preview : null;
+                _preview.MarkDirtyRepaint();
+                _preview3d?.SetMap(map, profile.HeightGradient, profile.PreviewVerticalScale, true);
+            }
         }
 
         private void UpdatePreviewFoldoutLayout()

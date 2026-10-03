@@ -491,16 +491,15 @@ namespace DVG.SkyPirates.Tooling.IslandGeneration.Editor
                 out var previewWidth,
                 out var previewHeight);
             var preview = map.Preview;
+            Undo.RecordObject(map, "Update hex map preview colors");
+            Undo.RecordObject(preview, "Update hex map preview colors");
             if (preview.width != previewWidth || preview.height != previewHeight)
                 preview.Reinitialize(previewWidth, previewHeight, TextureFormat.RGBA32, false);
 
-            Undo.RecordObject(map, "Update hex map preview colors");
-            Undo.RecordObject(preview, "Update hex map preview colors");
             preview.SetPixels32(pixels);
             preview.Apply(false, false);
             EditorUtility.SetDirty(preview);
             EditorUtility.SetDirty(map);
-            AssetDatabase.SaveAssets();
         }
 
         private static string GetNewMapPath(IslandGenerationProfile profile)
@@ -566,7 +565,7 @@ namespace DVG.SkyPirates.Tooling.IslandGeneration.Editor
             for (var i = 0; i < pixels.Length; i++)
                 pixels[i] = background;
 
-            var water = new Color32(28, 74, 108, 255);
+            var water = new Color32(31, 87, 122, 255);
             for (var index = 0; index < cells.Length; index++)
             {
                 var cell = cells[index];
