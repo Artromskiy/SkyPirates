@@ -1,0 +1,6 @@
+<Project>
+  <!-- Unity csc.rsp flags do not appear in generated MSBuild projects. -->
+  <PropertyGroup Condition="$([System.String]::Copy('$(MSBuildProjectName)').StartsWith('DVG.')) Or '$(MSBuildProjectName)' == 'SkyPirates.Meta' Or '$(MSBuildProjectName)' == 'DeltaMaths.Unity' Or '$(MSBuildProjectName)' == 'Assembly-CSharp' Or '$(MSBuildProjectName)' == 'Assembly-CSharp-Editor'">
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+</Project>
