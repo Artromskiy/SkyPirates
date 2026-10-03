@@ -1,0 +1,28 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+  <ui:Style src="IslandGenerationWindow.uss" />
+  <ui:VisualElement class="window-root">
+    <ui:TwoPaneSplitView name="main-split-view" fixed-pane-index="0" fixed-pane-initial-dimension="420" orientation="Vertical" class="main-split-view">
+      <ui:VisualElement class="controls-pane">
+        <ui:Label text="Procedural Hex Island" class="window-title" />
+        <ui:VisualElement class="profile-row">
+          <uie:ObjectField name="profile-field" label="Profile" class="profile-field" />
+          <ui:Button name="create-profile-button" text="New Profile" class="toolbar-button" />
+          <ui:Button name="reset-settings-button" text="Reset Settings" class="toolbar-button" />
+        </ui:VisualElement>
+        <ui:Label name="shader-status" class="shader-status" />
+        <ui:ScrollView name="settings-scroll" class="settings-scroll" />
+        <ui:Toggle name="realtime-generation-toggle" label="Realtime generation" />
+        <ui:Button name="generate-button" text="Generate Island" class="generate-button" />
+        <ui:Label name="status-label" class="status-label" />
+      </ui:VisualElement>
+      <ui:VisualElement class="preview-pane">
+        <ui:Foldout name="preview-3d-foldout" text="3D height view" value="true" class="preview-foldout">
+          <ui:VisualElement name="preview-3d-host" class="preview-3d-host" />
+        </ui:Foldout>
+        <ui:Foldout name="preview-2d-foldout" text="Hex map" value="false" class="preview-foldout preview-2d-foldout">
+          <ui:Image name="preview-image" class="preview-image" />
+        </ui:Foldout>
+      </ui:VisualElement>
+    </ui:TwoPaneSplitView>
+  </ui:VisualElement>
+</ui:UXML>

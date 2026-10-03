@@ -1,0 +1,103 @@
+.window-root {
+    flex-grow: 1;
+    min-width: 0;
+    min-height: 0;
+}
+
+.main-split-view {
+    flex-grow: 1;
+    min-width: 0;
+    min-height: 0;
+}
+
+.controls-pane {
+    flex-direction: column;
+    min-width: 0;
+    min-height: 260px;
+    padding: 10px;
+}
+
+.preview-pane {
+    flex-direction: column;
+    min-width: 0;
+    min-height: 180px;
+}
+
+.window-title {
+    unity-font-style: bold;
+    font-size: 16px;
+    margin-bottom: 8px;
+}
+
+.profile-row {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-bottom: 6px;
+}
+
+.profile-field {
+    flex-grow: 1;
+    flex-shrink: 1;
+    min-width: 180px;
+    margin-right: 8px;
+}
+
+.toolbar-button {
+    min-height: 34px;
+    padding-left: 12px;
+    padding-right: 12px;
+}
+
+.shader-status,
+.status-label {
+    white-space: normal;
+    margin-bottom: 6px;
+}
+
+.settings-scroll {
+    flex-grow: 1;
+    min-width: 0;
+    min-height: 100px;
+    margin-bottom: 6px;
+}
+
+.generate-button {
+    min-height: 40px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    margin-top: 4px;
+    margin-bottom: 6px;
+}
+
+.preview-foldout {
+    flex-shrink: 0;
+    min-width: 0;
+    width: 100%;
+}
+
+.preview-2d-foldout {
+    flex-grow: 0;
+}
+
+.preview-3d-host {
+    flex-grow: 1;
+    min-height: 120px;
+    width: 100%;
+    min-width: 0;
+}
+
+.preview-image {
+    flex-grow: 1;
+    min-height: 120px;
+    min-width: 0;
+    width: 100%;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+    border-right-width: 1px;
+    border-top-color: rgba(128, 128, 128, 0.45);
+    border-bottom-color: rgba(128, 128, 128, 0.45);
+    border-left-color: rgba(128, 128, 128, 0.45);
+    border-right-color: rgba(128, 128, 128, 0.45);
+}

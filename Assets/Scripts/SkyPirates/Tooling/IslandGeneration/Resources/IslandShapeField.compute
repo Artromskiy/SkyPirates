@@ -1,0 +1,102 @@
+#pragma kernel GenerateField
+
+struct RawMapSample
+{
+    float landMask;
+    float height;
+};
+
+RWStructuredBuffer<RawMapSample> _MapField;
+
+int _FieldColumns;
+int _FieldRows;
+int _Seed;
+float _IslandScale;
+float _OutlinePower;
+float _BoundaryWarp;
+float _BoundaryFrequency;
+float _CenterOffsetX;
+float _CenterOffsetY;
+float _MaximumHeight;
+float _CoastExponent;
+float _HeightNoiseStrength;
+float _HeightNoiseFrequency;
+
+float Hash(int2 latticeCell)
+{
+    uint hash = (uint)latticeCell.x * 0x8da6b343u;
+    hash ^= (uint)latticeCell.y * 0xd8163841u;
+    hash ^= (uint)_Seed * 0xcb1ab31fu;
+    hash ^= hash >> 16;
+    hash *= 0x7feb352du;
+    hash ^= hash >> 15;
+    hash *= 0x846ca68bu;
+    hash ^= hash >> 16;
+    return (hash & 0x00ffffffu) * (1.0f / 16777215.0f);
+}
+
+float ValueNoise(float2 samplePosition)
+{
+    int2 cell = (int2)floor(samplePosition);
+    float2 local = frac(samplePosition);
+    local = local * local * (3.0f - 2.0f * local);
+
+    float a = Hash(cell);
+    float b = Hash(cell + int2(1, 0));
+    float c = Hash(cell + int2(0, 1));
+    float d = Hash(cell + int2(1, 1));
+
+    return lerp(lerp(a, b, local.x), lerp(c, d, local.x), local.y);
+}
+
+float Fbm(float2 samplePosition)
+{
+    float value = 0.0f;
+    float amplitude = 0.5f;
+
+    [unroll]
+    for (int octave = 0; octave < 4; octave++)
+    {
+        value += ValueNoise(samplePosition) * amplitude;
+        samplePosition = samplePosition * 2.03f + float2(13.17f, 7.91f);
+        amplitude *= 0.5f;
+    }
+
+    return value / 0.9375f;
+}
+
+[numthreads(8, 8, 1)]
+void GenerateField(uint3 dispatchId : SV_DispatchThreadID)
+{
+    uint column = dispatchId.x;
+    uint row = dispatchId.y;
+    if (column >= (uint)_FieldColumns || row >= (uint)_FieldRows)
+        return;
+
+    float2 fieldSize = float2(_FieldColumns, _FieldRows);
+    float2 normalizedPosition = ((float2(column, row) + 0.5f) / fieldSize) * 2.0f - 1.0f;
+    float2 shapePosition = (normalizedPosition - float2(_CenterOffsetX, _CenterOffsetY)) / max(_IslandScale, 0.01f);
+
+    float boundaryNoise = Fbm(shapePosition * _BoundaryFrequency);
+    float boundaryRadius = 1.0f + (boundaryNoise * 2.0f - 1.0f) * _BoundaryWarp;
+    float exponent = max(_OutlinePower, 1.0f);
+    float superellipse = pow(
+        pow(abs(shapePosition.x), exponent) + pow(abs(shapePosition.y), exponent),
+        1.0f / exponent);
+    float land = superellipse <= boundaryRadius ? 1.0f : 0.0f;
+
+    float height = 0.0f;
+    if (land > 0.5f)
+    {
+        float interior = saturate((boundaryRadius - superellipse) / max(boundaryRadius, 0.001f));
+        float coastProfile = pow(interior, max(_CoastExponent, 0.01f));
+        float heightNoise = Fbm(normalizedPosition * _HeightNoiseFrequency + float2(37.1f, 19.7f));
+        float heightVariation = 1.0f + (heightNoise * 2.0f - 1.0f) * _HeightNoiseStrength;
+        height = saturate(coastProfile * heightVariation) * _MaximumHeight;
+    }
+
+    RawMapSample outputSample;
+    outputSample.landMask = land;
+    outputSample.height = height;
+    _MapField[(int)(row * (uint)_FieldColumns + column)] = outputSample;
+}

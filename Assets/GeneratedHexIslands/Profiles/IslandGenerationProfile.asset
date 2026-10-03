@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2d65de1ef134ebb94278729c5154cce, type: 3}
+  m_Name: IslandGenerationProfile
+  m_EditorClassIdentifier: DVG.SkyPirates.Tooling::DVG.SkyPirates.Tooling.IslandGeneration.IslandGenerationProfile
+  columns: 100
+  rows: 100
+  seed: 3
+  islandScale: 0.78
+  outlinePower: 2.37
+  boundaryWarp: 0.2
+  boundaryFrequency: 3
+  centerOffsetX: 0
+  centerOffsetY: 0
+  maximumHeight: 50
+  heightLevels: 22
+  coastExponent: 0.25
+  heightNoiseStrength: 0.5
+  heightNoiseFrequency: 12.08
+  thermalErosionIterations: 20
+  talusHeight: 6.92
+  erosionRate: 0.265
+  heightGradient:
+    serializedVersion: 2
+    key0: {r: 0.72, g: 0.64, b: 0.42, a: 1}
+    key1: {r: 0.38679248, g: 0.18909457, b: 0.16967782, a: 1}
+    key2: {r: 0.7830189, g: 0.13665895, b: 0.19787285, a: 0}
+    key3: {r: 0, g: 0, b: 0, a: 0}
+    key4: {r: 0, g: 0, b: 0, a: 0}
+    key5: {r: 0, g: 0, b: 0, a: 0}
+    key6: {r: 0, g: 0, b: 0, a: 0}
+    key7: {r: 0, g: 0, b: 0, a: 0}
+    ctime0: 0
+    ctime1: 41634
+    ctime2: 65535
+    ctime3: 0
+    ctime4: 0
+    ctime5: 0
+    ctime6: 0
+    ctime7: 0
+    atime0: 0
+    atime1: 65535
+    atime2: 0
+    atime3: 0
+    atime4: 0
+    atime5: 0
+    atime6: 0
+    atime7: 0
+    m_Mode: 0
+    m_ColorSpace: 0
+    m_NumColorKeys: 3
+    m_NumAlphaKeys: 2
+  previewVerticalScale: 0.3
+  lastGeneratedMap: {fileID: 11400000, guid: 46f5df5a2e56e4e6c8922963173d52d7, type: 2}
