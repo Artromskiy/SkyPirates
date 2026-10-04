@@ -1,5 +1,6 @@
-#nullable enable
 using DVG.SkyPirates.Client.DI;
+using DVG.SkyPirates.Shared.Commands;
+using DVG.SkyPirates.Shared.Services.Netcode;
 using Riptide;
 using Riptide.Utils;
 using SimpleInjector;
@@ -46,6 +47,10 @@ namespace DVG.SkyPirates.Client.Entry
         {
             var client = _container.GetInstance<Riptide.Client>();
             client.Connection.CanQualityDisconnect = false;
+
+            var sessions = _container.GetInstance<SkyPiratesSessionProvider>();
+            sessions.Ready += () => sessions.Send(new SpawnSquadCommand(), System.Math.Max(1, sessions.CurrentStep + 1));
+            sessions.Start(new Delta.Netcode.AuthorId((uint)client.Id));
 
             Delta.Diagnostics.Trace.Info("Connected");
         }

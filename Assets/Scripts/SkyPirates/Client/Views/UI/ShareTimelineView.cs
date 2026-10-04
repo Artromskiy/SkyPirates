@@ -1,6 +1,7 @@
 using DVG.SkyPirates.Client.DI;
 using DVG.SkyPirates.Shared.IServices;
 using DVG.SkyPirates.Shared.Services;
+using DVG.SkyPirates.Shared.Services.Netcode;
 using DVG.SkyPirates.Shared.Tools.Json;
 using System.Buffers;
 using System.IO;
@@ -18,7 +19,7 @@ namespace DVG.SkyPirates.Client.Views
         [Inject]
         private readonly TimelineWriter _writer;
         [Inject]
-        private readonly ICommandExecutorService _commands;
+        private readonly SkyPiratesSessionProvider _session;
 
         private void Start()
         {
@@ -44,8 +45,8 @@ namespace DVG.SkyPirates.Client.Views
         private object GetObj()
         {
             var snaphsots = _writer.GetSnapshots();
-            var commands = _commands.GetCommands();
-            return (snaphsots, commands);
+            var session = _session.Session?.Host.CaptureSnapshot();
+            return (snaphsots, session);
         }
 
         private void Save(string path, object obj)

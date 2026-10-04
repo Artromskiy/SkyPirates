@@ -23,15 +23,12 @@ namespace DVG.SkyPirates.Client.DI
     public class LocalContainer : SharedContainer
     {
         public LocalContainer()
+            : base(Delta.Netcode.SessionMode.Local)
         {
             Delta.Diagnostics.Trace.Info("[DI] LocalContainer creation start");
             RegisterSingleton<IClientService, FakeClient>();
             RegisterSingleton<IPlayer, Player>();
-            RegisterSingleton<ICommandSender, LocalCommandSendService>();
-            RegisterSingleton<ICommandReciever, LocalCommandReciever>();
-
-            Register<ICommandSendScheduler, DelayedCommandSendScheduler>(Lifestyle.Singleton);
-            //RegisterSingleton<ICommandSendSchedulerService, CommandSendScheduler>();
+            RegisterSingleton<ICommandSendScheduler, CommandSendScheduler>();
 
             RegisterSingleton(typeof(IPathFactory<>), typeof(ResourcesFactory<>));
             RegisterSingleton(typeof(IPathViewFactory<>), typeof(PathViewFactory<>));

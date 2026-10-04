@@ -42,8 +42,7 @@ namespace DVG.SkyPirates.Client.ViewModels.UI
                 UnitId = selected,
                 SquadId = _player.SquadEntityId.Value,
             };
-            var cmd = SkyPiratesCommand.Create(cmdData);
-            _sendScheduler.SendCommand(cmd);
+            _sendScheduler.SendCommand(cmdData);
         }
     }
 }

@@ -1,83 +1,80 @@
-﻿using Delta;
 using Delta.Netcode;
+using DVG.SkyPirates.Client.IServices;
 using DVG.SkyPirates.Shared.Commands;
 using DVG.SkyPirates.Shared.IServices;
 using DVG.SkyPirates.Shared.IServices.TickableExecutors;
+using DVG.SkyPirates.Shared.Services.Netcode;
+using System;
 using System.Diagnostics;
-using CommandsRegistry = DVG.Commands.CommandsRegistry;
-using IGenericAction = DVG.IGenericAction;
 
 namespace DVG.SkyPirates.Client.Entry
 {
-    public class GameStartController
+    public sealed class GameStartController
     {
-        private readonly ITimelineService _timeline;
+        private readonly SkyPiratesSessionProvider _session;
+        private readonly IClientService _client;
         private readonly ITickableService<IPreTickable> _preTickableService;
         private readonly ITickableService<IPostTickable> _postTickableService;
-        private readonly ICommandReciever _comandReciever;
+        private readonly Stopwatch _clock = new();
+        private long _startStep;
+        private long _targetStep;
 
-        private readonly Stopwatch _mainSw = new();
-        private int TickOffset = 0;
-        private int _targetTick;
-
-        public GameStartController(ITimelineService timeline, ITickableService<IPreTickable> preTickableService, ITickableService<IPostTickable> postTickableService, ICommandReciever comandReciever)
+        public GameStartController(
+            SkyPiratesSessionProvider session,
+            IClientService client,
+            ITickableService<IPreTickable> preTickableService,
+            ITickableService<IPostTickable> postTickableService,
+            ICommandReciever commandReceiver)
         {
-            _timeline = timeline;
+            _session = session;
+            _client = client;
             _preTickableService = preTickableService;
             _postTickableService = postTickableService;
-            _comandReciever = comandReciever;
-            _comandReciever.RegisterReciever<TickSyncCommand>(OnSyncTick);
-            _comandReciever.RegisterReciever<LoadWorldCommand>(c =>
-            {
-                _timeline.CurrentTick = SkyPiratesCommand.GetTick(c);
-                _timeline.DirtyTick = SkyPiratesCommand.GetTick(c);
-            });
-            var subscrive = new CommandCallback(_timeline, _comandReciever);
-            CommandsRegistry.ForEach(ref subscrive);
-        }
-
-        private void OnSyncTick(Command<TickSyncCommand> cmd)
-        {
-            if (SkyPiratesCommand.GetTick(cmd) > _targetTick)
-            {
-                TickOffset = Maths.Max(SkyPiratesCommand.GetTick(cmd), TickOffset);
-                _mainSw.Restart();
-            }
+            commandReceiver.RegisterReciever<TickSyncCommand>(OnSyncTick);
+            _session.Ready += ResetClock;
+            if (_session.IsReady)
+                ResetClock();
         }
 
         public void Update()
         {
-            _mainSw.Start();
-            _targetTick = TickOffset + (int)(_mainSw.Elapsed.Ticks * Constants.TicksPerSecond / 10_000_000);
-
-            if (_timeline.CurrentTick != _targetTick)
+            if (!_session.IsReady)
             {
-                _preTickableService.Tick(_targetTick);
-                _timeline.Tick(_targetTick);
-                _postTickableService.Tick(_targetTick);
+                _client.Tick(0);
+                return;
             }
+
+            if (!_clock.IsRunning)
+                _clock.Start();
+
+            long elapsedSteps = _clock.Elapsed.Ticks * Constants.TicksPerSecond / TimeSpan.TicksPerSecond;
+            long targetStep = _startStep + elapsedSteps;
+            if (_session.CurrentStep == targetStep)
+                return;
+
+            int tick = checked((int)targetStep);
+            _preTickableService.Tick(tick);
+            _session.Tick(targetStep);
+            _postTickableService.Tick(tick);
+            _targetStep = targetStep;
         }
 
-
-        private readonly struct CommandCallback : IGenericAction
+        private void OnSyncTick(Command<TickSyncCommand> command)
         {
-            private readonly ITimelineService _timelineService;
-            private readonly ICommandReciever _commandReciever;
+            long serverStep = command.Header.Step;
+            if (serverStep <= _targetStep)
+                return;
 
-            public CommandCallback(ITimelineService timelineService, ICommandReciever commandReciever)
-            {
-                _timelineService = timelineService;
-                _commandReciever = commandReciever;
-            }
+            _startStep = serverStep;
+            _targetStep = serverStep;
+            _clock.Restart();
+        }
 
-            public void Invoke<T>()
-            {
-                var timeline = _timelineService;
-                _commandReciever.RegisterReciever<T>((c) =>
-                {
-                    timeline.DirtyTick = Maths.Min(timeline.DirtyTick, SkyPiratesCommand.GetTick(c));
-                });
-            }
+        private void ResetClock()
+        {
+            _startStep = System.Math.Max(0, _session.CurrentStep);
+            _targetStep = _session.CurrentStep;
+            _clock.Restart();
         }
     }
 }

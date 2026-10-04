@@ -22,7 +22,7 @@ namespace DVG.SkyPirates.Client.DI
 {
     public class ClientContainer : SharedContainer
     {
-        public ClientContainer()
+        public ClientContainer() : base(Delta.Netcode.SessionMode.Client)
         {
             RegisterSingleton(() =>
             {
@@ -33,10 +33,6 @@ namespace DVG.SkyPirates.Client.DI
             });
             RegisterSingleton<IClientService, DefaultClient>();
             RegisterSingleton<IPlayer, Player>();
-            RegisterSingleton<ICommandSender, CommandSendService>();
-            RegisterSingleton<ICommandReciever, CommandReciever>();
-
-            //Register<ICommandSendScheduler, DelayedCommandSendScheduler>(Lifestyle.Singleton);
             RegisterSingleton<ICommandSendScheduler, CommandSendScheduler>();
 
             RegisterSingleton(typeof(IPathFactory<>), typeof(ResourcesFactory<>));
@@ -63,7 +59,7 @@ namespace DVG.SkyPirates.Client.DI
         {
             typeof(ITickCounterService),
             typeof(IClientService), // recieve commands
-            typeof(ICommandSendScheduler), // send commands to timeline
+            typeof(ICommandSendScheduler), // send commands to session
         };
 
         private static readonly Type[] PostTickableExecutors = new Type[]

@@ -30,8 +30,7 @@ namespace DVG.SkyPirates.Client.ViewModels.UI
                     Fixation = value.fixation,
                     Target = _player.CurrentEntityId.Value,
                 };
-                var cmd = SkyPiratesCommand.Create(cmdData);
-                _sendScheduler.SendCommand(cmd);
+                _sendScheduler.SendCommand(cmdData);
             }
         }
     }

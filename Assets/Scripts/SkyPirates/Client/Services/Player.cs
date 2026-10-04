@@ -24,7 +24,7 @@ namespace DVG.SkyPirates.Client.Services
 
         private void OnSpawnSquad(Command<SpawnSquadCommand> cmd)
         {
-            if (SkyPiratesCommand.GetClientId(cmd) != _client.Id)
+            if ((int)cmd.Header.Key.AuthorId.Value != _client.Id)
                 return;
 
             SquadEntityId = cmd.Payload.CreationData.SyncId;
