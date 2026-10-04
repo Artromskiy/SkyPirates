@@ -1,58 +1,26 @@
-#nullable enable
 using DVG.Collections;
 using Delta.Netcode;
-using DVG.SkyPirates.Shared.Commands;
-using DVG.SkyPirates.Shared.Data;
 using DVG.SkyPirates.Shared.IServices;
 using System;
-using System.Runtime.CompilerServices;
 
 namespace DVG.SkyPirates.Local.Services
 {
     public class LocalCommandReciever : ICommandReciever
     {
-        private readonly IEntityRegistry _entityRegistry;
+        private readonly ICommandAcceptanceService _commandAcceptance;
         private readonly GenericCollection _listeners = new();
 
-        public LocalCommandReciever(IEntityRegistry entityRegistry)
+        public LocalCommandReciever(ICommandAcceptanceService commandAcceptance)
         {
-            _entityRegistry = entityRegistry;
+            _commandAcceptance = commandAcceptance;
         }
 
         public void InvokeCommand<T>(Command<T> command)
         {
-            var type = typeof(T);
-
-            if (typeof(SpawnSquadCommand) == type || typeof(SpawnUnitCommand) == type)
-            {
-                if (command is Command<SpawnSquadCommand> squadCmd)
-                {
-                    var castedCmd = squadCmd;
-                    var syncId = _entityRegistry.Reserve();
-                    var syncIdReserve = _entityRegistry.Reserve(10);
-                    int randomSeed = new Random().Next();
-                    var creationParameters = new EntityParameters(syncId, syncIdReserve, randomSeed);
-                    var payload = castedCmd.Payload;
-                    payload.CreationData = creationParameters;
-                    castedCmd = new Command<SpawnSquadCommand>(castedCmd.Header, payload);
-                    command = Unsafe.As<Command<SpawnSquadCommand>, Command<T>>(ref castedCmd);
-                }
-                if (command is Command<SpawnUnitCommand> unitCmd)
-                {
-                    var castedCmd = unitCmd;
-                    var syncId = _entityRegistry.Reserve();
-                    var syncIdReserve = _entityRegistry.Reserve(10);
-                    int randomSeed = new Random().Next();
-                    var creationParameters = new EntityParameters(syncId, syncIdReserve, randomSeed);
-                    var payload = castedCmd.Payload;
-                    payload.CreationData = creationParameters;
-                    castedCmd = new Command<SpawnUnitCommand>(castedCmd.Header, payload);
-                    command = Unsafe.As<Command<SpawnUnitCommand>, Command<T>>(ref castedCmd);
-                }
-            }
+            _commandAcceptance.PrepareLocal(in command, out var prepared);
 
             if (_listeners.TryGet<Action<Command<T>>>(out var callback))
-                callback.Invoke(command);
+                callback.Invoke(prepared);
         }
 
         public void RegisterReciever<T>(Action<Command<T>> reciever)

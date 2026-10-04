@@ -5,7 +5,7 @@ using DVG.SkyPirates.Shared.IServices;
 using DVG.SkyPirates.Shared.IServices.TickableExecutors;
 using System.Diagnostics;
 using CommandsRegistry = DVG.Commands.CommandsRegistry;
-using IGenericAction = DVG.Commands.IGenericAction;
+using IGenericAction = DVG.IGenericAction;
 
 namespace DVG.SkyPirates.Client.Entry
 {

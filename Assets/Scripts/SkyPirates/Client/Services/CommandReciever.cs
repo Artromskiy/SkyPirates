@@ -6,7 +6,7 @@ using DVG.SkyPirates.Shared.Services;
 using Riptide;
 using System;
 using CommandsRegistry = DVG.Commands.CommandsRegistry;
-using IGenericAction = DVG.Commands.IGenericAction;
+using IGenericAction = DVG.IGenericAction;
 
 namespace DVG.SkyPirates.Client.Services
 {
