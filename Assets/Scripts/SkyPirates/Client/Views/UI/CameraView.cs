@@ -26,22 +26,22 @@ namespace DVG.SkyPirates.Client.Views
         private float _fovVelocity;
         private float _xAngle;
         private float _xAngleVelocity;
+        private float _yaw;
+        private float _pitchOffset;
+
+        private const float MinimumPitch = 35f;
+        private const float MaximumPitch = 85f;
+
 
         public void ForceUpdate()
         {
             _distance = ViewModel.TargetDistance;
             _fov = ViewModel.TargetFov;
-            _xAngle = ViewModel.TargetAngle;
+            _xAngle = Mathf.Clamp(ViewModel.TargetAngle + _pitchOffset, MinimumPitch, MaximumPitch);
             _position = ViewModel.TargetPosition;
 
-            float2 angleDir = new float2(1, 0).Rotate(_xAngle);
-
-            var currentPosition = _position - (angleDir * _distance)._yx;
-            float currentRotation = _xAngle;
-            float currentFoV = _fov;
-
-            transform.SetPositionAndRotation(currentPosition, Quaternion.Euler(currentRotation, 0, 0));
-            _camera.fieldOfView = Camera.HorizontalToVerticalFieldOfView(currentFoV, _camera.aspect);
+            UpdateCameraTransform();
+            _camera.fieldOfView = Camera.HorizontalToVerticalFieldOfView(_fov, _camera.aspect);
         }
 
         private void Update()
@@ -50,19 +50,34 @@ namespace DVG.SkyPirates.Client.Views
             float smooth = ViewModel.SmoothMoveTime;
             _distance = Maths.SmoothDamp(_distance, ViewModel.TargetDistance, ref _distanceVelocity, smooth, deltaTime);
             _fov = Maths.SmoothDamp(_fov, ViewModel.TargetFov, ref _fovVelocity, smooth, deltaTime);
-            _xAngle = Maths.SmoothDamp(_xAngle, ViewModel.TargetAngle, ref _xAngleVelocity, smooth, deltaTime);
+            float targetPitch = Mathf.Clamp(ViewModel.TargetAngle + _pitchOffset, MinimumPitch, MaximumPitch);
+            _xAngle = Maths.SmoothDamp(_xAngle, targetPitch, ref _xAngleVelocity, smooth, deltaTime);
             _position = float3.SmoothDamp(_position, ViewModel.TargetPosition, ref _positionVelocity, smooth, deltaTime);
 
-            float2 angleDir = new float2(1, 0).Rotate(_xAngle);
-
-            var currentPosition = _position - (angleDir * _distance)._yx;
-            float currentRotation = _xAngle;
-            float currentFoV = _fov;
-
-            transform.SetPositionAndRotation(currentPosition, Quaternion.Euler(currentRotation, 0, 0));
-            _camera.fieldOfView = Camera.HorizontalToVerticalFieldOfView(currentFoV, _camera.aspect);
+            UpdateCameraTransform();
+            _camera.fieldOfView = Camera.HorizontalToVerticalFieldOfView(_fov, _camera.aspect);
 
             SetDynamicShadowDistance();
+        }
+
+        private void UpdateCameraTransform()
+        {
+            float2 angleDir = new float2(1, 0).Rotate(_xAngle);
+            var currentPosition = _position - (angleDir * _distance)._yx;
+            currentPosition = _position + (float3)(Quaternion.AngleAxis(_yaw, Vector3.up) * (currentPosition - _position));
+            var currentRotation = Quaternion.AngleAxis(_yaw, Vector3.up) * Quaternion.Euler(_xAngle, 0, 0);
+            transform.SetPositionAndRotation(currentPosition, currentRotation);
+        }
+
+        internal void AddYaw(float degrees)
+        {
+            _yaw = Mathf.Repeat(_yaw + degrees, 360f);
+        }
+
+        internal void AddPitch(float degrees)
+        {
+            float targetPitch = Mathf.Clamp(ViewModel.TargetAngle + _pitchOffset + degrees, MinimumPitch, MaximumPitch);
+            _pitchOffset = targetPitch - ViewModel.TargetAngle;
         }
 
         private void SetDynamicShadowDistance()
