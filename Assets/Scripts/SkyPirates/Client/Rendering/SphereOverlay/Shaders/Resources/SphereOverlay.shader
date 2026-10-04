@@ -27,7 +27,8 @@ Shader "Hidden/SkyPirates/SphereOverlay"
             CBUFFER_START(UnityPerMaterial)
                 float _SphereOverlayVolumeCount;
                 float4 _SphereOverlayCenters[32];
-                float4 _SphereOverlayColors[32];
+                float4 _SphereOverlayCenterColors[32];
+                float4 _SphereOverlayEdgeColors[32];
             CBUFFER_END
 
             half4 Frag(Varyings input) : SV_Target
@@ -63,10 +64,17 @@ Shader "Hidden/SkyPirates/SphereOverlay"
                 {
                     float4 centerRadius = _SphereOverlayCenters[index];
                     float3 delta = worldPosition - centerRadius.xyz;
-                    if (dot(delta, delta) > centerRadius.w * centerRadius.w)
+                    float distanceSquared = dot(delta, delta);
+                    float radiusSquared = centerRadius.w * centerRadius.w;
+                    if (distanceSquared > radiusSquared)
                         continue;
 
-                    float4 volumeColor = _SphereOverlayColors[index];
+                    float distanceFromCenter = sqrt(distanceSquared);
+                    float gradientPosition = saturate(distanceFromCenter / max(centerRadius.w, 0.00001));
+                    float4 volumeColor = lerp(
+                        _SphereOverlayCenterColors[index],
+                        _SphereOverlayEdgeColors[index],
+                        gradientPosition);
                     float alpha = saturate(volumeColor.a);
                     weightedColor += volumeColor.rgb * alpha;
                     totalWeight += alpha;

@@ -17,7 +17,7 @@ namespace DVG.SkyPirates.Client.Views.Components
 
         public override void Tick()
         {
-            var moveTo = State == StateId.None ? 0 : StatePercent;
+            float moveTo = State == StateId.None ? 0 : StatePercent;
             _statePercent = Maths.SmoothDamp(_statePercent, moveTo, ref _statePercentVelocity, LerpConstants.AnimationTime, UnityEngine.Time.deltaTime);
             _scaleRoot.localScale = new float3(1f - 0.5f * _statePercent);
         }

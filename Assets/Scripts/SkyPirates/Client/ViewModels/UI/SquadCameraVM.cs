@@ -76,7 +76,7 @@ namespace DVG.SkyPirates.Client.ViewModels.UI
             if (!_entityRegistry.TryGet(_player.CurrentEntityId.Value, out var squad))
                 return range;
 
-            var searchDistance = (float)_world.Get<TargetSearchDistance>(squad).Value;
+            float searchDistance = (float)_world.Get<TargetSearchDistance>(squad).Value;
             return Maths.Max(range, searchDistance + 1);
         }
     }

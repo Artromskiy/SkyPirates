@@ -27,7 +27,7 @@ namespace DVG.SkyPirates.Client.Views.Components.Animators
             float3 currentPosition = transform.position;
             var worldVelocity = (currentPosition - _prevPosition) / Time.deltaTime;
             _prevPosition = currentPosition;
-            var maxSpeed = (float)ViewModel.Get<MaxSpeed>().Value;
+            float maxSpeed = (float)ViewModel.Get<MaxSpeed>().Value;
             var localVelocity = transform.InverseTransformVector(worldVelocity) / maxSpeed;
             bool isIdle = localVelocity.sqrMagnitude < 0.01f;
             bool isIdleChanged = _isIdle != isIdle;
@@ -41,7 +41,7 @@ namespace DVG.SkyPirates.Client.Views.Components.Animators
 
             if (isIdleChanged)
             {
-                var state = isIdle ? IdleStateKey : MoveStateKey;
+                int state = isIdle ? IdleStateKey : MoveStateKey;
                 Animator.CrossFadeInFixedTime(state, LerpConstants.AnimationTime, MoveLayer);
             }
         }

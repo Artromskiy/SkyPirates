@@ -33,7 +33,7 @@ namespace DVG.SkyPirates.Client.ViewModels
 
         private void EnsureFresh()
         {
-            var currentTick = _tickCounter.TickCounter;
+            int currentTick = _tickCounter.TickCounter;
 
             if (_cachedTick == currentTick)
                 return;

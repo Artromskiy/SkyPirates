@@ -30,7 +30,7 @@ namespace DVG.SkyPirates.Local.Services
                     var castedCmd = squadCmd;
                     var syncId = _entityRegistry.Reserve();
                     var syncIdReserve = _entityRegistry.Reserve(10);
-                    var randomSeed = new Random().Next();
+                    int randomSeed = new Random().Next();
                     var creationParameters = new EntityParameters(syncId, syncIdReserve, randomSeed);
                     castedCmd.Data.CreationData = creationParameters;
                     command = Unsafe.As<Command<SpawnSquadCommand>, Command<T>>(ref castedCmd);
@@ -40,7 +40,7 @@ namespace DVG.SkyPirates.Local.Services
                     var castedCmd = unitCmd;
                     var syncId = _entityRegistry.Reserve();
                     var syncIdReserve = _entityRegistry.Reserve(10);
-                    var randomSeed = new Random().Next();
+                    int randomSeed = new Random().Next();
                     var creationParameters = new EntityParameters(syncId, syncIdReserve, randomSeed);
                     castedCmd.Data.CreationData = creationParameters;
                     command = Unsafe.As<Command<SpawnUnitCommand>, Command<T>>(ref castedCmd);

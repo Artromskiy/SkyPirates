@@ -28,7 +28,7 @@ namespace DVG.SkyPirates.Client.Views.Components
 		[Conditional(Editor)]
 		public static void SubscribeOnChanged(Component instance, Action onChanged)
 		{
-			var instanceId = EntityId.ToULong(instance.GetEntityId());
+			ulong instanceId = EntityId.ToULong(instance.GetEntityId());
 			if (!_changeSubscriptions.ContainsKey(instanceId))
 				_changeSubscriptions[instanceId] = null;
 			_changeSubscriptions[instanceId] += onChanged;
@@ -37,7 +37,7 @@ namespace DVG.SkyPirates.Client.Views.Components
 		[Conditional(Editor)]
 		public static void UnsubscribeOnChanged(Component instance, Action onChanged)
 		{
-			var instanceId = EntityId.ToULong(instance.GetEntityId());
+			ulong instanceId = EntityId.ToULong(instance.GetEntityId());
 			if (_changeSubscriptions.ContainsKey(instanceId))
 				_changeSubscriptions[instanceId] -= onChanged;
 		}
@@ -45,7 +45,7 @@ namespace DVG.SkyPirates.Client.Views.Components
 		[Conditional(Editor)]
 		public static void SubscribeOnDestroy(GameObject gameObject, Action onChanged)
 		{
-			var instanceId = EntityId.ToULong(gameObject.GetEntityId());
+			ulong instanceId = EntityId.ToULong(gameObject.GetEntityId());
 			if (!_destroySubscriptions.ContainsKey(instanceId))
 				_destroySubscriptions[instanceId] = null;
 			_destroySubscriptions[instanceId] += onChanged;
@@ -54,7 +54,7 @@ namespace DVG.SkyPirates.Client.Views.Components
 		[Conditional(Editor)]
 		public static void UnsubscribeOnDestroy(GameObject gameObject, Action onChanged)
 		{
-			var instanceId = EntityId.ToULong(gameObject.GetEntityId());
+			ulong instanceId = EntityId.ToULong(gameObject.GetEntityId());
 			if (_destroySubscriptions.ContainsKey(instanceId))
 				_destroySubscriptions[instanceId] -= onChanged;
 		}

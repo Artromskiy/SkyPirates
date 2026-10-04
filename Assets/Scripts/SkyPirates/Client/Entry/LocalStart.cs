@@ -21,25 +21,25 @@ namespace DVG.SkyPirates.Local.Entry
         {
             try
             {
-                DVG.Trace.Info("[LocalStart] Container creation");
+                Delta.Diagnostics.Trace.Info("[LocalStart] Container creation");
                 _container = new LocalContainer();
-                DVG.Trace.Info("[LocalStart] Container register and inject ViewModels");
+                Delta.Diagnostics.Trace.Info("[LocalStart] Container register and inject ViewModels");
                 _container.RegisterAndInjectViewModels();
 
-                DVG.Trace.Info("[LocalStart] Container get instances");
+                Delta.Diagnostics.Trace.Info("[LocalStart] Container get instances");
                 var comandReciever = _container.GetInstance<ICommandReciever>();
                 var client = _container.GetInstance<IClientService>();
                 var worldData = _container.GetInstance<IPathFactory<WorldData>>().Create("Configs/Maps/Map1");
-                DVG.Trace.Info("[LocalStart] Load map");
+                Delta.Diagnostics.Trace.Info("[LocalStart] Load map");
                 var history = _container.GetInstance<IHistorySystem>();
                 history.ApplySnapshot(worldData);
                 history.SaveBaseline();
-                DVG.Trace.Info("[LocalStart] Spawn squad");
+                Delta.Diagnostics.Trace.Info("[LocalStart] Spawn squad");
                 comandReciever.InvokeCommand(new Command<SpawnSquadCommand>(client.Id, 5, new SpawnSquadCommand()));
             }
             catch (Exception e)
             {
-                DVG.Debug.Error(e);
+                Delta.Diagnostics.Debug.Error(e);
             }
         }
 

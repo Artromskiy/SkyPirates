@@ -77,8 +77,8 @@ namespace DVG.SkyPirates.Client.Services
                 if (!_delayed.TryGet<Queue<(Command<T> cmd, int sendTick)>>(out var cmdList))
                     _delayed.Add(cmdList = new());
 
-                var next = _random.NextDouble();
-                var delay = DelayChanse > next ? _random.Next(MinDelayFrames, MaxDelayFrames) : 0;
+                double next = _random.NextDouble();
+                int delay = DelayChanse > next ? _random.Next(MinDelayFrames, MaxDelayFrames) : 0;
                 cmdList.Enqueue((updated, _tick + delay));
             }
         }

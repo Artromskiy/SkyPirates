@@ -10,7 +10,8 @@ namespace DVG.SkyPirates.Rendering.SphereOverlay.Internals
     {
         private static readonly int VolumeCountId = Shader.PropertyToID("_SphereOverlayVolumeCount");
         private static readonly int CentersId = Shader.PropertyToID("_SphereOverlayCenters");
-        private static readonly int ColorsId = Shader.PropertyToID("_SphereOverlayColors");
+        private static readonly int CenterColorsId = Shader.PropertyToID("_SphereOverlayCenterColors");
+        private static readonly int EdgeColorsId = Shader.PropertyToID("_SphereOverlayEdgeColors");
 
         [SerializeField] private Shader shader;
 
@@ -65,7 +66,8 @@ namespace DVG.SkyPirates.Rendering.SphereOverlay.Internals
             private const string PassName = "Sphere Overlay";
             private readonly Material _material;
             private readonly Vector4[] _centers = new Vector4[SphereOverlayRegistry.MaximumVolumes];
-            private readonly Vector4[] _colors = new Vector4[SphereOverlayRegistry.MaximumVolumes];
+            private readonly Vector4[] _centerColors = new Vector4[SphereOverlayRegistry.MaximumVolumes];
+            private readonly Vector4[] _edgeColors = new Vector4[SphereOverlayRegistry.MaximumVolumes];
             private readonly MaterialPropertyBlock _properties = new MaterialPropertyBlock();
 
             public SphereOverlayPass(Material material)
@@ -78,7 +80,7 @@ namespace DVG.SkyPirates.Rendering.SphereOverlay.Internals
 
             public override void RecordRenderGraph(RenderGraph renderGraph, ContextContainer frameData)
             {
-                var volumeCount = SphereOverlayRegistry.CopyTo(_centers, _colors);
+                var volumeCount = SphereOverlayRegistry.CopyTo(_centers, _centerColors, _edgeColors);
                 if (volumeCount == 0)
                     return;
 
@@ -91,7 +93,8 @@ namespace DVG.SkyPirates.Rendering.SphereOverlay.Internals
                 _properties.Clear();
                 _properties.SetInt(VolumeCountId, volumeCount);
                 _properties.SetVectorArray(CentersId, _centers);
-                _properties.SetVectorArray(ColorsId, _colors);
+                _properties.SetVectorArray(CenterColorsId, _centerColors);
+                _properties.SetVectorArray(EdgeColorsId, _edgeColors);
 
                 var source = resourceData.activeColorTexture;
                 var destinationDescriptor = source.GetDescriptor(renderGraph);

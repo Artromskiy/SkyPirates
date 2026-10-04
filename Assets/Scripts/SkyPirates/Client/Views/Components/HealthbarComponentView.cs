@@ -1,6 +1,7 @@
 ﻿using DG.Tweening;
 using DVG.SkyPirates.Shared.Components.Config;
 using DVG.SkyPirates.Shared.Components.Runtime;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,11 +14,14 @@ namespace DVG.SkyPirates.Client.Views.Components
         [SerializeField]
         private CanvasGroup _canvasGroup = null!;
         [SerializeField]
+        private TMP_Text _level = null!;
+        [SerializeField]
         private float _verticalOffset;
         [SerializeField]
         private int _debugRecolorId;
 
         private float _healthPercent;
+        private int _displayedLevel = int.MinValue;
         private bool _hidden;
 
         private Tween _amountTween;
@@ -26,28 +30,31 @@ namespace DVG.SkyPirates.Client.Views.Components
 
         public override void OnInject()
         {
-            var health = Health;
-            var maxHealth = MaxHealth;
+            float health = Health;
+            float maxHealth = MaxHealth;
             _hidden = !ViewModel.Alive || ViewModel.Disabled;
             _healthPercent = health / maxHealth;
             _canvasGroup.alpha = _hidden || _healthPercent == 1 ? 0 : 1;
             _fillImage.fillAmount = _healthPercent;
 
+            UpdateLevel();
             Recolor(TeamId);
         }
 
         public override void Tick()
         {
-            var health = Health;
-            var maxHealth = MaxHealth;
+            float health = Health;
+            float maxHealth = MaxHealth;
             float percent = health / maxHealth;
-            var hidden = !ViewModel.Alive || ViewModel.Disabled;
+            bool hidden = !ViewModel.Alive || ViewModel.Disabled;
+
+            UpdateLevel();
 
             if (_hidden != hidden || _healthPercent != percent)
             {
                 _fadeTween?.Kill();
                 _hidden = hidden;
-                var alpha = (_hidden || percent == 1) ? 0 : 1;
+                int alpha = (_hidden || percent == 1) ? 0 : 1;
                 _fadeTween = _canvasGroup.DOFade(alpha, LerpConstants.SmoothMoveTime);
             }
 
@@ -74,5 +81,15 @@ namespace DVG.SkyPirates.Client.Views.Components
         private float MaxHealth => (float)ViewModel.Get<MaxHealth>().Value;
         private float Health => (float)ViewModel.Get<Health>().Value;
         private int TeamId => ViewModel.Get<TeamId>().Value;
+
+        private void UpdateLevel()
+        {
+            int level = ViewModel.Has<Level>() ? ViewModel.Get<Level>().Value : 1;
+            if (_displayedLevel == level)
+                return;
+
+            _displayedLevel = level;
+            _level.text = level.ToString();
+        }
     }
 }

@@ -24,8 +24,8 @@ namespace DVG.SkyPirates.Client.Views
         {
             Profiler.BeginSample("SerializeMap");
             var worldData = _historySystem.GetSnapshot(_tickCounterService.TickCounter);
-            var _serializedText = SerializationUTF8.Serialize(worldData);
-            var path = Path.Combine(Application.dataPath, _folder, _mapName);
+            string _serializedText = SerializationUTF8.Serialize(worldData);
+            string path = Path.Combine(Application.dataPath, _folder, _mapName);
             path = Path.ChangeExtension(path, "json");
             Directory.CreateDirectory(Path.GetDirectoryName(path));
             File.WriteAllText(path, _serializedText);

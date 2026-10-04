@@ -52,7 +52,7 @@ namespace DVG.SkyPirates.Tooling.IslandGeneration.Editor
                 catch (Exception exception)
                 {
                     ReleaseMapResources();
-                    UnityEngine.Debug.LogException(exception);
+                    Delta.Diagnostics.Debug.Error(exception, context: this);
                 }
             }
         }

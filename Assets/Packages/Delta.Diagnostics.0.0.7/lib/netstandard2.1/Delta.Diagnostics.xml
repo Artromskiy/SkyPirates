@@ -1,0 +1,309 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Delta.Diagnostics</name>
+    </assembly>
+    <members>
+        <member name="T:Delta.Diagnostics.SourceId">
+            <summary>
+            Identifies a source document or generated source artifact across a build or tooling session.
+            </summary>
+            <remarks>
+            The empty value means that no source identity is available. A source identity
+            is durable only when its producer assigns and persists the same GUID.
+            </remarks>
+        </member>
+        <member name="M:Delta.Diagnostics.SourceId.#ctor(System.Guid)">
+            <summary>
+            Identifies a source document or generated source artifact across a build or tooling session.
+            </summary>
+            <remarks>
+            The empty value means that no source identity is available. A source identity
+            is durable only when its producer assigns and persists the same GUID.
+            </remarks>
+        </member>
+        <member name="P:Delta.Diagnostics.SourceId.Empty">
+            <summary>
+            Gets the absent source identity.
+            </summary>
+        </member>
+        <member name="P:Delta.Diagnostics.SourceId.IsValid">
+            <summary>
+            Gets a value indicating whether this identity is assigned.
+            </summary>
+        </member>
+        <member name="T:Delta.Diagnostics.DiagnosticCode">
+            <summary>
+            Identifies a diagnostic within a producer's extensible diagnostic namespace.
+            </summary>
+            <param name="Value">The stable, human-readable diagnostic code, such as <c>XAML001</c>.</param>
+        </member>
+        <member name="M:Delta.Diagnostics.DiagnosticCode.#ctor(System.String)">
+            <summary>
+            Identifies a diagnostic within a producer's extensible diagnostic namespace.
+            </summary>
+            <param name="Value">The stable, human-readable diagnostic code, such as <c>XAML001</c>.</param>
+        </member>
+        <member name="P:Delta.Diagnostics.DiagnosticCode.Value">
+            <summary>The stable, human-readable diagnostic code, such as <c>XAML001</c>.</summary>
+        </member>
+        <member name="T:Delta.Diagnostics.SourcePosition">
+            <summary>
+            Identifies a position in a source document.
+            </summary>
+            <param name="Line">The zero-based line index.</param>
+            <param name="Column">The zero-based column index measured in UTF-16 code units.</param>
+            <param name="Offset">The zero-based offset from the start of the source, measured in UTF-16 code units.</param>
+            <remarks>
+            Lines and columns use the producer's decoded source text. A surrogate pair
+            therefore advances the column and offset by two code units. Newline handling
+            is owned by the producer; the position remains zero-based in either case.
+            </remarks>
+        </member>
+        <member name="M:Delta.Diagnostics.SourcePosition.#ctor(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Identifies a position in a source document.
+            </summary>
+            <param name="Line">The zero-based line index.</param>
+            <param name="Column">The zero-based column index measured in UTF-16 code units.</param>
+            <param name="Offset">The zero-based offset from the start of the source, measured in UTF-16 code units.</param>
+            <remarks>
+            Lines and columns use the producer's decoded source text. A surrogate pair
+            therefore advances the column and offset by two code units. Newline handling
+            is owned by the producer; the position remains zero-based in either case.
+            </remarks>
+        </member>
+        <member name="P:Delta.Diagnostics.SourcePosition.Line">
+            <summary>The zero-based line index.</summary>
+        </member>
+        <member name="P:Delta.Diagnostics.SourcePosition.Column">
+            <summary>The zero-based column index measured in UTF-16 code units.</summary>
+        </member>
+        <member name="P:Delta.Diagnostics.SourcePosition.Offset">
+            <summary>The zero-based offset from the start of the source, measured in UTF-16 code units.</summary>
+        </member>
+        <member name="T:Delta.Diagnostics.SourceRange">
+            <summary>
+            Describes a half-open source range from <see cref="P:Delta.Diagnostics.SourceRange.Start"/> to <see cref="P:Delta.Diagnostics.SourceRange.End"/>.
+            </summary>
+            <param name="Source">The source identity containing the range.</param>
+            <param name="Start">The inclusive zero-based start position.</param>
+            <param name="End">The exclusive zero-based end position.</param>
+        </member>
+        <member name="M:Delta.Diagnostics.SourceRange.#ctor(Delta.Diagnostics.SourceId,Delta.Diagnostics.SourcePosition,Delta.Diagnostics.SourcePosition)">
+            <summary>
+            Describes a half-open source range from <see cref="P:Delta.Diagnostics.SourceRange.Start"/> to <see cref="P:Delta.Diagnostics.SourceRange.End"/>.
+            </summary>
+            <param name="Source">The source identity containing the range.</param>
+            <param name="Start">The inclusive zero-based start position.</param>
+            <param name="End">The exclusive zero-based end position.</param>
+        </member>
+        <member name="P:Delta.Diagnostics.SourceRange.Source">
+            <summary>The source identity containing the range.</summary>
+        </member>
+        <member name="P:Delta.Diagnostics.SourceRange.Start">
+            <summary>The inclusive zero-based start position.</summary>
+        </member>
+        <member name="P:Delta.Diagnostics.SourceRange.End">
+            <summary>The exclusive zero-based end position.</summary>
+        </member>
+        <member name="T:Delta.Diagnostics.DiagnosticSeverity">
+            <summary>
+            Describes the impact of a diagnostic on processing.
+            </summary>
+        </member>
+        <member name="F:Delta.Diagnostics.DiagnosticSeverity.Info">
+            <summary>Additional information that does not prevent processing.</summary>
+        </member>
+        <member name="F:Delta.Diagnostics.DiagnosticSeverity.Warning">
+            <summary>A problem that should be addressed but does not prevent processing.</summary>
+        </member>
+        <member name="F:Delta.Diagnostics.DiagnosticSeverity.Error">
+            <summary>A problem that prevents the requested source operation from succeeding.</summary>
+        </member>
+        <member name="T:Delta.Diagnostics.Diagnostic">
+            <summary>
+            Reports a source or user-facing failure from a compiler, loader, or tooling producer.
+            </summary>
+            <param name="Code">The producer-defined stable diagnostic code.</param>
+            <param name="Severity">The impact of the diagnostic.</param>
+            <param name="Message">The human-readable explanation.</param>
+            <param name="Location">The optional zero-based UTF-16 source range related to the diagnostic.</param>
+        </member>
+        <member name="M:Delta.Diagnostics.Diagnostic.#ctor(Delta.Diagnostics.DiagnosticCode,Delta.Diagnostics.DiagnosticSeverity,System.String,System.Nullable{Delta.Diagnostics.SourceRange})">
+            <summary>
+            Reports a source or user-facing failure from a compiler, loader, or tooling producer.
+            </summary>
+            <param name="Code">The producer-defined stable diagnostic code.</param>
+            <param name="Severity">The impact of the diagnostic.</param>
+            <param name="Message">The human-readable explanation.</param>
+            <param name="Location">The optional zero-based UTF-16 source range related to the diagnostic.</param>
+        </member>
+        <member name="P:Delta.Diagnostics.Diagnostic.Code">
+            <summary>The producer-defined stable diagnostic code.</summary>
+        </member>
+        <member name="P:Delta.Diagnostics.Diagnostic.Severity">
+            <summary>The impact of the diagnostic.</summary>
+        </member>
+        <member name="P:Delta.Diagnostics.Diagnostic.Message">
+            <summary>The human-readable explanation.</summary>
+        </member>
+        <member name="P:Delta.Diagnostics.Diagnostic.Location">
+            <summary>The optional zero-based UTF-16 source range related to the diagnostic.</summary>
+        </member>
+        <member name="T:Delta.Diagnostics.ILogger">
+            <summary>Receives producer-selected log events.</summary>
+            <remarks>
+            Implementations own filtering, formatting, output and exception handling.
+            <see cref="M:Delta.Diagnostics.ILogger.Throw(System.Exception,System.String,System.Object)"/> describes an exception that the producer is about to
+            throw; this method does not throw it.
+            </remarks>
+        </member>
+        <member name="M:Delta.Diagnostics.ILogger.Info(System.String,System.String,System.Object)">
+            <summary>Reports an informational event.</summary>
+        </member>
+        <member name="M:Delta.Diagnostics.ILogger.Warn(System.String,System.String,System.Object)">
+            <summary>Reports a warning event.</summary>
+        </member>
+        <member name="M:Delta.Diagnostics.ILogger.Assert(System.Boolean,System.String,System.Object)">
+            <summary>Reports an assertion; implementations may ignore a true condition.</summary>
+        </member>
+        <member name="M:Delta.Diagnostics.ILogger.Error(System.Exception,System.String,System.Object)">
+            <summary>Reports an exception without throwing it.</summary>
+        </member>
+        <member name="M:Delta.Diagnostics.ILogger.Throw(System.Exception,System.String,System.Object)">
+            <summary>Reports an exception that the producer is about to throw.</summary>
+        </member>
+        <member name="T:Delta.Diagnostics.Logger">
+            <summary>Provides the process-wide log sink, defaulting to a no-op implementation.</summary>
+        </member>
+        <member name="P:Delta.Diagnostics.Logger.Instance">
+            <summary>
+            Gets or replaces the current log sink. A null assignment restores the
+            no-op sink.
+            </summary>
+        </member>
+        <member name="T:Delta.Diagnostics.Debug">
+            <summary>Provides calls that are emitted only when the <c>DEBUG</c> symbol is defined.</summary>
+        </member>
+        <member name="M:Delta.Diagnostics.Debug.Info(System.String,System.String,System.Object)">
+            <summary>Reports an informational event.</summary>
+        </member>
+        <member name="M:Delta.Diagnostics.Debug.Warn(System.String,System.String,System.Object)">
+            <summary>Reports a warning event.</summary>
+        </member>
+        <member name="M:Delta.Diagnostics.Debug.Assert(System.Boolean,System.String,System.Object)">
+            <summary>Reports an assertion.</summary>
+        </member>
+        <member name="M:Delta.Diagnostics.Debug.Error(System.Exception,System.String,System.Object)">
+            <summary>Reports an exception without throwing it.</summary>
+        </member>
+        <member name="M:Delta.Diagnostics.Debug.Throw(System.Exception,System.String,System.Object)">
+            <summary>Reports the exception and rethrows it while preserving its stack.</summary>
+        </member>
+        <member name="T:Delta.Diagnostics.Trace">
+            <summary>Provides calls that are emitted only when the <c>TRACE</c> symbol is defined.</summary>
+        </member>
+        <member name="M:Delta.Diagnostics.Trace.Info(System.String,System.String,System.Object)">
+            <summary>Reports an informational event.</summary>
+        </member>
+        <member name="M:Delta.Diagnostics.Trace.Warn(System.String,System.String,System.Object)">
+            <summary>Reports a warning event.</summary>
+        </member>
+        <member name="M:Delta.Diagnostics.Trace.Assert(System.Boolean,System.String,System.Object)">
+            <summary>Reports an assertion.</summary>
+        </member>
+        <member name="M:Delta.Diagnostics.Trace.Error(System.Exception,System.String,System.Object)">
+            <summary>Reports an exception without throwing it.</summary>
+        </member>
+        <member name="M:Delta.Diagnostics.Trace.Throw(System.Exception,System.String,System.Object)">
+            <summary>Reports the exception and rethrows it while preserving its stack.</summary>
+        </member>
+        <member name="T:Delta.Diagnostics.ProfileDuration">
+            <summary>Represents a non-negative elapsed duration stored as whole nanoseconds.</summary>
+            <remarks>
+            This is a value-only timing contract. It does not identify a clock, own a
+            profiler or aggregate measurements. Producers choose the clock and convert
+            its elapsed ticks through <see cref="M:Delta.Diagnostics.ProfileDuration.FromStopwatchTicks(System.Int64,System.Int64)"/> or
+            <see cref="M:Delta.Diagnostics.ProfileDuration.FromTimeSpan(System.TimeSpan)"/> before publishing a value.
+            </remarks>
+        </member>
+        <member name="M:Delta.Diagnostics.ProfileDuration.#ctor(System.UInt64)">
+            <summary>Creates a duration from whole non-negative nanoseconds.</summary>
+            <param name="nanoseconds">The exact duration in nanoseconds.</param>
+        </member>
+        <member name="P:Delta.Diagnostics.ProfileDuration.Nanoseconds">
+            <summary>Gets the exact duration in nanoseconds.</summary>
+        </member>
+        <member name="P:Delta.Diagnostics.ProfileDuration.Zero">
+            <summary>Gets the zero duration.</summary>
+        </member>
+        <member name="M:Delta.Diagnostics.ProfileDuration.FromNanoseconds(System.Double)">
+            <summary>Creates a duration from a nanosecond measurement.</summary>
+            <param name="nanoseconds">The non-negative elapsed time in nanoseconds.</param>
+            <remarks>Fractional nanoseconds are rounded to the nearest whole nanosecond, with midpoint values rounded away from zero.</remarks>
+            <exception cref="T:System.ArgumentOutOfRangeException">The value is negative, non-finite or too large to store.</exception>
+        </member>
+        <member name="M:Delta.Diagnostics.ProfileDuration.FromTimeSpan(System.TimeSpan)">
+            <summary>Creates a duration from a non-negative <see cref="T:System.TimeSpan"/>.</summary>
+            <param name="value">The elapsed time to convert.</param>
+            <exception cref="T:System.ArgumentOutOfRangeException">The value is negative or cannot fit in nanoseconds.</exception>
+        </member>
+        <member name="M:Delta.Diagnostics.ProfileDuration.FromStopwatchTicks(System.Int64,System.Int64)">
+            <summary>Creates a duration from elapsed stopwatch ticks and its positive frequency.</summary>
+            <param name="ticks">The elapsed tick count. Non-positive values produce <see cref="P:Delta.Diagnostics.ProfileDuration.Zero"/>.</param>
+            <param name="frequency">The number of ticks per second.</param>
+            <remarks>Elapsed values are rounded to the nearest nanosecond, with midpoint values rounded away from zero.</remarks>
+            <exception cref="T:System.ArgumentOutOfRangeException">The frequency is not positive.</exception>
+        </member>
+        <member name="M:Delta.Diagnostics.ProfileDuration.ToTimeSpan">
+            <summary>Converts the duration to a <see cref="T:System.TimeSpan"/>.</summary>
+            <remarks>Precision below TimeSpan's 100-nanosecond resolution is truncated.</remarks>
+        </member>
+        <member name="M:Delta.Diagnostics.ProfileDuration.CompareTo(Delta.Diagnostics.ProfileDuration)">
+            <summary>Compares this duration with another duration.</summary>
+        </member>
+        <member name="M:Delta.Diagnostics.ProfileDuration.Equals(Delta.Diagnostics.ProfileDuration)">
+            <summary>Determines whether another duration has the same nanosecond value.</summary>
+        </member>
+        <member name="M:Delta.Diagnostics.ProfileDuration.Equals(System.Object)">
+            <summary>Determines whether another object is the same duration value.</summary>
+        </member>
+        <member name="M:Delta.Diagnostics.ProfileDuration.GetHashCode">
+            <summary>Returns a hash code based on the exact nanosecond value.</summary>
+        </member>
+        <member name="M:Delta.Diagnostics.ProfileDuration.ToString">
+            <summary>Returns an invariant human-readable duration without leading padding.</summary>
+            <remarks>
+            The result always contains three significant digits, using nanoseconds
+            as its smallest unit and automatically selecting larger units. Three-digit
+            integral values use a trailing decimal point to preserve the decimal column.
+            The exact value remains available through <see cref="P:Delta.Diagnostics.ProfileDuration.Nanoseconds"/>.
+            </remarks>
+        </member>
+        <member name="M:Delta.Diagnostics.ProfileDuration.op_Addition(Delta.Diagnostics.ProfileDuration,Delta.Diagnostics.ProfileDuration)">
+            <summary>Adds two durations, throwing if the result overflows nanosecond storage.</summary>
+        </member>
+        <member name="M:Delta.Diagnostics.ProfileDuration.op_Subtraction(Delta.Diagnostics.ProfileDuration,Delta.Diagnostics.ProfileDuration)">
+            <summary>Subtracts two durations and saturates at zero.</summary>
+        </member>
+        <member name="M:Delta.Diagnostics.ProfileDuration.op_Equality(Delta.Diagnostics.ProfileDuration,Delta.Diagnostics.ProfileDuration)">
+            <summary>Determines whether two durations are equal.</summary>
+        </member>
+        <member name="M:Delta.Diagnostics.ProfileDuration.op_Inequality(Delta.Diagnostics.ProfileDuration,Delta.Diagnostics.ProfileDuration)">
+            <summary>Determines whether two durations are different.</summary>
+        </member>
+        <member name="M:Delta.Diagnostics.ProfileDuration.op_LessThan(Delta.Diagnostics.ProfileDuration,Delta.Diagnostics.ProfileDuration)">
+            <summary>Determines whether the left duration is shorter.</summary>
+        </member>
+        <member name="M:Delta.Diagnostics.ProfileDuration.op_LessThanOrEqual(Delta.Diagnostics.ProfileDuration,Delta.Diagnostics.ProfileDuration)">
+            <summary>Determines whether the left duration is no longer than the right.</summary>
+        </member>
+        <member name="M:Delta.Diagnostics.ProfileDuration.op_GreaterThan(Delta.Diagnostics.ProfileDuration,Delta.Diagnostics.ProfileDuration)">
+            <summary>Determines whether the left duration is longer.</summary>
+        </member>
+        <member name="M:Delta.Diagnostics.ProfileDuration.op_GreaterThanOrEqual(Delta.Diagnostics.ProfileDuration,Delta.Diagnostics.ProfileDuration)">
+            <summary>Determines whether the left duration is no shorter than the right.</summary>
+        </member>
+    </members>
+</doc>

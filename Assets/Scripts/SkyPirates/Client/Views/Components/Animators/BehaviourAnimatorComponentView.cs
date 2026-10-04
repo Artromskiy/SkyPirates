@@ -52,8 +52,8 @@ namespace DVG.SkyPirates.Client.Views.Components.Animators
                 _statePercentVelocity = 0;
             }
 
-            var idle = _state == StateId.None;
-            var layerWeight = idle ? 0 : 1;
+            bool idle = _state == StateId.None;
+            int layerWeight = idle ? 0 : 1;
 
             float crossFadeDuration = LerpConstants.AnimationTime * 2;
 
@@ -86,7 +86,7 @@ namespace DVG.SkyPirates.Client.Views.Components.Animators
                 Animator.Play(_prevState, BehaviourLayer, _prevStatePercent);
                 Animator.Update(0); // Do not delete, unity is too dump and crossfade not working properly
                 var info = Animator.GetCurrentAnimatorStateInfo(BehaviourLayer);
-                var normalizedDuration = crossFadeDuration / info.length;
+                float normalizedDuration = crossFadeDuration / info.length;
                 Animator.CrossFade(_state, normalizedDuration, BehaviourLayer, _statePercent, _transition);
             }
             else

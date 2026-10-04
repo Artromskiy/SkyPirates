@@ -23,7 +23,7 @@ namespace DVG.SkyPirates.Tooling.Editor
             }
             catch (Exception exception)
             {
-                DVG.Debug.Error(exception, context: loader);
+                Delta.Diagnostics.Debug.Error(exception, context: loader);
                 throw;
             }
         }

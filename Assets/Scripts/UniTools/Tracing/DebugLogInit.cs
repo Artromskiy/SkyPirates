@@ -1,5 +1,5 @@
 ﻿using System;
-using DVG;
+using Delta.Diagnostics;
 using UnityEngine;
 
 namespace DVG.SkyPirates.Client.Init

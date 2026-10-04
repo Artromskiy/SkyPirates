@@ -28,7 +28,7 @@ namespace DVG.SkyPirates.Client.Views.Components
             bool damaged = Health < _health;
             _health = Health;
             _tween?.Kill();
-            var scaleTo = Maths.Max(MinScale, HealthPercent);
+            float scaleTo = Maths.Max(MinScale, HealthPercent);
             _tween = damaged ?
                 DOTween.Sequence().
                 Append(_scaleRoot.DOScale(scaleTo * HitScale, TweenDuration)).

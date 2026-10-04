@@ -36,7 +36,7 @@ namespace DVG.SkyPirates.Client.Views.Components
 
             _visual = Instantiate(prefab, _visualRoot);
             _visual.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
-            var scale = _randomizeScale ? UnityEngine.Random.Range(0.9f, 1.1f) : 1;
+            float scale = _randomizeScale ? UnityEngine.Random.Range(0.9f, 1.1f) : 1;
             _visual.transform.localScale = new float3(scale);
         }
 

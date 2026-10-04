@@ -24,7 +24,7 @@ namespace DVG.SkyPirates.Client.ViewModels.UI
 
         public CardsVM(IPlayer player, ICommandSendScheduler sendScheduler, UnitsInfoConfig unitsConfig)
         {
-            DVG.Trace.Info("[CardsVM] created");
+            Delta.Diagnostics.Trace.Info("[CardsVM] created");
             _player = player;
             _sendScheduler = sendScheduler;
             UnitsConfig = unitsConfig;

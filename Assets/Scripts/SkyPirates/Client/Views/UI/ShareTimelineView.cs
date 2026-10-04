@@ -29,14 +29,14 @@ namespace DVG.SkyPirates.Client.Views
         {
             if (Input.GetKeyDown(KeyCode.H))
             {
-                var path = GetPath("Snapshots");
+                string path = GetPath("Snapshots");
                 Save(path, GetObj());
             }
         }
 
         private void Save()
         {
-            var path = Path.GetTempFileName();
+            string path = Path.GetTempFileName();
             Save(path, GetObj());
             new NativeShare().AddFile(path).Share();
         }
@@ -59,7 +59,7 @@ namespace DVG.SkyPirates.Client.Views
         private string GetPath(string fileName)
         {
             const string folder = "Scripts/SkyPirates/Tooling/TimelineDebug";
-            var path = Path.Combine(Application.dataPath, folder, fileName);
+            string path = Path.Combine(Application.dataPath, folder, fileName);
             path = Path.ChangeExtension(path, "txt");
             Directory.CreateDirectory(Path.GetDirectoryName(path));
             return path;

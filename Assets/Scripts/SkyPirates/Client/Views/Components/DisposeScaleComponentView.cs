@@ -23,7 +23,7 @@ namespace DVG.SkyPirates.Client.Views.Components
 
         public override void Tick()
         {
-            var alive = ViewModel.Alive;
+            bool alive = ViewModel.Alive;
             if (_alive == alive)
                 return;
 

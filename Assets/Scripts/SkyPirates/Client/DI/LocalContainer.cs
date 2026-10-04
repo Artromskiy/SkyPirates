@@ -24,7 +24,7 @@ namespace DVG.SkyPirates.Client.DI
     {
         public LocalContainer()
         {
-            DVG.Trace.Info("[DI] LocalContainer creation start");
+            Delta.Diagnostics.Trace.Info("[DI] LocalContainer creation start");
             RegisterSingleton<IClientService, FakeClient>();
             RegisterSingleton<IPlayer, Player>();
             RegisterSingleton<ICommandSender, LocalCommandSendService>();
@@ -49,7 +49,7 @@ namespace DVG.SkyPirates.Client.DI
             RegisterSingleton<ITickCounterService, TickCounterService>();
             RegisterSingleton<IHashSumService, HashSumService>();
 
-            DVG.Trace.Info("[DI] Collections registration");
+            Delta.Diagnostics.Trace.Info("[DI] Collections registration");
 
             Collection.Register<IPreTickable>(PreTickableExecutors, Lifestyle.Singleton);
             Collection.Register<IPostTickable>(PostTickableExecutors, Lifestyle.Singleton);

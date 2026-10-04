@@ -36,7 +36,7 @@ namespace DVG.SkyPirates.Client.Views.Components
 
         private void UpdateVolume()
         {
-            var radius = Mathf.Max(0f, _radius);
+            float radius = Mathf.Max(0f, _radius);
             if (_sphereOverlayView != null)
                 _sphereOverlayView.SetRadius(radius);
         }

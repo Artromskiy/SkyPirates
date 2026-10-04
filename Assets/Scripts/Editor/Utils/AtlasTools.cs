@@ -109,7 +109,7 @@ namespace DVG.Editor.Tools
             foreach (var src in _textures)
                 if (src != null) readables.Add(GetReadable(src));
 
-            if (readables.Count == 0) { DVG.Trace.Warn("[AtlasTools] No valid textures."); return; }
+            if (readables.Count == 0) { Delta.Diagnostics.Trace.Warn("[AtlasTools] No valid textures."); return; }
 
             int cols = Mathf.Max(_cols, 1);
             int rows = _autoRows ? Mathf.CeilToInt((float)readables.Count / cols) : Mathf.Max(_rows, 1);
@@ -156,7 +156,7 @@ namespace DVG.Editor.Tools
             File.WriteAllBytes(_outputPath, finalAtlas.EncodeToPNG());
             AssetDatabase.Refresh();
 
-            DVG.Trace.Info($"[AtlasTools] Done → {_outputPath} ({atlasW}x{atlasH}, {cols}x{rows} tiles @ {tileSize}px)");
+            Delta.Diagnostics.Trace.Info($"[AtlasTools] Done → {_outputPath} ({atlasW}x{atlasH}, {cols}x{rows} tiles @ {tileSize}px)");
         }
 
         private static Texture2D GetReadable(Texture2D src)

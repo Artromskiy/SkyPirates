@@ -47,20 +47,20 @@ namespace DVG.SkyPirates.Client.Entry
             var client = _container.GetInstance<Riptide.Client>();
             client.Connection.CanQualityDisconnect = false;
 
-            DVG.Trace.Info("Connected");
+            Delta.Diagnostics.Trace.Info("Connected");
         }
 
         private void OnDisconnected(object sender, Riptide.DisconnectedEventArgs e)
         {
-            DVG.Trace.Info(e.Message.GetString());
-            DVG.Trace.Assert(false, context: $"Disconnected: {e.Reason}");
+            Delta.Diagnostics.Trace.Info(e.Message.GetString());
+            Delta.Diagnostics.Trace.Assert(false, context: $"Disconnected: {e.Reason}");
         }
 
-        private static void LogRiptideInfo(string message) => DVG.Trace.Info(message);
+        private static void LogRiptideInfo(string message) => Delta.Diagnostics.Trace.Info(message);
 
-        private static void LogRiptideWarning(string message) => DVG.Trace.Warn(message);
+        private static void LogRiptideWarning(string message) => Delta.Diagnostics.Trace.Warn(message);
 
-        private static void LogRiptideError(string message) => DVG.Trace.Error(new Exception(message));
+        private static void LogRiptideError(string message) => Delta.Diagnostics.Trace.Error(new Exception(message));
 
         private void Update()
         {

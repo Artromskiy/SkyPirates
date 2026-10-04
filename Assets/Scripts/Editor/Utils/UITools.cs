@@ -13,7 +13,7 @@ namespace DVG.Editor.Tools
         [MenuItem("GameObject/DVG/UI/Disable Children Masking", true)]
         [MenuItem("GameObject/DVG/UI/Enable Children Masking", true)]
         private static bool ValidateTransform() => (Selection.activeTransform as RectTransform) != null;
-        private static void LogChangedElements() => DVG.Trace.Info($"Changed {_changeCounter} elements");
+        private static void LogChangedElements() => Delta.Diagnostics.Trace.Info($"Changed {_changeCounter} elements");
 
         [MenuItem("GameObject/DVG/UI/Fix Raycast Target", false, 0)]
         public static void FixRaycastTarget(MenuCommand cmd)

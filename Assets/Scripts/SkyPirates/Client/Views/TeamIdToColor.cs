@@ -47,8 +47,8 @@ namespace DVG.SkyPirates.Client.Views
         public static Color RecolorHue(Color from, int teamId)
         {
             Color to = GetColor(teamId);
-            Color.RGBToHSV(to, out var toHue, out _, out _);
-            Color.RGBToHSV(from, out _, out var s, out var v);
+            Color.RGBToHSV(to, out float toHue, out _, out _);
+            Color.RGBToHSV(from, out _, out float s, out float v);
 
             var c = Color.HSVToRGB(toHue, s, v);
             c.a = from.a;
@@ -61,7 +61,7 @@ namespace DVG.SkyPirates.Client.Views
             if (!_materials.TryGetValue(teamId, out var replacement))
             {
                 _materials[teamId] = replacement = new Material(material);
-                var hueOffset = _materialHueOffsets[teamId];
+                int hueOffset = _materialHueOffsets[teamId];
                 replacement.SetFloat("_Hue", hueOffset);
             }
             return replacement;

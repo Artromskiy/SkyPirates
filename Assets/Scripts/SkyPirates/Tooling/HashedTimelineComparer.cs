@@ -106,7 +106,7 @@ namespace DVG.SkyPirates.Tooling
             var commands = Get(_timelineIndex).Commands;
             var atTick = GetAtTick(commands, _tick);
             string res = SerializationUTF8.SerializeOrdered(atTick);
-            DVG.Trace.Info(res);
+            Delta.Diagnostics.Trace.Info(res);
             File.WriteAllText(GetPath("Command"), res);
         }
 
@@ -120,7 +120,7 @@ namespace DVG.SkyPirates.Tooling
 
             var commands = Get(_timelineIndex).Commands;
             string res = SerializationUTF8.SerializeOrdered(commands);
-            DVG.Trace.Info(res);
+            Delta.Diagnostics.Trace.Info(res);
             File.WriteAllText(GetPath("CommandsData"), res);
         }
 

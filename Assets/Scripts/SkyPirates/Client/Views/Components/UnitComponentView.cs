@@ -18,7 +18,7 @@ namespace DVG.SkyPirates.Client.Views.Components
         {
             var _meshRenderer = GetComponentInChildren<SkinnedMeshRenderer>(false);
             var materials = _meshRenderer.sharedMaterials;
-            var replaceIndex = Array.FindIndex(materials, m => m.name.Contains(MaterialName));
+            int replaceIndex = Array.FindIndex(materials, m => m.name.Contains(MaterialName));
             var replaceMaterial = materials[replaceIndex];
             replaceMaterial = TeamIdToColor.GetReplacementMaterial(replaceMaterial, teamId);
             materials[replaceIndex] = replaceMaterial;

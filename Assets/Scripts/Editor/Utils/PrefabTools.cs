@@ -12,7 +12,7 @@ namespace DVG.Editor.Tools
             if (selected == null || selected.Length == 0)
                 return;
 
-            DVG.Trace.Info($"Selected {selected.Length} elements");
+            Delta.Diagnostics.Trace.Info($"Selected {selected.Length} elements");
 
             int counter = 0;
             foreach (var item in selected)
@@ -20,7 +20,7 @@ namespace DVG.Editor.Tools
                 counter += RemoveMissingScriptsRecursive(item);
             }
 
-            DVG.Trace.Info($"Removed {counter} elements");
+            Delta.Diagnostics.Trace.Info($"Removed {counter} elements");
             AssetDatabase.Refresh();
         }
 

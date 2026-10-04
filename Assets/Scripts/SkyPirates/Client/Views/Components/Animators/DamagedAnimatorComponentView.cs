@@ -19,7 +19,7 @@ namespace DVG.SkyPirates.Client.Views.Components.Animators
 
         public override void Tick()
         {
-            var health = (float)ViewModel.Get<Health>().Value;
+            float health = (float)ViewModel.Get<Health>().Value;
             bool healthChanged = health < _prevHealth;
             _prevHealth = health;
             if (healthChanged && Animator != null)

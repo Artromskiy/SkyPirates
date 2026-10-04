@@ -37,8 +37,8 @@ namespace DVG.SkyPirates.Client.Views
             float2 angleDir = new float2(1, 0).Rotate(_xAngle);
 
             var currentPosition = _position - (angleDir * _distance)._yx;
-            var currentRotation = _xAngle;
-            var currentFoV = _fov;
+            float currentRotation = _xAngle;
+            float currentFoV = _fov;
 
             transform.SetPositionAndRotation(currentPosition, Quaternion.Euler(currentRotation, 0, 0));
             _camera.fieldOfView = Camera.HorizontalToVerticalFieldOfView(currentFoV, _camera.aspect);
@@ -47,7 +47,7 @@ namespace DVG.SkyPirates.Client.Views
         private void Update()
         {
             float deltaTime = Time.deltaTime;
-            var smooth = ViewModel.SmoothMoveTime;
+            float smooth = ViewModel.SmoothMoveTime;
             _distance = Maths.SmoothDamp(_distance, ViewModel.TargetDistance, ref _distanceVelocity, smooth, deltaTime);
             _fov = Maths.SmoothDamp(_fov, ViewModel.TargetFov, ref _fovVelocity, smooth, deltaTime);
             _xAngle = Maths.SmoothDamp(_xAngle, ViewModel.TargetAngle, ref _xAngleVelocity, smooth, deltaTime);
@@ -56,8 +56,8 @@ namespace DVG.SkyPirates.Client.Views
             float2 angleDir = new float2(1, 0).Rotate(_xAngle);
 
             var currentPosition = _position - (angleDir * _distance)._yx;
-            var currentRotation = _xAngle;
-            var currentFoV = _fov;
+            float currentRotation = _xAngle;
+            float currentFoV = _fov;
 
             transform.SetPositionAndRotation(currentPosition, Quaternion.Euler(currentRotation, 0, 0));
             _camera.fieldOfView = Camera.HorizontalToVerticalFieldOfView(currentFoV, _camera.aspect);
@@ -69,7 +69,7 @@ namespace DVG.SkyPirates.Client.Views
         {
             float minHeight = -5;
             var ray = Camera.main.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height));
-            new Plane(Vector3.down, minHeight).Raycast(ray, out var enter);
+            new Plane(Vector3.down, minHeight).Raycast(ray, out float enter);
             QualitySettings.shadowDistance = enter;
             UniversalRenderPipelineAsset urp = (UniversalRenderPipelineAsset)GraphicsSettings.currentRenderPipeline;
             urp.shadowDistance = enter;

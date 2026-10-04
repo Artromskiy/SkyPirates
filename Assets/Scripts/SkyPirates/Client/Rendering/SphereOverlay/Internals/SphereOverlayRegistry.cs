@@ -11,22 +11,27 @@ namespace DVG.SkyPirates.Rendering.SphereOverlay.Internals
         {
             public Object Owner;
             public Vector4 CenterRadius;
-            public Vector4 Color;
+            public Vector4 CenterColor;
+            public Vector4 EdgeColor;
         }
 
         private static readonly Dictionary<Object, Volume> Volumes = new Dictionary<Object, Volume>();
         private static readonly List<Object> StaleOwners = new List<Object>();
 
-        internal static void Set(Object owner, Vector3 center, float radius, Color color)
+        internal static void Set(Object owner, Vector3 center, float radius, Color color, Color centerColor, Color edgeColor)
         {
             if (owner == null)
                 return;
+
+            centerColor *= color;
+            edgeColor *= color;
 
             Volumes[owner] = new Volume
             {
                 Owner = owner,
                 CenterRadius = new Vector4(center.x, center.y, center.z, Mathf.Max(0f, radius)),
-                Color = new Vector4(color.r, color.g, color.b, color.a)
+                CenterColor = new Vector4(centerColor.r, centerColor.g, centerColor.b, centerColor.a),
+                EdgeColor = new Vector4(edgeColor.r, edgeColor.g, edgeColor.b, edgeColor.a)
             };
         }
 
@@ -36,7 +41,7 @@ namespace DVG.SkyPirates.Rendering.SphereOverlay.Internals
                 Volumes.Remove(owner);
         }
 
-        internal static int CopyTo(Vector4[] centers, Vector4[] colors)
+        internal static int CopyTo(Vector4[] centers, Vector4[] centerColors, Vector4[] edgeColors)
         {
             StaleOwners.Clear();
             var count = 0;
@@ -49,11 +54,12 @@ namespace DVG.SkyPirates.Rendering.SphereOverlay.Internals
                     continue;
                 }
 
-                if (count >= centers.Length || count >= colors.Length)
+                if (count >= centers.Length || count >= centerColors.Length || count >= edgeColors.Length)
                     break;
 
                 centers[count] = volume.CenterRadius;
-                colors[count] = volume.Color;
+                centerColors[count] = volume.CenterColor;
+                edgeColors[count] = volume.EdgeColor;
                 count++;
             }
 

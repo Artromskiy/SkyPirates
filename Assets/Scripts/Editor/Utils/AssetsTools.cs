@@ -23,7 +23,7 @@ namespace DVG.Editor.Tools
                 FileUtil.DeleteFileOrDirectory($"{d.FullName}.meta");
             }
 
-            DVG.Trace.Info($"Removed {_empty.Count} empty folders");
+            Delta.Diagnostics.Trace.Info($"Removed {_empty.Count} empty folders");
             if (_empty.Count > 0)
                 AssetDatabase.Refresh();
         }

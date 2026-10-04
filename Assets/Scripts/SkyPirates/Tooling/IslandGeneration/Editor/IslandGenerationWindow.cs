@@ -341,7 +341,7 @@ namespace DVG.SkyPirates.Tooling.IslandGeneration.Editor
                         }
 
                         _status.text = exception.Message;
-                        UnityEngine.Debug.LogException(exception);
+                        Delta.Diagnostics.Debug.Error(exception, context: this);
                     },
                     finished =>
                     {
@@ -368,7 +368,7 @@ namespace DVG.SkyPirates.Tooling.IslandGeneration.Editor
                 }
 
                 _status.text = exception.Message;
-                UnityEngine.Debug.LogException(exception);
+                Delta.Diagnostics.Debug.Error(exception, context: this);
             }
         }
 

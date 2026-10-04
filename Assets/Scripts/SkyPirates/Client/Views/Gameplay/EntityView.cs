@@ -35,14 +35,14 @@ namespace DVG.SkyPirates.Client.Views.Gameplay
                 return;
             }
 
-            var disabled = ViewModel.Disabled;
+            bool disabled = ViewModel.Disabled;
             if (_disabled == disabled && disabled)
                 return;
             _disabled = disabled;
 
 
             _disposingTime = ViewModel.Alive ? 0 : _disposingTime + Time.unscaledDeltaTime;
-            var disposing = _disposingTime > _disposingDelay;
+            bool disposing = _disposingTime > _disposingDelay;
 
             if (_disposing == disposing && disposing)
                 return;
