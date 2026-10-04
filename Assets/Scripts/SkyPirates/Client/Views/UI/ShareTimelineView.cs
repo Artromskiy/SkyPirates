@@ -45,7 +45,7 @@ namespace DVG.SkyPirates.Client.Views
         private object GetObj()
         {
             var snaphsots = _writer.GetSnapshots();
-            var session = _session.Session?.Host.CaptureSnapshot();
+            var session = _session.Session?.CaptureSnapshot();
             return (snaphsots, session);
         }
 
