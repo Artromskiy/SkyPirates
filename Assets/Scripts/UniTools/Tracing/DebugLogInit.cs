@@ -12,11 +12,11 @@ namespace DVG.SkyPirates.Client.Init
         [UnityEngine.RuntimeInitializeOnLoadMethod(UnityEngine.RuntimeInitializeLoadType.SubsystemRegistration)]
         private static void Init()
         {
-            Logger.Instance = new UnityLogger();
+            Delta.Diagnostics.Logger.Instance = new UnityLogger();
         }
     }
 
-    internal sealed class UnityLogger : ILogger
+    internal sealed class UnityLogger : Delta.Diagnostics.ILogger
     {
         [HideInCallstack]
         public void Info(string message, string? method, object? context)
