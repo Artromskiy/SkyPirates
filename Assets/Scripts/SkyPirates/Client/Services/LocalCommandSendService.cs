@@ -1,4 +1,4 @@
-using DVG.Commands;
+using Delta.Netcode;
 using DVG.SkyPirates.Client.IServices;
 using DVG.SkyPirates.Shared.IServices;
 
@@ -15,7 +15,7 @@ namespace DVG.SkyPirates.Local.Services
 
         public void SendCommand<T>(Command<T> cmd)
         {
-            if (CommandsRegistry.IsPredicted<T>())
+            if (GeneratedCommands.GetRegistration<T>().IsPredicted)
                 return;
 
             _comandReciever.InvokeCommand(cmd);

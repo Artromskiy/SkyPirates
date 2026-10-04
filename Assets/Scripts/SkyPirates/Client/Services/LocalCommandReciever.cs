@@ -1,6 +1,6 @@
 #nullable enable
 using DVG.Collections;
-using DVG.Commands;
+using Delta.Netcode;
 using DVG.SkyPirates.Shared.Commands;
 using DVG.SkyPirates.Shared.Data;
 using DVG.SkyPirates.Shared.IServices;
@@ -32,7 +32,9 @@ namespace DVG.SkyPirates.Local.Services
                     var syncIdReserve = _entityRegistry.Reserve(10);
                     int randomSeed = new Random().Next();
                     var creationParameters = new EntityParameters(syncId, syncIdReserve, randomSeed);
-                    castedCmd.Data.CreationData = creationParameters;
+                    var payload = castedCmd.Payload;
+                    payload.CreationData = creationParameters;
+                    castedCmd = new Command<SpawnSquadCommand>(castedCmd.Header, payload);
                     command = Unsafe.As<Command<SpawnSquadCommand>, Command<T>>(ref castedCmd);
                 }
                 if (command is Command<SpawnUnitCommand> unitCmd)
@@ -42,7 +44,9 @@ namespace DVG.SkyPirates.Local.Services
                     var syncIdReserve = _entityRegistry.Reserve(10);
                     int randomSeed = new Random().Next();
                     var creationParameters = new EntityParameters(syncId, syncIdReserve, randomSeed);
-                    castedCmd.Data.CreationData = creationParameters;
+                    var payload = castedCmd.Payload;
+                    payload.CreationData = creationParameters;
+                    castedCmd = new Command<SpawnUnitCommand>(castedCmd.Header, payload);
                     command = Unsafe.As<Command<SpawnUnitCommand>, Command<T>>(ref castedCmd);
                 }
             }

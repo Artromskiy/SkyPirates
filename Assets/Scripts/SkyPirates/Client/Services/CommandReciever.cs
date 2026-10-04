@@ -1,10 +1,12 @@
 #nullable enable
 using DVG.Collections;
-using DVG.Commands;
+using Delta.Netcode;
 using DVG.SkyPirates.Shared.IServices;
 using DVG.SkyPirates.Shared.Services;
 using Riptide;
 using System;
+using CommandsRegistry = DVG.Commands.CommandsRegistry;
+using IGenericAction = DVG.Commands.IGenericAction;
 
 namespace DVG.SkyPirates.Client.Services
 {

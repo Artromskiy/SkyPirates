@@ -1,9 +1,12 @@
 ﻿using DVG.Collections;
-using DVG.Commands;
+using Delta.Netcode;
 using DVG.SkyPirates.Client.IServices;
+using DVG.SkyPirates.Shared.Commands;
 using DVG.SkyPirates.Shared.IServices;
 using System;
 using System.Collections.Generic;
+using CommandsRegistry = DVG.Commands.CommandsRegistry;
+using IGenericAction = DVG.Commands.IGenericAction;
 
 namespace DVG.SkyPirates.Client.Services
 {
@@ -33,7 +36,7 @@ namespace DVG.SkyPirates.Client.Services
             if (!_client.IsConnected)
                 return;
 
-            cmd = cmd.WithClientId(_client.Id);
+            cmd = SkyPiratesCommand.WithClientId(cmd, _client.Id);
 
             _scheduled.Add(cmd);
         }
@@ -69,9 +72,9 @@ namespace DVG.SkyPirates.Client.Services
                     return;
 
                 _scheduled.Remove<Command<T>>();
-                var updated = command.WithTick(_tick);
+                var updated = SkyPiratesCommand.WithTick(command, _tick);
 
-                if (CommandsRegistry.IsPredicted<T>())
+                if (GeneratedCommands.GetRegistration<T>().IsPredicted)
                     _commandReciever.InvokeCommand(updated);
 
                 if (!_delayed.TryGet<Queue<(Command<T> cmd, int sendTick)>>(out var cmdList))

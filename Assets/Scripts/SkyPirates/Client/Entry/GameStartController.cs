@@ -1,9 +1,11 @@
 ﻿using Delta;
-using DVG.Commands;
+using Delta.Netcode;
 using DVG.SkyPirates.Shared.Commands;
 using DVG.SkyPirates.Shared.IServices;
 using DVG.SkyPirates.Shared.IServices.TickableExecutors;
 using System.Diagnostics;
+using CommandsRegistry = DVG.Commands.CommandsRegistry;
+using IGenericAction = DVG.Commands.IGenericAction;
 
 namespace DVG.SkyPirates.Client.Entry
 {
@@ -27,8 +29,8 @@ namespace DVG.SkyPirates.Client.Entry
             _comandReciever.RegisterReciever<TickSyncCommand>(OnSyncTick);
             _comandReciever.RegisterReciever<LoadWorldCommand>(c =>
             {
-                _timeline.CurrentTick = c.Tick;
-                _timeline.DirtyTick = c.Tick;
+                _timeline.CurrentTick = SkyPiratesCommand.GetTick(c);
+                _timeline.DirtyTick = SkyPiratesCommand.GetTick(c);
             });
             var subscrive = new CommandCallback(_timeline, _comandReciever);
             CommandsRegistry.ForEach(ref subscrive);
@@ -36,9 +38,9 @@ namespace DVG.SkyPirates.Client.Entry
 
         private void OnSyncTick(Command<TickSyncCommand> cmd)
         {
-            if (cmd.Tick > _targetTick)
+            if (SkyPiratesCommand.GetTick(cmd) > _targetTick)
             {
-                TickOffset = Maths.Max(cmd.Tick, TickOffset);
+                TickOffset = Maths.Max(SkyPiratesCommand.GetTick(cmd), TickOffset);
                 _mainSw.Restart();
             }
         }
@@ -73,7 +75,7 @@ namespace DVG.SkyPirates.Client.Entry
                 var timeline = _timelineService;
                 _commandReciever.RegisterReciever<T>((c) =>
                 {
-                    timeline.DirtyTick = Maths.Min(timeline.DirtyTick, c.Tick);
+                    timeline.DirtyTick = Maths.Min(timeline.DirtyTick, SkyPiratesCommand.GetTick(c));
                 });
             }
         }

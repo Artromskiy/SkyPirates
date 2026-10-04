@@ -1,4 +1,4 @@
-using DVG.Commands;
+using Delta.Netcode;
 using DVG.Core;
 using DVG.SkyPirates.Client.DI;
 using DVG.SkyPirates.Client.Entry;
@@ -35,7 +35,7 @@ namespace DVG.SkyPirates.Local.Entry
                 history.ApplySnapshot(worldData);
                 history.SaveBaseline();
                 Delta.Diagnostics.Trace.Info("[LocalStart] Spawn squad");
-                comandReciever.InvokeCommand(new Command<SpawnSquadCommand>(client.Id, 5, new SpawnSquadCommand()));
+                comandReciever.InvokeCommand(SkyPiratesCommand.Create(client.Id, 5, new SpawnSquadCommand()));
             }
             catch (Exception e)
             {

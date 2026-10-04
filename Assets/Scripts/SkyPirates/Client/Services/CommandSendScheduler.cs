@@ -1,7 +1,10 @@
 ﻿using DVG.Collections;
-using DVG.Commands;
+using Delta.Netcode;
 using DVG.SkyPirates.Client.IServices;
+using DVG.SkyPirates.Shared.Commands;
 using DVG.SkyPirates.Shared.IServices;
+using CommandsRegistry = DVG.Commands.CommandsRegistry;
+using IGenericAction = DVG.Commands.IGenericAction;
 
 namespace DVG.SkyPirates.Client.Services
 {
@@ -26,7 +29,7 @@ namespace DVG.SkyPirates.Client.Services
             if (!_client.IsConnected || !_player.CurrentEntityId.HasValue)
                 return;
 
-            cmd = cmd.WithClientId(_client.Id);
+            cmd = SkyPiratesCommand.WithClientId(cmd, _client.Id);
             _scheduled.Add(cmd);
         }
 
@@ -57,9 +60,9 @@ namespace DVG.SkyPirates.Client.Services
                 if (!_scheduledCommands.TryGet<Command<T>>(out var cmd))
                     return;
 
-                var cmdMod = cmd.WithTick(_tick);
+                var cmdMod = SkyPiratesCommand.WithTick(cmd, _tick);
 
-                if (CommandsRegistry.IsPredicted<T>())
+                if (GeneratedCommands.GetRegistration<T>().IsPredicted)
                     _commandReciever.InvokeCommand(cmdMod);
 
                 _commandSendService.SendCommand(cmdMod);

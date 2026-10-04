@@ -1,5 +1,5 @@
 ﻿#nullable enable
-using DVG.Commands;
+using Delta.Netcode;
 
 namespace DVG.SkyPirates.Client.IServices
 {

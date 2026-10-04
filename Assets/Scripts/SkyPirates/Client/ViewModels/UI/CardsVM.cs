@@ -1,4 +1,4 @@
-﻿using DVG.Commands;
+﻿using Delta.Netcode;
 using DVG.SkyPirates.Client.IServices;
 using DVG.SkyPirates.Client.IViewModels;
 using DVG.SkyPirates.Shared.Commands;
@@ -42,7 +42,7 @@ namespace DVG.SkyPirates.Client.ViewModels.UI
                 UnitId = selected,
                 SquadId = _player.SquadEntityId.Value,
             };
-            var cmd = Command.Create(cmdData);
+            var cmd = SkyPiratesCommand.Create(cmdData);
             _sendScheduler.SendCommand(cmd);
         }
     }

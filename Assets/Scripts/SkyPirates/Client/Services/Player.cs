@@ -1,4 +1,4 @@
-﻿using DVG.Commands;
+﻿using Delta.Netcode;
 using DVG.SkyPirates.Client.IServices;
 using DVG.SkyPirates.Shared.Commands;
 using DVG.SkyPirates.Shared.IServices;
@@ -24,11 +24,11 @@ namespace DVG.SkyPirates.Client.Services
 
         private void OnSpawnSquad(Command<SpawnSquadCommand> cmd)
         {
-            if (cmd.ClientId != _client.Id)
+            if (SkyPiratesCommand.GetClientId(cmd) != _client.Id)
                 return;
 
-            SquadEntityId = cmd.Data.CreationData.SyncId;
-            CurrentEntityId = cmd.Data.CreationData.SyncId;
+            SquadEntityId = cmd.Payload.CreationData.SyncId;
+            CurrentEntityId = cmd.Payload.CreationData.SyncId;
         }
     }
 }
