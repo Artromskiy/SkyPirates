@@ -1,0 +1,981 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>DeltaNetcode</name>
+    </assembly>
+    <members>
+        <member name="T:Delta.Netcode.ICommandPayloadHandler">
+            <summary>Serializes and deserializes application-defined command payloads.</summary>
+        </member>
+        <member name="M:Delta.Netcode.ICommandPayloadHandler.Write``1(``0@,System.Buffers.IBufferWriter{System.Byte})">
+            <summary>Serializes a command payload into the supplied buffer.</summary>
+            <typeparam name="T">The command payload type.</typeparam>
+            <param name="payload">The payload value to serialize.</param>
+            <param name="output">The destination buffer writer.</param>
+        </member>
+        <member name="M:Delta.Netcode.ICommandPayloadHandler.Read``1(System.ReadOnlySpan{System.Byte})">
+            <summary>Deserializes a command payload from its encoded bytes.</summary>
+            <typeparam name="T">The expected command payload type.</typeparam>
+            <param name="payload">The encoded payload bytes.</param>
+            <returns>The decoded payload value.</returns>
+        </member>
+        <member name="T:Delta.Netcode.ICommandValidator">
+            <summary>Validates commands with a shared rule independent of command type.</summary>
+        </member>
+        <member name="M:Delta.Netcode.ICommandValidator.Validate``1(Delta.Netcode.Command{``0}@)">
+            <summary>Returns whether a command satisfies this validation rule.</summary>
+            <typeparam name="T">The command payload type.</typeparam>
+            <param name="command">The command and its session header.</param>
+            <returns><see langword="true"/> when the command is valid.</returns>
+        </member>
+        <member name="T:Delta.Netcode.ICommandValidator`1">
+            <summary>Validates commands of one payload type.</summary>
+            <typeparam name="T">The command payload type.</typeparam>
+        </member>
+        <member name="M:Delta.Netcode.ICommandValidator`1.Validate(Delta.Netcode.Command{`0}@)">
+            <summary>Returns whether a command satisfies this validation rule.</summary>
+            <param name="command">The command and its session header.</param>
+            <returns><see langword="true"/> when the command is valid.</returns>
+        </member>
+        <member name="T:Delta.Netcode.ICommandMutator`1">
+            <summary>Mutates a command payload before an authority accepts and records it.</summary>
+            <typeparam name="T">The command payload type.</typeparam>
+        </member>
+        <member name="M:Delta.Netcode.ICommandMutator`1.Mutate(`0@,Delta.Netcode.CommandPreparation)">
+            <summary>Applies deterministic authoritative changes to a command payload.</summary>
+            <param name="payload">The payload being changed.</param>
+            <param name="preparation">The transactional ID and seed allocator for this command.</param>
+        </member>
+        <member name="T:Delta.Netcode.ICommandExecutor`1">
+            <summary>Executes an accepted command during its scheduled simulation step.</summary>
+            <typeparam name="T">The command payload type.</typeparam>
+        </member>
+        <member name="M:Delta.Netcode.ICommandExecutor`1.Execute(Delta.Netcode.Command{`0}@)">
+            <summary>Applies the accepted command to application-owned simulation state.</summary>
+            <param name="command">The accepted command and authoritative header.</param>
+        </member>
+        <member name="T:Delta.Netcode.CommandPreparation">
+            <summary>Allocates deterministic IDs and seeds for a command being prepared by authority.</summary>
+        </member>
+        <member name="M:Delta.Netcode.CommandPreparation.#ctor(Delta.Netcode.CommandPreparationState)">
+            <summary>
+            Creates command preparation from previously captured state.
+            </summary>
+        </member>
+        <member name="M:Delta.Netcode.CommandPreparation.#ctor(System.UInt64,System.UInt64)">
+            <summary>
+            Creates command preparation from the first identifier and random seed.
+            </summary>
+        </member>
+        <member name="M:Delta.Netcode.CommandPreparation.NextId">
+            <summary>
+            Returns the next identifier and advances the allocator by one.
+            </summary>
+        </member>
+        <member name="M:Delta.Netcode.CommandPreparation.ReserveIds(System.UInt32)">
+            <summary>
+            Reserves a contiguous range and returns its first identifier.
+            </summary>
+        </member>
+        <member name="M:Delta.Netcode.CommandPreparation.NextSeed">
+            <summary>
+            Returns the next deterministic seed.
+            </summary>
+        </member>
+        <member name="M:Delta.Netcode.CommandPreparation.Capture">
+            <summary>
+            Captures the allocator and random state.
+            </summary>
+        </member>
+        <member name="T:Delta.Netcode.CommandIds">
+            <summary>Creates stable command identifiers from CLR metadata names.</summary>
+        </member>
+        <member name="M:Delta.Netcode.CommandIds.FromMetadataName(System.String)">
+            <summary>Hashes a metadata name with UTF-8 FNV-1a 64.</summary>
+            <param name="metadataName">The command type's CLR metadata full name.</param>
+            <returns>The 64-bit command identifier.</returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="metadataName"/> is <see langword="null"/>.</exception>
+        </member>
+        <member name="T:Delta.Netcode.ICommandJournal">
+            <summary>Stores command requests, authoritative outcomes and cancellation tombstones.</summary>
+        </member>
+        <member name="M:Delta.Netcode.ICommandJournal.TryGet(Delta.Netcode.CommandKey,Delta.Netcode.JournalRecord@)">
+            <summary>Looks up a command record by its stable key.</summary>
+            <param name="key">The command key to find.</param>
+            <param name="record">Receives the stored record when found; otherwise <see langword="null"/>.</param>
+            <returns><see langword="true"/> when a record exists.</returns>
+        </member>
+        <member name="M:Delta.Netcode.ICommandJournal.Append(Delta.Netcode.JournalRecord@)">
+            <summary>Adds a command record; the key must not already exist.</summary>
+            <param name="record">The command record to append.</param>
+        </member>
+        <member name="M:Delta.Netcode.ICommandJournal.Replace(Delta.Netcode.JournalRecord@)">
+            <summary>Replaces the record stored for the same command key.</summary>
+            <param name="record">The updated command record.</param>
+        </member>
+        <member name="M:Delta.Netcode.ICommandJournal.Cancel(Delta.Netcode.CommandKey)">
+            <summary>Marks a command cancelled or records a tombstone for a not-yet-seen key.</summary>
+            <param name="key">The command key to cancel.</param>
+        </member>
+        <member name="M:Delta.Netcode.ICommandJournal.ReadAcceptedAfter(Delta.Netcode.CommandCursor)">
+            <summary>
+            Returns accepted, non-cancelled records after a snapshot boundary, in simulation order.
+            </summary>
+            <remarks>
+            Records later than <paramref name="cursor"/> are those at a later step or with a higher
+            authoritative session order. This includes future commands already accepted at capture time
+            and commands accepted later inside the rollback window.
+            </remarks>
+        </member>
+        <member name="M:Delta.Netcode.ICommandJournal.Clear">
+            <summary>
+            Removes all records from the journal.
+            </summary>
+        </member>
+        <member name="T:Delta.Netcode.JournalRecord">
+            <summary>Stores the request and authoritative result for one command.</summary>
+        </member>
+        <member name="M:Delta.Netcode.JournalRecord.#ctor(Delta.Netcode.CommandHeader,Delta.Netcode.CommandResult,System.ReadOnlySpan{System.Byte},System.ReadOnlySpan{System.Byte},System.Nullable{Delta.Netcode.CommandHeader})">
+            <summary>Creates an owned copy of a command's request and final payloads.</summary>
+            <param name="header">The authoritative command header.</param>
+            <param name="result">The command result.</param>
+            <param name="requestPayload">The original submitted payload bytes.</param>
+            <param name="finalPayload">The final accepted payload bytes, or empty for a non-accepted result.</param>
+            <param name="requestHeader">The original proposal header when it differs from the authoritative header.</param>
+        </member>
+        <member name="P:Delta.Netcode.JournalRecord.Header">
+            <summary>Gets the authoritative command header.</summary>
+        </member>
+        <member name="P:Delta.Netcode.JournalRecord.RequestHeader">
+            <summary>Gets the original proposal header.</summary>
+        </member>
+        <member name="P:Delta.Netcode.JournalRecord.Result">
+            <summary>Gets the recorded decision for the command.</summary>
+        </member>
+        <member name="P:Delta.Netcode.JournalRecord.RequestPayload">
+            <summary>Gets the owned bytes submitted in the original request.</summary>
+        </member>
+        <member name="P:Delta.Netcode.JournalRecord.FinalPayload">
+            <summary>Gets the owned final payload bytes used for accepted execution.</summary>
+        </member>
+        <member name="P:Delta.Netcode.JournalRecord.IsCancelled">
+            <summary>Gets whether this record is a cancellation tombstone or was cancelled.</summary>
+        </member>
+        <member name="T:Delta.Netcode.MemoryCommandJournal">
+            <summary>Stores command records in memory for one session lifetime.</summary>
+        </member>
+        <member name="M:Delta.Netcode.MemoryCommandJournal.TryGet(Delta.Netcode.CommandKey,Delta.Netcode.JournalRecord@)">
+            <inheritdoc />
+        </member>
+        <member name="M:Delta.Netcode.MemoryCommandJournal.Append(Delta.Netcode.JournalRecord@)">
+            <inheritdoc />
+        </member>
+        <member name="M:Delta.Netcode.MemoryCommandJournal.Replace(Delta.Netcode.JournalRecord@)">
+            <inheritdoc />
+        </member>
+        <member name="M:Delta.Netcode.MemoryCommandJournal.Cancel(Delta.Netcode.CommandKey)">
+            <inheritdoc />
+        </member>
+        <member name="M:Delta.Netcode.MemoryCommandJournal.ReadAcceptedAfter(Delta.Netcode.CommandCursor)">
+            <inheritdoc />
+        </member>
+        <member name="M:Delta.Netcode.MemoryCommandJournal.Clear">
+            <inheritdoc />
+        </member>
+        <member name="T:Delta.Netcode.ITransport">
+            <summary>Sends encoded session messages over an application-owned transport.</summary>
+        </member>
+        <member name="M:Delta.Netcode.ITransport.Send(System.UInt64,System.ReadOnlySpan{System.Byte})">
+            <summary>Sends a message to one transport connection.</summary>
+            <param name="connectionId">The transport-specific destination connection.</param>
+            <param name="message">The encoded message bytes, borrowed for the duration of the call.</param>
+        </member>
+        <member name="T:Delta.Netcode.ISimulation">
+            <summary>Provides deterministic simulation state save, load and fixed-step updates.</summary>
+        </member>
+        <member name="M:Delta.Netcode.ISimulation.Tick(System.Int64)">
+            <summary>Advances the application simulation by the specified step.</summary>
+            <param name="simulationStep">The step being applied.</param>
+        </member>
+        <member name="M:Delta.Netcode.ISimulation.Save(System.Buffers.IBufferWriter{System.Byte})">
+            <summary>Writes the complete simulation state to the supplied buffer.</summary>
+            <param name="output">The destination buffer writer.</param>
+        </member>
+        <member name="M:Delta.Netcode.ISimulation.Load(System.ReadOnlySpan{System.Byte})">
+            <summary>Replaces the simulation state from previously saved bytes.</summary>
+            <param name="state">The serialized simulation state.</param>
+        </member>
+        <member name="T:Delta.Netcode.ISessionModel">
+            <summary>Schedules commands and owns rollback or snapshot state for a session.</summary>
+        </member>
+        <member name="M:Delta.Netcode.ISessionModel.TrySchedule(System.Int64@)">
+            <summary>Adjusts a proposed step to a schedulable step or rejects it.</summary>
+            <param name="simulationStep">The proposed step, updated when the model reschedules it.</param>
+            <returns><see langword="true"/> when the command can be scheduled.</returns>
+        </member>
+        <member name="M:Delta.Netcode.ISessionModel.CanCancel(Delta.Netcode.CommandHeader@)">
+            <summary>Returns whether a command at the given header can still be cancelled.</summary>
+            <param name="header">The command's scheduled header.</param>
+            <returns><see langword="true"/> when the command is within the mutable history window.</returns>
+        </member>
+        <member name="M:Delta.Netcode.ISessionModel.SetCommand(Delta.Netcode.CommandEntry)">
+            <summary>Adds or replaces an execution entry in the model.</summary>
+            <param name="command">The command entry to schedule.</param>
+        </member>
+        <member name="M:Delta.Netcode.ISessionModel.Remove(Delta.Netcode.CommandKey)">
+            <summary>Removes a scheduled command by key.</summary>
+            <param name="key">The command key to remove.</param>
+        </member>
+        <member name="M:Delta.Netcode.ISessionModel.Tick(System.Int64)">
+            <summary>Advances the model through the requested simulation step.</summary>
+            <param name="simulationStep">The last step to apply.</param>
+        </member>
+        <member name="M:Delta.Netcode.ISessionModel.Save(System.Buffers.IBufferWriter{System.Byte})">
+            <summary>Serializes the current model state.</summary>
+            <param name="output">The destination buffer writer.</param>
+        </member>
+        <member name="M:Delta.Netcode.ISessionModel.SaveReplayAnchor(System.Buffers.IBufferWriter{System.Byte})">
+            <summary>
+            Writes a replayable baseline and returns the last completed step represented by it.
+            Commands after that step can be replayed against the baseline.
+            </summary>
+        </member>
+        <member name="M:Delta.Netcode.ISessionModel.Load(System.ReadOnlySpan{System.Byte})">
+            <summary>Restores model state from a serialized representation.</summary>
+            <param name="state">The previously saved model state.</param>
+        </member>
+        <member name="T:Delta.Netcode.CommandEntry">
+            <summary>Owns a command's final payload and invokes its executor when scheduled.</summary>
+        </member>
+        <member name="P:Delta.Netcode.CommandEntry.Header">
+            <summary>Gets the authoritative header used to schedule this command.</summary>
+        </member>
+        <member name="P:Delta.Netcode.CommandEntry.FinalPayload">
+            <summary>Gets the owned final payload bytes used for execution and replay.</summary>
+        </member>
+        <member name="M:Delta.Netcode.CommandEntry.Execute">
+            <summary>Executes the command payload through its registered executor.</summary>
+        </member>
+        <member name="T:Delta.Netcode.CommandProtocol">
+            <summary>Encodes and decodes command and snapshot wire frames.</summary>
+        </member>
+        <member name="M:Delta.Netcode.CommandProtocol.EncodeProposal(Delta.Netcode.CommandHeader@,System.ReadOnlySpan{System.Byte})">
+            <summary>Encodes a client command proposal.</summary>
+            <param name="header">The proposal header.</param>
+            <param name="payload">The serialized command payload.</param>
+            <returns>A newly allocated proposal frame.</returns>
+        </member>
+        <member name="M:Delta.Netcode.CommandProtocol.EncodeOutcome(Delta.Netcode.CommandOutcome@,System.ReadOnlySpan{System.Byte})">
+            <summary>Encodes an authoritative command outcome.</summary>
+            <param name="outcome">The decision and authoritative command header.</param>
+            <param name="finalPayload">The final payload bytes for an accepted command; otherwise empty.</param>
+            <returns>A newly allocated outcome frame.</returns>
+        </member>
+        <member name="M:Delta.Netcode.CommandProtocol.EncodeCancel(Delta.Netcode.CommandKey)">
+            <summary>Encodes a cancellation request for a command key.</summary>
+            <param name="key">The command key to cancel.</param>
+            <returns>A newly allocated cancellation frame.</returns>
+        </member>
+        <member name="M:Delta.Netcode.CommandProtocol.WriteSnapshot(Delta.Netcode.SessionSnapshot,System.Buffers.IBufferWriter{System.Byte})">
+            <summary>
+            Writes a session snapshot frame to the supplied buffer writer.
+            </summary>
+            <param name="snapshot">The snapshot to encode.</param>
+            <param name="output">The destination buffer writer.</param>
+        </member>
+        <member name="M:Delta.Netcode.CommandProtocol.TryReadSnapshot(System.ReadOnlySpan{System.Byte},Delta.Netcode.SessionSnapshot@)">
+            <summary>
+            Reads a session snapshot frame and copies its model state into an owned snapshot.
+            </summary>
+            <param name="message">The encoded message to inspect.</param>
+            <param name="snapshot">Receives the decoded snapshot when the frame is valid.</param>
+            <returns><see langword="true"/> if the message is a valid snapshot frame.</returns>
+        </member>
+        <member name="M:Delta.Netcode.CommandProtocol.TryReadCommand(System.ReadOnlySpan{System.Byte},Delta.Netcode.CommandHeader@,System.ReadOnlySpan{System.Byte}@)">
+            <summary>Reads a proposal header and borrows its serialized payload from a message.</summary>
+            <param name="message">The encoded message to inspect.</param>
+            <param name="header">Receives the decoded command header.</param>
+            <param name="payload">Receives the payload slice within <paramref name="message"/>.</param>
+            <returns><see langword="true"/> if the message has a valid proposal frame prefix.</returns>
+        </member>
+        <member name="M:Delta.Netcode.CommandProtocol.TryReadOutcome(System.ReadOnlySpan{System.Byte},Delta.Netcode.CommandOutcome@,System.ReadOnlySpan{System.Byte}@)">
+            <summary>Reads an authoritative outcome and borrows its final payload from a message.</summary>
+            <param name="message">The encoded message to inspect.</param>
+            <param name="outcome">Receives the decoded outcome.</param>
+            <param name="finalPayload">Receives the final payload slice within <paramref name="message"/>.</param>
+            <returns><see langword="true"/> if the message contains a valid outcome frame.</returns>
+        </member>
+        <member name="M:Delta.Netcode.CommandProtocol.TryReadCancel(System.ReadOnlySpan{System.Byte},Delta.Netcode.CommandKey@)">
+            <summary>Reads a cancellation request.</summary>
+            <param name="message">The encoded message to inspect.</param>
+            <param name="key">Receives the cancelled command key.</param>
+            <returns><see langword="true"/> if the message is a valid cancellation frame.</returns>
+        </member>
+        <member name="T:Delta.Netcode.CommandRegistry">
+            <summary>Maps command payload types and stable IDs for one session.</summary>
+        </member>
+        <member name="M:Delta.Netcode.CommandRegistry.Register``1(System.UInt64,System.Boolean)">
+            <summary>Registers a payload type with an ID and prediction setting.</summary>
+            <typeparam name="T">The command payload type.</typeparam>
+            <param name="id">The non-zero stable command ID.</param>
+            <param name="isPredicted">Whether clients apply the command before confirmation.</param>
+        </member>
+        <member name="M:Delta.Netcode.CommandRegistry.Register(Delta.Netcode.ICommandRegistration)">
+            <summary>Adds a command registration to this registry.</summary>
+            <param name="registration">The registration to add.</param>
+            <exception cref="T:System.ArgumentNullException"><paramref name="registration"/> is <see langword="null"/>.</exception>
+            <exception cref="T:System.InvalidOperationException">The ID or payload type conflicts with an existing registration.</exception>
+        </member>
+        <member name="M:Delta.Netcode.CommandRegistry.GetId``1">
+            <summary>Gets the registered ID for a payload type.</summary>
+            <typeparam name="T">The registered command payload type.</typeparam>
+            <returns>The stable command ID.</returns>
+            <exception cref="T:System.Collections.Generic.KeyNotFoundException">The payload type is not registered.</exception>
+        </member>
+        <member name="M:Delta.Netcode.CommandRegistry.TryGet(System.UInt64,Delta.Netcode.ICommandRegistration@)">
+            <summary>Looks up a command registration by its ID.</summary>
+            <param name="id">The command ID to find.</param>
+            <param name="registration">Receives the registration when found; otherwise <see langword="null"/>.</param>
+            <returns><see langword="true"/> if the ID is registered.</returns>
+        </member>
+        <member name="M:Delta.Netcode.CommandRegistry.Visit``1(System.UInt64,``0@)">
+            <summary>Dispatches a registered ID to a visitor specialized for its payload type.</summary>
+            <typeparam name="TVisitor">The visitor type.</typeparam>
+            <param name="id">The registered command ID.</param>
+            <param name="visitor">The visitor that receives the typed callback.</param>
+            <exception cref="T:System.Collections.Generic.KeyNotFoundException">The command ID is not registered.</exception>
+        </member>
+        <member name="T:Delta.Netcode.SessionId">
+            <summary>Identifies a session within the application or server.</summary>
+            <param name="Value">The application-assigned session identifier.</param>
+        </member>
+        <member name="M:Delta.Netcode.SessionId.#ctor(System.UInt64)">
+            <summary>Identifies a session within the application or server.</summary>
+            <param name="Value">The application-assigned session identifier.</param>
+        </member>
+        <member name="P:Delta.Netcode.SessionId.Value">
+            <summary>The application-assigned session identifier.</summary>
+        </member>
+        <member name="T:Delta.Netcode.ProtocolId">
+            <summary>Identifies the command protocol schema expected by a session.</summary>
+            <param name="Value">The application-assigned protocol identifier.</param>
+        </member>
+        <member name="M:Delta.Netcode.ProtocolId.#ctor(System.UInt64)">
+            <summary>Identifies the command protocol schema expected by a session.</summary>
+            <param name="Value">The application-assigned protocol identifier.</param>
+        </member>
+        <member name="P:Delta.Netcode.ProtocolId.Value">
+            <summary>The application-assigned protocol identifier.</summary>
+        </member>
+        <member name="T:Delta.Netcode.AuthorId">
+            <summary>Identifies the author assigned to a session participant.</summary>
+            <param name="Value">The application-assigned author identifier.</param>
+        </member>
+        <member name="M:Delta.Netcode.AuthorId.#ctor(System.UInt32)">
+            <summary>Identifies the author assigned to a session participant.</summary>
+            <param name="Value">The application-assigned author identifier.</param>
+        </member>
+        <member name="P:Delta.Netcode.AuthorId.Value">
+            <summary>The application-assigned author identifier.</summary>
+        </member>
+        <member name="T:Delta.Netcode.CommandKey">
+            <summary>Identifies one command by session, author and author-local sequence.</summary>
+            <param name="SessionId">The session that owns the command.</param>
+            <param name="AuthorId">The author that created the command.</param>
+            <param name="Sequence">The monotonically increasing sequence assigned by that author.</param>
+        </member>
+        <member name="M:Delta.Netcode.CommandKey.#ctor(Delta.Netcode.SessionId,Delta.Netcode.AuthorId,System.UInt64)">
+            <summary>Identifies one command by session, author and author-local sequence.</summary>
+            <param name="SessionId">The session that owns the command.</param>
+            <param name="AuthorId">The author that created the command.</param>
+            <param name="Sequence">The monotonically increasing sequence assigned by that author.</param>
+        </member>
+        <member name="P:Delta.Netcode.CommandKey.SessionId">
+            <summary>The session that owns the command.</summary>
+        </member>
+        <member name="P:Delta.Netcode.CommandKey.AuthorId">
+            <summary>The author that created the command.</summary>
+        </member>
+        <member name="P:Delta.Netcode.CommandKey.Sequence">
+            <summary>The monotonically increasing sequence assigned by that author.</summary>
+        </member>
+        <member name="T:Delta.Netcode.CommandCursor">
+            <summary>
+            Describes the completed simulation step and highest authoritative command order represented by a snapshot.
+            </summary>
+            <param name="Step">The last completed step in the replay anchor.</param>
+            <param name="Order">The highest authoritative session order observed at capture time.</param>
+        </member>
+        <member name="M:Delta.Netcode.CommandCursor.#ctor(System.Int64,System.UInt32)">
+            <summary>
+            Describes the completed simulation step and highest authoritative command order represented by a snapshot.
+            </summary>
+            <param name="Step">The last completed step in the replay anchor.</param>
+            <param name="Order">The highest authoritative session order observed at capture time.</param>
+        </member>
+        <member name="P:Delta.Netcode.CommandCursor.Step">
+            <summary>The last completed step in the replay anchor.</summary>
+        </member>
+        <member name="P:Delta.Netcode.CommandCursor.Order">
+            <summary>The highest authoritative session order observed at capture time.</summary>
+        </member>
+        <member name="T:Delta.Netcode.CommandPreparationState">
+            <summary>
+            Captures the next entity identifier and random state used when preparing accepted commands.
+            </summary>
+            <param name="NextId">The next identifier available to an accepted command mutator.</param>
+            <param name="RandomState">The current deterministic seed generator state.</param>
+        </member>
+        <member name="M:Delta.Netcode.CommandPreparationState.#ctor(System.UInt64,System.UInt64)">
+            <summary>
+            Captures the next entity identifier and random state used when preparing accepted commands.
+            </summary>
+            <param name="NextId">The next identifier available to an accepted command mutator.</param>
+            <param name="RandomState">The current deterministic seed generator state.</param>
+        </member>
+        <member name="P:Delta.Netcode.CommandPreparationState.NextId">
+            <summary>The next identifier available to an accepted command mutator.</summary>
+        </member>
+        <member name="P:Delta.Netcode.CommandPreparationState.RandomState">
+            <summary>The current deterministic seed generator state.</summary>
+        </member>
+        <member name="T:Delta.Netcode.CommandHeader">
+            <summary>
+            Identifies a command in a session. Order is assigned monotonically by the authoritative session.
+            </summary>
+            <param name="Key">The session, author and sequence identity of the command.</param>
+            <param name="TypeId">The registered command type identifier.</param>
+            <param name="Step">The simulation step where the command is scheduled.</param>
+            <param name="Order">The authoritative order used to sequence commands at a step.</param>
+        </member>
+        <member name="M:Delta.Netcode.CommandHeader.#ctor(Delta.Netcode.CommandKey,System.UInt64,System.Int64,System.UInt32)">
+            <summary>
+            Identifies a command in a session. Order is assigned monotonically by the authoritative session.
+            </summary>
+            <param name="Key">The session, author and sequence identity of the command.</param>
+            <param name="TypeId">The registered command type identifier.</param>
+            <param name="Step">The simulation step where the command is scheduled.</param>
+            <param name="Order">The authoritative order used to sequence commands at a step.</param>
+        </member>
+        <member name="P:Delta.Netcode.CommandHeader.Key">
+            <summary>The session, author and sequence identity of the command.</summary>
+        </member>
+        <member name="P:Delta.Netcode.CommandHeader.TypeId">
+            <summary>The registered command type identifier.</summary>
+        </member>
+        <member name="P:Delta.Netcode.CommandHeader.Step">
+            <summary>The simulation step where the command is scheduled.</summary>
+        </member>
+        <member name="P:Delta.Netcode.CommandHeader.Order">
+            <summary>The authoritative order used to sequence commands at a step.</summary>
+        </member>
+        <member name="T:Delta.Netcode.Command`1">
+            <summary>Pairs a command header with its application-defined payload.</summary>
+            <typeparam name="T">The command payload type.</typeparam>
+            <param name="Header">The session identity and scheduling data for the command.</param>
+            <param name="Payload">The typed command payload.</param>
+        </member>
+        <member name="M:Delta.Netcode.Command`1.#ctor(Delta.Netcode.CommandHeader,`0)">
+            <summary>Pairs a command header with its application-defined payload.</summary>
+            <typeparam name="T">The command payload type.</typeparam>
+            <param name="Header">The session identity and scheduling data for the command.</param>
+            <param name="Payload">The typed command payload.</param>
+        </member>
+        <member name="P:Delta.Netcode.Command`1.Header">
+            <summary>The session identity and scheduling data for the command.</summary>
+        </member>
+        <member name="P:Delta.Netcode.Command`1.Payload">
+            <summary>The typed command payload.</summary>
+        </member>
+        <member name="T:Delta.Netcode.SessionStart">
+            <summary>Defines the identity, starting step and deterministic seed for a session.</summary>
+            <param name="SessionId">The unique identifier of the session.</param>
+            <param name="AuthorId">The author identity assigned to this session host.</param>
+            <param name="ProtocolId">The protocol schema identifier expected by participants.</param>
+            <param name="Step">The initial simulation step.</param>
+            <param name="Seed">The initial deterministic seed.</param>
+        </member>
+        <member name="M:Delta.Netcode.SessionStart.#ctor(Delta.Netcode.SessionId,Delta.Netcode.AuthorId,Delta.Netcode.ProtocolId,System.Int64,System.UInt64)">
+            <summary>Defines the identity, starting step and deterministic seed for a session.</summary>
+            <param name="SessionId">The unique identifier of the session.</param>
+            <param name="AuthorId">The author identity assigned to this session host.</param>
+            <param name="ProtocolId">The protocol schema identifier expected by participants.</param>
+            <param name="Step">The initial simulation step.</param>
+            <param name="Seed">The initial deterministic seed.</param>
+        </member>
+        <member name="P:Delta.Netcode.SessionStart.SessionId">
+            <summary>The unique identifier of the session.</summary>
+        </member>
+        <member name="P:Delta.Netcode.SessionStart.AuthorId">
+            <summary>The author identity assigned to this session host.</summary>
+        </member>
+        <member name="P:Delta.Netcode.SessionStart.ProtocolId">
+            <summary>The protocol schema identifier expected by participants.</summary>
+        </member>
+        <member name="P:Delta.Netcode.SessionStart.Step">
+            <summary>The initial simulation step.</summary>
+        </member>
+        <member name="P:Delta.Netcode.SessionStart.Seed">
+            <summary>The initial deterministic seed.</summary>
+        </member>
+        <member name="T:Delta.Netcode.CommandResult">
+            <summary>Describes the outcome of command validation, routing or cancellation.</summary>
+        </member>
+        <member name="F:Delta.Netcode.CommandResult.Accepted">
+            <summary>The command passed authority processing and was accepted.</summary>
+        </member>
+        <member name="F:Delta.Netcode.CommandResult.Rejected">
+            <summary>The command failed validation or could not be scheduled.</summary>
+        </member>
+        <member name="F:Delta.Netcode.CommandResult.Conflict">
+            <summary>The command key was already used for a different request.</summary>
+        </member>
+        <member name="F:Delta.Netcode.CommandResult.Cancelled">
+            <summary>The command was cancelled.</summary>
+        </member>
+        <member name="F:Delta.Netcode.CommandResult.UnknownType">
+            <summary>The command type ID is not registered by the session.</summary>
+        </member>
+        <member name="F:Delta.Netcode.CommandResult.InvalidMessage">
+            <summary>The command message or payload could not be decoded.</summary>
+        </member>
+        <member name="T:Delta.Netcode.CommandOutcome">
+            <summary>Describes the authority's decision for a submitted command.</summary>
+            <param name="Result">The decision or protocol failure result.</param>
+            <param name="Header">The authoritative or rejected command header.</param>
+        </member>
+        <member name="M:Delta.Netcode.CommandOutcome.#ctor(Delta.Netcode.CommandResult,Delta.Netcode.CommandHeader)">
+            <summary>Describes the authority's decision for a submitted command.</summary>
+            <param name="Result">The decision or protocol failure result.</param>
+            <param name="Header">The authoritative or rejected command header.</param>
+        </member>
+        <member name="P:Delta.Netcode.CommandOutcome.Result">
+            <summary>The decision or protocol failure result.</summary>
+        </member>
+        <member name="P:Delta.Netcode.CommandOutcome.Header">
+            <summary>The authoritative or rejected command header.</summary>
+        </member>
+        <member name="T:Delta.Netcode.SessionMode">
+            <summary>Selects how a session host handles commands and transport messages.</summary>
+        </member>
+        <member name="F:Delta.Netcode.SessionMode.Local">
+            <summary>Processes commands locally without a network authority.</summary>
+        </member>
+        <member name="F:Delta.Netcode.SessionMode.Client">
+            <summary>Submits commands to a server and applies authoritative outcomes.</summary>
+        </member>
+        <member name="F:Delta.Netcode.SessionMode.Server">
+            <summary>Validates and orders commands authoritatively for connected clients.</summary>
+        </member>
+        <member name="T:Delta.Netcode.NetCommandAttribute">
+            <summary>Marks a payload type for generated command registration.</summary>
+        </member>
+        <member name="P:Delta.Netcode.NetCommandAttribute.Id">
+            <summary>Gets or sets the explicit stable ID; zero requests a name-derived ID.</summary>
+        </member>
+        <member name="P:Delta.Netcode.NetCommandAttribute.Predicted">
+            <summary>Gets or sets whether clients apply this command before server confirmation.</summary>
+        </member>
+        <member name="T:Delta.Netcode.ICommandVisitor">
+            <summary>Receives generic callbacks for registered command types.</summary>
+        </member>
+        <member name="M:Delta.Netcode.ICommandVisitor.Visit``1">
+            <summary>Handles a command of the registered payload type.</summary>
+            <typeparam name="T">The registered command payload type.</typeparam>
+        </member>
+        <member name="T:Delta.Netcode.ICommandRegistration">
+            <summary>Describes one command type registered with a session.</summary>
+        </member>
+        <member name="P:Delta.Netcode.ICommandRegistration.Id">
+            <summary>Gets the stable command type ID.</summary>
+        </member>
+        <member name="P:Delta.Netcode.ICommandRegistration.IsPredicted">
+            <summary>Gets whether clients predict this command before authority confirmation.</summary>
+        </member>
+        <member name="P:Delta.Netcode.ICommandRegistration.CommandType">
+            <summary>Gets the CLR payload type associated with this registration.</summary>
+        </member>
+        <member name="M:Delta.Netcode.ICommandRegistration.Visit``1(``0@)">
+            <summary>Dispatches this registration's payload type to a visitor.</summary>
+            <typeparam name="TVisitor">The visitor type.</typeparam>
+            <param name="visitor">The visitor receiving the typed callback.</param>
+        </member>
+        <member name="T:Delta.Netcode.ICommandRegistry">
+            <summary>Registers command payload types and resolves their stable IDs.</summary>
+        </member>
+        <member name="M:Delta.Netcode.ICommandRegistry.Register``1(System.UInt64,System.Boolean)">
+            <summary>Registers a payload type with an ID and prediction setting.</summary>
+            <typeparam name="T">The command payload type.</typeparam>
+            <param name="id">The non-zero stable command ID.</param>
+            <param name="isPredicted">Whether clients apply the command before confirmation.</param>
+        </member>
+        <member name="M:Delta.Netcode.ICommandRegistry.Register(Delta.Netcode.ICommandRegistration)">
+            <summary>Registers a previously created command registration.</summary>
+            <param name="registration">The command registration to add.</param>
+        </member>
+        <member name="M:Delta.Netcode.ICommandRegistry.GetId``1">
+            <summary>Gets the ID registered for a payload type.</summary>
+            <typeparam name="T">The registered command payload type.</typeparam>
+            <returns>The stable command ID.</returns>
+            <exception cref="T:System.Collections.Generic.KeyNotFoundException">The payload type is not registered.</exception>
+        </member>
+        <member name="M:Delta.Netcode.ICommandRegistry.TryGet(System.UInt64,Delta.Netcode.ICommandRegistration@)">
+            <summary>Looks up a registration by command ID.</summary>
+            <param name="id">The command ID to find.</param>
+            <param name="registration">Receives the registration when found; otherwise <see langword="null"/>.</param>
+            <returns><see langword="true"/> if the ID is registered.</returns>
+        </member>
+        <member name="M:Delta.Netcode.ICommandRegistry.Visit``1(System.UInt64,``0@)">
+            <summary>Dispatches a registered command ID to a typed visitor.</summary>
+            <typeparam name="TVisitor">The visitor type.</typeparam>
+            <param name="id">The registered command ID.</param>
+            <param name="visitor">The visitor receiving the typed callback.</param>
+            <exception cref="T:System.Collections.Generic.KeyNotFoundException">The command ID is not registered.</exception>
+        </member>
+        <member name="T:Delta.Netcode.CommandRegistration`1">
+            <summary>Provides a typed command registration, including client prediction metadata.</summary>
+            <typeparam name="T">The command payload type.</typeparam>
+        </member>
+        <member name="T:Delta.Netcode.RollbackSessionModel">
+            <summary>Runs fixed-step simulation with bounded state history for command rollback.</summary>
+        </member>
+        <member name="M:Delta.Netcode.RollbackSessionModel.#ctor(Delta.Netcode.ISimulation,System.Int64,System.Int32)">
+            <summary>Creates a rollback model and captures the initial simulation state.</summary>
+            <param name="simulation">The application-owned deterministic simulation.</param>
+            <param name="initialStep">The first step the model may simulate.</param>
+            <param name="historyDepth">The number of rollback steps to retain; must be positive.</param>
+        </member>
+        <member name="M:Delta.Netcode.RollbackSessionModel.TrySchedule(System.Int64@)">
+            <inheritdoc />
+        </member>
+        <member name="M:Delta.Netcode.RollbackSessionModel.CanCancel(Delta.Netcode.CommandHeader@)">
+            <inheritdoc />
+        </member>
+        <member name="M:Delta.Netcode.RollbackSessionModel.SetCommand(Delta.Netcode.CommandEntry)">
+            <inheritdoc />
+        </member>
+        <member name="M:Delta.Netcode.RollbackSessionModel.Remove(Delta.Netcode.CommandKey)">
+            <inheritdoc />
+        </member>
+        <member name="M:Delta.Netcode.RollbackSessionModel.Tick(System.Int64)">
+            <inheritdoc />
+        </member>
+        <member name="M:Delta.Netcode.RollbackSessionModel.Save(System.Buffers.IBufferWriter{System.Byte})">
+            <inheritdoc />
+        </member>
+        <member name="M:Delta.Netcode.RollbackSessionModel.SaveReplayAnchor(System.Buffers.IBufferWriter{System.Byte})">
+            <summary>Writes the oldest retained rollback baseline.</summary>
+            <param name="output">The destination buffer writer.</param>
+            <returns>The last completed simulation step included in the baseline.</returns>
+        </member>
+        <member name="M:Delta.Netcode.RollbackSessionModel.Load(System.ReadOnlySpan{System.Byte})">
+            <inheritdoc />
+        </member>
+        <member name="T:Delta.Netcode.ISession">
+            <summary>Controls command registration, submission, simulation and replay for one session.</summary>
+        </member>
+        <member name="P:Delta.Netcode.ISession.CurrentStep">
+            <summary>Gets the last simulation step applied by this session.</summary>
+        </member>
+        <member name="M:Delta.Netcode.ISession.Register``1(System.UInt64)">
+            <summary>Registers a command payload type and its stable ID.</summary>
+            <typeparam name="T">The command payload type.</typeparam>
+            <param name="id">The non-zero stable command ID.</param>
+        </member>
+        <member name="M:Delta.Netcode.ISession.Register(Delta.Netcode.ICommandValidator)">
+            <summary>Registers a validator that applies to every command type.</summary>
+            <param name="validator">The common command validator.</param>
+        </member>
+        <member name="M:Delta.Netcode.ISession.Register``1(Delta.Netcode.ICommandValidator{``0})">
+            <summary>Registers a validator for one command payload type.</summary>
+            <typeparam name="T">The command payload type.</typeparam>
+            <param name="validator">The typed validator.</param>
+        </member>
+        <member name="M:Delta.Netcode.ISession.Register``1(Delta.Netcode.ICommandMutator{``0})">
+            <summary>Registers a mutator for one command payload type.</summary>
+            <typeparam name="T">The command payload type.</typeparam>
+            <param name="mutator">The typed command mutator.</param>
+        </member>
+        <member name="M:Delta.Netcode.ISession.Register``1(Delta.Netcode.ICommandExecutor{``0})">
+            <summary>Registers an executor for one command payload type.</summary>
+            <typeparam name="T">The command payload type.</typeparam>
+            <param name="executor">The typed command executor.</param>
+        </member>
+        <member name="M:Delta.Netcode.ISession.Send``1(``0@,System.Int64)">
+            <summary>Creates and submits a command for a simulation step.</summary>
+            <typeparam name="T">The command payload type.</typeparam>
+            <param name="payload">The command payload, serialized during this call.</param>
+            <param name="simulationStep">The requested simulation step.</param>
+            <returns>The stable key assigned to the command.</returns>
+        </member>
+        <member name="M:Delta.Netcode.ISession.Cancel(Delta.Netcode.CommandKey)">
+            <summary>Requests cancellation of a command authored by this session host.</summary>
+            <param name="key">The command key to cancel.</param>
+            <returns>The cancellation outcome.</returns>
+        </member>
+        <member name="M:Delta.Netcode.ISession.AttachConnection(System.UInt64)">
+            <summary>Attaches a transport connection used to send session messages.</summary>
+            <param name="connectionId">The transport-specific connection identifier.</param>
+        </member>
+        <member name="M:Delta.Netcode.ISession.DetachConnection(System.UInt64)">
+            <summary>Detaches a previously attached transport connection.</summary>
+            <param name="connectionId">The transport-specific connection identifier.</param>
+            <returns><see langword="true"/> if the connection was attached.</returns>
+        </member>
+        <member name="M:Delta.Netcode.ISession.ApplyOutcome(Delta.Netcode.CommandOutcome@,System.ReadOnlySpan{System.Byte})">
+            <summary>Applies an authoritative command outcome and updates predicted state.</summary>
+            <param name="outcome">The server outcome to apply.</param>
+            <param name="finalPayload">The accepted command payload, or an empty span for non-accepted outcomes.</param>
+            <returns>The applied outcome, or a failure result if it is incompatible with this session.</returns>
+        </member>
+        <member name="M:Delta.Netcode.ISession.Tick(System.Int64)">
+            <summary>Advances the session model through the specified simulation step.</summary>
+            <param name="simulationStep">The last simulation step to apply.</param>
+        </member>
+        <member name="M:Delta.Netcode.ISession.CaptureSnapshot">
+            <summary>
+            Captures a replayable session baseline and the command preparation state.
+            </summary>
+        </member>
+        <member name="M:Delta.Netcode.ISession.Restore(Delta.Netcode.SessionSnapshot)">
+            <summary>
+            Restores this session from a compatible snapshot and discards prior command history.
+            </summary>
+        </member>
+        <member name="M:Delta.Netcode.ISession.VisitCommandType``1(System.UInt64,``0@)">
+            <summary>Dispatches a command type ID to a visitor without exposing the command registry.</summary>
+            <typeparam name="TVisitor">The visitor type to dispatch.</typeparam>
+            <param name="typeId">The registered command type ID.</param>
+            <param name="visitor">The visitor that handles the registered command type.</param>
+            <exception cref="T:System.Collections.Generic.KeyNotFoundException">The command type ID is not registered.</exception>
+        </member>
+        <member name="M:Delta.Netcode.ISession.ReadAcceptedAfter(Delta.Netcode.CommandCursor)">
+            <summary>Reads accepted, non-cancelled command records after a snapshot cursor.</summary>
+            <param name="cursor">The snapshot cursor that defines which accepted records have already been applied.</param>
+            <returns>Accepted records after the cursor, in deterministic simulation order.</returns>
+        </member>
+        <member name="T:Delta.Netcode.SessionHost">
+            <summary>Owns command registration, authority state, journal and simulation model for one session.</summary>
+        </member>
+        <member name="M:Delta.Netcode.SessionHost.#ctor(Delta.Netcode.SessionStart,Delta.Netcode.ICommandRegistry,Delta.Netcode.ICommandPayloadHandler,Delta.Netcode.ISessionModel,Delta.Netcode.ICommandJournal,System.UInt64,Delta.Netcode.ITransport,Delta.Netcode.SessionMode,System.Nullable{Delta.Netcode.CommandPreparationState})">
+            <summary>Creates a session host with its command, payload, model and journal dependencies.</summary>
+            <param name="start">The session identity and initial deterministic state.</param>
+            <param name="commands">The command registry used for type and ID lookup.</param>
+            <param name="payloadHandler">The application codec for typed command payloads.</param>
+            <param name="model">The session model that schedules and applies commands.</param>
+            <param name="journal">The command history store.</param>
+            <param name="firstSequence">The first command sequence assigned by this host.</param>
+            <param name="transport">The optional transport used to send session messages.</param>
+            <param name="mode">The local, client or server authority mode.</param>
+            <param name="preparationState">The initial deterministic ID and seed state.</param>
+        </member>
+        <member name="P:Delta.Netcode.SessionHost.Start">
+            <summary>Gets the immutable initial configuration of this session.</summary>
+        </member>
+        <member name="P:Delta.Netcode.SessionHost.Mode">
+            <summary>Gets the authority mode of this session.</summary>
+        </member>
+        <member name="P:Delta.Netcode.SessionHost.CurrentStep">
+            <summary>Gets the last simulation step applied by this session.</summary>
+        </member>
+        <member name="M:Delta.Netcode.SessionHost.AttachConnection(System.UInt64)">
+            <summary>Attaches a transport connection used to send session messages.</summary>
+            <param name="connectionId">The transport-specific connection identifier.</param>
+            <inheritdoc />
+        </member>
+        <member name="M:Delta.Netcode.SessionHost.DetachConnection(System.UInt64)">
+            <summary>Detaches a previously attached transport connection.</summary>
+            <param name="connectionId">The transport-specific connection identifier.</param>
+            <returns><see langword="true"/> if the connection was attached.</returns>
+            <inheritdoc />
+        </member>
+        <member name="M:Delta.Netcode.SessionHost.Register(Delta.Netcode.ICommandValidator)">
+            <inheritdoc />
+        </member>
+        <member name="M:Delta.Netcode.SessionHost.Register``1(System.UInt64)">
+            <inheritdoc />
+        </member>
+        <member name="M:Delta.Netcode.SessionHost.Register``1(Delta.Netcode.ICommandValidator{``0})">
+            <inheritdoc />
+        </member>
+        <member name="M:Delta.Netcode.SessionHost.Register``1(Delta.Netcode.ICommandMutator{``0})">
+            <inheritdoc />
+        </member>
+        <member name="M:Delta.Netcode.SessionHost.Register``1(Delta.Netcode.ICommandExecutor{``0})">
+            <inheritdoc />
+        </member>
+        <member name="M:Delta.Netcode.SessionHost.Send``1(``0@,System.Int64)">
+            <inheritdoc />
+        </member>
+        <member name="M:Delta.Netcode.SessionHost.Receive(Delta.Netcode.AuthorId,Delta.Netcode.CommandHeader@,System.ReadOnlySpan{System.Byte})">
+            <summary>Validates and records a proposal received from an authenticated author.</summary>
+            <param name="authenticatedAuthor">The author established by the connection binding.</param>
+            <param name="proposal">The client-supplied command header.</param>
+            <param name="requestPayload">The serialized command payload.</param>
+            <returns>The authoritative result for the proposal.</returns>
+        </member>
+        <member name="M:Delta.Netcode.SessionHost.Cancel(Delta.Netcode.CommandKey)">
+            <inheritdoc />
+        </member>
+        <member name="M:Delta.Netcode.SessionHost.Cancel(Delta.Netcode.AuthorId,Delta.Netcode.CommandKey)">
+            <summary>Requests cancellation on behalf of a specified author.</summary>
+            <param name="requester">The authenticated author making the request.</param>
+            <param name="key">The command key to cancel.</param>
+            <returns>The cancellation outcome.</returns>
+        </member>
+        <member name="M:Delta.Netcode.SessionHost.ApplyOutcome(Delta.Netcode.CommandOutcome@,System.ReadOnlySpan{System.Byte})">
+            <summary>Applies an authoritative command outcome and updates predicted state.</summary>
+            <param name="outcome">The server outcome to apply.</param>
+            <param name="finalPayload">The accepted command payload, or an empty span for non-accepted outcomes.</param>
+            <returns>The applied outcome, or a failure result if it is incompatible with this session.</returns>
+            <inheritdoc />
+        </member>
+        <member name="M:Delta.Netcode.SessionHost.Tick(System.Int64)">
+            <inheritdoc />
+        </member>
+        <member name="M:Delta.Netcode.SessionHost.CaptureSnapshot">
+            <summary>
+            Captures a replayable session baseline and the command preparation state.
+            </summary>
+            <returns>A snapshot containing session identity, replay cursor, preparation state and model bytes.</returns>
+        </member>
+        <member name="M:Delta.Netcode.SessionHost.Restore(Delta.Netcode.SessionSnapshot)">
+            <summary>
+            Restores this session from a compatible snapshot and discards prior command history.
+            </summary>
+            <param name="snapshot">The snapshot to restore.</param>
+            <exception cref="T:System.ArgumentException">The snapshot belongs to another session or protocol.</exception>
+        </member>
+        <member name="M:Delta.Netcode.SessionHost.VisitCommandType``1(System.UInt64,``0@)">
+            <summary>Dispatches a registered command type ID to a visitor.</summary>
+            <typeparam name="TVisitor">The visitor type to dispatch.</typeparam>
+            <param name="typeId">The registered command type ID.</param>
+            <param name="visitor">The visitor that handles the registered command type.</param>
+            <exception cref="T:System.Collections.Generic.KeyNotFoundException">The command type ID is not registered.</exception>
+            <inheritdoc />
+        </member>
+        <member name="M:Delta.Netcode.SessionHost.ReadAcceptedAfter(Delta.Netcode.CommandCursor)">
+            <summary>Reads accepted, non-cancelled command records after a snapshot cursor.</summary>
+            <param name="cursor">The snapshot cursor that defines which accepted records have already been applied.</param>
+            <returns>Accepted records after the cursor, in deterministic simulation order.</returns>
+            <inheritdoc />
+        </member>
+        <member name="T:Delta.Netcode.ISessionServer">
+            <summary>Hosts sessions and binds authenticated transport connections to their authors.</summary>
+        </member>
+        <member name="M:Delta.Netcode.ISessionServer.Add(Delta.Netcode.SessionHost)">
+            <summary>Adds a session to the server's lookup table.</summary>
+            <param name="session">The session to host.</param>
+        </member>
+        <member name="M:Delta.Netcode.ISessionServer.TryGet(System.UInt64,Delta.Netcode.SessionHost@)">
+            <summary>Looks up a session by its numeric session ID.</summary>
+            <param name="sessionId">The session ID to find.</param>
+            <param name="session">Receives the session when found; otherwise <see langword="null"/>.</param>
+            <returns><see langword="true"/> if the session exists.</returns>
+        </member>
+        <member name="M:Delta.Netcode.ISessionServer.Bind(System.UInt64,Delta.Netcode.SessionHost,Delta.Netcode.AuthorId)">
+            <summary>Binds an authenticated connection to a session and author.</summary>
+            <param name="connectionId">The transport-specific connection identifier.</param>
+            <param name="session">The session the connection will join.</param>
+            <param name="author">The author assigned by the server after authentication.</param>
+        </member>
+        <member name="M:Delta.Netcode.ISessionServer.Unbind(System.UInt64)">
+            <summary>Removes a connection binding and detaches it from its session.</summary>
+            <param name="connectionId">The transport-specific connection identifier.</param>
+            <returns><see langword="true"/> if a binding was removed.</returns>
+        </member>
+        <member name="M:Delta.Netcode.ISessionServer.Remove(System.UInt64)">
+            <summary>Removes a session and unbinds its connected clients.</summary>
+            <param name="sessionId">The ID of the session to remove.</param>
+        </member>
+        <member name="M:Delta.Netcode.ISessionServer.Receive(System.UInt64,System.ReadOnlySpan{System.Byte})">
+            <summary>Processes a framed client message using the author bound to its connection.</summary>
+            <param name="connectionId">The authenticated transport connection.</param>
+            <param name="message">The encoded proposal or cancellation message.</param>
+            <returns>The command result, or <see cref="F:Delta.Netcode.CommandResult.InvalidMessage"/> for malformed data.</returns>
+        </member>
+        <member name="T:Delta.Netcode.SessionServer">
+            <summary>Routes authenticated transport connections to authoritative sessions.</summary>
+        </member>
+        <member name="M:Delta.Netcode.SessionServer.#ctor(Delta.Netcode.ITransport)">
+            <summary>Creates a server router with an optional transport for replies and broadcasts.</summary>
+            <param name="transport">The transport used to send messages, or <see langword="null"/> for a sendless router.</param>
+        </member>
+        <member name="M:Delta.Netcode.SessionServer.Add(Delta.Netcode.SessionHost)">
+            <inheritdoc />
+        </member>
+        <member name="M:Delta.Netcode.SessionServer.TryGet(System.UInt64,Delta.Netcode.SessionHost@)">
+            <inheritdoc />
+        </member>
+        <member name="M:Delta.Netcode.SessionServer.Bind(System.UInt64,Delta.Netcode.SessionHost,Delta.Netcode.AuthorId)">
+            <summary>Binds an authenticated connection to a session and author.</summary>
+            <param name="connectionId">The transport-specific connection identifier.</param>
+            <param name="session">The session the connection will join.</param>
+            <param name="author">The author assigned by the server after authentication.</param>
+        </member>
+        <member name="M:Delta.Netcode.SessionServer.Unbind(System.UInt64)">
+            <summary>Removes a connection binding and detaches it from its session.</summary>
+            <param name="connectionId">The transport-specific connection identifier.</param>
+            <returns><see langword="true"/> if a binding was removed.</returns>
+        </member>
+        <member name="M:Delta.Netcode.SessionServer.Remove(System.UInt64)">
+            <inheritdoc />
+        </member>
+        <member name="M:Delta.Netcode.SessionServer.Receive(System.UInt64,System.ReadOnlySpan{System.Byte})">
+            <inheritdoc />
+        </member>
+        <member name="M:Delta.Netcode.SessionServer.Receive(System.UInt64,Delta.Netcode.CommandHeader@,System.ReadOnlySpan{System.Byte})">
+            <summary>Processes an already-decoded command proposal for a bound connection.</summary>
+            <param name="connectionId">The authenticated transport connection.</param>
+            <param name="header">The client-supplied proposal header.</param>
+            <param name="payload">The serialized command payload.</param>
+            <returns>The authoritative outcome, or a rejection when the connection is not bound.</returns>
+        </member>
+        <member name="T:Delta.Netcode.SessionSnapshot">
+            <summary>
+            An owned copy of the session identity, simulation state, and command preparation state.
+            </summary>
+        </member>
+        <member name="M:Delta.Netcode.SessionSnapshot.#ctor(Delta.Netcode.SessionId,Delta.Netcode.ProtocolId,System.Int64,Delta.Netcode.CommandCursor,Delta.Netcode.CommandPreparationState,System.ReadOnlySpan{System.Byte})">
+            <summary>
+            Creates a snapshot and copies the supplied model state into owned storage.
+            </summary>
+            <param name="sessionId">The session represented by the snapshot.</param>
+            <param name="protocolId">The command protocol represented by the snapshot.</param>
+            <param name="step">The last completed step in the replay anchor.</param>
+            <param name="cursor">The replay step and authoritative command-order boundary.</param>
+            <param name="preparation">The command preparation state at capture time.</param>
+            <param name="modelState">The replay anchor state written by the session model.</param>
+        </member>
+        <member name="P:Delta.Netcode.SessionSnapshot.SessionId">
+            <summary>
+            Gets the identity of the session represented by this snapshot.
+            </summary>
+        </member>
+        <member name="P:Delta.Netcode.SessionSnapshot.ProtocolId">
+            <summary>
+            Gets the command protocol expected by this snapshot.
+            </summary>
+        </member>
+        <member name="P:Delta.Netcode.SessionSnapshot.Step">
+            <summary>
+            Gets the last completed step represented by the model state.
+            </summary>
+        </member>
+        <member name="P:Delta.Netcode.SessionSnapshot.Cursor">
+            <summary>
+            Gets the simulation and authoritative-order boundary represented by the snapshot.
+            </summary>
+        </member>
+        <member name="P:Delta.Netcode.SessionSnapshot.Preparation">
+            <summary>
+            Gets the command preparation state at the snapshot's journal boundary.
+            </summary>
+        </member>
+        <member name="P:Delta.Netcode.SessionSnapshot.ModelState">
+            <summary>
+            Gets the owned, opaque model state.
+            </summary>
+        </member>
+    </members>
+</doc>
