@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6717987995321118189}
   - component: {fileID: 5697728806848633744}
   - component: {fileID: -7152162437669367905}
+  - component: {fileID: 7333894306745257298}
   m_Layer: 0
   m_Name: Land5
   m_TagString: Untagged
@@ -89,6 +90,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &-7152162437669367905
 MonoBehaviour:
@@ -102,3 +104,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3c2efcdd6be7d2489d71460b9f99ac2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: SkyPirates.Client::DVG.SkyPirates.Client.Views.Gameplay.TileView
+--- !u!114 &7333894306745257298
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7333893072177367175}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f64dc5e1a5e0463c9af9fef3e462497a, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: DVG.SkyPirates.Rendering.SphereOverlay::DVG.SkyPirates.Rendering.SphereOverlay.View.SphereOverlayReceiverView

@@ -57,7 +57,7 @@ MonoBehaviour:
   m_DepthTextureFormat: 0
   m_ShadowmapStencil: 0
   m_AccurateGbufferNormals: 0
-  m_IntermediateTextureMode: 1
+  m_IntermediateTextureMode: 0
   m_TileOnlyMode: 0
 --- !u!114 &1097029040655924017
 MonoBehaviour:
@@ -84,9 +84,8 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3a950dc62f29452f8e9580a264a22d0d, type: 3}
   m_Name: SphereOverlayFeature
-  m_EditorClassIdentifier:
+  m_EditorClassIdentifier: 
   m_Active: 1
-  shader: {fileID: 4800000, guid: c243443e75cf47d3a9d8fbb677dca62b, type: 3}
 --- !u!114 &8044255681545314971
 MonoBehaviour:
   m_ObjectHideFlags: 1

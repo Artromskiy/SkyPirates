@@ -6,32 +6,30 @@ namespace DVG.SkyPirates.Rendering.SphereOverlay.Internals
     internal static class SphereOverlayRegistry
     {
         internal const int MaximumVolumes = 32;
+        internal const int GradientResolution = 128;
 
         internal struct Volume
         {
             public Object Owner;
             public Vector4 CenterRadius;
-            public Vector4 CenterColor;
-            public Vector4 EdgeColor;
+            public Gradient Gradient;
+            public Color Tint;
         }
 
         private static readonly Dictionary<Object, Volume> Volumes = new Dictionary<Object, Volume>();
         private static readonly List<Object> StaleOwners = new List<Object>();
 
-        internal static void Set(Object owner, Vector3 center, float radius, Color color, Color centerColor, Color edgeColor)
+        internal static void Set(Object owner, Vector3 center, float radius, Gradient gradient, Color tint)
         {
             if (owner == null)
                 return;
-
-            centerColor *= color;
-            edgeColor *= color;
 
             Volumes[owner] = new Volume
             {
                 Owner = owner,
                 CenterRadius = new Vector4(center.x, center.y, center.z, Mathf.Max(0f, radius)),
-                CenterColor = new Vector4(centerColor.r, centerColor.g, centerColor.b, centerColor.a),
-                EdgeColor = new Vector4(edgeColor.r, edgeColor.g, edgeColor.b, edgeColor.a)
+                Gradient = gradient,
+                Tint = tint
             };
         }
 
@@ -41,7 +39,7 @@ namespace DVG.SkyPirates.Rendering.SphereOverlay.Internals
                 Volumes.Remove(owner);
         }
 
-        internal static int CopyTo(Vector4[] centers, Vector4[] centerColors, Vector4[] edgeColors)
+        internal static int CopyTo(Vector4[] centers, Color32[] gradientPixels)
         {
             StaleOwners.Clear();
             var count = 0;
@@ -54,12 +52,19 @@ namespace DVG.SkyPirates.Rendering.SphereOverlay.Internals
                     continue;
                 }
 
-                if (count >= centers.Length || count >= centerColors.Length || count >= edgeColors.Length)
+                if (count >= centers.Length || (count + 1) * GradientResolution > gradientPixels.Length)
                     break;
 
                 centers[count] = volume.CenterRadius;
-                centerColors[count] = volume.CenterColor;
-                edgeColors[count] = volume.EdgeColor;
+                var gradient = volume.Gradient;
+                var rowOffset = count * GradientResolution;
+                for (var sample = 0; sample < GradientResolution; sample++)
+                {
+                    var t = sample / (float)(GradientResolution - 1);
+                    gradientPixels[rowOffset + sample] = gradient != null
+                        ? (Color32)(gradient.Evaluate(t) * volume.Tint)
+                        : new Color32(255, 255, 255, 255);
+                }
                 count++;
             }
 

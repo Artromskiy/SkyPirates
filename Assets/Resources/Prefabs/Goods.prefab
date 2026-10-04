@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8089445556340368891}
   - component: {fileID: 4883015496903792244}
+  - component: {fileID: 3598906625207972143}
   m_Layer: 0
   m_Name: VisualRoot
   m_TagString: Untagged
@@ -45,6 +46,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: SkyPirates.Client::RotateComponentTest
   AnglePerSecond: 60
+--- !u!114 &3598906625207972143
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1319891222604767812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f64dc5e1a5e0463c9af9fef3e462497a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: DVG.SkyPirates.Rendering.SphereOverlay::DVG.SkyPirates.Rendering.SphereOverlay.View.SphereOverlayReceiverView
 --- !u!1 &6742699207346504551
 GameObject:
   m_ObjectHideFlags: 0
@@ -108,6 +121,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: SkyPirates.Client::DVG.SkyPirates.Client.Views.Components.TransformComponentView
   _mode: 2
   _sharpness: 13
+  _realPosition:
+    x: 0
+    y: 0
+    z: 0
 --- !u!114 &-6210558974688769364
 MonoBehaviour:
   m_ObjectHideFlags: 0

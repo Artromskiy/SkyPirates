@@ -24,11 +24,14 @@ Shader "Hidden/SkyPirates/SphereOverlay"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DeclareDepthTexture.hlsl"
             #include "Packages/com.unity.render-pipelines.core/Runtime/Utilities/Blit.hlsl"
 
+            TEXTURE2D(_SphereOverlayGradientLut);
+            SAMPLER(sampler_SphereOverlayGradientLut);
+            TEXTURE2D_X(_SphereOverlayReceiverMask);
+            SAMPLER(sampler_SphereOverlayReceiverMask);
+
             CBUFFER_START(UnityPerMaterial)
                 float _SphereOverlayVolumeCount;
                 float4 _SphereOverlayCenters[32];
-                float4 _SphereOverlayCenterColors[32];
-                float4 _SphereOverlayEdgeColors[32];
             CBUFFER_END
 
             half4 Frag(Varyings input) : SV_Target
@@ -40,6 +43,13 @@ Shader "Hidden/SkyPirates/SphereOverlay"
                     sampler_LinearClamp,
                     input.texcoord.xy,
                     _BlitMipLevel);
+
+                float receiverMask = SAMPLE_TEXTURE2D_X(
+                    _SphereOverlayReceiverMask,
+                    sampler_SphereOverlayReceiverMask,
+                    input.texcoord.xy).r;
+                if (receiverMask <= 0.5)
+                    return sceneColor;
 
                 float2 screenUv = input.texcoord.xy;
                 float rawDepth = SampleSceneDepth(screenUv);
@@ -71,10 +81,12 @@ Shader "Hidden/SkyPirates/SphereOverlay"
 
                     float distanceFromCenter = sqrt(distanceSquared);
                     float gradientPosition = saturate(distanceFromCenter / max(centerRadius.w, 0.00001));
-                    float4 volumeColor = lerp(
-                        _SphereOverlayCenterColors[index],
-                        _SphereOverlayEdgeColors[index],
-                        gradientPosition);
+                    float gradientV = (index + 0.5) / 32.0;
+                    float4 volumeColor = SAMPLE_TEXTURE2D_LOD(
+                        _SphereOverlayGradientLut,
+                        sampler_SphereOverlayGradientLut,
+                        float2(gradientPosition, gradientV),
+                        0);
                     float alpha = saturate(volumeColor.a);
                     weightedColor += volumeColor.rgb * alpha;
                     totalWeight += alpha;

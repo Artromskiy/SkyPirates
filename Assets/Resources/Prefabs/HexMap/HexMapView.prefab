@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2915503963056974196}
   - component: {fileID: 6768939004632409538}
   - component: {fileID: 1841940812189063343}
+  - component: {fileID: 8456991425304931307}
   m_Layer: 0
   m_Name: HexMapView
   m_TagString: Untagged
@@ -58,3 +59,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2e1dd4451366b442be6d014bcb949c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: DVG.SkyPirates.Client::DVG.SkyPirates.Client.Views.Components.HexMapComponentView
+--- !u!114 &8456991425304931307
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3798016910567893903}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f64dc5e1a5e0463c9af9fef3e462497a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: DVG.SkyPirates.Rendering.SphereOverlay::DVG.SkyPirates.Rendering.SphereOverlay.View.SphereOverlayReceiverView
