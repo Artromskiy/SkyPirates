@@ -11,7 +11,8 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8e949393d8644dcd81d236871a440bef, type: 3}
   m_Name: SkyPiratesGoogleSheets
-  m_EditorClassIdentifier:
+  m_EditorClassIdentifier: 
+  OutputDirectory: Assets/Scripts/SkyPirates/Shared/Resources/Configs
   Sheets:
   - Name: UnitsStats
     Url: https://docs.google.com/spreadsheets/d/1Ovc14Sui7WKz4-JLyYwa629HNSdWGwXNS2y4FphMKEA/edit?gid=0#gid=0

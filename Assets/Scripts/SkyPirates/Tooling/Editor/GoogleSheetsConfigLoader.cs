@@ -6,8 +6,8 @@ namespace DVG.SkyPirates.Tooling
 {
     public enum DsvSeparator
     {
-        Comma,
         Tab,
+        Comma,
     }
 
     [Serializable]
@@ -23,5 +23,6 @@ namespace DVG.SkyPirates.Tooling
     public sealed class GoogleSheetsConfigLoader : ScriptableObject
     {
         public List<GoogleSheetSource> Sheets = new();
+        public string OutputDirectory = "Assets/Scripts/SkyPirates/Shared/Resources/Configs";
     }
 }
