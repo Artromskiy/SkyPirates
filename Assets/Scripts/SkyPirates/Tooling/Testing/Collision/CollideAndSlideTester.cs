@@ -22,7 +22,10 @@ namespace DVG.SkyPirates.Tooling.Testing
         private void OnDrawGizmos()
         {
             if (!enabled)
+            {
                 return;
+            }
+
             Gizmos.color = Color.black;
             for (int i = 0; i < _segments.childCount - 1; i++)
             {

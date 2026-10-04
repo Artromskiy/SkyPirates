@@ -90,7 +90,9 @@ public class HexDrawer : MonoBehaviour
         Remove(axial);
 
         if (Input.GetMouseButton(1))
+        {
             return;
+        }
 
         Set(axial, new(_currentTile));
     }
@@ -100,7 +102,9 @@ public class HexDrawer : MonoBehaviour
         var axial = GetAxial();
         var pos = Hex.AxialToWorld(axial);
         if (_ghostTile != null)
+        {
             _ghostTile.transform.position = (float3)pos;
+        }
     }
 
     private void Drag()
@@ -129,7 +133,7 @@ public class HexDrawer : MonoBehaviour
             return;
         }
 
-        var current = Input.mousePosition.y / Screen.height;
+        float current = Input.mousePosition.y / Screen.height;
         if (_prevYDrag.HasValue)
         {
             var delta = new float3(_prevYDrag.Value - current);
@@ -153,7 +157,7 @@ public class HexDrawer : MonoBehaviour
     {
         var pos = Input.mousePosition;
         var ray = Camera.main.ScreenPointToRay(pos);
-        new Plane(Vector3.down, _currentHeight).Raycast(ray, out var enter);
+        new Plane(Vector3.down, _currentHeight).Raycast(ray, out float enter);
         return ray.origin + ray.direction * enter;
     }
 
@@ -161,7 +165,9 @@ public class HexDrawer : MonoBehaviour
     {
         //_hexMap.Data.Remove(axial);
         if (_gameObjects.Remove(axial, out var go))
+        {
             DestroyImmediate(go);
+        }
     }
 
     private void Set(int3 axial, TileId tileId)
@@ -180,11 +186,16 @@ public class HexDrawer : MonoBehaviour
     {
         float minHeight = 0;
         foreach (var item in _hexMap.Data)
+        {
             if (item.Key.y < minHeight)
+            {
                 minHeight = item.Key.y;
+            }
+        }
+
         minHeight -= 5;
         var ray = Camera.main.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height));
-        new Plane(Vector3.down, minHeight).Raycast(ray, out var enter);
+        new Plane(Vector3.down, minHeight).Raycast(ray, out float enter);
         QualitySettings.shadowDistance = enter;
         UniversalRenderPipelineAsset urp = (UniversalRenderPipelineAsset)GraphicsSettings.currentRenderPipeline;
         urp.shadowDistance = enter;

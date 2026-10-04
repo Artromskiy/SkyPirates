@@ -48,10 +48,12 @@ namespace DVG.SkyPirates.Tooling
             _loaded = false;
             _timelines = new (Dictionary<int, WorldData> WorldData, CommandsData Commands)[_assets.Length];
             Task[] tasks = new Task[_timelines.Length];
-            var bytes = new byte[_timelines.Length][];
+            byte[][] bytes = new byte[_timelines.Length][];
             _infos = new WorldDataInfo[_timelines.Length];
             for (int i = 0; i < _timelines.Length; i++)
+            {
                 bytes[i] = _assets[i].bytes;
+            }
 
             for (int i = 0; i < _timelines.Length; i++)
             {
@@ -68,7 +70,10 @@ namespace DVG.SkyPirates.Tooling
         public void Compare()
         {
             if (!_loaded)
+            {
                 return;
+            }
+
             for (int i = 0; i < _timelines.Length; i++)
             {
                 var data = Get(i).WorldData;
@@ -82,8 +87,11 @@ namespace DVG.SkyPirates.Tooling
         public void ExportWorld()
         {
             if (!_loaded)
+            {
                 return;
-            var res = SerializationUTF8.SerializeOrdered(Get(_timelineIndex).Item1[_tick]);
+            }
+
+            string res = SerializationUTF8.SerializeOrdered(Get(_timelineIndex).Item1[_tick]);
             File.WriteAllText(GetPath("Snapshot"), res);
         }
 
@@ -91,10 +99,13 @@ namespace DVG.SkyPirates.Tooling
         public void ExportCommands()
         {
             if (!_loaded)
+            {
                 return;
+            }
+
             var commands = Get(_timelineIndex).Commands;
             var atTick = GetAtTick(commands, _tick);
-            var res = SerializationUTF8.SerializeOrdered(atTick);
+            string res = SerializationUTF8.SerializeOrdered(atTick);
             DVG.Trace.Info(res);
             File.WriteAllText(GetPath("Command"), res);
         }
@@ -103,9 +114,12 @@ namespace DVG.SkyPirates.Tooling
         public void ExportCommandsFull()
         {
             if (!_loaded)
+            {
                 return;
+            }
+
             var commands = Get(_timelineIndex).Commands;
-            var res = SerializationUTF8.SerializeOrdered(commands);
+            string res = SerializationUTF8.SerializeOrdered(commands);
             DVG.Trace.Info(res);
             File.WriteAllText(GetPath("CommandsData"), res);
         }
@@ -113,7 +127,7 @@ namespace DVG.SkyPirates.Tooling
         private string GetPath(string fileName)
         {
             const string folder = "Scripts/SkyPirates/Tooling/TimelineDebug";
-            var path = Path.Combine(Application.dataPath, folder, fileName);
+            string path = Path.Combine(Application.dataPath, folder, fileName);
             path = Path.ChangeExtension(path, "json");
             Directory.CreateDirectory(Path.GetDirectoryName(path));
             return path;
@@ -163,10 +177,12 @@ namespace DVG.SkyPirates.Tooling
             public void Invoke<T>()
             {
                 List<int> keys = new(_source.Get<T>().Keys);
-                foreach (var item in keys)
+                foreach (int item in keys)
                 {
                     if (item != _tick)
+                    {
                         _source.Get<T>().Remove(item);
+                    }
                 }
             }
         }

@@ -23,14 +23,14 @@ namespace DVG.SkyPirates.Tooling.Testing
             var commandsData = SerializationUTF8.
                 DeserializeCompressed<(Dictionary<int, WorldData> WorldData, CommandsData Commands)>(_textAsset.bytes).Commands;
 
-            var commandsDataJson = SerializationUTF8.SerializeOrdered(commandsData);
+            string commandsDataJson = SerializationUTF8.SerializeOrdered(commandsData);
             File.WriteAllText(GetPath("CommandsData"), commandsDataJson);
         }
 
         private string GetPath(string fileName)
         {
             const string folder = "Scripts/SkyPirates/Tooling/TimelineDebug";
-            var path = Path.Combine(Application.dataPath, folder, fileName);
+            string path = Path.Combine(Application.dataPath, folder, fileName);
             path = Path.ChangeExtension(path, "json");
             Directory.CreateDirectory(Path.GetDirectoryName(path));
             return path;

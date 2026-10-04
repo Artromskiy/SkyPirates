@@ -14,7 +14,7 @@ namespace DVG.SkyPirates.Tooling
     public sealed class GoogleSheetSource
     {
         public string Name = string.Empty;
-        [TextArea] public string Url = string.Empty;
+        public string Url = string.Empty;
         [Min(1)] public int HeaderRows = 1;
         public DsvSeparator Separator = DsvSeparator.Tab;
     }

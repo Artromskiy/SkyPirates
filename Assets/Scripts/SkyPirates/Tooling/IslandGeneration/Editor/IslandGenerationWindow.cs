@@ -135,7 +135,10 @@ namespace DVG.SkyPirates.Tooling.IslandGeneration.Editor
             _preview3dHost.Add(_preview3dContainer);
 
             if (profile == null)
+            {
                 profile = FindSingleProfile();
+            }
+
             SetProfile(profile);
         }
 
@@ -143,14 +146,16 @@ namespace DVG.SkyPirates.Tooling.IslandGeneration.Editor
         {
             const string profileFolder = "Assets/GeneratedHexIslands/Profiles";
             EnsureAssetFolder(profileFolder);
-            var path = EditorUtility.SaveFilePanelInProject(
+            string path = EditorUtility.SaveFilePanelInProject(
                 "Create island generation profile",
                 "IslandGenerationProfile",
                 "asset",
                 "Choose where to save the island generation profile.",
                 profileFolder);
             if (string.IsNullOrEmpty(path))
+            {
                 return;
+            }
 
             var newProfile = CreateInstance<IslandGenerationProfile>();
             AssetDatabase.CreateAsset(newProfile, path);
@@ -161,7 +166,9 @@ namespace DVG.SkyPirates.Tooling.IslandGeneration.Editor
         private void ResetProfileSettings()
         {
             if (profile == null)
+            {
                 return;
+            }
 
             _activeGeneration?.Cancel();
             _generationQueued = false;
@@ -174,9 +181,13 @@ namespace DVG.SkyPirates.Tooling.IslandGeneration.Editor
             RefreshStatus();
 
             if (realtimeGeneration)
+            {
                 ScheduleRealtimeGeneration();
+            }
             else
+            {
                 _status.text = "Settings reset. Press Generate Island to refresh the preview.";
+            }
         }
 
         private void SetProfile(IslandGenerationProfile newProfile)
@@ -195,7 +206,9 @@ namespace DVG.SkyPirates.Tooling.IslandGeneration.Editor
             RebuildSettings();
             RefreshStatus();
             if (realtimeGeneration && profile != null)
+            {
                 ScheduleRealtimeGeneration();
+            }
         }
 
         private void RebuildSettings()
@@ -288,14 +301,18 @@ namespace DVG.SkyPirates.Tooling.IslandGeneration.Editor
         private void Generate()
         {
             if (profile == null || _activeGeneration != null)
+            {
                 return;
+            }
 
             try
             {
                 _serializedProfile.ApplyModifiedProperties();
                 var shader = FindShapeShader();
                 if (shader == null)
+                {
                     throw new InvalidOperationException("IslandShapeField.compute could not be found in the project.");
+                }
 
                 _generationQueued = false;
                 var generationProfile = profile;
@@ -305,7 +322,9 @@ namespace DVG.SkyPirates.Tooling.IslandGeneration.Editor
                     map =>
                     {
                         if (this == null || _activeGeneration != operation)
+                        {
                             return;
+                        }
 
                         Undo.RecordObject(generationProfile, "Generate hex island");
                         generationProfile.LastGeneratedMap = map;
@@ -317,7 +336,9 @@ namespace DVG.SkyPirates.Tooling.IslandGeneration.Editor
                     exception =>
                     {
                         if (this == null || _activeGeneration != operation)
+                        {
                             return;
+                        }
 
                         _status.text = exception.Message;
                         UnityEngine.Debug.LogException(exception);
@@ -325,7 +346,9 @@ namespace DVG.SkyPirates.Tooling.IslandGeneration.Editor
                     finished =>
                     {
                         if (this != null)
+                        {
                             FinishGeneration(finished);
+                        }
                     });
                 _activeGeneration = operation;
                 _generateButton.SetEnabled(false);
@@ -335,9 +358,15 @@ namespace DVG.SkyPirates.Tooling.IslandGeneration.Editor
             catch (Exception exception)
             {
                 if (_activeGeneration != null && _activeGeneration.IsFinished)
+                {
                     _activeGeneration = null;
+                }
+
                 if (_generateButton != null)
+                {
                     _generateButton.SetEnabled(profile != null && FindShapeShader() != null);
+                }
+
                 _status.text = exception.Message;
                 UnityEngine.Debug.LogException(exception);
             }
@@ -360,7 +389,9 @@ namespace DVG.SkyPirates.Tooling.IslandGeneration.Editor
         private void ScheduleRealtimeGeneration()
         {
             if (!realtimeGeneration || profile == null)
+            {
                 return;
+            }
 
             _generationQueued = true;
             _activeGeneration?.Cancel();
@@ -371,22 +402,30 @@ namespace DVG.SkyPirates.Tooling.IslandGeneration.Editor
         private void UpdateRealtimeGeneration()
         {
             if (!_generationQueued || _activeGeneration != null || EditorApplication.timeSinceStartup < _generationDueTime)
+            {
                 return;
+            }
 
             _generationQueued = false;
             if (realtimeGeneration && profile != null)
+            {
                 Generate();
+            }
         }
 
         private void FinishGeneration(IslandGenerationGenerator.GenerationOperation operation)
         {
             if (_activeGeneration != operation)
+            {
                 return;
+            }
 
             _activeGeneration = null;
             _generateButton.SetEnabled(profile != null && FindShapeShader() != null);
             if (_generationQueued)
+            {
                 UpdateRealtimeGeneration();
+            }
         }
 
         private void RefreshStatus(bool force3DRefresh = false)
@@ -418,7 +457,9 @@ namespace DVG.SkyPirates.Tooling.IslandGeneration.Editor
             }
 
             if (map.Preview == null)
+            {
                 IslandGenerationGenerator.RefreshPreviewAppearance(map, profile.HeightGradient);
+            }
 
             _status.text = $"{map.Columns} × {map.Rows} hexes · {map.LandCellCount} land hexes · seed {map.Seed}";
             _preview.image = map.Preview;
@@ -427,11 +468,13 @@ namespace DVG.SkyPirates.Tooling.IslandGeneration.Editor
 
         private static IslandGenerationProfile FindSingleProfile()
         {
-            var profileGuids = AssetDatabase.FindAssets("t:IslandGenerationProfile");
+            string[] profileGuids = AssetDatabase.FindAssets("t:IslandGenerationProfile");
             if (profileGuids.Length != 1)
+            {
                 return null;
+            }
 
-            var path = AssetDatabase.GUIDToAssetPath(profileGuids[0]);
+            string path = AssetDatabase.GUIDToAssetPath(profileGuids[0]);
             return AssetDatabase.LoadAssetAtPath<IslandGenerationProfile>(path);
         }
 
@@ -443,16 +486,22 @@ namespace DVG.SkyPirates.Tooling.IslandGeneration.Editor
         private static void EnsureAssetFolder(string folderPath)
         {
             if (string.IsNullOrEmpty(folderPath) || AssetDatabase.IsValidFolder(folderPath))
+            {
                 return;
+            }
 
-            var parent = Path.GetDirectoryName(folderPath)?.Replace('\\', '/');
-            var name = Path.GetFileName(folderPath);
+            string? parent = Path.GetDirectoryName(folderPath)?.Replace('\\', '/');
+            string name = Path.GetFileName(folderPath);
             if (string.IsNullOrEmpty(parent) || string.IsNullOrEmpty(name))
+            {
                 throw new InvalidOperationException($"Cannot create project asset folder: {folderPath}");
+            }
 
             EnsureAssetFolder(parent);
             if (!AssetDatabase.IsValidFolder(folderPath))
+            {
                 AssetDatabase.CreateFolder(parent, name);
+            }
         }
     }
 }

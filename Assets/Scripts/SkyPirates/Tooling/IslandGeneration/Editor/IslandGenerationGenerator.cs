@@ -108,12 +108,14 @@ namespace DVG.SkyPirates.Tooling.IslandGeneration.Editor
             public void Start(ComputeShader shader)
             {
                 if (_finished || _buffer != null)
+                {
                     throw new InvalidOperationException("This island generation operation has already started.");
+                }
 
                 try
                 {
-                    var kernel = shader.FindKernel("GenerateField");
-                    var count = checked(_settings.Columns * _settings.Rows);
+                    int kernel = shader.FindKernel("GenerateField");
+                    int count = checked(_settings.Columns * _settings.Rows);
                     _buffer = new ComputeBuffer(count, Marshal.SizeOf(typeof(RawMapSample)), ComputeBufferType.Structured);
                     BindSettings(shader, kernel, _buffer, _settings);
                     shader.Dispatch(
@@ -137,7 +139,9 @@ namespace DVG.SkyPirates.Tooling.IslandGeneration.Editor
                 try
                 {
                     if (request.hasError)
+                    {
                         throw new InvalidOperationException("GPU readback failed. Check compute shader support and graphics driver logs.");
+                    }
 
                     ReleaseBuffer();
                     if (_cancelled)
@@ -167,14 +171,19 @@ namespace DVG.SkyPirates.Tooling.IslandGeneration.Editor
                 ReleaseBuffer();
                 _finished = true;
                 if (!_cancelled)
+                {
                     _failed?.Invoke(exception);
+                }
+
                 _finishedCallback?.Invoke(this);
             }
 
             private void ReleaseBuffer()
             {
                 if (_buffer == null)
+                {
                     return;
+                }
 
                 _buffer.Release();
                 _buffer = null;
@@ -193,57 +202,61 @@ namespace DVG.SkyPirates.Tooling.IslandGeneration.Editor
 
         private static HexIslandCell[] QuantizeFieldToHexes(GenerationSettings settings, RawMapSample[] fieldSamples)
         {
-            var count = checked(settings.Columns * settings.Rows);
+            int count = checked(settings.Columns * settings.Rows);
             if (fieldSamples.Length != count)
+            {
                 throw new InvalidOperationException("The generated map field has an unexpected sample count.");
+            }
 
-            var land = new bool[count];
-            var qCoordinates = new int[count];
-            var rCoordinates = new int[count];
-            var heights = new float[count];
-            var rawHeights = new float[count];
-            var maxLevel = settings.HeightLevels - 1;
-            var heightUnit = settings.MaximumHeight / maxLevel;
-            var centerX = (settings.Columns - 1) * 0.5f + 0.25f;
-            var halfWidth = Mathf.Max((settings.Columns - 1) * 0.5f + 0.25f, 0.5f);
-            var centerR = (settings.Rows - 1) * 0.5f - Mathf.Floor(settings.Rows * 0.5f);
-            var halfHeight = Mathf.Max((settings.Rows - 1) * 0.5f, 0.5f);
+            bool[] land = new bool[count];
+            int[] qCoordinates = new int[count];
+            int[] rCoordinates = new int[count];
+            float[] heights = new float[count];
+            float[] rawHeights = new float[count];
+            int maxLevel = settings.HeightLevels - 1;
+            float heightUnit = settings.MaximumHeight / maxLevel;
+            float centerX = (settings.Columns - 1) * 0.5f + 0.25f;
+            float halfWidth = Mathf.Max((settings.Columns - 1) * 0.5f + 0.25f, 0.5f);
+            float centerR = (settings.Rows - 1) * 0.5f - Mathf.Floor(settings.Rows * 0.5f);
+            float halfHeight = Mathf.Max((settings.Rows - 1) * 0.5f, 0.5f);
 
             var indicesByAxialCoordinate = new Dictionary<long, int>(count);
-            for (var row = 0; row < settings.Rows; row++)
+            for (int row = 0; row < settings.Rows; row++)
             {
-                var r = row - settings.Rows / 2;
-                var qOffset = (r - (r & 1)) / 2;
-                for (var column = 0; column < settings.Columns; column++)
+                int r = row - settings.Rows / 2;
+                int qOffset = (r - (r & 1)) / 2;
+                for (int column = 0; column < settings.Columns; column++)
                 {
-                    var index = row * settings.Columns + column;
-                    var q = column - qOffset;
+                    int index = row * settings.Columns + column;
+                    int q = column - qOffset;
                     qCoordinates[index] = q;
                     rCoordinates[index] = r;
                     indicesByAxialCoordinate[CoordinateKey(q, r)] = index;
 
-                    var worldX = q + r * 0.5f;
-                    var normalizedX = (worldX - centerX) / halfWidth;
-                    var normalizedY = (r - centerR) / halfHeight;
+                    float worldX = q + r * 0.5f;
+                    float normalizedX = (worldX - centerX) / halfWidth;
+                    float normalizedY = (r - centerR) / halfHeight;
                     var fieldSample = SampleField(fieldSamples, settings.Columns, settings.Rows, normalizedX, normalizedY);
                     land[index] = fieldSample.LandMask >= 0.5f;
                     if (!land[index])
+                    {
                         continue;
+                    }
 
                     rawHeights[index] = Mathf.Clamp(fieldSample.Height, 0f, settings.MaximumHeight);
-                    var initialLevel = Mathf.RoundToInt(rawHeights[index] / heightUnit);
+                    int initialLevel = Mathf.RoundToInt(rawHeights[index] / heightUnit);
                     heights[index] = Mathf.Clamp(initialLevel, 1, maxLevel);
                 }
             }
 
-            var neighborIndices = new int[count * 6];
-            for (var index = 0; index < count; index++)
+            int[] neighborIndices = new int[count * 6];
+            for (int index = 0; index < count; index++)
             {
-                for (var direction = 0; direction < 6; direction++)
+                for (int direction = 0; direction < 6; direction++)
                 {
-                    var q = qCoordinates[index] + NeighborQ[direction];
-                    var r = rCoordinates[index] + NeighborR[direction];
-                    neighborIndices[index * 6 + direction] = indicesByAxialCoordinate.TryGetValue(CoordinateKey(q, r), out var neighbor)
+                    int q = qCoordinates[index] + NeighborQ[direction];
+                    int r = rCoordinates[index] + NeighborR[direction];
+                    neighborIndices[index * 6 + direction] = indicesByAxialCoordinate.TryGetValue(CoordinateKey(q, r), out int neighbor)
                         ? neighbor
                         : -1;
                 }
@@ -251,12 +264,12 @@ namespace DVG.SkyPirates.Tooling.IslandGeneration.Editor
 
             Erode(heights, land, neighborIndices, settings, maxLevel);
             var cells = new HexIslandCell[count];
-            for (var i = 0; i < count; i++)
+            for (int i = 0; i < count; i++)
             {
-                var level = land[i]
+                int level = land[i]
                     ? Mathf.Clamp(Mathf.RoundToInt(heights[i]), 1, maxLevel)
                     : 0;
-                var finalHeight = level * heightUnit;
+                float finalHeight = level * heightUnit;
                 cells[i] = new HexIslandCell(
                     qCoordinates[i],
                     rCoordinates[i],
@@ -276,14 +289,14 @@ namespace DVG.SkyPirates.Tooling.IslandGeneration.Editor
             float normalizedX,
             float normalizedY)
         {
-            var sampleX = Mathf.Clamp((normalizedX + 1f) * 0.5f * width - 0.5f, 0f, width - 1f);
-            var sampleY = Mathf.Clamp((normalizedY + 1f) * 0.5f * height - 0.5f, 0f, height - 1f);
-            var x0 = Mathf.FloorToInt(sampleX);
-            var y0 = Mathf.FloorToInt(sampleY);
-            var x1 = Mathf.Min(x0 + 1, width - 1);
-            var y1 = Mathf.Min(y0 + 1, height - 1);
-            var blendX = sampleX - x0;
-            var blendY = sampleY - y0;
+            float sampleX = Mathf.Clamp((normalizedX + 1f) * 0.5f * width - 0.5f, 0f, width - 1f);
+            float sampleY = Mathf.Clamp((normalizedY + 1f) * 0.5f * height - 0.5f, 0f, height - 1f);
+            int x0 = Mathf.FloorToInt(sampleX);
+            int y0 = Mathf.FloorToInt(sampleY);
+            int x1 = Mathf.Min(x0 + 1, width - 1);
+            int y1 = Mathf.Min(y0 + 1, height - 1);
+            float blendX = sampleX - x0;
+            float blendY = sampleY - y0;
 
             var topLeft = fieldSamples[y0 * width + x0];
             var topRight = fieldSamples[y0 * width + x1];
@@ -306,19 +319,39 @@ namespace DVG.SkyPirates.Tooling.IslandGeneration.Editor
         private static void Validate(IslandGenerationProfile profile, bool checkAsyncReadback)
         {
             if (profile == null)
+            {
                 throw new ArgumentNullException(nameof(profile));
+            }
+
             if (!SystemInfo.supportsComputeShaders)
+            {
                 throw new InvalidOperationException("This editor graphics device does not support compute shaders.");
+            }
+
             if (checkAsyncReadback && !SystemInfo.supportsAsyncGPUReadback)
+            {
                 throw new InvalidOperationException("This graphics device does not support asynchronous GPU readback, so generation cannot run without blocking the editor.");
+            }
+
             if (profile.Columns < 16 || profile.Rows < 16)
+            {
                 throw new InvalidOperationException("The hex grid must be at least 16 × 16.");
+            }
+
             if ((long)profile.Columns * profile.Rows > MaximumHexCount)
+            {
                 throw new InvalidOperationException($"The hex grid may contain at most {MaximumHexCount:N0} cells.");
+            }
+
             if (profile.MaximumHeight <= 0f)
+            {
                 throw new InvalidOperationException("Maximum Height must be greater than zero.");
+            }
+
             if (profile.HeightLevels < 2)
+            {
                 throw new InvalidOperationException("Height Levels must be at least 2.");
+            }
         }
 
         private static void BindSettings(
@@ -351,53 +384,63 @@ namespace DVG.SkyPirates.Tooling.IslandGeneration.Editor
             int maxLevel)
         {
             if (settings.ThermalErosionIterations == 0 || settings.ErosionRate <= 0f)
+            {
                 return;
+            }
 
-            var talusInLevels = settings.TalusHeight / settings.MaximumHeight * maxLevel;
-            var delta = new float[heights.Length];
-            var lowerNeighbors = new int[6];
-            var transfers = new float[6];
+            float talusInLevels = settings.TalusHeight / settings.MaximumHeight * maxLevel;
+            float[] delta = new float[heights.Length];
+            int[] lowerNeighbors = new int[6];
+            float[] transfers = new float[6];
 
-            for (var iteration = 0; iteration < settings.ThermalErosionIterations; iteration++)
+            for (int iteration = 0; iteration < settings.ThermalErosionIterations; iteration++)
             {
                 Array.Clear(delta, 0, delta.Length);
-                for (var index = 0; index < heights.Length; index++)
+                for (int index = 0; index < heights.Length; index++)
                 {
                     if (!land[index])
-                        continue;
-
-                    var lowerCount = 0;
-                    for (var direction = 0; direction < 6; direction++)
                     {
-                        var neighbor = neighborIndices[index * 6 + direction];
+                        continue;
+                    }
+
+                    int lowerCount = 0;
+                    for (int direction = 0; direction < 6; direction++)
+                    {
+                        int neighbor = neighborIndices[index * 6 + direction];
                         if (neighbor >= 0 && land[neighbor] && heights[index] - heights[neighbor] > talusInLevels)
+                        {
                             lowerNeighbors[lowerCount++] = neighbor;
+                        }
                     }
 
                     if (lowerCount == 0)
-                        continue;
-
-                    for (var neighborIndex = 0; neighborIndex < lowerCount; neighborIndex++)
                     {
-                        var neighbor = lowerNeighbors[neighborIndex];
-                        var difference = heights[index] - heights[neighbor] - talusInLevels;
-                        var transfer = Mathf.Min(difference * settings.ErosionRate / lowerCount, difference * 0.5f);
+                        continue;
+                    }
+
+                    for (int neighborIndex = 0; neighborIndex < lowerCount; neighborIndex++)
+                    {
+                        int neighbor = lowerNeighbors[neighborIndex];
+                        float difference = heights[index] - heights[neighbor] - talusInLevels;
+                        float transfer = Mathf.Min(difference * settings.ErosionRate / lowerCount, difference * 0.5f);
                         transfers[neighborIndex] = transfer;
                     }
 
-                    for (var neighborIndex = 0; neighborIndex < lowerCount; neighborIndex++)
+                    for (int neighborIndex = 0; neighborIndex < lowerCount; neighborIndex++)
                     {
-                        var neighbor = lowerNeighbors[neighborIndex];
-                        var transfer = transfers[neighborIndex];
+                        int neighbor = lowerNeighbors[neighborIndex];
+                        float transfer = transfers[neighborIndex];
                         delta[index] -= transfer;
                         delta[neighbor] += transfer;
                     }
                 }
 
-                for (var index = 0; index < heights.Length; index++)
+                for (int index = 0; index < heights.Length; index++)
                 {
                     if (land[index])
+                    {
                         heights[index] = Mathf.Clamp(heights[index] + delta[index], 1f, maxLevel);
+                    }
                 }
             }
         }
@@ -410,16 +453,18 @@ namespace DVG.SkyPirates.Tooling.IslandGeneration.Editor
         private static HexIslandMap SaveMap(IslandGenerationProfile profile, GenerationSettings settings, HexIslandCell[] cells)
         {
             var map = profile.LastGeneratedMap;
-            var isNewAsset = map == null || !AssetDatabase.Contains(map);
-            var path = map != null && AssetDatabase.Contains(map)
+            bool isNewAsset = map == null || !AssetDatabase.Contains(map);
+            string path = map != null && AssetDatabase.Contains(map)
                 ? AssetDatabase.GetAssetPath(map)
                 : GetNewMapPath(profile);
 
-            var folder = Path.GetDirectoryName(path)?.Replace('\\', '/');
+            string? folder = Path.GetDirectoryName(path)?.Replace('\\', '/');
             EnsureAssetFolder(folder);
 
             if (!isNewAsset)
+            {
                 RemovePersistedPreview(path);
+            }
 
             var existingPreview = map != null ? map.Preview : null;
             if (!isNewAsset)
@@ -427,12 +472,16 @@ namespace DVG.SkyPirates.Tooling.IslandGeneration.Editor
                 Undo.RecordObject(map, "Regenerate hex island");
             }
 
-            var pixels = CreatePreviewPixels(settings, cells, profile.HeightGradient, out var previewWidth, out var previewHeight);
+            var pixels = CreatePreviewPixels(settings, cells, profile.HeightGradient, out int previewWidth, out int previewHeight);
             var preview = existingPreview;
             if (preview == null)
+            {
                 preview = new Texture2D(previewWidth, previewHeight, TextureFormat.RGBA32, false);
+            }
             else if (preview.width != previewWidth || preview.height != previewHeight)
+            {
                 preview.Reinitialize(previewWidth, previewHeight, TextureFormat.RGBA32, false);
+            }
 
             preview.name = $"{profile.name} Preview";
             preview.hideFlags = HideFlags.HideAndDontSave;
@@ -456,7 +505,9 @@ namespace DVG.SkyPirates.Tooling.IslandGeneration.Editor
                 preview);
 
             if (isNewAsset)
+            {
                 AssetDatabase.CreateAsset(map, path);
+            }
 
             EditorUtility.SetDirty(map);
             AssetDatabase.SaveAssets();
@@ -466,11 +517,13 @@ namespace DVG.SkyPirates.Tooling.IslandGeneration.Editor
         private static void RemovePersistedPreview(string assetPath)
         {
             var subAssets = AssetDatabase.LoadAllAssetsAtPath(assetPath);
-            for (var i = 0; i < subAssets.Length; i++)
+            for (int i = 0; i < subAssets.Length; i++)
             {
                 var subAsset = subAssets[i];
                 if (!(subAsset is Texture2D) || !subAsset.name.EndsWith(" Preview", StringComparison.Ordinal))
+                {
                     continue;
+                }
 
                 AssetDatabase.RemoveObjectFromAsset(subAsset);
                 UnityEngine.Object.DestroyImmediate(subAsset, true);
@@ -480,7 +533,9 @@ namespace DVG.SkyPirates.Tooling.IslandGeneration.Editor
         public static void RefreshPreviewAppearance(HexIslandMap map, Gradient heightGradient)
         {
             if (map == null)
+            {
                 return;
+            }
 
             var settings = new GenerationSettings
             {
@@ -492,13 +547,17 @@ namespace DVG.SkyPirates.Tooling.IslandGeneration.Editor
                 settings,
                 map.Cells,
                 heightGradient,
-                out var previewWidth,
-                out var previewHeight);
+                out int previewWidth,
+                out int previewHeight);
             var preview = map.Preview;
             if (preview == null)
+            {
                 preview = new Texture2D(previewWidth, previewHeight, TextureFormat.RGBA32, false);
+            }
             else if (preview.width != previewWidth || preview.height != previewHeight)
+            {
                 preview.Reinitialize(previewWidth, previewHeight, TextureFormat.RGBA32, false);
+            }
 
             preview.name = $"{map.name} Preview";
             preview.hideFlags = HideFlags.HideAndDontSave;
@@ -510,13 +569,13 @@ namespace DVG.SkyPirates.Tooling.IslandGeneration.Editor
 
         private static string GetNewMapPath(IslandGenerationProfile profile)
         {
-            var outputFolder = "Assets/GeneratedHexIslands";
+            string outputFolder = "Assets/GeneratedHexIslands";
             EnsureAssetFolder(outputFolder);
-            var profilePath = AssetDatabase.GetAssetPath(profile);
-            var guid = AssetDatabase.AssetPathToGUID(profilePath);
-            var suffix = guid.Length >= 8 ? guid.Substring(0, 8) : Guid.NewGuid().ToString("N").Substring(0, 8);
-            var fileName = $"{SanitizeFileName(profile.name)}_{suffix}_Island.asset";
-            var path = $"{outputFolder}/{fileName}";
+            string profilePath = AssetDatabase.GetAssetPath(profile);
+            string guid = AssetDatabase.AssetPathToGUID(profilePath);
+            string suffix = guid.Length >= 8 ? guid.Substring(0, 8) : Guid.NewGuid().ToString("N").Substring(0, 8);
+            string fileName = $"{SanitizeFileName(profile.name)}_{suffix}_Island.asset";
+            string path = $"{outputFolder}/{fileName}";
             return AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(path) == null
                 ? path
                 : AssetDatabase.GenerateUniqueAssetPath(path);
@@ -525,26 +584,34 @@ namespace DVG.SkyPirates.Tooling.IslandGeneration.Editor
         private static void EnsureAssetFolder(string folderPath)
         {
             if (string.IsNullOrEmpty(folderPath) || AssetDatabase.IsValidFolder(folderPath))
+            {
                 return;
+            }
 
-            var parent = Path.GetDirectoryName(folderPath)?.Replace('\\', '/');
-            var name = Path.GetFileName(folderPath);
+            string? parent = Path.GetDirectoryName(folderPath)?.Replace('\\', '/');
+            string name = Path.GetFileName(folderPath);
             if (string.IsNullOrEmpty(parent) || string.IsNullOrEmpty(name))
+            {
                 throw new InvalidOperationException($"Cannot create project asset folder: {folderPath}");
+            }
 
             EnsureAssetFolder(parent);
             if (!AssetDatabase.IsValidFolder(folderPath))
+            {
                 AssetDatabase.CreateFolder(parent, name);
+            }
         }
 
         private static string SanitizeFileName(string value)
         {
-            var invalidCharacters = Path.GetInvalidFileNameChars();
-            var characters = value.ToCharArray();
-            for (var i = 0; i < characters.Length; i++)
+            char[] invalidCharacters = Path.GetInvalidFileNameChars();
+            char[] characters = value.ToCharArray();
+            for (int i = 0; i < characters.Length; i++)
             {
                 if (Array.IndexOf(invalidCharacters, characters[i]) >= 0 || characters[i] == '/')
+                {
                     characters[i] = '_';
+                }
             }
 
             return new string(characters);
@@ -557,9 +624,9 @@ namespace DVG.SkyPirates.Tooling.IslandGeneration.Editor
             out int width,
             out int height)
         {
-            var hexRadius = PreviewHexRadius;
-            var columnSpacing = hexRadius * SqrtThree;
-            var rowSpacing = hexRadius * 1.5f;
+            float hexRadius = PreviewHexRadius;
+            float columnSpacing = hexRadius * SqrtThree;
+            float rowSpacing = hexRadius * 1.5f;
             width = Mathf.CeilToInt(
                 PreviewPadding * 2f + (settings.Columns + 0.5f) * columnSpacing);
             height = Mathf.CeilToInt(
@@ -568,34 +635,38 @@ namespace DVG.SkyPirates.Tooling.IslandGeneration.Editor
             var background = new Color32(17, 24, 31, 255);
             var outline = new Color32(35, 43, 49, 255);
             var pixels = new Color32[width * height];
-            for (var i = 0; i < pixels.Length; i++)
+            for (int i = 0; i < pixels.Length; i++)
+            {
                 pixels[i] = background;
+            }
 
             var water = new Color32(31, 87, 122, 255);
-            for (var index = 0; index < cells.Length; index++)
+            for (int index = 0; index < cells.Length; index++)
             {
                 var cell = cells[index];
                 var color = GetCellColor(settings, cell, water, heightGradient);
 
-                var row = index / settings.Columns;
-                var column = index - row * settings.Columns;
-                var axialR = row - settings.Rows / 2;
-                var centerX = PreviewPadding + hexRadius * HalfSqrtThree + column * columnSpacing + (axialR & 1) * hexRadius * HalfSqrtThree;
-                var centerY = height - PreviewPadding - hexRadius - row * rowSpacing;
-                var minX = Mathf.Max(0, Mathf.FloorToInt(centerX - hexRadius));
-                var maxX = Mathf.Min(width - 1, Mathf.CeilToInt(centerX + hexRadius));
-                var minY = Mathf.Max(0, Mathf.FloorToInt(centerY - hexRadius));
-                var maxY = Mathf.Min(height - 1, Mathf.CeilToInt(centerY + hexRadius));
-                var innerRadius = Mathf.Max(1f, hexRadius - 1f);
+                int row = index / settings.Columns;
+                int column = index - row * settings.Columns;
+                int axialR = row - settings.Rows / 2;
+                float centerX = PreviewPadding + hexRadius * HalfSqrtThree + column * columnSpacing + (axialR & 1) * hexRadius * HalfSqrtThree;
+                float centerY = height - PreviewPadding - hexRadius - row * rowSpacing;
+                int minX = Mathf.Max(0, Mathf.FloorToInt(centerX - hexRadius));
+                int maxX = Mathf.Min(width - 1, Mathf.CeilToInt(centerX + hexRadius));
+                int minY = Mathf.Max(0, Mathf.FloorToInt(centerY - hexRadius));
+                int maxY = Mathf.Min(height - 1, Mathf.CeilToInt(centerY + hexRadius));
+                float innerRadius = Mathf.Max(1f, hexRadius - 1f);
 
-                for (var y = minY; y <= maxY; y++)
+                for (int y = minY; y <= maxY; y++)
                 {
-                    for (var x = minX; x <= maxX; x++)
+                    for (int x = minX; x <= maxX; x++)
                     {
-                        var dx = Mathf.Abs(x + 0.5f - centerX);
-                        var dy = Mathf.Abs(y + 0.5f - centerY);
+                        float dx = Mathf.Abs(x + 0.5f - centerX);
+                        float dy = Mathf.Abs(y + 0.5f - centerY);
                         if (!InsidePointyHex(dx, dy, hexRadius))
+                        {
                             continue;
+                        }
 
                         var pixelColor = InsidePointyHex(dx, dy, innerRadius) ? color : outline;
                         pixels[(height - 1 - y) * width + x] = pixelColor;
@@ -613,9 +684,11 @@ namespace DVG.SkyPirates.Tooling.IslandGeneration.Editor
             Gradient heightGradient)
         {
             if (!cell.IsLand)
+            {
                 return water;
+            }
 
-            var normalizedHeight = settings.MaximumHeight > 0f ? cell.Height / settings.MaximumHeight : 0f;
+            float normalizedHeight = settings.MaximumHeight > 0f ? cell.Height / settings.MaximumHeight : 0f;
             return heightGradient != null
                 ? heightGradient.Evaluate(Mathf.Clamp01(normalizedHeight))
                 : new Color(0.35f, 0.55f, 0.3f, 1f);

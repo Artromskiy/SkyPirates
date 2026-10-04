@@ -27,7 +27,7 @@ namespace DVG.SkyPirates.Tooling
         {
             var left = GetLeft();
             AtTick(left, _tick);
-            var res = SerializationUTF8.SerializeOrdered(left);
+            string res = SerializationUTF8.SerializeOrdered(left);
             File.WriteAllText(GetPath(), res);
         }
 
@@ -36,7 +36,7 @@ namespace DVG.SkyPirates.Tooling
         {
             var right = GetRight();
             AtTick(right, _tick);
-            var res = SerializationUTF8.SerializeOrdered(right);
+            string res = SerializationUTF8.SerializeOrdered(right);
             File.WriteAllText(GetPath(), res);
         }
 
@@ -44,7 +44,7 @@ namespace DVG.SkyPirates.Tooling
         {
             const string folder = "Scripts/SkyPirates/Tooling/TimelineDebug";
             const string fileName = "Command";
-            var path = Path.Combine(Application.dataPath, folder, fileName);
+            string path = Path.Combine(Application.dataPath, folder, fileName);
             path = Path.ChangeExtension(path, "json");
             Directory.CreateDirectory(Path.GetDirectoryName(path));
             return path;
@@ -80,10 +80,12 @@ namespace DVG.SkyPirates.Tooling
             public void Invoke<T>()
             {
                 var commands = _commandsData.Get<T>();
-                foreach (var tick in commands.Keys.ToArray())
+                foreach (int tick in commands.Keys.ToArray())
                 {
                     if (tick != _tick)
+                    {
                         commands.Remove(tick);
+                    }
                 }
             }
         }

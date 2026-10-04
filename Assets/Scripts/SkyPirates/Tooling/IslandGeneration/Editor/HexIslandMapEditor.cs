@@ -15,7 +15,9 @@ namespace DVG.SkyPirates.Tooling.IslandGeneration.Editor
             var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>(
                 "Assets/Scripts/SkyPirates/Tooling/IslandGeneration/Editor/IslandGenerationWindow.uss");
             if (styleSheet != null)
+            {
                 root.styleSheets.Add(styleSheet);
+            }
 
             var title = new Label("Generated Hex Island");
             title.AddToClassList("window-title");

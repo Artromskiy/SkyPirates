@@ -31,7 +31,7 @@ namespace DVG.SkyPirates.Tooling.Entry
             var timeline = _container.GetInstance<ITimelineService>();
             var preTickable = _container.GetInstance<ITickableService<IPreTickable>>();
             var postTickable = _container.GetInstance<ITickableService<IPostTickable>>();
-            var targetTick = tickFrame;
+            int targetTick = tickFrame;
             if (timeline.CurrentTick != targetTick)
             {
                 preTickable.Tick(targetTick);

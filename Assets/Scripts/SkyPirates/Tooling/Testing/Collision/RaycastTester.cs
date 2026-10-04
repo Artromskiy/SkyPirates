@@ -19,7 +19,9 @@ namespace DVG.SkyPirates.Tooling.Testing
         {
             Gizmos.color = Color.black;
             for (int i = 0; i < _segments.childCount - 1; i++)
+            {
                 Gizmos.DrawLine(_segments.GetChild(i).position, _segments.GetChild(i + 1).position);
+            }
 
             Gizmos.color = Color.green;
             Gizmos.DrawLine(_rayStart.position, _rayEnd.position);

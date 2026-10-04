@@ -33,9 +33,14 @@ namespace DVG.SkyPirates.Tooling.Testing
         private void OnDrawGizmos()
         {
             if (!enabled)
+            {
                 return;
+            }
+
             if (_solveIndex == -1)
+            {
                 return;
+            }
 
             Gizmos.color = Color.black;
             var data = _unsolved[_solveIndex];

@@ -44,7 +44,9 @@ namespace DVG.SkyPirates.Tooling.Controls
         private void Update()
         {
             if (!Input.GetMouseButtonDown(0))
+            {
                 return;
+            }
 
             Spawn(GetWorldXZ());
         }
@@ -60,7 +62,7 @@ namespace DVG.SkyPirates.Tooling.Controls
             EntityParameters parameters = new(entityId, reserve, rnd);
             var entity = _configedEntityFactory.Create((id, parameters));
             _world.GetRef<Position>(entity).Value = (fix3)position;
-            var rotation = _randomizeRotation ? UnityEngine.Random.Range(0, 360) : 0;
+            int rotation = _randomizeRotation ? UnityEngine.Random.Range(0, 360) : 0;
             _world.GetRef<Rotation>(entity).Value = rotation;
         }
 
@@ -68,7 +70,7 @@ namespace DVG.SkyPirates.Tooling.Controls
         {
             var pos = Input.mousePosition;
             var ray = Camera.main.ScreenPointToRay(pos);
-            new Plane(Vector3.down, 0).Raycast(ray, out var enter);
+            new Plane(Vector3.down, 0).Raycast(ray, out float enter);
             return ray.origin + ray.direction * enter;
         }
 

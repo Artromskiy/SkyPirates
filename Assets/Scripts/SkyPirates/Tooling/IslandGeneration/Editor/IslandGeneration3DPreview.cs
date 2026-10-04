@@ -35,7 +35,9 @@ namespace DVG.SkyPirates.Tooling.IslandGeneration.Editor
         public void SetMap(HexIslandMap map, Gradient heightGradient, float verticalScale, bool forceRebuild = false)
         {
             if (_map == map && _heightGradient == heightGradient && Mathf.Approximately(_verticalScale, verticalScale) && !forceRebuild)
+            {
                 return;
+            }
 
             _map = map;
             _heightGradient = heightGradient;
@@ -67,11 +69,15 @@ namespace DVG.SkyPirates.Tooling.IslandGeneration.Editor
             }
 
             if (_renderUtility == null)
+            {
                 CreateRenderUtility();
+            }
 
             EditorGUIUtility.AddCursorRect(rect, MouseCursor.Pan);
             if (Event.current.type != EventType.Repaint)
+            {
                 return;
+            }
 
             ConfigureCamera(rect);
             _renderUtility.BeginPreview(rect, GUIStyle.none);
@@ -79,14 +85,17 @@ namespace DVG.SkyPirates.Tooling.IslandGeneration.Editor
             try
             {
                 if (_waterMesh != null)
+                {
                     _renderUtility.DrawMesh(_waterMesh, Matrix4x4.identity, _waterMaterial, 0);
+                }
+
                 if (_terrainMesh != null)
                 {
-                    for (var i = 0; i < _hasTerrainSubmesh.Length; i++)
+                    for (int i = 0; i < _hasTerrainSubmesh.Length; i++)
                     {
                         if (_hasTerrainSubmesh[i])
                         {
-                            var materialIndex = i < _terrainMaterials.Length
+                            int materialIndex = i < _terrainMaterials.Length
                                 ? i
                                 : i - _terrainMaterials.Length;
                             _renderUtility.DrawMesh(_terrainMesh, Matrix4x4.identity, _terrainMaterials[materialIndex], i);
@@ -109,7 +118,10 @@ namespace DVG.SkyPirates.Tooling.IslandGeneration.Editor
         public void Dispose()
         {
             if (_hotControl != 0 && GUIUtility.hotControl == _hotControl)
+            {
                 GUIUtility.hotControl = 0;
+            }
+
             _hotControl = 0;
             ReleaseMapResources();
             _renderUtility?.Cleanup();
@@ -119,7 +131,7 @@ namespace DVG.SkyPirates.Tooling.IslandGeneration.Editor
         private void HandleInput(Rect rect)
         {
             var currentEvent = Event.current;
-            var controlId = GUIUtility.GetControlID(FocusType.Passive);
+            int controlId = GUIUtility.GetControlID(FocusType.Passive);
 
             if (currentEvent.type == EventType.MouseDown && currentEvent.button <= 2 && rect.Contains(currentEvent.mousePosition))
             {
@@ -138,10 +150,10 @@ namespace DVG.SkyPirates.Tooling.IslandGeneration.Editor
                 else if (_renderUtility != null)
                 {
                     var camera = _renderUtility.camera;
-                    var scaledHeight = _map.MaximumHeight * _verticalScale;
-                    var radius = Mathf.Sqrt(_map.Columns * _map.Columns * 3f + _map.Rows * _map.Rows * 2.25f + scaledHeight * scaledHeight) * 0.5f;
-                    var distance = radius / Mathf.Tan(_renderUtility.cameraFieldOfView * 0.5f * Mathf.Deg2Rad) * CameraFitMargin * _zoom;
-                    var worldUnitsPerPixel = 2f * distance * Mathf.Tan(_renderUtility.cameraFieldOfView * 0.5f * Mathf.Deg2Rad) / Mathf.Max(1f, rect.height);
+                    float scaledHeight = _map.MaximumHeight * _verticalScale;
+                    float radius = Mathf.Sqrt(_map.Columns * _map.Columns * 3f + _map.Rows * _map.Rows * 2.25f + scaledHeight * scaledHeight) * 0.5f;
+                    float distance = radius / Mathf.Tan(_renderUtility.cameraFieldOfView * 0.5f * Mathf.Deg2Rad) * CameraFitMargin * _zoom;
+                    float worldUnitsPerPixel = 2f * distance * Mathf.Tan(_renderUtility.cameraFieldOfView * 0.5f * Mathf.Deg2Rad) / Mathf.Max(1f, rect.height);
                     _pan += (-camera.transform.right * currentEvent.delta.x + camera.transform.up * currentEvent.delta.y) * worldUnitsPerPixel;
                 }
                 GUI.changed = true;
@@ -177,14 +189,14 @@ namespace DVG.SkyPirates.Tooling.IslandGeneration.Editor
         private void ConfigureCamera(Rect rect)
         {
             var camera = _renderUtility.camera;
-            var width = Mathf.Max(1f, _map.Columns * SqrtThree + 1f);
-            var depth = Mathf.Max(1f, (_map.Rows - 1) * RowSpacing + 2f);
-            var height = Mathf.Max(1f, _map.MaximumHeight * _verticalScale);
+            float width = Mathf.Max(1f, _map.Columns * SqrtThree + 1f);
+            float depth = Mathf.Max(1f, (_map.Rows - 1) * RowSpacing + 2f);
+            float height = Mathf.Max(1f, _map.MaximumHeight * _verticalScale);
             var target = new Vector3(0f, height * 0.34f, 0f) + _pan;
-            var radius = Mathf.Sqrt(width * width + depth * depth + height * height) * 0.5f;
-            var distance = radius / Mathf.Tan(_renderUtility.cameraFieldOfView * 0.5f * Mathf.Deg2Rad) * CameraFitMargin * _zoom;
-            var pitchRadians = _pitch * Mathf.Deg2Rad;
-            var yawRadians = _yaw * Mathf.Deg2Rad;
+            float radius = Mathf.Sqrt(width * width + depth * depth + height * height) * 0.5f;
+            float distance = radius / Mathf.Tan(_renderUtility.cameraFieldOfView * 0.5f * Mathf.Deg2Rad) * CameraFitMargin * _zoom;
+            float pitchRadians = _pitch * Mathf.Deg2Rad;
+            float yawRadians = _yaw * Mathf.Deg2Rad;
             var direction = new Vector3(
                 Mathf.Cos(pitchRadians) * Mathf.Sin(yawRadians),
                 Mathf.Sin(pitchRadians),
@@ -201,15 +213,20 @@ namespace DVG.SkyPirates.Tooling.IslandGeneration.Editor
         {
             var shader = Shader.Find("Universal Render Pipeline/Lit");
             if (shader == null)
+            {
                 shader = Shader.Find("Standard");
+            }
+
             if (shader == null)
+            {
                 return;
+            }
 
             _waterMaterial = CreateMaterial(shader, new Color(0.12f, 0.34f, 0.48f, 1f));
             _terrainMaterials = new Material[Mathf.Max(1, map.HeightLevels - 1)];
-            for (var index = 0; index < _terrainMaterials.Length; index++)
+            for (int index = 0; index < _terrainMaterials.Length; index++)
             {
-                var normalizedHeight = (index + 1f) / _terrainMaterials.Length;
+                float normalizedHeight = (index + 1f) / _terrainMaterials.Length;
                 _terrainMaterials[index] = CreateMaterial(shader, GetHeightColor(_heightGradient, normalizedHeight));
             }
 
@@ -221,35 +238,41 @@ namespace DVG.SkyPirates.Tooling.IslandGeneration.Editor
         {
             var cells = map.Cells ?? Array.Empty<HexIslandCell>();
             var indicesByCoordinate = new Dictionary<long, int>(cells.Length);
-            for (var i = 0; i < cells.Length; i++)
+            for (int i = 0; i < cells.Length; i++)
+            {
                 indicesByCoordinate[CoordinateKey(cells[i].Q, cells[i].R)] = i;
+            }
 
             var vertices = new List<Vector3>();
             var trianglesByLevel = new List<int>[_terrainMaterials.Length * 2];
-            for (var i = 0; i < trianglesByLevel.Length; i++)
+            for (int i = 0; i < trianglesByLevel.Length; i++)
+            {
                 trianglesByLevel[i] = new List<int>();
+            }
 
-            var centerX = (map.Columns - 1) * SqrtThree * 0.5f + SqrtThree * 0.25f;
-            var centerZ = (map.Rows - 1) * RowSpacing * 0.5f;
-            for (var cellIndex = 0; cellIndex < cells.Length; cellIndex++)
+            float centerX = (map.Columns - 1) * SqrtThree * 0.5f + SqrtThree * 0.25f;
+            float centerZ = (map.Rows - 1) * RowSpacing * 0.5f;
+            for (int cellIndex = 0; cellIndex < cells.Length; cellIndex++)
             {
                 var cell = cells[cellIndex];
                 if (!cell.IsLand || cell.Height <= 0f)
+                {
                     continue;
+                }
 
-                var row = cell.R + map.Rows / 2;
-                var offset = (cell.R - (cell.R & 1)) / 2;
-                var column = cell.Q + offset;
-                var x = (column + (row & 1) * 0.5f) * SqrtThree - centerX;
-                var z = row * RowSpacing - centerZ;
-                var cellHeight = cell.Height * _verticalScale;
-                var levelSubmesh = Mathf.Clamp(cell.HeightLevel - 1, 0, _terrainMaterials.Length - 1);
-                var cellVertices = vertices.Count;
+                int row = cell.R + map.Rows / 2;
+                int offset = (cell.R - (cell.R & 1)) / 2;
+                int column = cell.Q + offset;
+                float x = (column + (row & 1) * 0.5f) * SqrtThree - centerX;
+                float z = row * RowSpacing - centerZ;
+                float cellHeight = cell.Height * _verticalScale;
+                int levelSubmesh = Mathf.Clamp(cell.HeightLevel - 1, 0, _terrainMaterials.Length - 1);
+                int cellVertices = vertices.Count;
                 vertices.Add(new Vector3(x, cellHeight, z));
 
-                for (var corner = 0; corner < 6; corner++)
+                for (int corner = 0; corner < 6; corner++)
                 {
-                    var angle = (corner * 60f + 30f) * Mathf.Deg2Rad;
+                    float angle = (corner * 60f + 30f) * Mathf.Deg2Rad;
                     vertices.Add(new Vector3(
                         x + Mathf.Cos(angle) * HexRadius,
                         cellHeight,
@@ -257,26 +280,28 @@ namespace DVG.SkyPirates.Tooling.IslandGeneration.Editor
                 }
 
                 var topTriangles = trianglesByLevel[levelSubmesh];
-                for (var corner = 0; corner < 6; corner++)
+                for (int corner = 0; corner < 6; corner++)
                 {
-                    var nextCorner = (corner + 1) % 6;
+                    int nextCorner = (corner + 1) % 6;
                     topTriangles.Add(cellVertices);
                     topTriangles.Add(cellVertices + 1 + nextCorner);
                     topTriangles.Add(cellVertices + 1 + corner);
                 }
 
-                for (var direction = 0; direction < 6; direction++)
+                for (int direction = 0; direction < 6; direction++)
                 {
-                    var hasNeighbor = indicesByCoordinate.TryGetValue(
+                    bool hasNeighbor = indicesByCoordinate.TryGetValue(
                         CoordinateKey(cell.Q + NeighborQ[direction], cell.R + NeighborR[direction]),
-                        out var neighborIndex);
+                        out int neighborIndex);
                     var neighbor = hasNeighbor ? cells[neighborIndex] : default;
-                    var lowerHeight = neighbor.IsLand ? neighbor.Height * _verticalScale : 0f;
+                    float lowerHeight = neighbor.IsLand ? neighbor.Height * _verticalScale : 0f;
                     if (lowerHeight >= cellHeight - 0.001f)
+                    {
                         continue;
+                    }
 
-                    var firstCorner = (direction + 5) % 6;
-                    var secondCorner = direction;
+                    int firstCorner = (direction + 5) % 6;
+                    int secondCorner = direction;
                     AddWall(
                         vertices,
                         trianglesByLevel[_terrainMaterials.Length + levelSubmesh],
@@ -290,7 +315,9 @@ namespace DVG.SkyPirates.Tooling.IslandGeneration.Editor
             }
 
             if (vertices.Count == 0)
+            {
                 return;
+            }
 
             _terrainMesh = new Mesh
             {
@@ -301,7 +328,7 @@ namespace DVG.SkyPirates.Tooling.IslandGeneration.Editor
             };
             _terrainMesh.SetVertices(vertices);
             _hasTerrainSubmesh = new bool[trianglesByLevel.Length];
-            for (var submesh = 0; submesh < trianglesByLevel.Length; submesh++)
+            for (int submesh = 0; submesh < trianglesByLevel.Length; submesh++)
             {
                 var indices = trianglesByLevel[submesh];
                 _hasTerrainSubmesh[submesh] = indices.Count > 0;
@@ -313,8 +340,8 @@ namespace DVG.SkyPirates.Tooling.IslandGeneration.Editor
 
         private static Mesh BuildWaterMesh(HexIslandMap map)
         {
-            var halfWidth = map.Columns * SqrtThree * 0.5f + 0.5f;
-            var halfDepth = (map.Rows - 1) * RowSpacing * 0.5f + 1f;
+            float halfWidth = map.Columns * SqrtThree * 0.5f + 0.5f;
+            float halfDepth = (map.Rows - 1) * RowSpacing * 0.5f + 1f;
             var mesh = new Mesh
             {
                 name = "Island 3D Preview Water",
@@ -342,13 +369,13 @@ namespace DVG.SkyPirates.Tooling.IslandGeneration.Editor
             float topHeight,
             float bottomHeight)
         {
-            var firstAngle = (firstCorner * 60f + 30f) * Mathf.Deg2Rad;
-            var secondAngle = (secondCorner * 60f + 30f) * Mathf.Deg2Rad;
-            var firstX = centerX + Mathf.Cos(firstAngle) * HexRadius;
-            var firstZ = centerZ + Mathf.Sin(firstAngle) * HexRadius;
-            var secondX = centerX + Mathf.Cos(secondAngle) * HexRadius;
-            var secondZ = centerZ + Mathf.Sin(secondAngle) * HexRadius;
-            var firstIndex = vertices.Count;
+            float firstAngle = (firstCorner * 60f + 30f) * Mathf.Deg2Rad;
+            float secondAngle = (secondCorner * 60f + 30f) * Mathf.Deg2Rad;
+            float firstX = centerX + Mathf.Cos(firstAngle) * HexRadius;
+            float firstZ = centerZ + Mathf.Sin(firstAngle) * HexRadius;
+            float secondX = centerX + Mathf.Cos(secondAngle) * HexRadius;
+            float secondZ = centerZ + Mathf.Sin(secondAngle) * HexRadius;
+            int firstIndex = vertices.Count;
             vertices.Add(new Vector3(firstX, topHeight, firstZ));
             vertices.Add(new Vector3(firstX, bottomHeight, firstZ));
             vertices.Add(new Vector3(secondX, bottomHeight, secondZ));
@@ -368,9 +395,15 @@ namespace DVG.SkyPirates.Tooling.IslandGeneration.Editor
                 hideFlags = HideFlags.HideAndDontSave
             };
             if (material.HasProperty("_BaseColor"))
+            {
                 material.SetColor("_BaseColor", color);
+            }
+
             if (material.HasProperty("_Color"))
+            {
                 material.SetColor("_Color", color);
+            }
+
             if (material.HasProperty("_SpecularHighlights"))
             {
                 material.SetFloat("_SpecularHighlights", 0f);
@@ -387,7 +420,10 @@ namespace DVG.SkyPirates.Tooling.IslandGeneration.Editor
                 material.EnableKeyword("_GLOSSYREFLECTIONS_OFF");
             }
             if (material.HasProperty("_Cull"))
+            {
                 material.SetFloat("_Cull", (float)CullMode.Off);
+            }
+
             return material;
         }
 
@@ -408,8 +444,10 @@ namespace DVG.SkyPirates.Tooling.IslandGeneration.Editor
             DestroyResource(_waterMaterial);
             if (_terrainMaterials != null)
             {
-                for (var i = 0; i < _terrainMaterials.Length; i++)
+                for (int i = 0; i < _terrainMaterials.Length; i++)
+                {
                     DestroyResource(_terrainMaterials[i]);
+                }
             }
 
             _terrainMesh = null;
@@ -422,7 +460,9 @@ namespace DVG.SkyPirates.Tooling.IslandGeneration.Editor
         private static void DestroyResource(UnityEngine.Object resource)
         {
             if (resource != null)
+            {
                 UnityEngine.Object.DestroyImmediate(resource);
+            }
         }
     }
 }

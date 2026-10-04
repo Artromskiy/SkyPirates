@@ -59,11 +59,13 @@ namespace DVG.SkyPirates.Tooling.IslandGeneration
         {
             get
             {
-                var count = 0;
-                for (var i = 0; i < cells.Length; i++)
+                int count = 0;
+                for (int i = 0; i < cells.Length; i++)
                 {
                     if (cells[i].IsLand)
+                    {
                         count++;
+                    }
                 }
 
                 return count;
