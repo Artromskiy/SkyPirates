@@ -44,9 +44,9 @@ namespace DVG.SkyPirates.Client.Views
 
         private object GetObj()
         {
-            var snaphsots = _writer.GetSnapshots();
-            var session = _session.Session?.CaptureSnapshot();
-            return (snaphsots, session);
+            var snapshots = _writer.GetSnapshots();
+            object session = _session.Session.CaptureSnapshot();
+            return (snapshots, session);
         }
 
         private void Save(string path, object obj)
