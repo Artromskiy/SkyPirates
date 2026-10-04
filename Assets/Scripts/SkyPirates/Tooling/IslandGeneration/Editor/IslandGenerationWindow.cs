@@ -417,6 +417,9 @@ namespace DVG.SkyPirates.Tooling.IslandGeneration.Editor
                 return;
             }
 
+            if (map.Preview == null)
+                IslandGenerationGenerator.RefreshPreviewAppearance(map, profile.HeightGradient);
+
             _status.text = $"{map.Columns} × {map.Rows} hexes · {map.LandCellCount} land hexes · seed {map.Seed}";
             _preview.image = map.Preview;
             _preview3d?.SetMap(map, profile.HeightGradient, profile.PreviewVerticalScale, force3DRefresh);

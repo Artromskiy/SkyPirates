@@ -45,7 +45,7 @@ namespace DVG.SkyPirates.Tooling.IslandGeneration
         [SerializeField] private int heightLevels;
         [SerializeField] private float maximumHeight;
         [SerializeField] private HexIslandCell[] cells = Array.Empty<HexIslandCell>();
-        [SerializeField] private Texture2D preview;
+        [NonSerialized] private Texture2D preview;
 
         public int Columns => columns;
         public int Rows => rows;
@@ -85,6 +85,11 @@ namespace DVG.SkyPirates.Tooling.IslandGeneration
             this.heightLevels = heightLevels;
             this.maximumHeight = maximumHeight;
             this.cells = cells ?? Array.Empty<HexIslandCell>();
+            this.preview = preview;
+        }
+
+        internal void SetPreviewTexture(Texture2D preview)
+        {
             this.preview = preview;
         }
     }

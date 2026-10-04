@@ -418,12 +418,13 @@ namespace DVG.SkyPirates.Tooling.IslandGeneration.Editor
             var folder = Path.GetDirectoryName(path)?.Replace('\\', '/');
             EnsureAssetFolder(folder);
 
+            if (!isNewAsset)
+                RemovePersistedPreview(path);
+
             var existingPreview = map != null ? map.Preview : null;
             if (!isNewAsset)
             {
                 Undo.RecordObject(map, "Regenerate hex island");
-                if (existingPreview != null)
-                    Undo.RecordObject(existingPreview, "Regenerate hex island preview");
             }
 
             var pixels = CreatePreviewPixels(settings, cells, profile.HeightGradient, out var previewWidth, out var previewHeight);
@@ -434,6 +435,7 @@ namespace DVG.SkyPirates.Tooling.IslandGeneration.Editor
                 preview.Reinitialize(previewWidth, previewHeight, TextureFormat.RGBA32, false);
 
             preview.name = $"{profile.name} Preview";
+            preview.hideFlags = HideFlags.HideAndDontSave;
             preview.filterMode = FilterMode.Point;
             preview.SetPixels32(pixels);
             preview.Apply(false, false);
@@ -454,28 +456,30 @@ namespace DVG.SkyPirates.Tooling.IslandGeneration.Editor
                 preview);
 
             if (isNewAsset)
-            {
                 AssetDatabase.CreateAsset(map, path);
-                AssetDatabase.AddObjectToAsset(preview, map);
-            }
-            else if (existingPreview == null)
-            {
-                AssetDatabase.AddObjectToAsset(preview, map);
-                EditorUtility.SetDirty(preview);
-            }
-            else
-            {
-                EditorUtility.SetDirty(preview);
-            }
 
             EditorUtility.SetDirty(map);
             AssetDatabase.SaveAssets();
             return map;
         }
 
+        private static void RemovePersistedPreview(string assetPath)
+        {
+            var subAssets = AssetDatabase.LoadAllAssetsAtPath(assetPath);
+            for (var i = 0; i < subAssets.Length; i++)
+            {
+                var subAsset = subAssets[i];
+                if (!(subAsset is Texture2D) || !subAsset.name.EndsWith(" Preview", StringComparison.Ordinal))
+                    continue;
+
+                AssetDatabase.RemoveObjectFromAsset(subAsset);
+                UnityEngine.Object.DestroyImmediate(subAsset, true);
+            }
+        }
+
         public static void RefreshPreviewAppearance(HexIslandMap map, Gradient heightGradient)
         {
-            if (map == null || map.Preview == null)
+            if (map == null)
                 return;
 
             var settings = new GenerationSettings
@@ -491,15 +495,17 @@ namespace DVG.SkyPirates.Tooling.IslandGeneration.Editor
                 out var previewWidth,
                 out var previewHeight);
             var preview = map.Preview;
-            Undo.RecordObject(map, "Update hex map preview colors");
-            Undo.RecordObject(preview, "Update hex map preview colors");
-            if (preview.width != previewWidth || preview.height != previewHeight)
+            if (preview == null)
+                preview = new Texture2D(previewWidth, previewHeight, TextureFormat.RGBA32, false);
+            else if (preview.width != previewWidth || preview.height != previewHeight)
                 preview.Reinitialize(previewWidth, previewHeight, TextureFormat.RGBA32, false);
 
+            preview.name = $"{map.name} Preview";
+            preview.hideFlags = HideFlags.HideAndDontSave;
+            preview.filterMode = FilterMode.Point;
             preview.SetPixels32(pixels);
             preview.Apply(false, false);
-            EditorUtility.SetDirty(preview);
-            EditorUtility.SetDirty(map);
+            map.SetPreviewTexture(preview);
         }
 
         private static string GetNewMapPath(IslandGenerationProfile profile)
