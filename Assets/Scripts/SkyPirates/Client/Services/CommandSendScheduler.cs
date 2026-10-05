@@ -1,8 +1,8 @@
+using Delta.Netcode;
 using DVG.Collections;
 using DVG.SkyPirates.Client.IServices;
+using DVG.SkyPirates.Shared.Commands;
 using DVG.SkyPirates.Shared.Services.Netcode;
-using CommandsRegistry = DVG.Commands.CommandsRegistry;
-using IGenericAction = DVG.IGenericAction;
 
 namespace DVG.SkyPirates.Client.Services
 {
@@ -29,25 +29,26 @@ namespace DVG.SkyPirates.Client.Services
 
         public void Tick(int tick)
         {
-            var action = new SendCommandAction(tick, _session, _scheduled);
-            CommandsRegistry.ForEach(ref action);
+            var visitor = new SendCommands(tick, _session, _scheduled);
+            foreach (ICommandRegistration registration in GeneratedCommands.Registrations)
+                registration.Visit(ref visitor);
             _scheduled.Clear();
         }
 
-        private readonly struct SendCommandAction : IGenericAction
+        private readonly struct SendCommands : ICommandVisitor
         {
             private readonly int _tick;
             private readonly SkyPiratesSessionProvider _session;
             private readonly GenericCollection _scheduled;
 
-            public SendCommandAction(int tick, SkyPiratesSessionProvider session, GenericCollection scheduled)
+            public SendCommands(int tick, SkyPiratesSessionProvider session, GenericCollection scheduled)
             {
                 _tick = tick;
                 _session = session;
                 _scheduled = scheduled;
             }
 
-            public void Invoke<T>()
+            public void Visit<T>()
             {
                 if (!_scheduled.TryGet<T>(out var payload))
                     return;

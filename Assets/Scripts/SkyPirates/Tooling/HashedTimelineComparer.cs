@@ -1,5 +1,5 @@
 ﻿using Delta;
-using DVG.Commands;
+using Delta.Netcode;
 using DVG.SkyPirates.Shared.Commands;
 using DVG.SkyPirates.Shared.Data;
 using DVG.SkyPirates.Shared.Tools.Json;
@@ -151,7 +151,8 @@ namespace DVG.SkyPirates.Tooling
         {
             var copy = new CommandsData();
             var copyAction = new CommandsCopyAction(commandsData, copy);
-            CommandsRegistry.ForEach(ref copyAction);
+            foreach (ICommandRegistration registration in GeneratedCommands.Registrations)
+                registration.Visit(ref copyAction);
             return copy;
         }
 
@@ -159,11 +160,12 @@ namespace DVG.SkyPirates.Tooling
         {
             var copy = Copy(commandsData);
             var removeAction = new RemoveAction(copy, tick);
-            CommandsRegistry.ForEach(ref removeAction);
+            foreach (ICommandRegistration registration in GeneratedCommands.Registrations)
+                registration.Visit(ref removeAction);
             return copy;
         }
 
-        private readonly struct RemoveAction : IGenericAction
+        private readonly struct RemoveAction : ICommandVisitor
         {
             private readonly CommandsData _source;
             private readonly int _tick;
@@ -174,7 +176,7 @@ namespace DVG.SkyPirates.Tooling
                 _tick = tick;
             }
 
-            public void Invoke<T>()
+            public void Visit<T>()
             {
                 List<int> keys = new(_source.Get<T>().Keys);
                 foreach (int item in keys)
@@ -186,7 +188,7 @@ namespace DVG.SkyPirates.Tooling
                 }
             }
         }
-        private readonly struct CommandsCopyAction : IGenericAction
+        private readonly struct CommandsCopyAction : ICommandVisitor
         {
             private readonly CommandsData _orig;
             private readonly CommandsData _copy;
@@ -197,7 +199,7 @@ namespace DVG.SkyPirates.Tooling
                 _copy = copy;
             }
 
-            public readonly void Invoke<T>()
+            public readonly void Visit<T>()
             {
                 foreach (var item in _orig.Get<T>())
                 {

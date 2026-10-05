@@ -1,4 +1,4 @@
-﻿using DVG.Commands;
+﻿using Delta.Netcode;
 using DVG.SkyPirates.Shared.Commands;
 using DVG.SkyPirates.Shared.Tools.Json;
 using System.IO;
@@ -63,10 +63,11 @@ namespace DVG.SkyPirates.Tooling
         private void AtTick(CommandsData commandsData, int tick)
         {
             RemoveAction removeAction = new(commandsData, tick);
-            CommandsRegistry.ForEach(ref removeAction);
+            foreach (ICommandRegistration registration in GeneratedCommands.Registrations)
+                registration.Visit(ref removeAction);
         }
 
-        private readonly struct RemoveAction : IGenericAction
+        private readonly struct RemoveAction : ICommandVisitor
         {
             private readonly CommandsData _commandsData;
             private readonly int _tick;
@@ -77,7 +78,7 @@ namespace DVG.SkyPirates.Tooling
                 _tick = tick;
             }
 
-            public void Invoke<T>()
+            public void Visit<T>()
             {
                 var commands = _commandsData.Get<T>();
                 foreach (int tick in commands.Keys.ToArray())
