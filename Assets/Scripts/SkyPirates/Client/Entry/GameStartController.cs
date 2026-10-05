@@ -2,7 +2,6 @@ using Delta.Netcode;
 using DVG.SkyPirates.Client.IServices;
 using DVG.SkyPirates.Shared.Commands;
 using DVG.SkyPirates.Shared.IServices;
-using DVG.SkyPirates.Shared.IServices.TickableExecutors;
 using DVG.SkyPirates.Shared.Services.Netcode;
 using System;
 using System.Diagnostics;
@@ -13,8 +12,7 @@ namespace DVG.SkyPirates.Client.Entry
     {
         private readonly SkyPiratesSessionProvider _session;
         private readonly IClientService _client;
-        private readonly ITickableService<IPreTickable> _preTickableService;
-        private readonly ITickableService<IPostTickable> _postTickableService;
+        private readonly SkyPiratesSessionTickLoop _sessionTickLoop;
         private readonly Stopwatch _clock = new();
         private long _startStep;
         private long _targetStep;
@@ -22,14 +20,12 @@ namespace DVG.SkyPirates.Client.Entry
         public GameStartController(
             SkyPiratesSessionProvider session,
             IClientService client,
-            ITickableService<IPreTickable> preTickableService,
-            ITickableService<IPostTickable> postTickableService,
+            SkyPiratesSessionTickLoop sessionTickLoop,
             ICommandReciever commandReceiver)
         {
             _session = session;
             _client = client;
-            _preTickableService = preTickableService;
-            _postTickableService = postTickableService;
+            _sessionTickLoop = sessionTickLoop;
             commandReceiver.RegisterReciever<TickSyncCommand>(OnSyncTick);
             _session.Ready += ResetClock;
             if (_session.IsReady)
@@ -49,14 +45,8 @@ namespace DVG.SkyPirates.Client.Entry
 
             long elapsedSteps = _clock.Elapsed.Ticks * Constants.TicksPerSecond / TimeSpan.TicksPerSecond;
             long targetStep = _startStep + elapsedSteps;
-            if (_session.CurrentStep == targetStep)
-                return;
-
-            int tick = checked((int)targetStep);
-            _preTickableService.Tick(tick);
-            _session.Tick(targetStep);
-            _postTickableService.Tick(tick);
-            _targetStep = targetStep;
+            if (_sessionTickLoop.Tick(targetStep))
+                _targetStep = targetStep;
         }
 
         private void OnSyncTick(Command<TickSyncCommand> command)
