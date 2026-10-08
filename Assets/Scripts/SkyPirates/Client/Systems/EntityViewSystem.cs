@@ -28,7 +28,7 @@ namespace DVG.SkyPirates.Client.Systems
         {
             var query = new CreateVMQuery(_world, _created, _vmFactory, _viewProviders);
             var allEntities = _allEntities;
-            _world.ForEachEntity(in allEntities, query.Invoke);
+            _world.ForEachEntity(in allEntities, query.Invoke).Invoke();
         }
 
         private sealed class CreateVMQuery
@@ -46,11 +46,11 @@ namespace DVG.SkyPirates.Client.Systems
                 _viewProviders = viewProviders;
             }
 
-            public void Invoke(Entity entity)
+            public void Invoke(EntityRef entity)
             {
-                if (!_created.Add(entity))
+                if (!_created.Add(entity.Handle))
                     return;
-                var vm = _vmFactory.Create((_world, entity));
+                var vm = _vmFactory.Create((_world, entity.Handle));
                 foreach (var viewProvider in _viewProviders)
                 {
                     if (!viewProvider.TryCreateView(vm, out var view))

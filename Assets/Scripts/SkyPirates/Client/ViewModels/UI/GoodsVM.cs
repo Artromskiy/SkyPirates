@@ -65,7 +65,7 @@ namespace DVG.SkyPirates.Client.ViewModels.UI
                         if (!context.Goods.TryAdd(item.Key, item.Value))
                             context.Goods[item.Key] += item.Value;
                     }
-                });
+                }).Invoke(ref goodsState);
                 return _goods;
             }
         }
