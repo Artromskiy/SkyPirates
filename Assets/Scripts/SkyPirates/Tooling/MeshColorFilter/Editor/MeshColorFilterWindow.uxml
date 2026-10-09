@@ -9,8 +9,8 @@
             </ui:VisualElement>
             <uie:ObjectField name="source-field" label="Source prefab or model" />
             <ui:DropdownField name="renderer-field" label="Renderer" />
-            <ui:Button name="highlight-button" text="Highlight Matching Areas" class="primary-button" />
             <ui:Foldout name="highlight-foldout" text="Match preview" value="true">
+                <ui:EnumField name="preview-mode" label="Shading mode" />
                 <ui:VisualElement name="highlight-preview-host" class="highlight-preview-host" />
                 <ui:VisualElement name="preview-resize-handle" class="preview-resize-handle" />
             </ui:Foldout>

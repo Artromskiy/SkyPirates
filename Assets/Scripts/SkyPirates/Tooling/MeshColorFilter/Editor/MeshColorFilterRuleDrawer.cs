@@ -9,6 +9,7 @@ namespace DVG.SkyPirates.Tooling.MeshColorFilter.Editor
     {
         public override VisualElement CreatePropertyGUI(SerializedProperty property)
         {
+            SerializedProperty settingsExpanded = property.FindPropertyRelative("settingsExpanded");
             SerializedProperty enabled = property.FindPropertyRelative("enabled");
             SerializedProperty zoneName = property.FindPropertyRelative("zoneName");
             SerializedProperty material = property.FindPropertyRelative("material");
@@ -19,17 +20,17 @@ namespace DVG.SkyPirates.Tooling.MeshColorFilter.Editor
             header.AddToClassList("rule-header");
             var enabledToggle = new Toggle("Enabled");
             enabledToggle.BindProperty(enabled);
-            var title = new Label(GetRuleTitle(zoneName));
-            title.AddToClassList("rule-title");
             header.Add(enabledToggle);
-            header.Add(title);
-            root.Add(header);
 
             Foldout foldout = new Foldout
             {
-                text = "Settings",
-                value = true
+                text = GetRuleTitle(zoneName),
+                value = settingsExpanded.boolValue
             };
+            foldout.AddToClassList("rule-foldout");
+            foldout.BindProperty(settingsExpanded);
+            header.Add(foldout);
+            root.Add(header);
             foldout.Add(new PropertyField(zoneName, "Zone"));
             foldout.Add(new PropertyField(material, "Material"));
 
@@ -59,8 +60,7 @@ namespace DVG.SkyPirates.Tooling.MeshColorFilter.Editor
 
             UpdateFilterFields();
             modeField.TrackPropertyValue(mode, _ => UpdateFilterFields());
-            root.TrackPropertyValue(zoneName, _ => title.text = GetRuleTitle(zoneName));
-            root.Add(foldout);
+            root.TrackPropertyValue(zoneName, _ => foldout.text = GetRuleTitle(zoneName));
             return root;
         }
 

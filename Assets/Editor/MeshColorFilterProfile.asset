@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: MeshColorFilterProfile
   m_EditorClassIdentifier: DVG.SkyPirates.Tooling.MeshColorFilter.Editor::DVG.SkyPirates.Tooling.MeshColorFilter.Editor.MeshColorFilterProfile
   rules:
-  - enabled: 1
+  - settingsExpanded: 0
+    enabled: 1
     zoneName: Fraction
     material: {fileID: 2100000, guid: 869545db687354aefaa0443e51bed59a, type: 2}
     mode: 1
@@ -25,7 +26,8 @@ MonoBehaviour:
     saturationMax: 1
     valueMin: 0
     valueMax: 1
-  - enabled: 1
+  - settingsExpanded: 0
+    enabled: 1
     zoneName: Hood
     material: {fileID: 2100000, guid: 044c36aab3c8c4c1099b5424b5b47fb3, type: 2}
     mode: 1
@@ -37,7 +39,8 @@ MonoBehaviour:
     saturationMax: 1
     valueMin: 0.0372
     valueMax: 0.3453
-  - enabled: 1
+  - settingsExpanded: 0
+    enabled: 1
     zoneName: Fraction
     material: {fileID: 2100000, guid: 044c36aab3c8c4c1099b5424b5b47fb3, type: 2}
     mode: 1
@@ -49,5 +52,123 @@ MonoBehaviour:
     saturationMax: 1
     valueMin: 0.4611
     valueMax: 0.605
+  - settingsExpanded: 0
+    enabled: 1
+    zoneName: Blades
+    material: {fileID: 2100000, guid: 044c36aab3c8c4c1099b5424b5b47fb3, type: 2}
+    mode: 1
+    targetColor: {r: 0.21960784, g: 0.23921569, b: 0.2784314, a: 1}
+    rgbTolerance: 1
+    hsvBaseColor: {r: 0.20784314, g: 0.22352941, b: 0.2627451, a: 1}
+    hueTolerance: 140.6
+    saturationMin: 0
+    saturationMax: 0.0118
+    valueMin: 0.1071
+    valueMax: 0.8498
+  - settingsExpanded: 0
+    enabled: 1
+    zoneName: Eyes
+    material: {fileID: 2100000, guid: 044c36aab3c8c4c1099b5424b5b47fb3, type: 2}
+    mode: 1
+    targetColor: {r: 0.21960784, g: 0.23921569, b: 0.2784314, a: 1}
+    rgbTolerance: 1
+    hsvBaseColor: {r: 0.20784314, g: 0.22352941, b: 0.2627451, a: 1}
+    hueTolerance: 151.8
+    saturationMin: 0
+    saturationMax: 1
+    valueMin: 0
+    valueMax: 1
+  - settingsExpanded: 0
+    enabled: 1
+    zoneName: Shadow
+    material: {fileID: 2100000, guid: 044c36aab3c8c4c1099b5424b5b47fb3, type: 2}
+    mode: 1
+    targetColor: {r: 0.21960784, g: 0.23921569, b: 0.2784314, a: 1}
+    rgbTolerance: 1
+    hsvBaseColor: {r: 0.20784314, g: 0.22352941, b: 0.2627451, a: 1}
+    hueTolerance: 173.6
+    saturationMin: 0
+    saturationMax: 0.7951
+    valueMin: 0
+    valueMax: 1
+  - settingsExpanded: 0
+    enabled: 1
+    zoneName: Shadow
+    material: {fileID: 2100000, guid: 044c36aab3c8c4c1099b5424b5b47fb3, type: 2}
+    mode: 1
+    targetColor: {r: 0.21960784, g: 0.23921569, b: 0.2784314, a: 1}
+    rgbTolerance: 1
+    hsvBaseColor: {r: 0.20784314, g: 0.22352941, b: 0.2627451, a: 1}
+    hueTolerance: 173.6
+    saturationMin: 0
+    saturationMax: 0.7951
+    valueMin: 0
+    valueMax: 1
+  - settingsExpanded: 0
+    enabled: 1
+    zoneName: Shadow
+    material: {fileID: 2100000, guid: 044c36aab3c8c4c1099b5424b5b47fb3, type: 2}
+    mode: 1
+    targetColor: {r: 0.21960784, g: 0.23921569, b: 0.2784314, a: 1}
+    rgbTolerance: 1
+    hsvBaseColor: {r: 0.20784314, g: 0.22352941, b: 0.2627451, a: 1}
+    hueTolerance: 173.6
+    saturationMin: 0
+    saturationMax: 0.7951
+    valueMin: 0
+    valueMax: 1
+  - settingsExpanded: 0
+    enabled: 1
+    zoneName: Shadow
+    material: {fileID: 2100000, guid: 044c36aab3c8c4c1099b5424b5b47fb3, type: 2}
+    mode: 1
+    targetColor: {r: 0.21960784, g: 0.23921569, b: 0.2784314, a: 1}
+    rgbTolerance: 1
+    hsvBaseColor: {r: 0.20784314, g: 0.22352941, b: 0.2627451, a: 1}
+    hueTolerance: 173.6
+    saturationMin: 0
+    saturationMax: 0.7951
+    valueMin: 0
+    valueMax: 1
+  - settingsExpanded: 0
+    enabled: 1
+    zoneName: Shadow
+    material: {fileID: 2100000, guid: 044c36aab3c8c4c1099b5424b5b47fb3, type: 2}
+    mode: 1
+    targetColor: {r: 0.21960784, g: 0.23921569, b: 0.2784314, a: 1}
+    rgbTolerance: 1
+    hsvBaseColor: {r: 0.20784314, g: 0.22352941, b: 0.2627451, a: 1}
+    hueTolerance: 173.6
+    saturationMin: 0
+    saturationMax: 0.7951
+    valueMin: 0
+    valueMax: 1
+  - settingsExpanded: 0
+    enabled: 1
+    zoneName: Shadow
+    material: {fileID: 2100000, guid: 044c36aab3c8c4c1099b5424b5b47fb3, type: 2}
+    mode: 1
+    targetColor: {r: 0.21960784, g: 0.23921569, b: 0.2784314, a: 1}
+    rgbTolerance: 1
+    hsvBaseColor: {r: 0.20784314, g: 0.22352941, b: 0.2627451, a: 1}
+    hueTolerance: 173.6
+    saturationMin: 0
+    saturationMax: 0.7951
+    valueMin: 0
+    valueMax: 1
+  - settingsExpanded: 0
+    enabled: 1
+    zoneName: Shadow
+    material: {fileID: 2100000, guid: 044c36aab3c8c4c1099b5424b5b47fb3, type: 2}
+    mode: 1
+    targetColor: {r: 0.21960784, g: 0.23921569, b: 0.2784314, a: 1}
+    rgbTolerance: 1
+    hsvBaseColor: {r: 0.20784314, g: 0.22352941, b: 0.2627451, a: 1}
+    hueTolerance: 173.6
+    saturationMin: 0
+    saturationMax: 0.7951
+    valueMin: 0
+    valueMax: 1
+  previewExpanded: 1
   triangleMode: 0
   adaptiveSplitDepth: 3

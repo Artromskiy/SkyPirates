@@ -22,6 +22,7 @@ namespace DVG.SkyPirates.Tooling.MeshColorFilter.Editor
         private VisualElement _rulesHost;
         private EnumField _triangleMode;
         private IntegerField _splitDepth;
+        private EnumField _previewModeField;
         private HelpBox _status;
         private Foldout _highlightFoldout;
         private VisualElement _highlightPreviewHost;
@@ -34,6 +35,7 @@ namespace DVG.SkyPirates.Tooling.MeshColorFilter.Editor
         private float _resizeStartHeight;
         private int _resizePointerId = -1;
         private SerializedObject _serializedProfile;
+        private MeshColorFilterPreviewMode _previewMode = MeshColorFilterPreviewMode.Original;
 
         [MenuItem("Tools/Sky Pirates/Mesh Color Filter")]
         public static void Open()
@@ -60,6 +62,7 @@ namespace DVG.SkyPirates.Tooling.MeshColorFilter.Editor
             _rulesHost = rootVisualElement.Q<VisualElement>("rules-host");
             _triangleMode = rootVisualElement.Q<EnumField>("triangle-mode");
             _splitDepth = rootVisualElement.Q<IntegerField>("split-depth");
+            _previewModeField = rootVisualElement.Q<EnumField>("preview-mode");
             _status = rootVisualElement.Q<HelpBox>("status");
             _highlightFoldout = rootVisualElement.Q<Foldout>("highlight-foldout");
             _highlightPreviewHost = rootVisualElement.Q<VisualElement>("highlight-preview-host");
@@ -68,12 +71,21 @@ namespace DVG.SkyPirates.Tooling.MeshColorFilter.Editor
             _sourceField.objectType = typeof(GameObject);
             _sourceField.allowSceneObjects = false;
             _triangleMode.Init(MeshTriangleAssignmentMode.AverageColor);
+            _previewModeField.Init(_previewMode);
             _profileField.RegisterValueChangedCallback(change => SetProfile(change.newValue as MeshColorFilterProfile));
             _sourceField.RegisterValueChangedCallback(change => SetSource(change.newValue as GameObject));
             _rendererField.RegisterValueChangedCallback(change => SelectRenderer(change.newValue));
             _highlightFoldout.RegisterValueChangedCallback(change =>
             {
-                if (change.newValue) ScheduleHighlightRefresh();
+                if (change.newValue)
+                    ScheduleHighlightRefresh();
+                else
+                    ClearPreviewMesh();
+            });
+            _previewModeField.RegisterValueChangedCallback(change =>
+            {
+                _previewMode = (MeshColorFilterPreviewMode)change.newValue;
+                ScheduleHighlightRefresh();
             });
             _triangleMode.RegisterValueChangedCallback(change =>
             {
@@ -94,7 +106,6 @@ namespace DVG.SkyPirates.Tooling.MeshColorFilter.Editor
                 ScheduleHighlightRefresh();
             });
             rootVisualElement.Q<Button>("create-profile").clicked += CreateProfile;
-            rootVisualElement.Q<Button>("highlight-button").clicked += HighlightAreas;
             rootVisualElement.Q<Button>("process-button").clicked += Process;
             _highlightPreviewContainer = new IMGUIContainer(() =>
             {
@@ -107,13 +118,13 @@ namespace DVG.SkyPirates.Tooling.MeshColorFilter.Editor
             _highlightPreviewMessage.style.display = DisplayStyle.None;
             _highlightPreviewHost.Add(_highlightPreviewMessage);
             SetupPreviewResize(rootVisualElement.Q<VisualElement>("preview-resize-handle"));
-            _highlightFoldout.style.display = DisplayStyle.None;
             SetProfile(_profile);
         }
 
         private void OnDisable()
         {
-            ClearHighlightPreview(true);
+            _highlightRefreshSchedule?.Pause();
+            ClearPreviewMesh();
         }
 
         private void CreateProfile()
@@ -128,6 +139,7 @@ namespace DVG.SkyPirates.Tooling.MeshColorFilter.Editor
 
         private void SetProfile(MeshColorFilterProfile profile)
         {
+            _highlightFoldout?.Unbind();
             ClearPreviewMesh();
             _profile = profile;
             _profileField?.SetValueWithoutNotify(profile);
@@ -137,6 +149,7 @@ namespace DVG.SkyPirates.Tooling.MeshColorFilter.Editor
                 _serializedProfile = null;
                 _rulesHost?.Add(new HelpBox("Select a filter profile to edit its rules.", HelpBoxMessageType.Info));
                 _status.text = "Create or select a filter profile.";
+                _highlightFoldout?.SetValueWithoutNotify(true);
                 ScheduleHighlightRefresh();
                 return;
             }
@@ -175,7 +188,19 @@ namespace DVG.SkyPirates.Tooling.MeshColorFilter.Editor
         private List<string> RendererLabels()
         {
             var labels = new List<string>(_renderers.Count);
-            foreach (Renderer renderer in _renderers) labels.Add(renderer.GetType().Name + " — " + GetPath(renderer.transform, _source.transform));
+            for (int i = 0; i < _renderers.Count; i++)
+            {
+                string name = _renderers[i].gameObject.name;
+                int matchingNameCount = 0;
+                int matchingNameIndex = 0;
+                for (int j = 0; j < _renderers.Count; j++)
+                {
+                    if (_renderers[j].gameObject.name != name) continue;
+                    if (j == i) matchingNameIndex = matchingNameCount;
+                    matchingNameCount++;
+                }
+                labels.Add(matchingNameCount > 1 ? name + " (" + (matchingNameIndex + 1) + ")" : name);
+            }
             return labels;
         }
 
@@ -189,17 +214,13 @@ namespace DVG.SkyPirates.Tooling.MeshColorFilter.Editor
             ScheduleHighlightRefresh();
         }
 
-        private static string GetPath(Transform target, Transform root)
-        {
-            var indices = new Stack<int>();
-            for (Transform current = target; current != null && current != root; current = current.parent) indices.Push(current.GetSiblingIndex());
-            return indices.Count == 0 ? root.name : root.name + "/" + string.Join("/", indices);
-        }
-
         private void BuildRuleList()
         {
             _rulesHost.Clear();
             _serializedProfile = new SerializedObject(_profile);
+            SerializedProperty previewExpanded = _serializedProfile.FindProperty("previewExpanded");
+            _highlightFoldout.BindProperty(previewExpanded);
+            _highlightFoldout.TrackPropertyValue(previewExpanded, _ => EditorUtility.SetDirty(_profile));
             SerializedProperty rules = _serializedProfile.FindProperty("rules");
             var rulesField = new PropertyField(rules, "Rules");
             rulesField.AddToClassList("rules-field");
@@ -232,8 +253,6 @@ namespace DVG.SkyPirates.Tooling.MeshColorFilter.Editor
         private void HighlightAreas()
         {
             _highlightRefreshSchedule?.Pause();
-            _highlightFoldout.style.display = DisplayStyle.Flex;
-            _highlightFoldout.value = true;
 
             Mesh sourceMesh = _selectedRenderer is SkinnedMeshRenderer skinned
                 ? skinned.sharedMesh
@@ -246,8 +265,13 @@ namespace DVG.SkyPirates.Tooling.MeshColorFilter.Editor
                 return;
             }
 
-            if (!MeshColorFilterProcessor.TryBuildMesh(sourceMesh, _selectedRenderer.sharedMaterials, _profile,
-                    out Mesh previewMesh, out _, out int[] submeshRuleIndices, out string message))
+            Mesh previewMesh = null;
+            Material[] previewMaterials = null;
+            int[] submeshRuleIndices = null;
+            string message = null;
+            bool hasProcessedMesh = MeshColorFilterProcessor.TryBuildMesh(sourceMesh, _selectedRenderer.sharedMaterials, _profile,
+                out previewMesh, out previewMaterials, out submeshRuleIndices, out message);
+            if (!hasProcessedMesh && _previewMode != MeshColorFilterPreviewMode.Original)
             {
                 ClearPreviewMesh();
                 SetHighlightMessage(message);
@@ -257,12 +281,17 @@ namespace DVG.SkyPirates.Tooling.MeshColorFilter.Editor
 
             try
             {
+                string[] ruleNames = _profile != null
+                    ? _profile.Rules.ConvertAll(rule => rule?.ZoneName).ToArray()
+                    : System.Array.Empty<string>();
                 if (_highlightPreview == null)
                     _highlightPreview = new MeshColorFilterPreview(Repaint);
-                _highlightPreview.SetMesh(previewMesh, submeshRuleIndices, _profile.Rules.Count);
+                _highlightPreview.SetMesh(sourceMesh, _selectedRenderer.sharedMaterials,
+                    hasProcessedMesh ? previewMesh : null, previewMaterials,
+                    hasProcessedMesh ? submeshRuleIndices : null, ruleNames, _previewMode);
                 _highlightPreviewContainer.style.display = DisplayStyle.Flex;
                 _highlightPreviewMessage.style.display = DisplayStyle.None;
-                _status.text = "Matched zones use distinct colors; unmatched triangles are gray. Drag to rotate, scroll to zoom. Drag the grip below the preview to resize it.";
+                _status.text = PreviewModeDescription(_previewMode) + " Drag to rotate, scroll to zoom, drag the grip to resize.";
             }
             catch (System.Exception exception)
             {
@@ -280,8 +309,19 @@ namespace DVG.SkyPirates.Tooling.MeshColorFilter.Editor
             }
         }
 
-        private bool IsHighlightPreviewOpen => _highlightFoldout != null &&
-            _highlightFoldout.style.display == DisplayStyle.Flex && _highlightFoldout.value;
+        private static string PreviewModeDescription(MeshColorFilterPreviewMode mode)
+        {
+            switch (mode)
+            {
+                case MeshColorFilterPreviewMode.Original: return "Original materials.";
+                case MeshColorFilterPreviewMode.OriginalWithZones: return "Original materials with zone colors overlaid.";
+                case MeshColorFilterPreviewMode.ZonesOnly: return "Zone colors only; unmatched mesh is gray.";
+                case MeshColorFilterPreviewMode.NewShading: return "Configured rule materials on matched zones.";
+                default: return string.Empty;
+            }
+        }
+
+        private bool IsHighlightPreviewOpen => _highlightFoldout != null && _highlightFoldout.value;
 
         private void ScheduleHighlightRefresh()
         {
@@ -290,14 +330,6 @@ namespace DVG.SkyPirates.Tooling.MeshColorFilter.Editor
 
             _highlightRefreshSchedule?.Pause();
             _highlightRefreshSchedule = rootVisualElement.schedule.Execute(HighlightAreas).StartingIn(120);
-        }
-
-        private void ClearHighlightPreview(bool hideFoldout)
-        {
-            _highlightRefreshSchedule?.Pause();
-            ClearPreviewMesh();
-            if (hideFoldout && _highlightFoldout != null)
-                _highlightFoldout.style.display = DisplayStyle.None;
         }
 
         private void ClearPreviewMesh()

@@ -41,6 +41,11 @@ namespace DVG.SkyPirates.Tooling.MeshColorFilter.Editor
                 message = "Choose a source, renderer, and filter profile.";
                 return false;
             }
+            if (profile.Rules == null || profile.Rules.Any(rule => rule == null || rule.Enabled && rule.Material == null))
+            {
+                message = "Assign a material to every enabled color rule before processing.";
+                return false;
+            }
 
             string sourcePath = AssetDatabase.GetAssetPath(sourceAsset);
             if (string.IsNullOrEmpty(sourcePath) || (!PrefabUtility.IsPartOfPrefabAsset(sourceAsset) && !AssetImporter.GetAtPath(sourcePath)))
@@ -153,12 +158,6 @@ namespace DVG.SkyPirates.Tooling.MeshColorFilter.Editor
                 message = "Add at least one color rule.";
                 return false;
             }
-            if (profile.Rules.Any(rule => rule == null || rule.Enabled && rule.Material == null))
-            {
-                message = "Assign a material to every enabled color rule before processing.";
-                return false;
-            }
-
             List<Vertex> vertices;
             List<List<int>> submeshIndices = new List<List<int>>();
             List<MeshTopology> topologies = new List<MeshTopology>();

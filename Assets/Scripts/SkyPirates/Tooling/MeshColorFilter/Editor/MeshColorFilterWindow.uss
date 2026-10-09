@@ -7,7 +7,7 @@
 .rules-host { margin-top: 8px; margin-bottom: 8px; }
 .rule-header { flex-direction: row; align-items: center; }
 .rule-header > Toggle { min-width: 84px; }
-.rule-title { unity-font-style: bold; flex-grow: 1; }
+.rule-foldout { flex-grow: 1; }
 .primary-button { height: 34px; margin-top: 8px; margin-bottom: 8px; }
 .highlight-preview-host { min-height: 160px; }
 .preview-resize-handle { height: 6px; flex-shrink: 0; margin-top: 4px; margin-bottom: 4px; background-color: #555; }

@@ -21,6 +21,7 @@ namespace DVG.SkyPirates.Tooling.MeshColorFilter.Editor
     public sealed class MeshColorFilterProfile : ScriptableObject
     {
         [SerializeField] private List<MeshColorFilterRule> rules = new List<MeshColorFilterRule>();
+        [SerializeField] private bool previewExpanded = true;
         [SerializeField] private MeshTriangleAssignmentMode triangleMode = MeshTriangleAssignmentMode.AverageColor;
         [SerializeField, Range(1, 5)] private int adaptiveSplitDepth = 3;
 
@@ -32,6 +33,7 @@ namespace DVG.SkyPirates.Tooling.MeshColorFilter.Editor
     [Serializable]
     public sealed class MeshColorFilterRule
     {
+        [SerializeField] private bool settingsExpanded = true;
         [SerializeField] private bool enabled = true;
         [SerializeField] private string zoneName = "Zone";
         [SerializeField] private Material material;
