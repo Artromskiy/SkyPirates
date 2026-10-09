@@ -1089,7 +1089,7 @@
         </member>
         <member name="T:Delta.ECS.EntityRef">
             <summary>A scoped entity handle for an entity-aware iteration callback.</summary>
-            <remarks>Component access uses the regular world APIs and resolves the entity handle on each call.</remarks>
+            <remarks>Component access uses trusted world paths while this scoped view is valid.</remarks>
         </member>
         <member name="P:Delta.ECS.EntityRef.Handle">
             <summary>Gets the stable handle for the current entity.</summary>
@@ -1106,12 +1106,45 @@
         <member name="M:Delta.ECS.EntityRef.Has(Delta.ECS.ComponentId)">
             <summary>Reports whether the current entity has the specified component registration.</summary>
         </member>
+        <member name="M:Delta.ECS.EntityRef.Has``1">
+            <summary>Reports whether the current entity has the primary registration for <typeparamref name="T"/>.</summary>
+        </member>
+        <member name="M:Delta.ECS.EntityRef.Has``1(Delta.ECS.ComponentId)">
+            <summary>Reports whether the current entity has the specified registration of <typeparamref name="T"/>.</summary>
+        </member>
         <member name="M:Delta.ECS.EntityRef.TryGet``1(Delta.ECS.ComponentId,``0@)">
             <summary>Attempts to read a component by registration, returning its default value when absent or mismatched.</summary>
+        </member>
+        <member name="M:Delta.ECS.EntityRef.TryGet``1(``0@)">
+            <summary>Attempts to read the primary component for <typeparamref name="T"/>.</summary>
+        </member>
+        <member name="M:Delta.ECS.EntityRef.Get``1">
+            <summary>Reads the primary component for <typeparamref name="T"/> or throws when it is missing.</summary>
+        </member>
+        <member name="M:Delta.ECS.EntityRef.Get``1(Delta.ECS.ComponentId)">
+            <summary>Reads the specified component registration as <typeparamref name="T"/> or throws when it is missing.</summary>
         </member>
         <member name="M:Delta.ECS.EntityRef.GetRef``1(Delta.ECS.ComponentId)">
             <summary>Gets a writable component reference and marks its change stamp.</summary>
             <remarks>For a tag, this returns the shared default placeholder; writes through it are not stored.</remarks>
+        </member>
+        <member name="M:Delta.ECS.EntityRef.GetRef``1">
+            <summary>Gets a writable reference to the primary component for <typeparamref name="T"/>.</summary>
+        </member>
+        <member name="M:Delta.ECS.EntityRef.GetReadRef``1">
+            <summary>Gets a read-only reference to the primary component for <typeparamref name="T"/>.</summary>
+        </member>
+        <member name="M:Delta.ECS.EntityRef.GetReadRef``1(Delta.ECS.ComponentId)">
+            <summary>Gets a read-only reference to the specified component registration as <typeparamref name="T"/>.</summary>
+        </member>
+        <member name="M:Delta.ECS.EntityRef.TryGetComponentStamp``1(Delta.ECS.Stamp@)">
+            <summary>Attempts to read the stamp for the primary component of <typeparamref name="T"/>.</summary>
+        </member>
+        <member name="M:Delta.ECS.EntityRef.TryGetComponentStamp(Delta.ECS.ComponentId,Delta.ECS.Stamp@)">
+            <summary>Attempts to read the stamp for the specified component registration.</summary>
+        </member>
+        <member name="M:Delta.ECS.EntityRef.TryGetComponentStamp``1(Delta.ECS.ComponentId,Delta.ECS.Stamp@)">
+            <summary>Attempts to read the stamp for the specified registration of <typeparamref name="T"/>.</summary>
         </member>
         <member name="T:Delta.ECS.Entity">
             <summary>Stable handle for an entity slot and its current lifetime generation.</summary>
