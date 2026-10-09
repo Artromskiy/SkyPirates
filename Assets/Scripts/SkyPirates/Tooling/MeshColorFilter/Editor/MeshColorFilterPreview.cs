@@ -315,13 +315,10 @@ namespace DVG.SkyPirates.Tooling.MeshColorFilter.Editor
         {
             uint hash = 2166136261;
             string normalizedName = (zoneName ?? string.Empty).Trim().ToUpperInvariant();
-            unchecked
+            foreach (char character in normalizedName)
             {
-                foreach (char character in normalizedName)
-                {
-                    hash ^= character;
-                    hash *= 16777619;
-                }
+                hash ^= character;
+                hash *= 16777619;
             }
             float hue = (hash & 0xFFFFu) / 65535f;
             float saturationVariation = ((hash >> 16) & 0xFFu) / 255f;
