@@ -391,6 +391,18 @@
             </summary>
             <remarks>This zero-component overload always throws.</remarks>
         </member>
+        <member name="T:Delta.ECS.World.GenericFunctorOperationInvoker">
+            <summary>Direct executor for a runtime-selected generic functor operation.</summary>
+        </member>
+        <member name="M:Delta.ECS.World.GenericFunctorOperationInvoker.Invoke">
+            <summary>Resolves the typed executor once and runs the operation.</summary>
+        </member>
+        <member name="T:Delta.ECS.World.GenericFunctorContextOperationInvoker`1">
+            <summary>Direct executor for a runtime-selected generic functor with mutable context.</summary>
+        </member>
+        <member name="M:Delta.ECS.World.GenericFunctorContextOperationInvoker`1.Invoke(`0@)">
+            <summary>Resolves the typed executor once and runs the operation.</summary>
+        </member>
         <member name="M:Delta.ECS.World.CreateGenericFunctorOperation(Delta.ECS.Query@,System.ReadOnlySpan{Delta.ECS.Entity},System.Boolean,Delta.ECS.GeneratedGenericFunctorMode,System.Type,System.Int32,System.ReadOnlySpan{Delta.ECS.ComponentId})">
             <summary>Creates a reusable operation for a runtime-selected generic functor.</summary>
         </member>
@@ -494,6 +506,24 @@
         </member>
         <member name="M:Delta.ECS.World.GetReadRef``1(Delta.ECS.Entity)">
             <summary>Returns a read-only reference to the primary component row.</summary>
+        </member>
+        <member name="T:Delta.ECS.World.EntityParallelOperation">
+            <summary>Direct executor for a zero-component entity parallel operation.</summary>
+        </member>
+        <member name="M:Delta.ECS.World.EntityParallelOperation.Invoke">
+            <summary>Executes the stored entity callback in parallel.</summary>
+        </member>
+        <member name="T:Delta.ECS.World.EntityParallelInContextOperation`1">
+            <summary>Direct executor for a zero-component entity parallel operation with read-only context.</summary>
+        </member>
+        <member name="M:Delta.ECS.World.EntityParallelInContextOperation`1.Invoke">
+            <summary>Executes the stored entity callback in parallel.</summary>
+        </member>
+        <member name="T:Delta.ECS.World.EntityParallelValueContextOperation`1">
+            <summary>Direct executor for a zero-component entity parallel operation with value context.</summary>
+        </member>
+        <member name="M:Delta.ECS.World.EntityParallelValueContextOperation`1.Invoke">
+            <summary>Executes the stored entity callback in parallel.</summary>
         </member>
         <member name="M:Delta.ECS.World.ForEachParallel(Delta.ECS.Query@,Delta.ECS.ForEachAction,System.Int32)">
             <summary>
@@ -616,6 +646,9 @@
         <member name="P:Delta.ECS.IGeneratedComponentRegistration.IsTag">
             <summary>Gets whether the component is a data-less tag.</summary>
         </member>
+        <member name="M:Delta.ECS.IGeneratedComponentRegistration.Register(Delta.ECS.ComponentLayoutRegistry)">
+            <summary>Registers this component using its generated concrete registration route.</summary>
+        </member>
         <member name="T:Delta.ECS.GeneratedComponentRegistrationRegistry">
             <summary>Receives component registration factories emitted by DeltaECS.Generators.</summary>
         </member>
@@ -678,62 +711,68 @@
         <member name="M:Delta.ECS.ComponentLayoutRegistry.GetPrimary(System.Type)">
             <summary>Gets the primary component registration for a CLR type.</summary>
         </member>
-        <member name="M:Delta.ECS.ComponentLayoutRegistry.BindInterface``2">
-            <summary>Registers an interface visitor route for every registration of one component CLR type.</summary>
-        </member>
-        <member name="M:Delta.ECS.ComponentLayoutRegistry.BindInterface``2(Delta.ECS.StructConstraint@)">
-            <summary>Binds an interface visitor route to a struct component CLR type.</summary>
-        </member>
-        <member name="M:Delta.ECS.ComponentLayoutRegistry.BindInterface``2(Delta.ECS.ClassConstraint@)">
-            <summary>Binds an interface visitor route to a class component CLR type.</summary>
-        </member>
-        <member name="M:Delta.ECS.ComponentLayoutRegistry.BindInterface``2(Delta.ECS.UnmanagedConstraint@)">
-            <summary>Binds an interface visitor route to an unmanaged component CLR type.</summary>
-        </member>
-        <member name="M:Delta.ECS.ComponentLayoutRegistry.BindInterface``2(Delta.ECS.NewConstraint@)">
-            <summary>Binds an interface visitor route to a component with a public parameterless constructor.</summary>
-        </member>
-        <member name="M:Delta.ECS.ComponentLayoutRegistry.BindInterface``2(Delta.ECS.ClassNewConstraint@)">
-            <summary>Binds an interface visitor route to a constructible class component CLR type.</summary>
-        </member>
-        <member name="M:Delta.ECS.ComponentLayoutRegistry.Register``1(Delta.ECS.SchemaId)">
-            <summary>Registers a component using the constraints known for <typeparamref name="T"/>.</summary>
-        </member>
-        <member name="M:Delta.ECS.ComponentLayoutRegistry.Register``1(Delta.ECS.SchemaId,Delta.ECS.StructConstraint@)">
-            <summary>Registers a struct component when <typeparamref name="T"/> is a value type.</summary>
-        </member>
-        <member name="M:Delta.ECS.ComponentLayoutRegistry.Register``1(Delta.ECS.SchemaId,Delta.ECS.ClassConstraint@)">
-            <summary>Registers a class component when <typeparamref name="T"/> is a reference type.</summary>
-        </member>
-        <member name="M:Delta.ECS.ComponentLayoutRegistry.Register``1(Delta.ECS.SchemaId,Delta.ECS.UnmanagedConstraint@)">
-            <summary>Registers an unmanaged component when <typeparamref name="T"/> is unmanaged.</summary>
-        </member>
-        <member name="M:Delta.ECS.ComponentLayoutRegistry.Register``1(Delta.ECS.SchemaId,Delta.ECS.NewConstraint@)">
-            <summary>Registers a component with a public parameterless constructor.</summary>
-        </member>
-        <member name="M:Delta.ECS.ComponentLayoutRegistry.Register``1(Delta.ECS.SchemaId,Delta.ECS.ClassNewConstraint@)">
-            <summary>Registers a class component with a public parameterless constructor.</summary>
-        </member>
         <member name="M:Delta.ECS.ComponentLayoutRegistry.TryGetPrimary``1(Delta.ECS.ComponentId@)">
             <summary>Tries to resolve the primary component registration for <typeparamref name="T"/>.</summary>
         </member>
         <member name="M:Delta.ECS.ComponentLayoutRegistry.GetPrimary``1">
             <summary>Gets the primary component registration for <typeparamref name="T"/>.</summary>
         </member>
-        <member name="T:Delta.ECS.StructConstraint">
-            <summary>Selects a struct-constrained component registration.</summary>
+        <member name="T:Delta.ECS.IComponentLayoutRegistryRoute">
+            <summary>Routes component registry extension calls through the selected registration constraints.</summary>
         </member>
-        <member name="T:Delta.ECS.ClassConstraint">
-            <summary>Selects a class-constrained component registration.</summary>
+        <member name="T:Delta.ECS.IComponentLayoutRegistryNewRoute">
+            <summary>Registration route marker for types that satisfy <c>new()</c>.</summary>
         </member>
-        <member name="T:Delta.ECS.UnmanagedConstraint">
-            <summary>Selects an unmanaged-constrained component registration.</summary>
+        <member name="T:Delta.ECS.IComponentLayoutRegistryStructRoute">
+            <summary>Registration route marker for struct types.</summary>
         </member>
-        <member name="T:Delta.ECS.NewConstraint">
-            <summary>Selects a parameterless-constructor component registration.</summary>
+        <member name="T:Delta.ECS.IComponentLayoutRegistryUnmanagedRoute">
+            <summary>Registration route marker for unmanaged types.</summary>
         </member>
-        <member name="T:Delta.ECS.ClassNewConstraint">
-            <summary>Selects a class and parameterless-constructor registration.</summary>
+        <member name="T:Delta.ECS.IComponentLayoutRegistryClassRoute">
+            <summary>Registration route marker for class types.</summary>
+        </member>
+        <member name="T:Delta.ECS.IComponentLayoutRegistryClassNewRoute">
+            <summary>Registration route marker for constructible class types.</summary>
+        </member>
+        <member name="T:Delta.ECS.ComponentLayoutRegistryRegistrationExtensions">
+            <summary>Provides constraint-selected registration and interface binding for component layouts.</summary>
+        </member>
+        <member name="M:Delta.ECS.ComponentLayoutRegistryRegistrationExtensions.Register``1(Delta.ECS.IComponentLayoutRegistryRoute,Delta.ECS.SchemaId)">
+            <summary>Registers a component using the constraints available for <typeparamref name="T"/>.</summary>
+        </member>
+        <member name="M:Delta.ECS.ComponentLayoutRegistryRegistrationExtensions.Register``1(Delta.ECS.IComponentLayoutRegistryNewRoute,Delta.ECS.SchemaId)">
+            <summary>Registers a component with a public parameterless constructor.</summary>
+        </member>
+        <member name="M:Delta.ECS.ComponentLayoutRegistryRegistrationExtensions.Register``1(Delta.ECS.IComponentLayoutRegistryStructRoute,Delta.ECS.SchemaId)">
+            <summary>Registers a struct component.</summary>
+        </member>
+        <member name="M:Delta.ECS.ComponentLayoutRegistryRegistrationExtensions.Register``1(Delta.ECS.IComponentLayoutRegistryUnmanagedRoute,Delta.ECS.SchemaId)">
+            <summary>Registers an unmanaged component.</summary>
+        </member>
+        <member name="M:Delta.ECS.ComponentLayoutRegistryRegistrationExtensions.Register``1(Delta.ECS.IComponentLayoutRegistryClassRoute,Delta.ECS.SchemaId)">
+            <summary>Registers a class component.</summary>
+        </member>
+        <member name="M:Delta.ECS.ComponentLayoutRegistryRegistrationExtensions.Register``1(Delta.ECS.IComponentLayoutRegistryClassNewRoute,Delta.ECS.SchemaId)">
+            <summary>Registers a constructible class component.</summary>
+        </member>
+        <member name="M:Delta.ECS.ComponentLayoutRegistryRegistrationExtensions.BindInterface``2(Delta.ECS.IComponentLayoutRegistryRoute)">
+            <summary>Binds an interface visitor route for every registration of one component CLR type.</summary>
+        </member>
+        <member name="M:Delta.ECS.ComponentLayoutRegistryRegistrationExtensions.BindInterface``2(Delta.ECS.IComponentLayoutRegistryNewRoute)">
+            <summary>Binds an interface visitor route to a component with a public parameterless constructor.</summary>
+        </member>
+        <member name="M:Delta.ECS.ComponentLayoutRegistryRegistrationExtensions.BindInterface``2(Delta.ECS.IComponentLayoutRegistryStructRoute)">
+            <summary>Binds an interface visitor route to a struct component CLR type.</summary>
+        </member>
+        <member name="M:Delta.ECS.ComponentLayoutRegistryRegistrationExtensions.BindInterface``2(Delta.ECS.IComponentLayoutRegistryUnmanagedRoute)">
+            <summary>Binds an interface visitor route to an unmanaged component CLR type.</summary>
+        </member>
+        <member name="M:Delta.ECS.ComponentLayoutRegistryRegistrationExtensions.BindInterface``2(Delta.ECS.IComponentLayoutRegistryClassRoute)">
+            <summary>Binds an interface visitor route to a class component CLR type.</summary>
+        </member>
+        <member name="M:Delta.ECS.ComponentLayoutRegistryRegistrationExtensions.BindInterface``2(Delta.ECS.IComponentLayoutRegistryClassNewRoute)">
+            <summary>Binds an interface visitor route to a constructible class component CLR type.</summary>
         </member>
         <member name="T:Delta.ECS.ComponentSet">
             <summary>Immutable component registrations and their matching mask.</summary>
@@ -852,6 +891,9 @@
         <member name="M:Delta.ECS.IComponentVisitor`1.Visit``1(Delta.ECS.ComponentId)">
             <summary>Receives a component type satisfying the interface route.</summary>
         </member>
+        <member name="M:Delta.ECS.IComponentVisitor`1.TryVisit``1(Delta.ECS.ComponentId)">
+            <summary>Visits the component when this visitor selects the matching interface constraint.</summary>
+        </member>
         <member name="T:Delta.ECS.IStructVisitor">
             <summary>Visits a component type registered as a value type.</summary>
         </member>
@@ -888,11 +930,17 @@
         <member name="M:Delta.ECS.IStructVisitor`1.Visit``1(Delta.ECS.ComponentId)">
             <summary>Receives a constrained value type.</summary>
         </member>
+        <member name="M:Delta.ECS.IStructVisitor`1.TryVisit``1(Delta.ECS.ComponentId)">
+            <summary>Visits the component when this visitor selects the matching interface constraint.</summary>
+        </member>
         <member name="T:Delta.ECS.IClassVisitor`1">
             <summary>Visits a component type satisfying a reference-type and interface constraint.</summary>
         </member>
         <member name="M:Delta.ECS.IClassVisitor`1.Visit``1(Delta.ECS.ComponentId)">
             <summary>Receives a constrained reference type.</summary>
+        </member>
+        <member name="M:Delta.ECS.IClassVisitor`1.TryVisit``1(Delta.ECS.ComponentId)">
+            <summary>Visits the component when this visitor selects the matching interface constraint.</summary>
         </member>
         <member name="T:Delta.ECS.IUnmanagedVisitor`1">
             <summary>Visits an unmanaged component type satisfying an interface constraint.</summary>
@@ -900,17 +948,26 @@
         <member name="M:Delta.ECS.IUnmanagedVisitor`1.Visit``1(Delta.ECS.ComponentId)">
             <summary>Receives a constrained unmanaged type.</summary>
         </member>
+        <member name="M:Delta.ECS.IUnmanagedVisitor`1.TryVisit``1(Delta.ECS.ComponentId)">
+            <summary>Visits the component when this visitor selects the matching interface constraint.</summary>
+        </member>
         <member name="T:Delta.ECS.INewVisitor`1">
             <summary>Visits a component type satisfying an interface and constructor constraint.</summary>
         </member>
         <member name="M:Delta.ECS.INewVisitor`1.Visit``1(Delta.ECS.ComponentId)">
             <summary>Receives a constrained constructible type.</summary>
         </member>
+        <member name="M:Delta.ECS.INewVisitor`1.TryVisit``1(Delta.ECS.ComponentId)">
+            <summary>Visits the component when this visitor selects the matching interface constraint.</summary>
+        </member>
         <member name="T:Delta.ECS.IClassNewVisitor`1">
             <summary>Visits a component type satisfying reference, interface, and constructor constraints.</summary>
         </member>
         <member name="M:Delta.ECS.IClassNewVisitor`1.Visit``1(Delta.ECS.ComponentId)">
             <summary>Receives a constrained constructible reference type.</summary>
+        </member>
+        <member name="M:Delta.ECS.IClassNewVisitor`1.TryVisit``1(Delta.ECS.ComponentId)">
+            <summary>Visits the component when this visitor selects the matching interface constraint.</summary>
         </member>
         <member name="T:Delta.ECS.GeneralComponentTypeVisitor`1">
             <summary>Provides virtual visits selected by component type constraints for types that implement <typeparamref name="TConstraint"/>.</summary>
@@ -937,52 +994,88 @@
         <member name="M:Delta.ECS.GeneralComponentTypeVisitor`1.VisitClassConstructible``1(Delta.ECS.ComponentId)">
             <summary>Visits a component type satisfying the class, interface, and constructor constraints.</summary>
         </member>
-        <member name="T:Delta.ECS.EcsOperationAction`1">
-            <summary>Runs a deferred ECS operation using caller-owned mutable state.</summary>
+        <member name="T:Delta.ECS.IOperation">
+            <summary>A deferred operation that can be executed without boxing its concrete value.</summary>
         </member>
-        <member name="T:Delta.ECS.EcsOperationAction`2">
-            <summary>Runs a deferred ECS operation using caller-owned context and functor state.</summary>
-        </member>
-        <member name="T:Delta.ECS.EcsOperation">
-            <summary>A reusable, deferred ECS operation with no mutable caller-owned state.</summary>
-            <remarks>The operation holds its inputs until collected. Each invocation performs normal world and query validation.</remarks>
-        </member>
-        <member name="M:Delta.ECS.EcsOperation.#ctor(System.Action)">
-            <summary>Creates a deferred operation from its execution action.</summary>
-        </member>
-        <member name="M:Delta.ECS.EcsOperation.Invoke">
+        <member name="M:Delta.ECS.IOperation.Invoke">
             <summary>Executes this operation.</summary>
         </member>
-        <member name="T:Delta.ECS.EcsOperation`1">
-            <summary>A reusable, deferred ECS operation that owns a copy of mutable state.</summary>
-            <remarks><see cref="M:Delta.ECS.EcsOperation`1.Invoke"/> updates the operation-owned value. <see cref="M:Delta.ECS.EcsOperation`1.Invoke(`0@)"/> uses caller-owned state instead.</remarks>
+        <member name="T:Delta.ECS.IOperation`1">
+            <summary>A deferred operation that can also use caller-owned mutable state.</summary>
         </member>
-        <member name="M:Delta.ECS.EcsOperation`1.#ctor(`0,Delta.ECS.EcsOperationAction{`0})">
-            <summary>Creates a deferred operation with its initial state and execution action.</summary>
-        </member>
-        <member name="M:Delta.ECS.EcsOperation`1.Invoke">
-            <summary>Executes this operation using and updating its owned state.</summary>
-        </member>
-        <member name="M:Delta.ECS.EcsOperation`1.Invoke(`0@)">
+        <member name="M:Delta.ECS.IOperation`1.Invoke(`0@)">
             <summary>Executes this operation using and updating caller-owned state.</summary>
         </member>
-        <member name="T:Delta.ECS.EcsOperation`2">
-            <summary>A reusable, deferred ECS operation that owns copies of mutable context and functor state.</summary>
-            <remarks>Each overload can use the operation-owned values or caller-owned values without retaining references between invocations.</remarks>
+        <member name="T:Delta.ECS.IOperation`2">
+            <summary>A deferred operation that can use caller-owned context and functor state.</summary>
         </member>
-        <member name="M:Delta.ECS.EcsOperation`2.#ctor(`0,`1,Delta.ECS.EcsOperationAction{`0,`1})">
-            <summary>Creates a deferred operation with its initial state and execution action.</summary>
+        <member name="M:Delta.ECS.IOperation`2.Invoke(`1@)">
+            <summary>Executes the operation using caller-owned functor state and its owned context.</summary>
+        </member>
+        <member name="M:Delta.ECS.IOperation`2.InvokeWithContext(`0@)">
+            <summary>Executes the operation using its owned functor and caller-owned context.</summary>
+        </member>
+        <member name="M:Delta.ECS.IOperation`2.Invoke(`0@,`1@)">
+            <summary>Executes the operation using and updating caller-owned context and functor state.</summary>
+        </member>
+        <member name="T:Delta.ECS.IEcsOperationInvoker">
+            <summary>Execution contract for an operation with no mutable caller-owned state.</summary>
+        </member>
+        <member name="M:Delta.ECS.IEcsOperationInvoker.Invoke">
+            <summary>Executes the operation.</summary>
+        </member>
+        <member name="T:Delta.ECS.IEcsOperationInvoker`1">
+            <summary>Execution contract for an operation with one mutable state value.</summary>
+        </member>
+        <member name="M:Delta.ECS.IEcsOperationInvoker`1.Invoke(`0@)">
+            <summary>Executes the operation using and updating caller-owned state.</summary>
+        </member>
+        <member name="T:Delta.ECS.IEcsOperationInvoker`2">
+            <summary>Execution contract for an operation with mutable context and functor state.</summary>
+        </member>
+        <member name="M:Delta.ECS.IEcsOperationInvoker`2.Invoke(`0@,`1@)">
+            <summary>Executes the operation using caller-owned context and functor state.</summary>
+        </member>
+        <member name="T:Delta.ECS.EcsOperation`1">
+            <summary>A reusable deferred operation with a concrete value-type executor.</summary>
+            <remarks>Use <see cref="T:Delta.ECS.IOperation"/> to store different operation shapes behind one reference.</remarks>
+        </member>
+        <member name="M:Delta.ECS.EcsOperation`1.#ctor(`0)">
+            <summary>Creates a deferred operation from its concrete executor.</summary>
+        </member>
+        <member name="M:Delta.ECS.EcsOperation`1.Invoke">
+            <summary>Executes this operation.</summary>
+        </member>
+        <member name="T:Delta.ECS.EcsOperation`2">
+            <summary>A reusable deferred operation with concrete value-type executor and mutable state.</summary>
+            <remarks><see cref="M:Delta.ECS.EcsOperation`2.Invoke"/> updates the operation-owned state. <see cref="M:Delta.ECS.EcsOperation`2.Invoke(`0@)"/> uses caller-owned state.</remarks>
+        </member>
+        <member name="M:Delta.ECS.EcsOperation`2.#ctor(`0,`1)">
+            <summary>Creates a deferred operation with its initial state and concrete executor.</summary>
         </member>
         <member name="M:Delta.ECS.EcsOperation`2.Invoke">
-            <summary>Executes the operation using and updating its owned context and functor.</summary>
+            <summary>Executes this operation using and updating its operation-owned state.</summary>
         </member>
-        <member name="M:Delta.ECS.EcsOperation`2.Invoke(`1@)">
+        <member name="M:Delta.ECS.EcsOperation`2.Invoke(`0@)">
+            <summary>Executes this operation using and updating caller-owned state.</summary>
+        </member>
+        <member name="T:Delta.ECS.EcsOperation`3">
+            <summary>A reusable deferred operation with concrete value-type executor, context and functor state.</summary>
+            <remarks>Overloads use either operation-owned or caller-owned context and functor values.</remarks>
+        </member>
+        <member name="M:Delta.ECS.EcsOperation`3.#ctor(`0,`1,`2)">
+            <summary>Creates a deferred operation with its initial state and concrete executor.</summary>
+        </member>
+        <member name="M:Delta.ECS.EcsOperation`3.Invoke">
+            <summary>Executes the operation using and updating its operation-owned context and functor.</summary>
+        </member>
+        <member name="M:Delta.ECS.EcsOperation`3.Invoke(`1@)">
             <summary>Executes the operation using its owned context and caller-owned functor.</summary>
         </member>
-        <member name="M:Delta.ECS.EcsOperation`2.InvokeWithContext(`0@)">
+        <member name="M:Delta.ECS.EcsOperation`3.InvokeWithContext(`0@)">
             <summary>Executes the operation using caller-owned context and its owned functor.</summary>
         </member>
-        <member name="M:Delta.ECS.EcsOperation`2.Invoke(`0@,`1@)">
+        <member name="M:Delta.ECS.EcsOperation`3.Invoke(`0@,`1@)">
             <summary>Executes the operation using and updating caller-owned context and functor.</summary>
         </member>
         <member name="T:Delta.ECS.EcsResultOperation`1">
@@ -995,16 +1088,14 @@
             <summary>Executes this operation and returns its result.</summary>
         </member>
         <member name="T:Delta.ECS.EntityRef">
-            <summary>A borrowed view of the current entity in an entity-aware iteration callback.</summary>
-            <remarks>
-            Use this value only during the callback that received it. It refers directly
-            to the current chunk and slot, so it becomes invalid after the callback or a
-            structural change. Store <see cref="P:Delta.ECS.EntityRef.Handle"/> when an entity handle must be
-            retained.
-            </remarks>
+            <summary>A scoped entity handle for an entity-aware iteration callback.</summary>
+            <remarks>Component access uses the regular world APIs and resolves the entity handle on each call.</remarks>
         </member>
         <member name="P:Delta.ECS.EntityRef.Handle">
             <summary>Gets the stable handle for the current entity.</summary>
+        </member>
+        <member name="M:Delta.ECS.EntityRef.op_Implicit(Delta.ECS.EntityRef)~Delta.ECS.Entity">
+            <summary>Converts this scoped view to its stable entity handle.</summary>
         </member>
         <member name="P:Delta.ECS.EntityRef.Index">
             <summary>Gets the current entity's index.</summary>
@@ -1081,6 +1172,18 @@
         </member>
         <member name="T:Delta.ECS.NativeMemory`1">
             <summary>Trusted native storage owned and disposed by its containing ECS object.</summary>
+        </member>
+        <member name="T:Delta.ECS.ThrowingOperationInvoker">
+            <summary>Executor used by API anchors that require a generated operation.</summary>
+        </member>
+        <member name="M:Delta.ECS.ThrowingOperationInvoker.Invoke">
+            <summary>Throws because the generated operation form was not selected.</summary>
+        </member>
+        <member name="T:Delta.ECS.ThrowingOperationInvoker`1">
+            <summary>Executor used by generated-operation anchors with caller-owned state.</summary>
+        </member>
+        <member name="M:Delta.ECS.ThrowingOperationInvoker`1.Invoke(`0@)">
+            <summary>Throws because the generated operation form was not selected.</summary>
         </member>
         <member name="T:Delta.ECS.OrderedQuery">
             <summary>An immutable ordering of a query, with lexicographic keys added by generated component comparer functors.</summary>
@@ -1176,7 +1279,7 @@
             <summary>Adds a none-components filter to this specification.</summary>
         </member>
         <member name="T:Delta.ECS.ForEachEntityAction">
-            <summary>Processes one selected entity through a borrowed view valid during the callback.</summary>
+            <summary>Processes one selected entity through a scoped borrowed view valid during the callback.</summary>
         </member>
         <member name="T:Delta.ECS.ForEachAction">
             <summary>Runs a callback that does not receive entity or component data.</summary>
@@ -1185,19 +1288,31 @@
             <summary>Processes a selection with mutable caller-owned context.</summary>
         </member>
         <member name="T:Delta.ECS.ForEachContextEntityAction`1">
-            <summary>Processes each selected entity with mutable caller-owned context.</summary>
+            <summary>Processes each selected entity with mutable caller-owned context and a scoped borrowed view.</summary>
         </member>
         <member name="T:Delta.ECS.ForEachContextActionIn`1">
             <summary>Processes a selection with read-only caller-owned context.</summary>
         </member>
         <member name="T:Delta.ECS.ForEachContextEntityActionIn`1">
-            <summary>Processes each selected entity with read-only caller-owned context.</summary>
+            <summary>Processes each selected entity with read-only caller-owned context and a scoped borrowed view.</summary>
         </member>
         <member name="T:Delta.ECS.ForEachContextActionValue`1">
             <summary>Processes a selection with a context value passed by value.</summary>
         </member>
         <member name="T:Delta.ECS.ForEachContextEntityActionValue`1">
-            <summary>Processes each selected entity with a context value passed by value.</summary>
+            <summary>Processes each selected entity with a context value and a scoped borrowed view.</summary>
+        </member>
+        <member name="T:Delta.ECS.ForEachEntityOperationInvoker">
+            <summary>Direct executor for a zero-component entity callback operation.</summary>
+        </member>
+        <member name="M:Delta.ECS.ForEachEntityOperationInvoker.Invoke">
+            <summary>Executes the entity callback over the stored query.</summary>
+        </member>
+        <member name="T:Delta.ECS.ForEachEntityContextOperationInvoker`1">
+            <summary>Direct executor for a zero-component entity callback with mutable context.</summary>
+        </member>
+        <member name="M:Delta.ECS.ForEachEntityContextOperationInvoker`1.Invoke(`0@)">
+            <summary>Executes the entity callback using and updating caller-owned context.</summary>
         </member>
         <member name="T:Delta.ECS.IForEachEntity">
             <summary>
@@ -1334,8 +1449,32 @@
         <member name="P:Delta.ECS.IGeneratedComponentTypeToken.ComponentType">
             <summary>Gets the CLR type represented by this token.</summary>
         </member>
+        <member name="M:Delta.ECS.IGeneratedComponentTypeToken.DispatchRegistrationRoute``1(``0@)">
+            <summary>Dispatches this registered type to its most specific registration route.</summary>
+        </member>
         <member name="M:Delta.ECS.IGeneratedComponentTypeToken.Dispatch``1(System.ReadOnlySpan{Delta.ECS.IGeneratedComponentTypeToken},``0@)">
             <summary>Dispatches this registered type to an unconstrained generated visitor.</summary>
+        </member>
+        <member name="T:Delta.ECS.IGeneratedComponentRegistrationRouteVisitor">
+            <summary>Compiler-support visitor for selecting a component registration route.</summary>
+        </member>
+        <member name="M:Delta.ECS.IGeneratedComponentRegistrationRouteVisitor.VisitUnconstrained``1">
+            <summary>Receives a type without a built-in constraint.</summary>
+        </member>
+        <member name="M:Delta.ECS.IGeneratedComponentRegistrationRouteVisitor.VisitStruct``1">
+            <summary>Receives a value type.</summary>
+        </member>
+        <member name="M:Delta.ECS.IGeneratedComponentRegistrationRouteVisitor.VisitUnmanaged``1">
+            <summary>Receives an unmanaged type.</summary>
+        </member>
+        <member name="M:Delta.ECS.IGeneratedComponentRegistrationRouteVisitor.VisitClass``1">
+            <summary>Receives a reference type.</summary>
+        </member>
+        <member name="M:Delta.ECS.IGeneratedComponentRegistrationRouteVisitor.VisitConstructible``1">
+            <summary>Receives a type with a public parameterless constructor.</summary>
+        </member>
+        <member name="M:Delta.ECS.IGeneratedComponentRegistrationRouteVisitor.VisitClassConstructible``1">
+            <summary>Receives a reference type with a public parameterless constructor.</summary>
         </member>
         <member name="T:Delta.ECS.IGeneratedComponentTypeVisitor">
             <summary>Compiler-support visitor used to close unconstrained generated generic bindings.</summary>
@@ -1887,15 +2026,6 @@
             <summary>
             Builds a query using WhereNone component constraints.
             </summary>
-        </member>
-        <member name="T:System.Runtime.CompilerServices.OverloadResolutionPriorityAttribute">
-            <summary>Provides overload priority metadata for older target frameworks.</summary>
-        </member>
-        <member name="M:System.Runtime.CompilerServices.OverloadResolutionPriorityAttribute.#ctor(System.Int32)">
-            <summary>Initializes the overload priority.</summary>
-        </member>
-        <member name="P:System.Runtime.CompilerServices.OverloadResolutionPriorityAttribute.Priority">
-            <summary>Gets the overload priority.</summary>
         </member>
     </members>
 </doc>

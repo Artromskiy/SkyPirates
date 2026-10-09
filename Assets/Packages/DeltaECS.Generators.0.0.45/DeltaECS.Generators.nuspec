@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>DeltaECS.Generators</id>
-    <version>0.0.42</version>
+    <version>0.0.45</version>
     <authors>Artromskiy</authors>
     <developmentDependency>true</developmentDependency>
     <license type="expression">MIT</license>
@@ -10,6 +10,6 @@
     <readme>README.md</readme>
     <description>Build-time Roslyn analyzer and source generator for DeltaECS consumer callbacks.</description>
     <tags>ecs source-generator analyzer roslyn dotnet</tags>
-    <repository type="git" url="https://github.com/Artromskiy/DeltaECS" commit="3c5c68d53345da0dc7c3ec884b319e334e4b52aa" />
+    <repository type="git" url="https://github.com/Artromskiy/DeltaECS" commit="61ffab902f8ac9d3f46da55b1eb4aa7d4ba0b34b" />
   </metadata>
 </package>
