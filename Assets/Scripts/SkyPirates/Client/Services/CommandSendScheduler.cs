@@ -12,6 +12,7 @@ namespace DVG.SkyPirates.Client.Services
         private readonly IPlayer _player;
         private readonly SkyPiratesSessionProvider _session;
         private readonly GenericCollection _scheduled = new();
+        private readonly GenericCollection _transientInputs = new();
 
         public CommandSendScheduler(IClientService client, IPlayer player, SkyPiratesSessionProvider session)
         {
@@ -25,6 +26,16 @@ namespace DVG.SkyPirates.Client.Services
             if (!_client.IsConnected || !_player.CurrentEntityId.HasValue || !_session.IsReady)
                 return;
             _scheduled.Add(payload);
+        }
+
+        public void SetTransientInput<T>(T input)
+        {
+            _transientInputs.Add(input);
+        }
+
+        public bool TryGetTransientInput<T>(out T input)
+        {
+            return _transientInputs.TryGet(out input);
         }
 
         public void Tick(int tick)

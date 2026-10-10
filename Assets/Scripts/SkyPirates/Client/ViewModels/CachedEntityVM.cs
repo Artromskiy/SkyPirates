@@ -3,7 +3,7 @@ using DVG.Collections;
 using DVG.Components;
 using DVG.SkyPirates.Client.IViewModels;
 using DVG.SkyPirates.Shared.Components.Framed;
-using DVG.SkyPirates.Shared.IServices.TickableExecutors;
+using UnityEngine;
 
 namespace DVG.SkyPirates.Client.ViewModels
 {
@@ -11,9 +11,7 @@ namespace DVG.SkyPirates.Client.ViewModels
     {
         private readonly World _world;
         private readonly Entity _entity;
-        private readonly ITickCounterService _tickCounter;
-
-        private int _cachedTick = -1;
+        private int _cachedFrame = -1;
 
         private readonly GenericCollection _cache = new();
 
@@ -22,24 +20,21 @@ namespace DVG.SkyPirates.Client.ViewModels
         public bool Alive => Has<Alive>();
 
         public CachedEntityVM(
-            ITickCounterService tickCounter,
             World world,
             Entity entity)
         {
-            _tickCounter = tickCounter;
             _world = world;
             _entity = entity;
         }
 
         private void EnsureFresh()
         {
-            int currentTick = _tickCounter.TickCounter;
-
-            if (_cachedTick == currentTick)
+            int currentFrame = Time.frameCount;
+            if (_cachedFrame == currentFrame)
                 return;
 
             _cache.Clear();
-            _cachedTick = currentTick;
+            _cachedFrame = currentFrame;
         }
 
         public bool Has<T>()

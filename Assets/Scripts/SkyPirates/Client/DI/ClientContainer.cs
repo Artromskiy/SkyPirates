@@ -46,7 +46,6 @@ namespace DVG.SkyPirates.Client.DI
             RegisterSingleton<IGoodsVM, GoodsVM>();
 
             RegisterSingleton<GameStartController>();
-            RegisterSingleton<ITickCounterService, TickCounterService>();
             RegisterSingleton<IHashSumService, HashSumService>();
 
             Collection.Register<IPreTickable>(PreTickableExecutors, Lifestyle.Singleton);
@@ -57,7 +56,6 @@ namespace DVG.SkyPirates.Client.DI
 
         private static readonly Type[] PreTickableExecutors = new Type[]
         {
-            typeof(ITickCounterService),
             typeof(IClientService), // recieve commands
             typeof(ICommandSendScheduler), // send commands to session
         };

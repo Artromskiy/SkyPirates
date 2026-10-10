@@ -17,6 +17,8 @@ namespace DVG.SkyPirates.Local.Entry
     public class LocalStart : MonoBehaviour
     {
         private Container _container = null!;
+        private SkyPiratesSessionProvider _session = null!;
+        private bool _spawnSquadSent;
 
         private void Start()
         {
@@ -34,10 +36,8 @@ namespace DVG.SkyPirates.Local.Entry
                 var history = _container.GetInstance<IHistorySystem>();
                 history.ApplySnapshot(worldData);
                 history.SaveBaseline();
-                var session = _container.GetInstance<SkyPiratesSessionProvider>();
-                session.Start(new AuthorId((uint)client.Id));
-                Delta.Diagnostics.Trace.Info("[LocalStart] Spawn squad");
-                session.Send(new SpawnSquadCommand(), 1);
+                _session = _container.GetInstance<SkyPiratesSessionProvider>();
+                _session.Start(new AuthorId((uint)client.Id));
             }
             catch (Exception e)
             {
@@ -49,6 +49,13 @@ namespace DVG.SkyPirates.Local.Entry
         {
             var startController = _container.GetInstance<GameStartController>();
             startController.Update();
+
+            if (!_spawnSquadSent && _session.CurrentStep >= 0)
+            {
+                Delta.Diagnostics.Trace.Info("[LocalStart] Spawn squad");
+                _session.Send(new SpawnSquadCommand(), _session.CurrentStep + 1);
+                _spawnSquadSent = true;
+            }
         }
     }
 }

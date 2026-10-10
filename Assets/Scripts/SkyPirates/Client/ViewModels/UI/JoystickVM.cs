@@ -48,6 +48,7 @@ namespace DVG.SkyPirates.Client.ViewModels.UI
                     Fixation = value.fixation,
                     Target = _player.CurrentEntityId.Value,
                 };
+                _sendScheduler.SetTransientInput(cmdData);
                 _sendScheduler.SendCommand(cmdData);
             }
         }
