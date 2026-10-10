@@ -11,6 +11,8 @@ namespace DVG.SkyPirates.Client.Entry
     public class ClientStart : UnityEngine.MonoBehaviour
     {
         private Container _container = null!;
+        private SkyPiratesSessionProvider _sessions = null!;
+        private bool _spawnSquadSent;
 
         private void Start()
         {
@@ -48,17 +50,37 @@ namespace DVG.SkyPirates.Client.Entry
             var client = _container.GetInstance<Riptide.Client>();
             client.Connection.CanQualityDisconnect = false;
 
-            var sessions = _container.GetInstance<SkyPiratesSessionProvider>();
-            sessions.Ready += () => sessions.Send(new SpawnSquadCommand(), System.Math.Max(1, sessions.CurrentStep + 1));
-            sessions.Start(new Delta.Netcode.AuthorId((uint)client.Id));
+            if (_sessions == null)
+            {
+                _sessions = _container.GetInstance<SkyPiratesSessionProvider>();
+                _sessions.Ready += OnSessionReady;
+            }
+
+            _sessions.Start(new Delta.Netcode.AuthorId((uint)client.Id));
 
             Delta.Diagnostics.Trace.Info("Connected");
         }
 
         private void OnDisconnected(object sender, Riptide.DisconnectedEventArgs e)
         {
+            if (_sessions != null)
+            {
+                _sessions.Disconnect();
+            }
+
             Delta.Diagnostics.Trace.Info(e.Message.GetString());
             Delta.Diagnostics.Trace.Assert(false, context: $"Disconnected: {e.Reason}");
+        }
+
+        private void OnSessionReady()
+        {
+            if (_spawnSquadSent)
+            {
+                return;
+            }
+
+            _sessions.Send(new SpawnSquadCommand(), System.Math.Max(1, _sessions.CurrentStep + 1));
+            _spawnSquadSent = true;
         }
 
         private static void LogRiptideInfo(string message) => Delta.Diagnostics.Trace.Info(message);
