@@ -22,19 +22,21 @@
         <member name="T:Delta.Netcode.ICommandValidator">
             <summary>Validates commands with a shared rule independent of command type.</summary>
         </member>
-        <member name="M:Delta.Netcode.ICommandValidator.Validate``1(Delta.Netcode.Command{``0}@)">
+        <member name="M:Delta.Netcode.ICommandValidator.Validate``1(Delta.Netcode.Command{``0}@,Delta.Netcode.CommandValidationContext@)">
             <summary>Returns whether a command satisfies this validation rule.</summary>
             <typeparam name="T">The command payload type.</typeparam>
             <param name="command">The command and its session header.</param>
+            <param name="context">The authoritative session state used for validation.</param>
             <returns><see langword="true"/> when the command is valid.</returns>
         </member>
         <member name="T:Delta.Netcode.ICommandValidator`1">
             <summary>Validates commands of one payload type.</summary>
             <typeparam name="T">The command payload type.</typeparam>
         </member>
-        <member name="M:Delta.Netcode.ICommandValidator`1.Validate(Delta.Netcode.Command{`0}@)">
+        <member name="M:Delta.Netcode.ICommandValidator`1.Validate(Delta.Netcode.Command{`0}@,Delta.Netcode.CommandValidationContext@)">
             <summary>Returns whether a command satisfies this validation rule.</summary>
             <param name="command">The command and its session header.</param>
+            <param name="context">The authoritative session state used for validation.</param>
             <returns><see langword="true"/> when the command is valid.</returns>
         </member>
         <member name="T:Delta.Netcode.ICommandMutator`1">
@@ -132,16 +134,41 @@
             Removes all records from the journal.
             </summary>
         </member>
+        <member name="T:Delta.Netcode.ICommandChangeJournal">
+            <summary>Exposes revisioned journal changes used by incremental session resume.</summary>
+            <remarks>
+            Implementations retain the final record for each command key. A record's revision changes
+            whenever its authoritative outcome or cancellation state changes. Return <see langword="false"/>
+            when the requested revision is older than the retained history; the session then sends a snapshot.
+            </remarks>
+        </member>
+        <member name="P:Delta.Netcode.ICommandChangeJournal.Revision">
+            <summary>Gets the latest journal revision.</summary>
+        </member>
+        <member name="M:Delta.Netcode.ICommandChangeJournal.TryReadChangesAfter(System.UInt64,System.Collections.Generic.IReadOnlyList{Delta.Netcode.JournalRecord}@)">
+            <summary>Reads final records changed after a revision when the retained history is complete.</summary>
+            <param name="revision">The last revision already applied by the client.</param>
+            <param name="records">Receives changed records in revision order.</param>
+            <returns><see langword="true"/> when the complete change range is available.</returns>
+        </member>
+        <member name="M:Delta.Netcode.ICommandChangeJournal.ReadAuthorOutcomesAfter(Delta.Netcode.AuthorId,System.Nullable{System.UInt64})">
+            <summary>Reads the current outcomes for one author's unresolved command sequences.</summary>
+            <param name="author">The author whose command outcomes are requested.</param>
+            <param name="lastResolvedSequence">The last contiguous resolved sequence, or <see langword="null"/> if none.</param>
+            <returns>Matching records in author sequence order.</returns>
+        </member>
         <member name="T:Delta.Netcode.JournalRecord">
             <summary>Stores the request and authoritative result for one command.</summary>
         </member>
-        <member name="M:Delta.Netcode.JournalRecord.#ctor(Delta.Netcode.CommandHeader,Delta.Netcode.CommandResult,System.ReadOnlySpan{System.Byte},System.ReadOnlySpan{System.Byte},System.Nullable{Delta.Netcode.CommandHeader})">
+        <member name="M:Delta.Netcode.JournalRecord.#ctor(Delta.Netcode.CommandHeader,Delta.Netcode.CommandResult,System.ReadOnlySpan{System.Byte},System.ReadOnlySpan{System.Byte},System.Nullable{Delta.Netcode.CommandHeader},System.UInt64,System.Boolean)">
             <summary>Creates an owned copy of a command's request and final payloads.</summary>
             <param name="header">The authoritative command header.</param>
             <param name="result">The command result.</param>
             <param name="requestPayload">The original submitted payload bytes.</param>
             <param name="finalPayload">The final accepted payload bytes, or empty for a non-accepted result.</param>
             <param name="requestHeader">The original proposal header when it differs from the authoritative header.</param>
+            <param name="revision">The journal revision at which this record last changed.</param>
+            <param name="isCancelled">Whether the command has been cancelled.</param>
         </member>
         <member name="P:Delta.Netcode.JournalRecord.Header">
             <summary>Gets the authoritative command header.</summary>
@@ -151,6 +178,9 @@
         </member>
         <member name="P:Delta.Netcode.JournalRecord.Result">
             <summary>Gets the recorded decision for the command.</summary>
+        </member>
+        <member name="P:Delta.Netcode.JournalRecord.Revision">
+            <summary>Gets the authoritative journal revision at which this record last changed.</summary>
         </member>
         <member name="P:Delta.Netcode.JournalRecord.RequestPayload">
             <summary>Gets the owned bytes submitted in the original request.</summary>
@@ -163,6 +193,9 @@
         </member>
         <member name="T:Delta.Netcode.MemoryCommandJournal">
             <summary>Stores command records in memory for one session lifetime.</summary>
+        </member>
+        <member name="P:Delta.Netcode.MemoryCommandJournal.Revision">
+            <inheritdoc />
         </member>
         <member name="M:Delta.Netcode.MemoryCommandJournal.TryGet(Delta.Netcode.CommandKey,Delta.Netcode.JournalRecord@)">
             <inheritdoc />
@@ -177,6 +210,12 @@
             <inheritdoc />
         </member>
         <member name="M:Delta.Netcode.MemoryCommandJournal.ReadAcceptedAfter(Delta.Netcode.CommandCursor)">
+            <inheritdoc />
+        </member>
+        <member name="M:Delta.Netcode.MemoryCommandJournal.TryReadChangesAfter(System.UInt64,System.Collections.Generic.IReadOnlyList{Delta.Netcode.JournalRecord}@)">
+            <inheritdoc />
+        </member>
+        <member name="M:Delta.Netcode.MemoryCommandJournal.ReadAuthorOutcomesAfter(Delta.Netcode.AuthorId,System.Nullable{System.UInt64})">
             <inheritdoc />
         </member>
         <member name="M:Delta.Netcode.MemoryCommandJournal.Clear">
@@ -257,7 +296,48 @@
             <summary>Executes the command payload through its registered executor.</summary>
         </member>
         <member name="T:Delta.Netcode.CommandProtocol">
-            <summary>Encodes and decodes command and snapshot wire frames.</summary>
+            <summary>Encodes and decodes command, snapshot and session synchronization frames.</summary>
+        </member>
+        <member name="M:Delta.Netcode.CommandProtocol.EncodeSyncRequest(Delta.Netcode.SessionSyncRequest@)">
+            <summary>Encodes a request to join or resume an authenticated session connection.</summary>
+            <param name="request">The requested session, protocol and client cursor.</param>
+            <returns>A newly allocated synchronization request frame.</returns>
+        </member>
+        <member name="M:Delta.Netcode.CommandProtocol.TryReadSyncRequest(System.ReadOnlySpan{System.Byte},Delta.Netcode.SessionSyncRequest@)">
+            <summary>Reads a session synchronization request.</summary>
+            <param name="message">The encoded message to inspect.</param>
+            <param name="request">Receives the decoded request when valid.</param>
+            <returns><see langword="true"/> if the message is a valid synchronization request.</returns>
+        </member>
+        <member name="M:Delta.Netcode.CommandProtocol.EncodeSyncStatus(Delta.Netcode.SessionSyncStatus,Delta.Netcode.SessionId,Delta.Netcode.ProtocolId)">
+            <summary>Encodes the server's synchronization mode or rejection.</summary>
+            <param name="status">The result selected for this request.</param>
+            <param name="sessionId">The session identity associated with the response.</param>
+            <param name="protocolId">The server's protocol identity for the response.</param>
+            <returns>A newly allocated synchronization status frame.</returns>
+        </member>
+        <member name="M:Delta.Netcode.CommandProtocol.TryReadSyncStatus(System.ReadOnlySpan{System.Byte},Delta.Netcode.SessionSyncStatus@,Delta.Netcode.SessionId@,Delta.Netcode.ProtocolId@)">
+            <summary>Reads a synchronization status frame.</summary>
+            <param name="message">The encoded message to inspect.</param>
+            <param name="status">Receives the selected synchronization mode or rejection.</param>
+            <param name="sessionId">Receives the session identity associated with the response.</param>
+            <param name="protocolId">Receives the server protocol identity.</param>
+            <returns><see langword="true"/> if the message is a valid synchronization status.</returns>
+        </member>
+        <member name="M:Delta.Netcode.CommandProtocol.EncodeSyncComplete(Delta.Netcode.SessionId,System.Nullable{System.UInt64},System.Int64)">
+            <summary>Encodes completion of a synchronization stream.</summary>
+            <param name="sessionId">The session that has been synchronized.</param>
+            <param name="journalRevision">The revision covered by the stream, or <see langword="null"/> when unavailable.</param>
+            <param name="currentStep">The authoritative simulation step at synchronization completion.</param>
+            <returns>A newly allocated synchronization completion frame.</returns>
+        </member>
+        <member name="M:Delta.Netcode.CommandProtocol.TryReadSyncComplete(System.ReadOnlySpan{System.Byte},Delta.Netcode.SessionId@,System.Nullable{System.UInt64}@,System.Int64@)">
+            <summary>Reads completion of a synchronization stream.</summary>
+            <param name="message">The encoded message to inspect.</param>
+            <param name="sessionId">Receives the synchronized session identity.</param>
+            <param name="journalRevision">Receives the covered revision, or <see langword="null"/> when unavailable.</param>
+            <param name="currentStep">Receives the authoritative simulation step.</param>
+            <returns><see langword="true"/> if the message is a valid synchronization completion frame.</returns>
         </member>
         <member name="M:Delta.Netcode.CommandProtocol.EncodeProposal(Delta.Netcode.CommandHeader@,System.ReadOnlySpan{System.Byte})">
             <summary>Encodes a client command proposal.</summary>
@@ -418,6 +498,95 @@
         </member>
         <member name="P:Delta.Netcode.CommandCursor.Order">
             <summary>The highest authoritative session order observed at capture time.</summary>
+        </member>
+        <member name="T:Delta.Netcode.CommandValidationContext">
+            <summary>Provides session state needed to validate a command.</summary>
+            <param name="CurrentStep">The last simulation step applied by the authoritative session.</param>
+        </member>
+        <member name="M:Delta.Netcode.CommandValidationContext.#ctor(System.Int64)">
+            <summary>Provides session state needed to validate a command.</summary>
+            <param name="CurrentStep">The last simulation step applied by the authoritative session.</param>
+        </member>
+        <member name="P:Delta.Netcode.CommandValidationContext.CurrentStep">
+            <summary>The last simulation step applied by the authoritative session.</summary>
+        </member>
+        <member name="T:Delta.Netcode.SessionResumeCursor">
+            <summary>Identifies the client state used to resume a session synchronization.</summary>
+            <param name="CurrentStep">The last simulation step applied by the client.</param>
+            <param name="JournalRevision">The last fully received authoritative journal revision, if available.</param>
+            <param name="LastResolvedAuthorSequence">The last contiguous author sequence resolved by this client, if available.</param>
+        </member>
+        <member name="M:Delta.Netcode.SessionResumeCursor.#ctor(System.Int64,System.Nullable{System.UInt64},System.Nullable{System.UInt64})">
+            <summary>Identifies the client state used to resume a session synchronization.</summary>
+            <param name="CurrentStep">The last simulation step applied by the client.</param>
+            <param name="JournalRevision">The last fully received authoritative journal revision, if available.</param>
+            <param name="LastResolvedAuthorSequence">The last contiguous author sequence resolved by this client, if available.</param>
+        </member>
+        <member name="P:Delta.Netcode.SessionResumeCursor.CurrentStep">
+            <summary>The last simulation step applied by the client.</summary>
+        </member>
+        <member name="P:Delta.Netcode.SessionResumeCursor.JournalRevision">
+            <summary>The last fully received authoritative journal revision, if available.</summary>
+        </member>
+        <member name="P:Delta.Netcode.SessionResumeCursor.LastResolvedAuthorSequence">
+            <summary>The last contiguous author sequence resolved by this client, if available.</summary>
+        </member>
+        <member name="T:Delta.Netcode.SessionSyncRequest">
+            <summary>Requests a full snapshot or incremental replay for an authenticated session connection.</summary>
+            <param name="SessionId">The application session identifier.</param>
+            <param name="ProtocolId">The expected command protocol identifier.</param>
+            <param name="Cursor">The client's last completed synchronization cursor.</param>
+        </member>
+        <member name="M:Delta.Netcode.SessionSyncRequest.#ctor(Delta.Netcode.SessionId,Delta.Netcode.ProtocolId,Delta.Netcode.SessionResumeCursor)">
+            <summary>Requests a full snapshot or incremental replay for an authenticated session connection.</summary>
+            <param name="SessionId">The application session identifier.</param>
+            <param name="ProtocolId">The expected command protocol identifier.</param>
+            <param name="Cursor">The client's last completed synchronization cursor.</param>
+        </member>
+        <member name="P:Delta.Netcode.SessionSyncRequest.SessionId">
+            <summary>The application session identifier.</summary>
+        </member>
+        <member name="P:Delta.Netcode.SessionSyncRequest.ProtocolId">
+            <summary>The expected command protocol identifier.</summary>
+        </member>
+        <member name="P:Delta.Netcode.SessionSyncRequest.Cursor">
+            <summary>The client's last completed synchronization cursor.</summary>
+        </member>
+        <member name="T:Delta.Netcode.SessionSyncStatus">
+            <summary>Describes the synchronization response selected by the server.</summary>
+        </member>
+        <member name="F:Delta.Netcode.SessionSyncStatus.Replay">
+            <summary>The server can replay journal changes after the supplied revision.</summary>
+        </member>
+        <member name="F:Delta.Netcode.SessionSyncStatus.Snapshot">
+            <summary>The server will send a snapshot and accepted commands after its replay cursor.</summary>
+        </member>
+        <member name="F:Delta.Netcode.SessionSyncStatus.SessionNotFound">
+            <summary>The requested session is not available on this authenticated connection.</summary>
+        </member>
+        <member name="F:Delta.Netcode.SessionSyncStatus.ProtocolMismatch">
+            <summary>The client and server use different command protocol identifiers.</summary>
+        </member>
+        <member name="T:Delta.Netcode.SessionClientState">
+            <summary>Describes the local client's connection and synchronization state.</summary>
+        </member>
+        <member name="F:Delta.Netcode.SessionClientState.Disconnected">
+            <summary>No join or resume synchronization has started.</summary>
+        </member>
+        <member name="F:Delta.Netcode.SessionClientState.Joining">
+            <summary>The client has sent a synchronization request and awaits the server response.</summary>
+        </member>
+        <member name="F:Delta.Netcode.SessionClientState.Synchronizing">
+            <summary>The client is applying a snapshot or journal replay.</summary>
+        </member>
+        <member name="F:Delta.Netcode.SessionClientState.Ready">
+            <summary>The client has applied the synchronization stream and can submit commands.</summary>
+        </member>
+        <member name="F:Delta.Netcode.SessionClientState.SessionNotFound">
+            <summary>The authenticated connection is not bound to the requested session.</summary>
+        </member>
+        <member name="F:Delta.Netcode.SessionClientState.ProtocolMismatch">
+            <summary>The client and server protocol identifiers do not match.</summary>
         </member>
         <member name="T:Delta.Netcode.CommandPreparationState">
             <summary>
@@ -889,10 +1058,10 @@
             <param name="sessionId">The ID of the session to remove.</param>
         </member>
         <member name="M:Delta.Netcode.ISessionServer.Receive(System.UInt64,System.ReadOnlySpan{System.Byte})">
-            <summary>Processes a framed client message using the author bound to its connection.</summary>
+            <summary>Processes a command, cancellation or synchronization request for a bound connection.</summary>
             <param name="connectionId">The authenticated transport connection.</param>
-            <param name="message">The encoded proposal or cancellation message.</param>
-            <returns>The command result, or <see cref="F:Delta.Netcode.CommandResult.InvalidMessage"/> for malformed data.</returns>
+            <param name="message">The encoded command, cancellation or synchronization message.</param>
+            <returns>The command result, or <see cref="F:Delta.Netcode.CommandResult.InvalidMessage"/> for malformed data. For a synchronization request, <see cref="F:Delta.Netcode.CommandResult.Accepted"/> means the response stream was sent.</returns>
         </member>
         <member name="T:Delta.Netcode.SessionServer">
             <summary>Routes authenticated transport connections to authoritative sessions.</summary>
@@ -930,6 +1099,57 @@
             <param name="header">The client-supplied proposal header.</param>
             <param name="payload">The serialized command payload.</param>
             <returns>The authoritative outcome, or a rejection when the connection is not bound.</returns>
+        </member>
+        <member name="T:Delta.Netcode.ISessionClient">
+            <summary>Starts session synchronization and applies server messages for a client host.</summary>
+        </member>
+        <member name="P:Delta.Netcode.ISessionClient.Session">
+            <summary>Gets the session controlled by this client.</summary>
+        </member>
+        <member name="P:Delta.Netcode.ISessionClient.State">
+            <summary>Gets the client's join, synchronization or ready state.</summary>
+        </member>
+        <member name="P:Delta.Netcode.ISessionClient.IsReady">
+            <summary>Gets whether an initial snapshot or replay has been fully applied.</summary>
+        </member>
+        <member name="M:Delta.Netcode.ISessionClient.BeginJoin(Delta.Netcode.ITransport,System.UInt64)">
+            <summary>Connects through a transport and requests a join or resume stream.</summary>
+            <param name="transport">The application-owned transport used for this connection.</param>
+            <param name="connectionId">The transport-specific server connection identifier.</param>
+        </member>
+        <member name="M:Delta.Netcode.ISessionClient.Receive(System.ReadOnlySpan{System.Byte})">
+            <summary>Applies one command, snapshot or synchronization message received from the server.</summary>
+            <param name="message">The encoded server message.</param>
+            <returns>The applied command result or synchronization processing result.</returns>
+        </member>
+        <member name="M:Delta.Netcode.ISessionClient.Disconnect">
+            <summary>Detaches the current connection while retaining the client resume cursor.</summary>
+        </member>
+        <member name="T:Delta.Netcode.SessionClient">
+            <summary>Coordinates snapshot/replay synchronization for a client session host.</summary>
+        </member>
+        <member name="M:Delta.Netcode.SessionClient.#ctor(Delta.Netcode.SessionHost)">
+            <summary>Creates a client coordinator for a client-mode session host.</summary>
+            <param name="session">The session host receiving authoritative outcomes.</param>
+            <exception cref="T:System.ArgumentException">The session is not in client mode.</exception>
+        </member>
+        <member name="P:Delta.Netcode.SessionClient.Session">
+            <inheritdoc />
+        </member>
+        <member name="P:Delta.Netcode.SessionClient.State">
+            <inheritdoc />
+        </member>
+        <member name="P:Delta.Netcode.SessionClient.IsReady">
+            <inheritdoc />
+        </member>
+        <member name="M:Delta.Netcode.SessionClient.BeginJoin(Delta.Netcode.ITransport,System.UInt64)">
+            <inheritdoc />
+        </member>
+        <member name="M:Delta.Netcode.SessionClient.Disconnect">
+            <inheritdoc />
+        </member>
+        <member name="M:Delta.Netcode.SessionClient.Receive(System.ReadOnlySpan{System.Byte})">
+            <inheritdoc />
         </member>
         <member name="T:Delta.Netcode.SessionSnapshot">
             <summary>
@@ -976,6 +1196,21 @@
             <summary>
             Gets the owned, opaque model state.
             </summary>
+        </member>
+        <member name="T:Delta.Netcode.ITransientSimulation`1">
+            <summary>Extends a fixed-step simulation with simulation-only transient updates.</summary>
+            <typeparam name="TInput">The input sample consumed by a transient update.</typeparam>
+            <remarks>
+            The application calls transient updates from its frame loop. Implementations run only the
+            simulation portion and do not advance the session step. The application restores the last
+            fixed-step state with <see cref="M:Delta.Netcode.ISimulation.Load(System.ReadOnlySpan{System.Byte})"/> before the next
+            fixed session tick.
+            </remarks>
+        </member>
+        <member name="M:Delta.Netcode.ITransientSimulation`1.TickTransient(`0@,System.Double)">
+            <summary>Advances the simulation using an uncommitted input sample and elapsed time.</summary>
+            <param name="input">The current local input.</param>
+            <param name="deltaTimeSeconds">The elapsed time since the preceding transient update.</param>
         </member>
     </members>
 </doc>

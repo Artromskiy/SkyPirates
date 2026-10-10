@@ -2,12 +2,12 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>DeltaNetcode</id>
-    <version>0.0.4</version>
+    <version>0.0.5</version>
     <authors>DeltaNetcode</authors>
     <readme>README.md</readme>
     <description>Engine-independent networking for .NET applications.</description>
     <tags>networking netcode high-performance</tags>
-    <repository type="git" commit="86606065fff2ab4036014f81efa23c91c85f3c57" />
+    <repository type="git" commit="3296ae5d374780985d4d319e64953bba442c7136" />
     <dependencies>
       <group targetFramework="net10.0" />
       <group targetFramework=".NETStandard2.1" />
