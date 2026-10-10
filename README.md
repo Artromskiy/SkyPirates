@@ -30,7 +30,7 @@ Open the project in Unity and run the "---ConnectScene" scene. Press "GO OFFLINE
 
 ## Core Features
 
-* ECS (based on Arch-PureECS)
+* ECS ([DeltaECS](https://github.com/Artromskiy/DeltaECS))
 * Deterministic simulation:
   * lockstep
   * rollback
@@ -78,7 +78,7 @@ This keeps update order explicit and avoids hidden dependencies.
 
 ## Technology Choices
 
-### ECS (Arch-PureECS)
+### ECS ([DeltaECS](https://github.com/Artromskiy/DeltaECS))
 
 Chosen for:
 
