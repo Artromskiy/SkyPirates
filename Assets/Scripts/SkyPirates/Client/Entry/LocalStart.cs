@@ -1,4 +1,5 @@
 using Delta.Netcode;
+using Delta.ECS.Unity;
 using DVG.Core;
 using DVG.SkyPirates.Client.DI;
 using DVG.SkyPirates.Client.Entry;
@@ -8,8 +9,10 @@ using DVG.SkyPirates.Shared.Data;
 using DVG.SkyPirates.Shared.IServices;
 using DVG.SkyPirates.Shared.IServices.TickableExecutors;
 using DVG.SkyPirates.Shared.Services.Netcode;
+using DVG.SkyPirates.Client.Systems;
 using SimpleInjector;
 using System;
+using System.Linq;
 using UnityEngine;
 
 namespace DVG.SkyPirates.Local.Entry
@@ -25,9 +28,11 @@ namespace DVG.SkyPirates.Local.Entry
             try
             {
                 Delta.Diagnostics.Trace.Info("[LocalStart] Container creation");
-                _container = new LocalContainer();
+                var sceneWorld = SceneWorld.GetForScene(gameObject.scene);
+                _container = new LocalContainer(sceneWorld);
                 Delta.Diagnostics.Trace.Info("[LocalStart] Container register and inject ViewModels");
                 _container.RegisterAndInjectViewModels();
+                var entityViews = _container.GetAllInstances<IPostTickable>().OfType<EntityViewSystem>().Single();
 
                 Delta.Diagnostics.Trace.Info("[LocalStart] Container get instances");
                 var client = _container.GetInstance<IClientService>();
@@ -35,6 +40,7 @@ namespace DVG.SkyPirates.Local.Entry
                 Delta.Diagnostics.Trace.Info("[LocalStart] Load map");
                 var history = _container.GetInstance<IHistorySystem>();
                 history.ApplySnapshot(worldData);
+                entityViews.Tick(0);
                 history.SaveBaseline();
                 _session = _container.GetInstance<SkyPiratesSessionProvider>();
                 _session.Start(new AuthorId((uint)client.Id));

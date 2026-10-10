@@ -1,5 +1,8 @@
-﻿using DVG.SkyPirates.Client.IViewModels;
+﻿using Delta.ECS;
+using Delta.ECS.Unity;
+using DVG.SkyPirates.Client.IViewModels;
 using DVG.SkyPirates.Client.IViews;
+using DVG.SkyPirates.Client.Systems;
 using DVG.SkyPirates.Client.Views.Components;
 using UnityEngine;
 
@@ -27,6 +30,9 @@ namespace DVG.SkyPirates.Client.Views.Gameplay
 
         private void Update()
         {
+            if (ViewModel == null)
+                return;
+
             if (ViewModel.Disposed)
             {
                 foreach (var componentView in _componentViews)
@@ -52,7 +58,28 @@ namespace DVG.SkyPirates.Client.Views.Gameplay
                 componentView.Tick();
         }
 
+        private void Start()
+        {
+            if (ViewModel != null || !this.TryGetEntity(out EntityContext context) || !(context.World is World world))
+            {
+                return;
+            }
+
+            if (EntityViewModelRegistry.TryGet(world, context.Entity, out var viewModel))
+            {
+                ViewModel = viewModel;
+            }
+        }
+
         private void Awake() => EditorChanges.SubscribeOnDestroy(gameObject, Dispose);
-        private void Dispose() => ViewModel?.Dispose();
+        private void Dispose()
+        {
+            if (this.TryGetEntity(out EntityContext context) && context.World is World world)
+            {
+                EntityViewModelRegistry.Remove(world, context.Entity);
+            }
+
+            ViewModel?.Dispose();
+        }
     }
 }

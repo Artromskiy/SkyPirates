@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91f157d4af3b4bd6b4d5beb36a1337a6, type: 3}
+  m_Name: ViewPrefabCatalog
+  m_EditorClassIdentifier: 
+  _entries:
+  - _id: unit
+    _prefab: {fileID: 9210316857832955404, guid: 1946b070f76434c45a5ad459e5967669, type: 3}
+  - _id: tree
+    _prefab: {fileID: 8787534822810273180, guid: 67ac4416da32554468685e5891067b57, type: 3}
+  - _id: rock
+    _prefab: {fileID: 4835967202743636205, guid: f6abff48e862b8e4c9356a2665d215d7, type: 3}
+  - _id: goods
+    _prefab: {fileID: 6742699207346504551, guid: 2bc3c6c9e75d0c644a07a6fa7cfa7758, type: 3}
+  - _id: cactus
+    _prefab: {fileID: 6965248604887090938, guid: 473686d25b2e5af4db2baff2915fa75f, type: 3}
+  - _id: hex-map
+    _prefab: {fileID: 3798016910567893903, guid: 442561bf0ce11ad4bb3c95bd04a5666f, type: 3}
+  - _id: squad
+    _prefab: {fileID: 3537932759143078318, guid: 792d12099816d404799cc4dcb105e6dd, type: 3}

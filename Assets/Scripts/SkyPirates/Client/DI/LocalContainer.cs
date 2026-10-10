@@ -15,6 +15,8 @@ using DVG.SkyPirates.Shared.DI;
 using DVG.SkyPirates.Shared.IServices;
 using DVG.SkyPirates.Shared.IServices.TickableExecutors;
 using DVG.SkyPirates.Shared.Services;
+using Delta.ECS.Unity;
+using UnityEngine;
 using SimpleInjector;
 using System;
 
@@ -22,9 +24,12 @@ namespace DVG.SkyPirates.Client.DI
 {
     public class LocalContainer : SharedContainer
     {
-        public LocalContainer()
-            : base(Delta.Netcode.SessionMode.Local)
+        public LocalContainer(SceneWorld sceneWorld)
+            : base(Delta.Netcode.SessionMode.Local, true, sceneWorld.World)
         {
+            RegisterInstance(sceneWorld);
+            RegisterSingleton(() => Resources.Load<ViewPrefabCatalog>("ViewPrefabCatalog"));
+            RegisterSingleton(() => new ViewBindingSystem(sceneWorld, GetInstance<ViewPrefabCatalog>()));
             Delta.Diagnostics.Trace.Info("[DI] LocalContainer creation start");
             RegisterSingleton<IClientService, FakeClient>();
             RegisterSingleton<IPlayer, Player>();
@@ -71,10 +76,7 @@ namespace DVG.SkyPirates.Client.DI
 
         private static readonly Type[] ViewProviders = new Type[]
         {
-            typeof(IdViewProvider),
-            typeof(HealthbarViewProvider),
-            typeof(HexMapViewProvider),
-            typeof(SquadViewProvider)
+            typeof(HealthbarViewProvider)
         };
     }
 }

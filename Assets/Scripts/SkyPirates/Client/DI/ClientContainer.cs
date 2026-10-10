@@ -17,13 +17,18 @@ using DVG.SkyPirates.Shared.Services;
 using Riptide.Transports.Udp;
 using SimpleInjector;
 using System;
+using Delta.ECS.Unity;
+using UnityEngine;
 
 namespace DVG.SkyPirates.Client.DI
 {
     public class ClientContainer : SharedContainer
     {
-        public ClientContainer() : base(Delta.Netcode.SessionMode.Client)
+        public ClientContainer(SceneWorld sceneWorld) : base(Delta.Netcode.SessionMode.Client, true, sceneWorld.World)
         {
+            RegisterInstance(sceneWorld);
+            RegisterSingleton(() => Resources.Load<ViewPrefabCatalog>("ViewPrefabCatalog"));
+            RegisterSingleton(() => new ViewBindingSystem(sceneWorld, GetInstance<ViewPrefabCatalog>()));
             RegisterSingleton(() =>
             {
                 var client = new Riptide.Client(new UdpClient());
@@ -73,10 +78,7 @@ namespace DVG.SkyPirates.Client.DI
 
         private static readonly Type[] ViewProviders = new Type[]
         {
-            typeof(IdViewProvider),
-            typeof(HealthbarViewProvider),
-            typeof(HexMapViewProvider),
-            typeof(SquadViewProvider)
+            typeof(HealthbarViewProvider)
         };
     }
 }

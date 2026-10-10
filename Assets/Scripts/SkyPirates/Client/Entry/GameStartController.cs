@@ -25,14 +25,13 @@ namespace DVG.SkyPirates.Client.Entry
             SkyPiratesSessionProvider session,
             IClientService client,
             ITransientSimulation<JoystickCommand> simulation,
-            ICommandSendScheduler commandSendScheduler,
-            ICommandReciever commandReceiver)
+            ICommandSendScheduler commandSendScheduler)
         {
             _session = session;
             _client = client;
             _simulation = simulation;
             _commandSendScheduler = commandSendScheduler;
-            commandReceiver.RegisterReciever<TickSyncCommand>(OnSyncTick);
+            _session.ServerStepReceived += OnSyncTick;
             _session.Ready += ResetClock;
             if (_session.IsReady)
                 ResetClock();
@@ -73,9 +72,8 @@ namespace DVG.SkyPirates.Client.Entry
             _simulation.TickTransient(in input, transientDelta);
         }
 
-        private void OnSyncTick(Command<TickSyncCommand> command)
+        private void OnSyncTick(long serverStep)
         {
-            long serverStep = command.Header.Step;
             if (serverStep <= _targetStep)
                 return;
 

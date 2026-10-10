@@ -1,4 +1,5 @@
 using DVG.SkyPirates.Client.DI;
+using Delta.ECS.Unity;
 using DVG.SkyPirates.Shared.Commands;
 using DVG.SkyPirates.Shared.Services.Netcode;
 using Riptide;
@@ -23,7 +24,8 @@ namespace DVG.SkyPirates.Client.Entry
             RiptideLogger.EnableLoggingFor(LogType.Warning, LogRiptideWarning);
             RiptideLogger.EnableLoggingFor(LogType.Error, LogRiptideError);
 
-            _container = new ClientContainer();
+            var sceneWorld = SceneWorld.GetForScene(gameObject.scene);
+            _container = new ClientContainer(sceneWorld);
 
             _container.RegisterAndInjectViewModels();
 
