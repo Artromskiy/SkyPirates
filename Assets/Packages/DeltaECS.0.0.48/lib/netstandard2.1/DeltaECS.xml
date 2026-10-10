@@ -172,7 +172,7 @@
             <summary>Shuts down the integration lifecycle.</summary>
         </member>
         <member name="M:Delta.ECS.Integration.IEcsWorld.IsAlive(Delta.ECS.Entity)">
-            <summary>Determines whether an entity handle is alive in this world.</summary>
+            <summary>Determines whether an entity handle is alive in this world; safe during query iteration.</summary>
         </member>
         <member name="M:Delta.ECS.Integration.IEcsWorld.Create(System.ReadOnlySpan{Delta.ECS.ComponentId})">
             <summary>Creates an entity with the supplied component registrations.</summary>
@@ -190,11 +190,11 @@
             <summary>
             Reports the full component count and writes the ascending prefix that
             fits in <paramref name="destination"/>. A live zero-component entity
-            succeeds with a total count of zero.
+            succeeds with a total count of zero. Safe during query iteration.
             </summary>
         </member>
         <member name="M:Delta.ECS.Integration.IEcsWorld.TryRead(Delta.ECS.Entity,Delta.ECS.ComponentId,Delta.ECS.Integration.ComponentSnapshot@,Delta.ECS.Integration.EcsReadError@)">
-            <summary>Reads a component value and its current revision through the object API.</summary>
+            <summary>Reads a component value and its current revision through the object API; safe during query iteration.</summary>
         </member>
         <member name="M:Delta.ECS.Integration.IEcsWorld.TryWrite(Delta.ECS.Entity,Delta.ECS.ComponentId,System.Object,Delta.ECS.Stamp,Delta.ECS.Stamp@,Delta.ECS.Integration.EcsWriteError@)">
             <summary>Writes a component value if its current revision matches the expected stamp.</summary>
