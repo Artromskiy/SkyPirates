@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6ae2ebac7e1834f70a4123bf6f2691f0, type: 3}
-  m_Name: MeshColorFilterProfile
+  m_Name: RogueFilterProfile
   m_EditorClassIdentifier: DVG.SkyPirates.Tooling.MeshColorFilter.Editor::DVG.SkyPirates.Tooling.MeshColorFilter.Editor.MeshColorFilterProfile
   rules:
-  - settingsExpanded: 0
+  - settingsExpanded: 1
     enabled: 1
     zoneName: Fraction
     material: {fileID: 2100000, guid: 869545db687354aefaa0443e51bed59a, type: 2}
@@ -54,8 +54,8 @@ MonoBehaviour:
     valueMax: 0.605
   - settingsExpanded: 0
     enabled: 1
-    zoneName: Blades
-    material: {fileID: 2100000, guid: 044c36aab3c8c4c1099b5424b5b47fb3, type: 2}
+    zoneName: Daggers
+    material: {fileID: 2100000, guid: 2f0e83aa37c6f42d2888b721b4e15369, type: 2}
     mode: 1
     targetColor: {r: 0.21960784, g: 0.23921569, b: 0.2784314, a: 1}
     rgbTolerance: 1
@@ -80,7 +80,7 @@ MonoBehaviour:
     valueMax: 1
   - settingsExpanded: 0
     enabled: 1
-    zoneName: Shadow
+    zoneName: Handles
     material: {fileID: 2100000, guid: 044c36aab3c8c4c1099b5424b5b47fb3, type: 2}
     mode: 1
     targetColor: {r: 0.21960784, g: 0.23921569, b: 0.2784314, a: 1}
@@ -88,86 +88,21 @@ MonoBehaviour:
     hsvBaseColor: {r: 0.20784314, g: 0.22352941, b: 0.2627451, a: 1}
     hueTolerance: 173.6
     saturationMin: 0
-    saturationMax: 0.7951
+    saturationMax: 1
     valueMin: 0
     valueMax: 1
-  - settingsExpanded: 0
+  - settingsExpanded: 1
     enabled: 1
-    zoneName: Shadow
+    zoneName: Handles2
     material: {fileID: 2100000, guid: 044c36aab3c8c4c1099b5424b5b47fb3, type: 2}
     mode: 1
     targetColor: {r: 0.21960784, g: 0.23921569, b: 0.2784314, a: 1}
     rgbTolerance: 1
-    hsvBaseColor: {r: 0.20784314, g: 0.22352941, b: 0.2627451, a: 1}
-    hueTolerance: 173.6
-    saturationMin: 0
-    saturationMax: 0.7951
-    valueMin: 0
-    valueMax: 1
-  - settingsExpanded: 0
-    enabled: 1
-    zoneName: Shadow
-    material: {fileID: 2100000, guid: 044c36aab3c8c4c1099b5424b5b47fb3, type: 2}
-    mode: 1
-    targetColor: {r: 0.21960784, g: 0.23921569, b: 0.2784314, a: 1}
-    rgbTolerance: 1
-    hsvBaseColor: {r: 0.20784314, g: 0.22352941, b: 0.2627451, a: 1}
-    hueTolerance: 173.6
-    saturationMin: 0
-    saturationMax: 0.7951
-    valueMin: 0
-    valueMax: 1
-  - settingsExpanded: 0
-    enabled: 1
-    zoneName: Shadow
-    material: {fileID: 2100000, guid: 044c36aab3c8c4c1099b5424b5b47fb3, type: 2}
-    mode: 1
-    targetColor: {r: 0.21960784, g: 0.23921569, b: 0.2784314, a: 1}
-    rgbTolerance: 1
-    hsvBaseColor: {r: 0.20784314, g: 0.22352941, b: 0.2627451, a: 1}
-    hueTolerance: 173.6
-    saturationMin: 0
-    saturationMax: 0.7951
-    valueMin: 0
-    valueMax: 1
-  - settingsExpanded: 0
-    enabled: 1
-    zoneName: Shadow
-    material: {fileID: 2100000, guid: 044c36aab3c8c4c1099b5424b5b47fb3, type: 2}
-    mode: 1
-    targetColor: {r: 0.21960784, g: 0.23921569, b: 0.2784314, a: 1}
-    rgbTolerance: 1
-    hsvBaseColor: {r: 0.20784314, g: 0.22352941, b: 0.2627451, a: 1}
-    hueTolerance: 173.6
-    saturationMin: 0
-    saturationMax: 0.7951
-    valueMin: 0
-    valueMax: 1
-  - settingsExpanded: 0
-    enabled: 1
-    zoneName: Shadow
-    material: {fileID: 2100000, guid: 044c36aab3c8c4c1099b5424b5b47fb3, type: 2}
-    mode: 1
-    targetColor: {r: 0.21960784, g: 0.23921569, b: 0.2784314, a: 1}
-    rgbTolerance: 1
-    hsvBaseColor: {r: 0.20784314, g: 0.22352941, b: 0.2627451, a: 1}
-    hueTolerance: 173.6
-    saturationMin: 0
-    saturationMax: 0.7951
-    valueMin: 0
-    valueMax: 1
-  - settingsExpanded: 0
-    enabled: 1
-    zoneName: Shadow
-    material: {fileID: 2100000, guid: 044c36aab3c8c4c1099b5424b5b47fb3, type: 2}
-    mode: 1
-    targetColor: {r: 0.21960784, g: 0.23921569, b: 0.2784314, a: 1}
-    rgbTolerance: 1
-    hsvBaseColor: {r: 0.20784314, g: 0.22352941, b: 0.2627451, a: 1}
-    hueTolerance: 173.6
-    saturationMin: 0
-    saturationMax: 0.7951
-    valueMin: 0
+    hsvBaseColor: {r: 0.7921569, g: 0.67522717, b: 0.21960783, a: 1}
+    hueTolerance: 13.2
+    saturationMin: 0.066
+    saturationMax: 1
+    valueMin: 0.462
     valueMax: 1
   previewExpanded: 1
   triangleMode: 0

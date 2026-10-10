@@ -35,7 +35,7 @@ namespace DVG.SkyPirates.Tooling.MeshColorFilter.Editor
         private float _resizeStartHeight;
         private int _resizePointerId = -1;
         private SerializedObject _serializedProfile;
-        private MeshColorFilterPreviewMode _previewMode = MeshColorFilterPreviewMode.Original;
+        private MeshColorFilterPreviewMode _previewMode = MeshColorFilterPreviewMode.ZonesOnly;
 
         [MenuItem("Tools/Sky Pirates/Mesh Color Filter")]
         public static void Open()

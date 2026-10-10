@@ -7,23 +7,13 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: m_armor
-    second: {fileID: 2100000, guid: ab272cc925d3ec6488508216250cd612, type: 2}
+      name: CharacterBase
+    second: {fileID: 2100000, guid: bdb943a91ddf406fb06c6b7c1f611ff0, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: m_eyeBlack
-    second: {fileID: 2100000, guid: 7e63a303536176c4ba2cd5d235816650, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: m_eyeWhite
-    second: {fileID: 2100000, guid: ab272cc925d3ec6488508216250cd612, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: m_skin
-    second: {fileID: 2100000, guid: d5292db9d4c50ed42a99c2870ac1c330, type: 2}
+      name: CharacterAdditional
+    second: {fileID: 2100000, guid: dc26f06a482a45d48c50e137a81d0c3e, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
