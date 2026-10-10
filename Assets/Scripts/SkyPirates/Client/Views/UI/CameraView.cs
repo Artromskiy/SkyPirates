@@ -29,7 +29,7 @@ namespace DVG.SkyPirates.Client.Views
         private float _yaw;
         private float _pitchOffset;
 
-        private const float MinimumPitch = 35f;
+        private const float MinimumPitch = 20f;
         private const float MaximumPitch = 85f;
 
 

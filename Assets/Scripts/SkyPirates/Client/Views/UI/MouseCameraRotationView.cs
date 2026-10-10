@@ -6,23 +6,17 @@ namespace DVG.SkyPirates.Client.Views
     {
         [SerializeField] private CameraView? _cameraView;
 
-        private Vector2 _lastMousePosition;
-
-        private void OnEnable()
-        {
-            _lastMousePosition = Input.mousePosition;
-        }
+        private const float MouseAxisToDegrees = 2f;
 
         private void Update()
         {
             if (_cameraView == null)
                 return;
 
-            Vector2 mousePosition = Input.mousePosition;
-            Vector2 mouseDelta = mousePosition - _lastMousePosition;
-            _cameraView.AddYaw(mouseDelta.x * 0.2f);
-            _cameraView.AddPitch(-mouseDelta.y * 0.2f);
-            _lastMousePosition = mousePosition;
+            float mouseDeltaX = Input.GetAxisRaw("Mouse X");
+            float mouseDeltaY = Input.GetAxisRaw("Mouse Y");
+            _cameraView.AddYaw(mouseDeltaX * MouseAxisToDegrees);
+            _cameraView.AddPitch(-mouseDeltaY * MouseAxisToDegrees);
         }
     }
 }
