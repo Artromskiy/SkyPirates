@@ -1,8 +1,7 @@
-using Delta.Netcode;
 using DVG.Collections;
 using DVG.SkyPirates.Client.IServices;
-using DVG.SkyPirates.Shared.Commands;
 using DVG.SkyPirates.Shared.Services.Netcode;
+using System.Collections.Generic;
 
 namespace DVG.SkyPirates.Client.Services
 {
@@ -11,7 +10,7 @@ namespace DVG.SkyPirates.Client.Services
         private readonly IClientService _client;
         private readonly IPlayer _player;
         private readonly SkyPiratesSessionProvider _session;
-        private readonly GenericCollection _scheduled = new();
+        private readonly Queue<IScheduledCommand> _scheduled = new();
         private readonly GenericCollection _transientInputs = new();
 
         public CommandSendScheduler(IClientService client, IPlayer player, SkyPiratesSessionProvider session)
@@ -25,7 +24,7 @@ namespace DVG.SkyPirates.Client.Services
         {
             if (!_client.IsConnected || !_player.CurrentEntityId.HasValue || !_session.IsReady)
                 return;
-            _scheduled.Add(payload);
+            _scheduled.Enqueue(new ScheduledCommand<T>(payload));
         }
 
         public void SetTransientInput<T>(T input)
@@ -40,33 +39,29 @@ namespace DVG.SkyPirates.Client.Services
 
         public void Tick(int tick)
         {
-            var visitor = new SendCommands(tick, _session, _scheduled);
-            foreach (ICommandRegistration registration in GeneratedCommands.Registrations)
-                registration.Visit(ref visitor);
-            _scheduled.Clear();
+            while (_scheduled.Count > 0)
+            {
+                var command = _scheduled.Peek();
+                command.Send(_session, tick);
+                _scheduled.Dequeue();
+            }
         }
 
-        private readonly struct SendCommands : ICommandVisitor
+        private interface IScheduledCommand
         {
-            private readonly int _tick;
-            private readonly SkyPiratesSessionProvider _session;
-            private readonly GenericCollection _scheduled;
+            void Send(SkyPiratesSessionProvider session, int tick);
+        }
 
-            public SendCommands(int tick, SkyPiratesSessionProvider session, GenericCollection scheduled)
+        private sealed class ScheduledCommand<T> : IScheduledCommand
+        {
+            private readonly T _payload;
+
+            public ScheduledCommand(T payload)
             {
-                _tick = tick;
-                _session = session;
-                _scheduled = scheduled;
+                _payload = payload;
             }
 
-            public void Visit<T>()
-            {
-                if (!_scheduled.TryGet<T>(out var payload))
-                    return;
-
-                _session.Send(payload, _tick);
-                _scheduled.Remove<T>();
-            }
+            public void Send(SkyPiratesSessionProvider session, int tick) => session.Send(_payload, tick);
         }
     }
 }
