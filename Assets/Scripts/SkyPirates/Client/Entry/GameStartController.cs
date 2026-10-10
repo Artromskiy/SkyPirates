@@ -49,9 +49,10 @@ namespace DVG.SkyPirates.Client.Entry
             if (!_clock.IsRunning)
                 _clock.Start();
 
-            long elapsedSteps = _clock.Elapsed.Ticks * Constants.TicksPerSecond / TimeSpan.TicksPerSecond;
+            TimeSpan elapsed = _clock.Elapsed;
+            long elapsedSteps = elapsed.Ticks * Constants.TicksPerSecond / TimeSpan.TicksPerSecond;
             long targetStep = _startStep + elapsedSteps;
-            double elapsedSeconds = _clock.Elapsed.TotalSeconds;
+            double elapsedSeconds = elapsed.TotalSeconds;
             if (_session.CurrentStep != targetStep)
             {
                 if (_checkpoint.WrittenCount == 0)
@@ -65,6 +66,8 @@ namespace DVG.SkyPirates.Client.Entry
             }
 
             double transientDelta = elapsedSeconds - _lastTransientElapsedSeconds;
+            if (transientDelta < 0)
+                transientDelta = 0;
             _lastTransientElapsedSeconds = elapsedSeconds;
             _commandSendScheduler.TryGetTransientInput(out JoystickCommand input);
             _simulation.TickTransient(in input, transientDelta);
