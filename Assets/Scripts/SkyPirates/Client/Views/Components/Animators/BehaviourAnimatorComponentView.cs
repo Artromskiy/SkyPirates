@@ -8,10 +8,11 @@ namespace DVG.SkyPirates.Client.Views.Components.Animators
 {
     public class BehaviourAnimatorComponentView : ComponentView
     {
+        private const string BehaviourLayerName = "BehaviourLayer";
+
         [SerializeField]
         private bool _animate;
 
-        private Animator _animator;
 
         private float _layerWeight;
 
@@ -23,8 +24,12 @@ namespace DVG.SkyPirates.Client.Views.Components.Animators
         private float _prevStatePercent;
         private float _transition;
 
-        private int BehaviourLayer => Animator.GetLayerIndex("BehaviourLayer");
-        private Animator Animator => _animator != null ? _animator : _animator = GetComponentInChildren<Animator>();
+        private StateId _animViewState;
+        private bool _hasAnimViewState;
+
+        private int BehaviourLayer => Animator.GetLayerIndex(BehaviourLayerName);
+        private Animator Animator => GetComponentInChildren<Animator>();
+        private AnimView Anim => GetComponentInChildren<AnimView>();
 
         public override void OnInject()
         {
@@ -37,6 +42,14 @@ namespace DVG.SkyPirates.Client.Views.Components.Animators
         }
 
         private void Animate(bool animate)
+        {
+            if (AnimateWithAnimView(animate))
+                return;
+
+            AnimateWithAnimator(animate);
+        }
+
+        private void AnimateWithAnimator(bool animate)
         {
             var newState = State;
             if (_state != newState)
@@ -97,5 +110,48 @@ namespace DVG.SkyPirates.Client.Views.Components.Animators
 
         private StateId State => ViewModel.Get<BehaviourState>().State;
         private float StatePercent => (float)ViewModel.Get<BehaviourState>().Percent;
+
+        private bool AnimateWithAnimView(bool animate)
+        {
+            AnimView animView = Anim;
+            if (animView == null)
+                return false;
+            if (!animView.IsReady)
+                return true;
+
+            StateId state = State;
+            string clipHolder = GetClipHolder(state);
+            bool stateChanged = !_hasAnimViewState || _animViewState != state;
+            if (stateChanged)
+            {
+                float fadeSeconds = _hasAnimViewState && animate
+                    ? AnimView.DefaultFadeSeconds
+                    : 0f;
+
+                _animViewState = state;
+                _hasAnimViewState = true;
+
+                if (string.IsNullOrEmpty(clipHolder))
+                    animView.StopLayer(BehaviourLayerName, fadeSeconds);
+                else
+                {
+                    animView.Play(clipHolder, fadeSeconds);
+                    animView.SetClipHolderTime(clipHolder, StatePercent);
+                }
+            }
+
+            return true;
+        }
+
+        private static string GetClipHolder(StateId state)
+        {
+            if (state == StateId.Constants.PreAttack)
+                return "Behaviour.PreAttack";
+
+            if (state == StateId.Constants.PostAttack)
+                return "Behaviour.PostAttack";
+
+            return string.Empty;
+        }
     }
 }

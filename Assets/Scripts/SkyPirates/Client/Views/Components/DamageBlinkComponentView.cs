@@ -1,6 +1,5 @@
 ﻿using DG.Tweening;
 using DVG.SkyPirates.Shared.Components.Runtime;
-using System;
 using UnityEngine;
 
 namespace DVG.SkyPirates.Client.Views.Components
@@ -9,11 +8,6 @@ namespace DVG.SkyPirates.Client.Views.Components
     {
         [SerializeField]
         private Color _blinkColor = Color.white;
-        private MeshRenderer[] _meshRenderers;
-        private MeshRenderer[] MeshRenderers =>
-            _meshRenderers == null || Array.Exists(_meshRenderers, mr => mr == null) ?
-            _meshRenderers = GetComponentsInChildren<MeshRenderer>() : _meshRenderers;
-
         private MaterialPropertyBlock _propBlocks;
         private MaterialPropertyBlock PropBlocks => _propBlocks ??= new();
 
@@ -42,8 +36,12 @@ namespace DVG.SkyPirates.Client.Views.Components
 
         private void Blink()
         {
+            MeshRenderer[] renderers = GetComponentsInChildren<MeshRenderer>();
+            if (renderers.Length == 0)
+                return;
+
             var propBlock = new MaterialPropertyBlock();
-            MeshRenderers[0].GetPropertyBlock(PropBlocks);
+            renderers[0].GetPropertyBlock(PropBlocks);
 
             _tween = DOTween.Sequence().
             Append(DOTween.To(
@@ -56,8 +54,11 @@ namespace DVG.SkyPirates.Client.Views.Components
 
             _tween.OnUpdate(() =>
             {
-                for (int i = 0; i < MeshRenderers.Length; i++)
-                    MeshRenderers[i].SetPropertyBlock(propBlock);
+                for (int i = 0; i < renderers.Length; i++)
+                {
+                    if (renderers[i] != null)
+                        renderers[i].SetPropertyBlock(propBlock);
+                }
             });
         }
 

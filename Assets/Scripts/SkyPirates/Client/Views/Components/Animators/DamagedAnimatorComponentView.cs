@@ -5,12 +5,12 @@ namespace DVG.SkyPirates.Client.Views.Components.Animators
 {
     public class DamagedAnimatorComponentView : ComponentView
     {
-        private Animator _animator;
         private float _prevHealth;
 
         private int DamageLayer => Animator.GetLayerIndex("DamageLayer");
         private static readonly int DamagedStateKey = Animator.StringToHash("Damage");
-        private Animator Animator => _animator != null ? _animator : _animator = GetComponentInChildren<Animator>();
+        private Animator Animator => GetComponentInChildren<Animator>();
+        private AnimView Anim => GetComponentInChildren<AnimView>();
 
         public override void OnInject()
         {
@@ -22,7 +22,18 @@ namespace DVG.SkyPirates.Client.Views.Components.Animators
             float health = (float)ViewModel.Get<Health>().Value;
             bool healthChanged = health < _prevHealth;
             _prevHealth = health;
-            if (healthChanged && Animator != null)
+            if (!healthChanged)
+                return;
+
+            AnimView animView = Anim;
+            if (animView != null)
+            {
+                if (animView.IsReady)
+                    animView.PlayOnce("Reaction.Damage");
+                return;
+            }
+
+            if (Animator != null)
             {
                 Animator.CrossFadeInFixedTime(
                     DamagedStateKey,

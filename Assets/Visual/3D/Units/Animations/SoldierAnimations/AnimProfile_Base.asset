@@ -1,0 +1,95 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 640da96659cd4e19a910600381a32217, type: 3}
+  m_Name: AnimProfile_Base
+  m_EditorClassIdentifier:
+  _layers:
+  - _name: MoveLayer
+    _mask: {fileID: 0}
+    _additive: 0
+    _defaultWeight: 0
+  - _name: BehaviourLayer
+    _mask: {fileID: 31900000, guid: 9df2c1cfb0698b349b98ae067d5972e6, type: 2}
+    _additive: 0
+    _defaultWeight: 0
+  - _name: BendLayer
+    _mask: {fileID: 31900000, guid: 6f67de05802f535418d66ffbd016f5ea, type: 2}
+    _additive: 1
+    _defaultWeight: 0
+  - _name: DamageLayer
+    _mask: {fileID: 31900000, guid: d6136cab20af84f498829a2e2ee89f84, type: 2}
+    _additive: 1
+    _defaultWeight: 0
+  - _name: DeadLayer
+    _mask: {fileID: 0}
+    _additive: 0
+    _defaultWeight: 0
+  _clipHolders:
+  - _layer: MoveLayer
+    _name: Locomotion.Idle
+  - _layer: MoveLayer
+    _name: Locomotion.Stand
+  - _layer: MoveLayer
+    _name: Locomotion.Forward
+  - _layer: MoveLayer
+    _name: Locomotion.Backward
+  - _layer: MoveLayer
+    _name: Locomotion.Right
+  - _layer: MoveLayer
+    _name: Locomotion.Left
+  - _layer: BehaviourLayer
+    _name: Behaviour.PreAttack
+  - _layer: BehaviourLayer
+    _name: Behaviour.PostAttack
+  - _layer: BendLayer
+    _name: Turn.Left
+  - _layer: BendLayer
+    _name: Turn.FrontLeft
+  - _layer: BendLayer
+    _name: Turn.Center
+  - _layer: BendLayer
+    _name: Turn.FrontRight
+  - _layer: BendLayer
+    _name: Turn.Right
+  - _layer: DamageLayer
+    _name: Reaction.Damage
+  - _layer: DeadLayer
+    _name: Life.Dead
+  _blendGroups:
+  - _name: Locomotion
+    _layer: MoveLayer
+    _mode: 1
+    _points:
+    - _clipHolder: Locomotion.Idle
+      _position: {x: 0, y: 0}
+    - _clipHolder: Locomotion.Forward
+      _position: {x: 0, y: 1}
+    - _clipHolder: Locomotion.Backward
+      _position: {x: 0, y: -1}
+    - _clipHolder: Locomotion.Right
+      _position: {x: 1, y: 0}
+    - _clipHolder: Locomotion.Left
+      _position: {x: -1, y: 0}
+  - _name: Turn
+    _layer: BendLayer
+    _mode: 1
+    _points:
+    - _clipHolder: Turn.Left
+      _position: {x: -1, y: 0}
+    - _clipHolder: Turn.FrontLeft
+      _position: {x: -1, y: 1}
+    - _clipHolder: Turn.Center
+      _position: {x: 0, y: 0}
+    - _clipHolder: Turn.FrontRight
+      _position: {x: 1, y: 1}
+    - _clipHolder: Turn.Right
+      _position: {x: 1, y: 0}

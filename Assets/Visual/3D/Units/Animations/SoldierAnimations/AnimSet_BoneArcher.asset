@@ -1,0 +1,61 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6e4a9f252804c7da3fcc03c72414b04, type: 3}
+  m_Name: AnimSet_BoneArcher
+  _structureProfile: {fileID: 11400000, guid: 61454887a8014f41aac3ee0a48fe5fbd, type: 2}
+  m_EditorClassIdentifier:
+  _clips:
+  - _clipHolder: Locomotion.Idle
+    _clip: {fileID: 7303772205685523293, guid: a4b227121f68fd94399fb683cc5e960a, type: 3}
+    _defaultSpeed: 1
+  - _clipHolder: Locomotion.Stand
+    _clip: {fileID: 7303772205685523293, guid: a4b227121f68fd94399fb683cc5e960a, type: 3}
+    _defaultSpeed: 1
+  - _clipHolder: Locomotion.Forward
+    _clip: {fileID: 9189263661620712018, guid: 557e648aa3813da41965d69da11f32d9, type: 3}
+    _defaultSpeed: 2
+  - _clipHolder: Locomotion.Backward
+    _clip: {fileID: 913539146266320756, guid: b711bf2e1ee2dc14282a93ea37f92a5e, type: 3}
+    _defaultSpeed: 2
+  - _clipHolder: Locomotion.Right
+    _clip: {fileID: 9082984439732464152, guid: b302cdf7eb979244ca7fd5882123897b, type: 3}
+    _defaultSpeed: 2
+  - _clipHolder: Locomotion.Left
+    _clip: {fileID: -5226729470618701869, guid: a6d9e55cd1fb43f449fbe5d02b700195, type: 3}
+    _defaultSpeed: 2
+  - _clipHolder: Behaviour.PreAttack
+    _clip: {fileID: -4013679358071921265, guid: d9037db9a434faa499526316183785b2, type: 3}
+    _defaultSpeed: 1
+  - _clipHolder: Behaviour.PostAttack
+    _clip: {fileID: 7400000, guid: 4b5b0611542ee9d4298daf1727bf3925, type: 2}
+    _defaultSpeed: 1
+  - _clipHolder: Turn.Left
+    _clip: {fileID: 8019636431388442738, guid: a4b227121f68fd94399fb683cc5e960a, type: 3}
+    _defaultSpeed: 1
+  - _clipHolder: Turn.FrontLeft
+    _clip: {fileID: -4345728248290859102, guid: fba994b90055c6f4981431e6af155f66, type: 3}
+    _defaultSpeed: 1
+  - _clipHolder: Turn.Center
+    _clip: {fileID: 8019636431388442738, guid: a4b227121f68fd94399fb683cc5e960a, type: 3}
+    _defaultSpeed: 1
+  - _clipHolder: Turn.FrontRight
+    _clip: {fileID: -1326652070584788787, guid: 5202e9dd1c1742e4eb1f655e829c9379, type: 3}
+    _defaultSpeed: 1
+  - _clipHolder: Turn.Right
+    _clip: {fileID: 8019636431388442738, guid: a4b227121f68fd94399fb683cc5e960a, type: 3}
+    _defaultSpeed: 1
+  - _clipHolder: Reaction.Damage
+    _clip: {fileID: 5613442329822175548, guid: 4a1b9c0b04176c14886f4880d93e362f, type: 3}
+    _defaultSpeed: 1
+  - _clipHolder: Life.Dead
+    _clip: {fileID: -1332358973427834998, guid: 64a72d08eb52bb545ac0f164e271912e, type: 3}
+    _defaultSpeed: 1

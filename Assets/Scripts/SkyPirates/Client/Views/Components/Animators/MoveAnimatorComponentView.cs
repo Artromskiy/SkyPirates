@@ -6,7 +6,6 @@ namespace DVG.SkyPirates.Client.Views.Components.Animators
 {
     public class MoveAnimatorComponentView : ComponentView
     {
-        private Animator _animator;
         private float3 _prevPosition;
         private bool _isIdle;
 
@@ -15,7 +14,8 @@ namespace DVG.SkyPirates.Client.Views.Components.Animators
         private static readonly int MoveZKey = Animator.StringToHash("SpeedZ");
         private static readonly int MoveStateKey = Animator.StringToHash("Move");
         private static readonly int IdleStateKey = Animator.StringToHash("Idle");
-        private Animator Animator => _animator != null ? _animator : _animator = GetComponentInChildren<Animator>();
+        private Animator Animator => GetComponentInChildren<Animator>();
+        private AnimView Anim => GetComponentInChildren<AnimView>();
 
         public override void OnInject()
         {
@@ -32,6 +32,14 @@ namespace DVG.SkyPirates.Client.Views.Components.Animators
             bool isIdle = localVelocity.sqrMagnitude < 0.01f;
             bool isIdleChanged = _isIdle != isIdle;
             _isIdle = isIdle;
+
+            AnimView animView = Anim;
+            if (animView != null)
+            {
+                if (animView.IsReady)
+                    animView.Blend2D("Locomotion", new Vector2(localVelocity.x, localVelocity.z), 0f);
+                return;
+            }
 
             if (Animator == null)
                 return;

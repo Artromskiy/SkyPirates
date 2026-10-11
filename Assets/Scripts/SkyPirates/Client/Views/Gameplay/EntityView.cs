@@ -17,14 +17,13 @@ namespace DVG.SkyPirates.Client.Views.Gameplay
         private bool _disabled;
         private bool _disposing;
 
-        private ComponentView[] _componentViews;
         public override void OnInject()
         {
-            _componentViews = GetComponents<ComponentView>();
+            var componentViews = GetComponents<ComponentView>();
 
-            foreach (var componentView in _componentViews)
+            foreach (var componentView in componentViews)
                 componentView.ViewModel = ViewModel;
-            foreach (var componentView in _componentViews)
+            foreach (var componentView in componentViews)
                 componentView.OnPostInject();
         }
 
@@ -35,7 +34,7 @@ namespace DVG.SkyPirates.Client.Views.Gameplay
 
             if (ViewModel.Disposed)
             {
-                foreach (var componentView in _componentViews)
+                foreach (var componentView in GetComponents<ComponentView>())
                     componentView.Dispose();
                 Destroy(gameObject);
                 return;
@@ -54,7 +53,7 @@ namespace DVG.SkyPirates.Client.Views.Gameplay
                 return;
             _disposing = disposing;
 
-            foreach (var componentView in _componentViews)
+            foreach (var componentView in GetComponents<ComponentView>())
                 componentView.Tick();
         }
 
