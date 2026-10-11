@@ -638,6 +638,7 @@
         </member>
         <member name="T:Delta.ECS.IArchetypeForEachComponent`2">
             <summary>Processes a required component with direct typed access during archetype iteration.</summary>
+            <remarks>For a tag component, the reference points to the shared placeholder and writes are not stored.</remarks>
         </member>
         <member name="M:Delta.ECS.IArchetypeForEachComponent`2.Invoke(`0@,Delta.ECS.EntityRef,`1@)">
             <summary>Processes the current entity and its writable component reference.</summary>
@@ -650,7 +651,7 @@
             <summary>Adds a query and its entity processor to this shared archetype traversal.</summary>
         </member>
         <member name="M:Delta.ECS.ArchetypeForEachOperation`1.Process``2(Delta.ECS.Query@,Delta.ECS.ComponentId,``1)">
-            <summary>Adds a query and processor with a component row bound once per matching archetype.</summary>
+            <summary>Adds a query and processor with its component access bound once per matching archetype.</summary>
         </member>
         <member name="M:Delta.ECS.ArchetypeForEachOperation`1.Invoke">
             <summary>Runs every processor over the rows of its matching archetypes.</summary>
