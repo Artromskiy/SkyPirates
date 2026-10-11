@@ -1,33 +1,39 @@
 ﻿using Delta;
+using Delta.ECS.Unity;
 using DVG;
-using DVG.SkyPirates.Rendering.SphereOverlay.View;
 using DVG.SkyPirates.Client.Views;
 using DVG.SkyPirates.Client.Views.Components;
+using DVG.SkyPirates.Rendering.SphereOverlay.View;
 using DVG.SkyPirates.Shared.Components.Config;
 using UnityEngine;
 
 namespace SkyPirates.Client.Views.Components
 {
-    public class ImpactZoneComponentView : ComponentView
+    public class ImpactZoneComponentView : MonoBehaviour, IEntityView
     {
         [SerializeField] private SphereOverlayView _sphereOverlayView;
 
+        private EntityContext _context;
         private float _radius;
         private float _radiusVel;
 
-        public override void OnBound()
+        public void OnBind(EntityContext context)
         {
+            _context = context;
             _radius = Radius;
             UpdateVolume();
         }
 
-        public override void Tick()
+        private void Update()
         {
+            if (!EntityViewLifetime.TryEnterUpdate(this, _context))
+                return;
+
             _radius = Maths.SmoothDamp(_radius, Radius, ref _radiusVel, LerpConstants.SmoothMoveTime, Time.deltaTime);
             UpdateVolume();
         }
 
-        public override void Dispose()
+        private void OnDestroy()
         {
             if (_sphereOverlayView != null)
                 _sphereOverlayView.ClearVolume();
@@ -40,6 +46,6 @@ namespace SkyPirates.Client.Views.Components
                 _sphereOverlayView.SetRadius(radius);
         }
 
-        private float Radius => (float)Get<ImpactDistance>().Value;
+        private float Radius => (float)_context.Get<ImpactDistance>().Value;
     }
 }

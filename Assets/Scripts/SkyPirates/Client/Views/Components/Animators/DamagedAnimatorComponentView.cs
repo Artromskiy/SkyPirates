@@ -1,45 +1,44 @@
-﻿using DVG.SkyPirates.Shared.Components.Runtime;
+﻿using Delta.ECS.Unity;
+using DVG.SkyPirates.Shared.Components.Runtime;
+using DVG.SkyPirates.Client.Views.Components;
 using UnityEngine;
 
 namespace DVG.SkyPirates.Client.Views.Components.Animators
 {
-    public class DamagedAnimatorComponentView : ComponentView
+    public class DamagedAnimatorComponentView : MonoBehaviour, IEntityView
     {
         private float _prevHealth;
+        private EntityContext _context;
+        private AnimView _animView;
 
-        private int DamageLayer => Animator.GetLayerIndex("DamageLayer");
-        private static readonly int DamagedStateKey = Animator.StringToHash("Damage");
-        private Animator Animator => GetComponentInChildren<Animator>();
-        private AnimView Anim => GetComponentInChildren<AnimView>();
+        private void Awake() => CacheComponents();
 
-        public override void OnBound()
+        public void OnBind(EntityContext context)
         {
-            _prevHealth = (float)Get<Health>().Value;
+            _context = context;
+            CacheComponents();
+            _prevHealth = (float)_context.Get<Health>().Value;
         }
 
-        public override void Tick()
+        private void Update()
         {
-            float health = (float)Get<Health>().Value;
+            if (!EntityViewLifetime.TryEnterUpdate(this, _context))
+                return;
+
+            float health = (float)_context.Get<Health>().Value;
             bool healthChanged = health < _prevHealth;
             _prevHealth = health;
             if (!healthChanged)
                 return;
 
-            AnimView animView = Anim;
-            if (animView != null)
-            {
-                if (animView.IsReady)
-                    animView.PlayOnce("Reaction.Damage");
-                return;
-            }
+            if (_animView != null && _animView.IsReady)
+                _animView.PlayOnce("Reaction.Damage");
+        }
 
-            if (Animator != null)
-            {
-                Animator.CrossFadeInFixedTime(
-                    DamagedStateKey,
-                    LerpConstants.AnimationTime,
-                    DamageLayer);
-            }
+        private void CacheComponents()
+        {
+            if (_animView == null)
+                _animView = GetComponentInChildren<AnimView>();
         }
 
     }

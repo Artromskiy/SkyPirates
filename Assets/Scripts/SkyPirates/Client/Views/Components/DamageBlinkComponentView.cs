@@ -1,12 +1,14 @@
-﻿using DG.Tweening;
+﻿using Delta.ECS.Unity;
+using DG.Tweening;
 using DVG.SkyPirates.Shared.Components.Runtime;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace DVG.SkyPirates.Client.Views.Components
 {
-    public class DamageBlinkComponentView : ComponentView
+    public class DamageBlinkComponentView : MonoBehaviour, IEntityView
     {
+        private EntityContext _context;
         [SerializeField]
         private Color _blinkColor = Color.white;
 
@@ -17,10 +19,17 @@ namespace DVG.SkyPirates.Client.Views.Components
         private float _health;
         private Tween _tween;
 
-        public override void OnBound() => _health = Health;
-
-        public override void Tick()
+        public void OnBind(EntityContext context)
         {
+            _context = context;
+            _health = Health;
+        }
+
+        private void Update()
+        {
+            if (!EntityViewLifetime.TryEnterUpdate(this, _context))
+                return;
+
             float health = Health;
             if (health >= _health)
             {
@@ -105,7 +114,9 @@ namespace DVG.SkyPirates.Client.Views.Components
             }
         }
 
-        private float Health => (float)Get<Health>().Value;
+        private float Health => (float)_context.Get<Health>().Value;
+
+        private void OnDestroy() => _tween?.Kill();
 
         private readonly struct MaterialFlash
         {

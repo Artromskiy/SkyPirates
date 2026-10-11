@@ -1,57 +1,56 @@
 ﻿using Delta;
+using Delta.ECS.Unity;
+using DVG.SkyPirates.Client.Views.Components;
 using DVG.SkyPirates.Shared.Components.Config;
 using UnityEngine;
 
 namespace DVG.SkyPirates.Client.Views.Components.Animators
 {
-    public class MoveAnimatorComponentView : ComponentView
+    public class MoveAnimatorComponentView : MonoBehaviour, IEntityView
     {
+        private const string LocomotionBlendGroup = "Locomotion";
+
         private float3 _prevPosition;
-        private bool _isIdle;
+        private EntityContext _context;
+        private AnimView _anim;
+        private Transform _cachedTransform;
+        private float _maxSpeed;
 
-        private int MoveLayer => Animator.GetLayerIndex("MoveLayer");
-        private static readonly int MoveXKey = Animator.StringToHash("SpeedX");
-        private static readonly int MoveZKey = Animator.StringToHash("SpeedZ");
-        private static readonly int MoveStateKey = Animator.StringToHash("Move");
-        private static readonly int IdleStateKey = Animator.StringToHash("Idle");
-        private Animator Animator => GetComponentInChildren<Animator>();
-        private AnimView Anim => GetComponentInChildren<AnimView>();
-
-        public override void OnBound()
+        private void Awake()
         {
-            _prevPosition = transform.position;
+            CacheComponents();
         }
 
-        public override void Tick()
+        public void OnBind(EntityContext context)
         {
-            float3 currentPosition = transform.position;
+            _context = context;
+            CacheComponents();
+            _prevPosition = _cachedTransform.position;
+            _maxSpeed = (float)context.Get<MaxSpeed>().Value;
+        }
+
+        private void Update()
+        {
+            if (!EntityViewLifetime.TryEnterUpdate(this, _context))
+                return;
+
+            Transform cachedTransform = _cachedTransform;
+            float3 currentPosition = cachedTransform.position;
             var worldVelocity = (currentPosition - _prevPosition) / Time.deltaTime;
             _prevPosition = currentPosition;
-            float maxSpeed = (float)Get<MaxSpeed>().Value;
-            var localVelocity = transform.InverseTransformVector(worldVelocity) / maxSpeed;
-            bool isIdle = localVelocity.sqrMagnitude < 0.01f;
-            bool isIdleChanged = _isIdle != isIdle;
-            _isIdle = isIdle;
+            var localVelocity = cachedTransform.InverseTransformVector(worldVelocity) / _maxSpeed;
 
-            AnimView animView = Anim;
-            if (animView != null)
-            {
-                if (animView.IsReady)
-                    animView.Blend2D("Locomotion", new Vector2(localVelocity.x, localVelocity.z), 0f);
-                return;
-            }
+            if (_anim != null && _anim.IsReady)
+                _anim.Blend2D(LocomotionBlendGroup, new Vector2(localVelocity.x, localVelocity.z), 0f);
+        }
 
-            if (Animator == null)
-                return;
+        private void CacheComponents()
+        {
+            if (_cachedTransform == null)
+                _cachedTransform = transform;
 
-            Animator.SetFloat(MoveXKey, localVelocity.x);
-            Animator.SetFloat(MoveZKey, localVelocity.z);
-
-            if (isIdleChanged)
-            {
-                int state = isIdle ? IdleStateKey : MoveStateKey;
-                Animator.CrossFadeInFixedTime(state, LerpConstants.AnimationTime, MoveLayer);
-            }
+            if (_anim == null)
+                _anim = GetComponentInChildren<AnimView>();
         }
 
     }

@@ -1,5 +1,5 @@
 ﻿using Delta;
-using DVG.SkyPirates.Shared.Ids;
+using Delta.ECS.Unity;
 using DVG.SkyPirates.Client.IFactories;
 using DVG.SkyPirates.Shared.Components.Config;
 using System.Collections.Generic;
@@ -7,13 +7,20 @@ using UnityEngine;
 
 namespace DVG.SkyPirates.Client.Views.Components
 {
-    public class HexMapComponentView : ComponentView
+    public class HexMapComponentView : MonoBehaviour, IEntityView
     {
         private readonly Dictionary<int3, GameObject> _gameObjects = new();
+        private EntityContext _context;
 
-        public override void OnBound()
+        public void OnBind(EntityContext context)
         {
+            _context = context;
             Spawn();
+        }
+
+        private void Update()
+        {
+            EntityViewLifetime.TryEnterUpdate(this, _context);
         }
 
         private void Spawn()
@@ -37,6 +44,6 @@ namespace DVG.SkyPirates.Client.Views.Components
             }
         }
 
-        private HexMap HexMap => Get<HexMap>();
+        private HexMap HexMap => _context.Get<HexMap>();
     }
 }

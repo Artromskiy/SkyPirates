@@ -1,9 +1,10 @@
+using Delta.ECS.Unity;
+using UnityEngine;
+
 namespace DVG.SkyPirates.Client.Views.Components
 {
-    public class ActivityRangeComponentView : ComponentView
+    public class ActivityRangeComponentView : MonoBehaviour, IEntityView
     {
-        public override void OnBound()
-        {
-        }
+        public void OnBind(EntityContext context) { }
     }
 }

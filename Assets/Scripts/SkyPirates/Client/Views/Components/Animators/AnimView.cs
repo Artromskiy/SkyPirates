@@ -31,12 +31,22 @@ namespace DVG.SkyPirates.Client.Views.Components.Animators
         private readonly Dictionary<string, AnimBlendGroupReference> _blendGroups = new Dictionary<string, AnimBlendGroupReference>(StringComparer.Ordinal);
         private PlayableGraph _graph;
         private AnimationLayerMixerPlayable _layerMixer;
+        private Animator _animator;
         private RuntimeAnimatorController _previousController = null!;
         private bool _controllerWasCleared;
         private bool _graphCreated;
         private bool _graphRebuildRequired;
 
-        public Animator Animator => GetComponentInChildren<Animator>();
+        public Animator Animator
+        {
+            get
+            {
+                if (_animator == null)
+                    _animator = GetComponentInChildren<Animator>();
+
+                return _animator;
+            }
+        }
         public bool IsReady => _graphCreated;
         public IReadOnlyCollection<string> LayerNames => _layers.Keys;
 
@@ -407,7 +417,9 @@ namespace DVG.SkyPirates.Client.Views.Components.Animators
             private readonly int _centerPointIndex;
             private readonly float _maxRadius;
             private float _normalizedSpeed;
+            private float _lastSynchronizedSpeed;
             private bool _directionalPlaybackSynchronized;
+            private bool _hasSynchronizedSpeed;
             private Vector2 _lastParameter;
             private bool _hasCachedWeights;
 
@@ -502,7 +514,12 @@ namespace DVG.SkyPirates.Client.Views.Components.Animators
                     return;
                 }
 
+                if (_hasSynchronizedSpeed && _lastSynchronizedSpeed == _normalizedSpeed)
+                    return;
+
                 UpdateDirectionalPlaybackSpeed();
+                _lastSynchronizedSpeed = _normalizedSpeed;
+                _hasSynchronizedSpeed = true;
             }
 
             private bool TrySetCenterWeight(float magnitude)
@@ -617,6 +634,8 @@ namespace DVG.SkyPirates.Client.Views.Components.Animators
                     Layer.SetNormalizedSpeed(holderIndex, _normalizedSpeed);
                 }
 
+                _lastSynchronizedSpeed = _normalizedSpeed;
+                _hasSynchronizedSpeed = true;
                 _directionalPlaybackSynchronized = true;
             }
 

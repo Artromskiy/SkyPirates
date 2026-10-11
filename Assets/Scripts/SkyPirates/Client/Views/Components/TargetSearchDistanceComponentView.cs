@@ -1,4 +1,5 @@
 ﻿using Delta;
+using Delta.ECS.Unity;
 using DVG.SkyPirates.Rendering.SphereOverlay.View;
 using DVG.SkyPirates.Shared.Components.Config;
 using DVG.SkyPirates.Shared.Components.Runtime;
@@ -6,29 +7,34 @@ using UnityEngine;
 
 namespace DVG.SkyPirates.Client.Views.Components
 {
-    public class TargetSearchDistanceComponentView : ComponentView
+    public class TargetSearchDistanceComponentView : MonoBehaviour, IEntityView
     {
         [SerializeField]
         private SphereOverlayView _sphereOverlayView;
 
+        private EntityContext _context;
         private float _radius;
         private float _radiusVel;
 
-        public override void OnBound()
+        public void OnBind(EntityContext context)
         {
+            _context = context;
             _radius = Radius;
             if (_sphereOverlayView != null)
-                _sphereOverlayView.Color = TeamIdToColor.RecolorHue(_sphereOverlayView.Color, Get<TeamId>());
+                _sphereOverlayView.Color = TeamIdToColor.RecolorHue(_sphereOverlayView.Color, _context.Get<TeamId>());
             UpdateVolume();
         }
 
-        public override void Tick()
+        private void Update()
         {
+            if (!EntityViewLifetime.TryEnterUpdate(this, _context))
+                return;
+
             _radius = Maths.SmoothDamp(_radius, Radius, ref _radiusVel, LerpConstants.SmoothMoveTime, Time.deltaTime);
             UpdateVolume();
         }
 
-        public override void Dispose()
+        private void OnDestroy()
         {
             if (_sphereOverlayView != null)
                 _sphereOverlayView.ClearVolume();
@@ -41,6 +47,6 @@ namespace DVG.SkyPirates.Client.Views.Components
                 _sphereOverlayView.SetRadius(radius);
         }
 
-        private float Radius => (float)Get<TargetSearchDistance>().Value;
+        private float Radius => (float)_context.Get<TargetSearchDistance>().Value;
     }
 }

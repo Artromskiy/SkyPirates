@@ -1,57 +1,52 @@
-using Delta;
+using Delta.ECS.Unity;
 using DVG.Components;
+using DVG.SkyPirates.Client.Views.Components;
 using UnityEngine;
 
 namespace DVG.SkyPirates.Client.Views.Components.Animators
 {
-    public class DeadAnimatorComponentView : ComponentView
+    public class DeadAnimatorComponentView : MonoBehaviour, IEntityView
     {
-        private float _layerWeight;
         private bool _animViewState;
         private bool _hasAnimViewState;
+        private EntityContext _context;
+        private AnimView _animView;
 
-        private int DeadLayer => Animator.GetLayerIndex("DeadLayer");
-        private static readonly int DeadStateKey = Animator.StringToHash("Dead");
-        private Animator Animator => GetComponentInChildren<Animator>();
-        private AnimView Anim => GetComponentInChildren<AnimView>();
+        private const string DeadLayerName = "DeadLayer";
 
-        public override void OnBound()
+        private void Awake() => CacheComponents();
+
+        public void OnBind(EntityContext context)
         {
-
+            _context = context;
+            CacheComponents();
         }
 
-        public override void Tick()
+        private void Update()
         {
-            bool dead = !Has<Alive>();
+            if (!EntityViewLifetime.TryEnterUpdate(this, _context))
+                return;
 
-            AnimView animView = Anim;
-            if (animView != null)
+            bool dead = !_context.Has<Alive>();
+
+            if (_animView == null || !_animView.IsReady)
+                return;
+
+            if (!_hasAnimViewState || _animViewState != dead)
             {
-                if (!animView.IsReady)
-                    return;
-
-                if (!_hasAnimViewState || _animViewState != dead)
-                {
-                    _animViewState = dead;
-                    _hasAnimViewState = true;
-                    if (dead)
-                        animView.Play("Life.Dead");
-                    else
-                        animView.StopLayer("DeadLayer");
-                }
-
-                return;
+                _animViewState = dead;
+                _hasAnimViewState = true;
+                if (dead)
+                    _animView.Play("Life.Dead");
+                else
+                    _animView.StopLayer(DeadLayerName);
             }
+        }
 
-            _layerWeight = Maths.MoveTowards(_layerWeight, dead ? 1 : 0, Time.deltaTime * Constants.TicksPerSecond);
-
-            if (Animator == null)
-                return;
-
-            if (dead)
-                Animator.Play(DeadStateKey, DeadLayer);
-
-            Animator.SetLayerWeight(DeadLayer, _layerWeight);
+        private void CacheComponents()
+        {
+            if (_animView == null)
+                _animView = GetComponentInChildren<AnimView>();
         }
     }
 }

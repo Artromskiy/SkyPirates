@@ -1,20 +1,27 @@
-﻿using DVG.SkyPirates.Shared.Components.Runtime;
+﻿using Delta.ECS.Unity;
+using DVG.SkyPirates.Shared.Components.Runtime;
+using UnityEngine;
 
 namespace DVG.SkyPirates.Client.Views.Components
 {
-    internal class DamageVibrationComponentView : ComponentView
+    internal class DamageVibrationComponentView : MonoBehaviour, IEntityView
     {
+        private EntityContext _context;
         private float _health;
         private bool _vibrate;
 
-        public override void OnBound()
+        public void OnBind(EntityContext context)
         {
+            _context = context;
             _health = Health;
-            _vibrate = Get<TeamId>().Value == 0;
+            _vibrate = _context.Get<TeamId>().Value == 0;
         }
 
-        public override void Tick()
+        private void Update()
         {
+            if (!EntityViewLifetime.TryEnterUpdate(this, _context))
+                return;
+
             if (!_vibrate)
                 return;
 
@@ -30,6 +37,6 @@ namespace DVG.SkyPirates.Client.Views.Components
             Vibration.VibratePop();
         }
 
-        private float Health => (float)Get<Health>().Value;
+        private float Health => (float)_context.Get<Health>().Value;
     }
 }

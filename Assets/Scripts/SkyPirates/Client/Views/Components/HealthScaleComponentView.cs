@@ -1,4 +1,5 @@
 ﻿using Delta;
+using Delta.ECS.Unity;
 using DG.Tweening;
 using DVG.SkyPirates.Shared.Components.Config;
 using DVG.SkyPirates.Shared.Components.Runtime;
@@ -6,8 +7,9 @@ using UnityEngine;
 
 namespace DVG.SkyPirates.Client.Views.Components
 {
-    public class HealthScaleComponentView : ComponentView
+    public class HealthScaleComponentView : MonoBehaviour, IEntityView
     {
+        private EntityContext _context;
         [SerializeField]
         private Transform _scaleRoot;
 
@@ -18,10 +20,13 @@ namespace DVG.SkyPirates.Client.Views.Components
         private float _health;
         private Tween _tween;
 
-        public override void OnBound() { }
+        public void OnBind(EntityContext context) => _context = context;
 
-        public override void Tick()
+        private void Update()
         {
+            if (!EntityViewLifetime.TryEnterUpdate(this, _context))
+                return;
+
             if (Health == _health)
                 return;
 
@@ -37,7 +42,9 @@ namespace DVG.SkyPirates.Client.Views.Components
                  _scaleRoot.DOScale(scaleTo, TweenDuration);
         }
 
-        private float Health => (float)Get<Health>().Value;
-        private float HealthPercent => (float)(Get<Health>().Value / Get<MaxHealth>().Value);
+        private float Health => (float)_context.Get<Health>().Value;
+        private float HealthPercent => (float)(_context.Get<Health>().Value / _context.Get<MaxHealth>().Value);
+
+        private void OnDestroy() => _tween?.Kill();
     }
 }

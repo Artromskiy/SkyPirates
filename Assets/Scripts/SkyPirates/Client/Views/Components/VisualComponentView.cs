@@ -1,4 +1,5 @@
 ﻿using Delta;
+using Delta.ECS.Unity;
 using DVG.Ids;
 using DVG.SkyPirates.Client.IFactories;
 using System;
@@ -6,30 +7,47 @@ using UnityEngine;
 
 namespace DVG.SkyPirates.Client.Views.Components
 {
-    public abstract class VisualComponentView<T> : ComponentView
+    public abstract class VisualComponentView<T> : MonoBehaviour, IEntityView
         where T : struct, IId, IEquatable<T>
     {
+        private EntityContext _context;
         private GameObject _visual;
+
         [SerializeField]
         private Transform _visualRoot;
         [SerializeField]
         private bool _randomizeScale;
-
         [SerializeField]
         private T _id;
 
-        public override void OnBound() => UpdateVisual();
+        protected EntityContext Context => _context;
+
+        public virtual void OnBind(EntityContext context)
+        {
+            _context = context;
+            UpdateVisual();
+        }
+
+        private void Update()
+        {
+            if (!EntityViewLifetime.TryEnterUpdate(this, _context))
+                return;
+
+            if (!_id.Equals(Id))
+                UpdateVisual();
+        }
 
         public void UpdateVisual()
         {
             if (_visual != null)
                 DestroyImmediate(_visual);
 
-            _id = Id;
+            if (_context.IsAlive)
+                _id = Id;
             if (_id.IsNone)
                 return;
 
-            string path = IdPathFormatter.FormatVisualPath(Id);
+            string path = IdPathFormatter.FormatVisualPath(_id);
             var prefab = Resources.Load<GameObject>(path);
             if (prefab == null)
                 return;
@@ -40,30 +58,17 @@ namespace DVG.SkyPirates.Client.Views.Components
             _visual.transform.localScale = new float3(scale);
         }
 
-        private T Id
-        {
-            get => Get<T>();
-            set => Set<T>() = value;
-        }
+        private T Id => _context.Get<T>();
 
-        public override void Tick()
-        {
-            if (_id.Equals(Id))
-                return;
-            UpdateVisual();
-        }
+        private void Awake() => EditorChanges.SubscribeOnChanged(this, SetId);
 
-        private void Awake() => OnEditorChanged += SetId;
-        protected override void OnDestroy()
-        {
-            OnEditorChanged -= SetId;
-            base.OnDestroy();
-        }
+        protected virtual void OnDestroy()
+            => EditorChanges.UnsubscribeOnChanged(this, SetId);
 
         private void SetId()
         {
-            if (IsAlive)
-                Set<T>() = _id;
+            if (_context.IsAlive)
+                _context.GetRef<T>() = _id;
             UpdateVisual();
         }
     }

@@ -1,12 +1,14 @@
 using Delta;
+using Delta.ECS.Unity;
 using DVG.Components;
 using DG.Tweening;
 using UnityEngine;
 
 namespace DVG.SkyPirates.Client.Views.Components
 {
-    public class DisposeScaleComponentView : ComponentView
+    public class DisposeScaleComponentView : MonoBehaviour, IEntityView
     {
+        private EntityContext _context;
         [SerializeField]
         private float _delay = LerpConstants.AnimationTime;
 
@@ -16,15 +18,19 @@ namespace DVG.SkyPirates.Client.Views.Components
         private const float DisposeScale = 1.3f;
         private const float TweenDuration = 0.3f / 2;
 
-        public override void OnBound()
+        public void OnBind(EntityContext context)
         {
-            _alive = Has<Alive>();
+            _context = context;
+            _alive = _context.Has<Alive>();
             transform.localScale = new float3(_alive ? 1 : 0);
         }
 
-        public override void Tick()
+        private void Update()
         {
-            bool alive = Has<Alive>();
+            if (!EntityViewLifetime.TryEnterUpdate(this, _context))
+                return;
+
+            bool alive = _context.Has<Alive>();
             if (_alive == alive)
                 return;
 
@@ -36,5 +42,7 @@ namespace DVG.SkyPirates.Client.Views.Components
                 Append(transform.DOScale(DisposeScale, TweenDuration)).
                 Append(transform.DOScale(_alive ? 1 : 0, TweenDuration));
         }
+
+        private void OnDestroy() => _tween?.Kill();
     }
 }

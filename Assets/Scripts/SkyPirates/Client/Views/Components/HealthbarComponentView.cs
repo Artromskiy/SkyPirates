@@ -1,4 +1,5 @@
-﻿using DG.Tweening;
+﻿using Delta.ECS.Unity;
+using DG.Tweening;
 using DVG.Components;
 using DVG.SkyPirates.Shared.Components.Framed;
 using DVG.SkyPirates.Shared.Components.Config;
@@ -9,8 +10,9 @@ using UnityEngine.UI;
 
 namespace DVG.SkyPirates.Client.Views.Components
 {
-    public class HealthbarComponentView : ComponentView
+    public class HealthbarComponentView : MonoBehaviour, IEntityView
     {
+        private EntityContext _context;
         [SerializeField]
         private Image _fillImage = null!;
         [SerializeField]
@@ -30,11 +32,12 @@ namespace DVG.SkyPirates.Client.Views.Components
         private Tween _fadeTween;
 
 
-        public override void OnBound()
+        public void OnBind(EntityContext context)
         {
+            _context = context;
             float health = Health;
             float maxHealth = MaxHealth;
-            _hidden = !Has<Alive>() || Has<Disabled>();
+            _hidden = !_context.Has<Alive>() || _context.Has<Disabled>();
             _healthPercent = health / maxHealth;
             _canvasGroup.alpha = _hidden || _healthPercent == 1 ? 0 : 1;
             _fillImage.fillAmount = _healthPercent;
@@ -43,12 +46,15 @@ namespace DVG.SkyPirates.Client.Views.Components
             Recolor(TeamId);
         }
 
-        public override void Tick()
+        private void Update()
         {
+            if (!EntityViewLifetime.TryEnterUpdate(this, _context))
+                return;
+
             float health = Health;
             float maxHealth = MaxHealth;
             float percent = health / maxHealth;
-            bool hidden = !Has<Alive>() || Has<Disabled>();
+            bool hidden = !_context.Has<Alive>() || _context.Has<Disabled>();
 
             UpdateLevel();
 
@@ -80,18 +86,24 @@ namespace DVG.SkyPirates.Client.Views.Components
                 item.color = TeamIdToColor.RecolorHue(item.color, teamId);
         }
 
-        private float MaxHealth => (float)Get<MaxHealth>().Value;
-        private float Health => (float)Get<Health>().Value;
-        private int TeamId => Get<TeamId>().Value;
+        private float MaxHealth => (float)_context.Get<MaxHealth>().Value;
+        private float Health => (float)_context.Get<Health>().Value;
+        private int TeamId => _context.Get<TeamId>().Value;
 
         private void UpdateLevel()
         {
-            int level = Has<Level>() ? Get<Level>().Value : 1;
+            int level = _context.Has<Level>() ? _context.Get<Level>().Value : 1;
             if (_displayedLevel == level)
                 return;
 
             _displayedLevel = level;
             _level.text = level.ToString();
+        }
+
+        private void OnDestroy()
+        {
+            _amountTween?.Kill();
+            _fadeTween?.Kill();
         }
     }
 }

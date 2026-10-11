@@ -1,4 +1,5 @@
-﻿using DVG.SkyPirates.Shared.Components.Runtime;
+﻿using Delta.ECS.Unity;
+using DVG.SkyPirates.Shared.Components.Runtime;
 using DVG.SkyPirates.Shared.Ids;
 using System;
 using UnityEngine;
@@ -8,10 +9,10 @@ namespace DVG.SkyPirates.Client.Views.Components
     public class UnitComponentView : VisualComponentView<UnitId>
     {
         private const string MaterialName = "VC_Unit_B";
-        public override void OnBound()
+        public override void OnBind(EntityContext context)
         {
-            base.OnBound();
-            ReplaceMaterial(Get<TeamId>().Value);
+            base.OnBind(context);
+            ReplaceMaterial(context.Get<TeamId>().Value);
         }
 
         private void ReplaceMaterial(int teamId)
