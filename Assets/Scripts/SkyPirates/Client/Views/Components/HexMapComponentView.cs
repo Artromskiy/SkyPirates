@@ -1,8 +1,6 @@
 ﻿using Delta;
-using Assets.Scripts.SkyPirates.Client.Factories;
-using DVG.SkyPirates.Client.Factories.VMFactories;
+using DVG.SkyPirates.Shared.Ids;
 using DVG.SkyPirates.Client.IFactories;
-using DVG.SkyPirates.Client.Views.Gameplay;
 using DVG.SkyPirates.Shared.Components.Config;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,10 +11,7 @@ namespace DVG.SkyPirates.Client.Views.Components
     {
         private readonly Dictionary<int3, GameObject> _gameObjects = new();
 
-        private readonly TileVMFactory _tilemapFactory = new();
-        private readonly PathViewFactory<TileView> _tileViewFactory = new();
-
-        public override void OnInject()
+        public override void OnBound()
         {
             Spawn();
         }
@@ -31,15 +26,17 @@ namespace DVG.SkyPirates.Client.Views.Components
 
             foreach (var item in HexMap.Data)
             {
-                var vm = _tilemapFactory.Create((HexMap, item.Key));
-                var view = _tileViewFactory.Create(IdPathFormatter.FormatVisualPath(vm.TileId));
-                view.ViewModel = vm;
-                var go = view.gameObject;
-                go.transform.SetParent(transform, true);
-                _gameObjects[item.Key] = go;
+                string path = IdPathFormatter.FormatVisualPath(item.Value);
+                GameObject prefab = Resources.Load<GameObject>(path);
+                if (prefab == null)
+                    continue;
+
+                GameObject tile = Instantiate(prefab, transform);
+                tile.transform.position = (float3)Hex.AxialToWorld(item.Key);
+                _gameObjects[item.Key] = tile;
             }
         }
 
-        private HexMap HexMap => ViewModel.Get<HexMap>();
+        private HexMap HexMap => Get<HexMap>();
     }
 }

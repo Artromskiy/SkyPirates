@@ -17,10 +17,10 @@ MonoBehaviour:
   _clips:
   - _clipHolder: Locomotion.Idle
     _clip: {fileID: -2790407512282707893, guid: fb33a128e16a20a4fb86e3c35c9f5b08, type: 3}
-    _defaultSpeed: 1
+    _defaultSpeed: 1.5
   - _clipHolder: Locomotion.Stand
     _clip: {fileID: -2790407512282707893, guid: fb33a128e16a20a4fb86e3c35c9f5b08, type: 3}
-    _defaultSpeed: 1
+    _defaultSpeed: 1.5
   - _clipHolder: Locomotion.Forward
     _clip: {fileID: 9193380280714709177, guid: 1bb32c4f1b3ba9e4e89e1b5312306439, type: 3}
     _defaultSpeed: 2

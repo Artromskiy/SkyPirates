@@ -1,4 +1,5 @@
 using Delta;
+using DVG.Components;
 using DG.Tweening;
 using UnityEngine;
 
@@ -15,15 +16,15 @@ namespace DVG.SkyPirates.Client.Views.Components
         private const float DisposeScale = 1.3f;
         private const float TweenDuration = 0.3f / 2;
 
-        public override void OnInject()
+        public override void OnBound()
         {
-            _alive = ViewModel.Alive;
+            _alive = Has<Alive>();
             transform.localScale = new float3(_alive ? 1 : 0);
         }
 
         public override void Tick()
         {
-            bool alive = ViewModel.Alive;
+            bool alive = Has<Alive>();
             if (_alive == alive)
                 return;
 

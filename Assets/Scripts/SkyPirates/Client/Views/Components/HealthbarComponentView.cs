@@ -1,4 +1,6 @@
 ﻿using DG.Tweening;
+using DVG.Components;
+using DVG.SkyPirates.Shared.Components.Framed;
 using DVG.SkyPirates.Shared.Components.Config;
 using DVG.SkyPirates.Shared.Components.Runtime;
 using TMPro;
@@ -28,11 +30,11 @@ namespace DVG.SkyPirates.Client.Views.Components
         private Tween _fadeTween;
 
 
-        public override void OnInject()
+        public override void OnBound()
         {
             float health = Health;
             float maxHealth = MaxHealth;
-            _hidden = !ViewModel.Alive || ViewModel.Disabled;
+            _hidden = !Has<Alive>() || Has<Disabled>();
             _healthPercent = health / maxHealth;
             _canvasGroup.alpha = _hidden || _healthPercent == 1 ? 0 : 1;
             _fillImage.fillAmount = _healthPercent;
@@ -46,7 +48,7 @@ namespace DVG.SkyPirates.Client.Views.Components
             float health = Health;
             float maxHealth = MaxHealth;
             float percent = health / maxHealth;
-            bool hidden = !ViewModel.Alive || ViewModel.Disabled;
+            bool hidden = !Has<Alive>() || Has<Disabled>();
 
             UpdateLevel();
 
@@ -78,13 +80,13 @@ namespace DVG.SkyPirates.Client.Views.Components
                 item.color = TeamIdToColor.RecolorHue(item.color, teamId);
         }
 
-        private float MaxHealth => (float)ViewModel.Get<MaxHealth>().Value;
-        private float Health => (float)ViewModel.Get<Health>().Value;
-        private int TeamId => ViewModel.Get<TeamId>().Value;
+        private float MaxHealth => (float)Get<MaxHealth>().Value;
+        private float Health => (float)Get<Health>().Value;
+        private int TeamId => Get<TeamId>().Value;
 
         private void UpdateLevel()
         {
-            int level = ViewModel.Has<Level>() ? ViewModel.Get<Level>().Value : 1;
+            int level = Has<Level>() ? Get<Level>().Value : 1;
             if (_displayedLevel == level)
                 return;
 

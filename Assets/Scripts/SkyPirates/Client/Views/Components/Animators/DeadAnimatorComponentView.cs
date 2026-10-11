@@ -15,14 +15,14 @@ namespace DVG.SkyPirates.Client.Views.Components.Animators
         private Animator Animator => GetComponentInChildren<Animator>();
         private AnimView Anim => GetComponentInChildren<AnimView>();
 
-        public override void OnInject()
+        public override void OnBound()
         {
 
         }
 
         public override void Tick()
         {
-            bool dead = !ViewModel.Has<Alive>();
+            bool dead = !Has<Alive>();
 
             AnimView animView = Anim;
             if (animView != null)

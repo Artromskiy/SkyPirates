@@ -1,4 +1,3 @@
-using DVG.Core;
 using DVG.SkyPirates.Client.IViewModels;
 using DVG.SkyPirates.Client.IViews;
 using UnityEngine;
@@ -12,10 +11,10 @@ namespace DVG.SkyPirates.Client.Views
             ViewModel.OnViewCreated += Register;
         }
 
-        public void Register(IView healthbarView)
+        public void Register(Transform healthbarView)
         {
-            if (healthbarView is MonoBehaviour mono)
-                mono.transform.SetParent(transform, false);
+            if (healthbarView != null)
+                healthbarView.SetParent(transform, false);
         }
     }
 }

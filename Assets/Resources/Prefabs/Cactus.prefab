@@ -128,11 +128,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7923387242522588496}
-  - component: {fileID: 3759198362865150423}
   - component: {fileID: 3733300504706136859}
   - component: {fileID: -820233592327725058}
   - component: {fileID: 3521307833310165704}
   - component: {fileID: 6201479531772542588}
+  - component: {fileID: -7300781123405541000}
   m_Layer: 0
   m_Name: Cactus
   m_TagString: Untagged
@@ -157,19 +157,6 @@ Transform:
   - {fileID: 6017339255756304250}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3759198362865150423
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6965248604887090938}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 31a0d32fd59f84f4c83e938ee37d8900, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: SkyPirates.Client::DVG.SkyPirates.Client.Views.Gameplay.EntityView
-  _disposingDelay: 0.0625
 --- !u!114 &3733300504706136859
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -230,3 +217,16 @@ MonoBehaviour:
   _randomizeScale: 0
   _id:
     Value: 
+--- !u!114 &-7300781123405541000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6965248604887090938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc4408ce575c5274c8c077ce40e310ad, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: SkyPirates.Client::DVG.SkyPirates.Client.Views.Components.DamageBlinkComponentView
+  _blinkColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}

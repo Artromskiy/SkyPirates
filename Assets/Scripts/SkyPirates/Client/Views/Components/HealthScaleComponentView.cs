@@ -18,7 +18,7 @@ namespace DVG.SkyPirates.Client.Views.Components
         private float _health;
         private Tween _tween;
 
-        public override void OnInject() { }
+        public override void OnBound() { }
 
         public override void Tick()
         {
@@ -37,7 +37,7 @@ namespace DVG.SkyPirates.Client.Views.Components
                  _scaleRoot.DOScale(scaleTo, TweenDuration);
         }
 
-        private float Health => (float)ViewModel.Get<Health>().Value;
-        private float HealthPercent => (float)(ViewModel.Get<Health>().Value / ViewModel.Get<MaxHealth>().Value);
+        private float Health => (float)Get<Health>().Value;
+        private float HealthPercent => (float)(Get<Health>().Value / Get<MaxHealth>().Value);
     }
 }

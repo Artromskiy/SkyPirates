@@ -1,12 +1,12 @@
-﻿using DVG.Core;
-using DVG.SkyPirates.Client.IViewModels;
+﻿using DVG.SkyPirates.Client.IViewModels;
 using System;
+using UnityEngine;
 
 namespace DVG.SkyPirates.Client.ViewModels.UI
 {
     public class HealthbarCanvasVM : IHealthbarCanvasVM
     {
-        public event Action<IView> OnViewCreated;
-        public void RegisterView(IView view) => OnViewCreated?.Invoke(view);
+        public event Action<Transform> OnViewCreated;
+        public void RegisterView(Transform view) => OnViewCreated?.Invoke(view);
     }
 }

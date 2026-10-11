@@ -32,7 +32,7 @@ namespace DVG.SkyPirates.Local.Entry
                 _container = new LocalContainer(sceneWorld);
                 Delta.Diagnostics.Trace.Info("[LocalStart] Container register and inject ViewModels");
                 _container.RegisterAndInjectViewModels();
-                var entityViews = _container.GetAllInstances<IPostTickable>().OfType<EntityViewSystem>().Single();
+                var viewBinding = _container.GetAllInstances<IPostTickable>().OfType<ViewBindingTickSystem>().Single();
 
                 Delta.Diagnostics.Trace.Info("[LocalStart] Container get instances");
                 var client = _container.GetInstance<IClientService>();
@@ -40,7 +40,7 @@ namespace DVG.SkyPirates.Local.Entry
                 Delta.Diagnostics.Trace.Info("[LocalStart] Load map");
                 var history = _container.GetInstance<IHistorySystem>();
                 history.ApplySnapshot(worldData);
-                entityViews.Tick(0);
+                viewBinding.Tick(0);
                 history.SaveBaseline();
                 _session = _container.GetInstance<SkyPiratesSessionProvider>();
                 _session.Start(new AuthorId((uint)client.Id));

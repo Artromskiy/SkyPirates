@@ -7,7 +7,7 @@ using UnityEngine;
 namespace DVG.SkyPirates.Client.Views.Components
 {
     public abstract class VisualComponentView<T> : ComponentView
-        where T : IId, IEquatable<T>
+        where T : struct, IId, IEquatable<T>
     {
         private GameObject _visual;
         [SerializeField]
@@ -18,7 +18,7 @@ namespace DVG.SkyPirates.Client.Views.Components
         [SerializeField]
         private T _id;
 
-        public override void OnInject() => UpdateVisual();
+        public override void OnBound() => UpdateVisual();
 
         public void UpdateVisual()
         {
@@ -42,8 +42,8 @@ namespace DVG.SkyPirates.Client.Views.Components
 
         private T Id
         {
-            get => ViewModel.Get<T>();
-            set => ViewModel.Set<T>() = value;
+            get => Get<T>();
+            set => Set<T>() = value;
         }
 
         public override void Tick()
@@ -54,11 +54,16 @@ namespace DVG.SkyPirates.Client.Views.Components
         }
 
         private void Awake() => OnEditorChanged += SetId;
-        private void OnDestroy() => OnEditorChanged -= SetId;
+        protected override void OnDestroy()
+        {
+            OnEditorChanged -= SetId;
+            base.OnDestroy();
+        }
 
         private void SetId()
         {
-            Id = _id;
+            if (IsAlive)
+                Set<T>() = _id;
             UpdateVisual();
         }
     }

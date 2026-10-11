@@ -16,7 +16,7 @@ namespace DVG.SkyPirates.Client.Views.Components
         [SerializeField]
         private float3 _realPosition;
 
-        public override void OnInject()
+        public override void OnBound()
         {
             Animate(InterpolationMode.Instant);
         }
@@ -74,22 +74,26 @@ namespace DVG.SkyPirates.Client.Views.Components
 
         private float3 Position
         {
-            get => (float3)ViewModel.Get<Position>().Value;
-            set => ViewModel.Set<Position>().Value = (fix3)value;
+            get => (float3)Get<Position>().Value;
+            set => Set<Position>().Value = (fix3)value;
         }
 
         private float Rotation
         {
-            get => (float)ViewModel.Get<Rotation>().Value;
-            set => ViewModel.Set<Rotation>().Value = (fix)value;
+            get => (float)Get<Rotation>().Value;
+            set => Set<Rotation>().Value = (fix)value;
         }
 
         private void Awake() => EditorChanges.SubscribeOnChanged(transform, UpdateTransform);
-        private void OnDestroy() => EditorChanges.SubscribeOnChanged(transform, UpdateTransform);
+        protected override void OnDestroy()
+        {
+            EditorChanges.UnsubscribeOnChanged(transform, UpdateTransform);
+            base.OnDestroy();
+        }
 
         private void UpdateTransform()
         {
-            if (ViewModel?.Disposed ?? true)
+            if (!IsAlive)
                 return;
             Position = gameObject.transform.position;
             Rotation = gameObject.transform.eulerAngles.y;

@@ -13,7 +13,7 @@ namespace DVG.SkyPirates.Client.Views.Components
         private float _statePercentVelocity;
         private float _statePercent;
 
-        public override void OnInject() { }
+        public override void OnBound() { }
 
         public override void Tick()
         {
@@ -22,7 +22,7 @@ namespace DVG.SkyPirates.Client.Views.Components
             _scaleRoot.localScale = new float3(1f - 0.5f * _statePercent);
         }
 
-        private StateId State => ViewModel.Get<BehaviourState>().State;
-        private float StatePercent => (float)ViewModel.Get<BehaviourState>().Percent;
+        private StateId State => Get<BehaviourState>().State;
+        private float StatePercent => (float)Get<BehaviourState>().Percent;
     }
 }

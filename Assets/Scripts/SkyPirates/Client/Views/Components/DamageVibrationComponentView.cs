@@ -7,10 +7,10 @@ namespace DVG.SkyPirates.Client.Views.Components
         private float _health;
         private bool _vibrate;
 
-        public override void OnInject()
+        public override void OnBound()
         {
             _health = Health;
-            _vibrate = ViewModel.Get<TeamId>().Value == 0;
+            _vibrate = Get<TeamId>().Value == 0;
         }
 
         public override void Tick()
@@ -30,6 +30,6 @@ namespace DVG.SkyPirates.Client.Views.Components
             Vibration.VibratePop();
         }
 
-        private float Health => (float)ViewModel.Get<Health>().Value;
+        private float Health => (float)Get<Health>().Value;
     }
 }

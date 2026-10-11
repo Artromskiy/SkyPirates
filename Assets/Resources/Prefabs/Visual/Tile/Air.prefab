@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 5451782254895539630}
   - component: {fileID: 8519008741192621067}
   - component: {fileID: 7492871094973596639}
-  - component: {fileID: 1511798400398765842}
   m_Layer: 0
   m_Name: Air
   m_TagString: Untagged
@@ -104,15 +103,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02e7fd3212abe564da7057a9c039cdbc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1511798400398765842
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7481249665567694172}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f3c2efcdd6be7d2489d71460b9f99ac2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: SkyPirates.Client::DVG.SkyPirates.Client.Views.Gameplay.TileView

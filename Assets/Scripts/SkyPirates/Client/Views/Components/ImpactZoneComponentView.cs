@@ -15,7 +15,7 @@ namespace SkyPirates.Client.Views.Components
         private float _radius;
         private float _radiusVel;
 
-        public override void OnInject()
+        public override void OnBound()
         {
             _radius = Radius;
             UpdateVolume();
@@ -40,6 +40,6 @@ namespace SkyPirates.Client.Views.Components
                 _sphereOverlayView.SetRadius(radius);
         }
 
-        private float Radius => (float)ViewModel.Get<ImpactDistance>().Value;
+        private float Radius => (float)Get<ImpactDistance>().Value;
     }
 }

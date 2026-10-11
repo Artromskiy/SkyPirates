@@ -16,7 +16,7 @@ namespace DVG.SkyPirates.Client.Views.Components
         private static Camera _camera;
         private static Camera Camera => _camera == null ? _camera = Camera.main : _camera;
 
-        public override void OnInject()
+        public override void OnBound()
         {
             _position = Position + _worldOffset;
             transform.position = Camera.WorldToScreenPoint(_position);
@@ -29,6 +29,6 @@ namespace DVG.SkyPirates.Client.Views.Components
             transform.position = Camera.WorldToScreenPoint(_position);
         }
 
-        private float3 Position => (float3)ViewModel.Get<Position>().Value;
+        private float3 Position => (float3)Get<Position>().Value;
     }
 }

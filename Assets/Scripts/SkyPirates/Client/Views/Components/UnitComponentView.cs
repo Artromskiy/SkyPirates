@@ -8,10 +8,10 @@ namespace DVG.SkyPirates.Client.Views.Components
     public class UnitComponentView : VisualComponentView<UnitId>
     {
         private const string MaterialName = "VC_Unit_B";
-        public override void OnInject()
+        public override void OnBound()
         {
-            base.OnInject();
-            ReplaceMaterial(ViewModel.Get<TeamId>().Value);
+            base.OnBound();
+            ReplaceMaterial(Get<TeamId>().Value);
         }
 
         private void ReplaceMaterial(int teamId)

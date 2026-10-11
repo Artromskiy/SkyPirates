@@ -12,14 +12,14 @@ namespace DVG.SkyPirates.Client.Views.Components.Animators
         private Animator Animator => GetComponentInChildren<Animator>();
         private AnimView Anim => GetComponentInChildren<AnimView>();
 
-        public override void OnInject()
+        public override void OnBound()
         {
-            _prevHealth = (float)ViewModel.Get<Health>().Value;
+            _prevHealth = (float)Get<Health>().Value;
         }
 
         public override void Tick()
         {
-            float health = (float)ViewModel.Get<Health>().Value;
+            float health = (float)Get<Health>().Value;
             bool healthChanged = health < _prevHealth;
             _prevHealth = health;
             if (!healthChanged)

@@ -14,11 +14,11 @@ namespace DVG.SkyPirates.Client.Views.Components
         private float _radius;
         private float _radiusVel;
 
-        public override void OnInject()
+        public override void OnBound()
         {
             _radius = Radius;
             if (_sphereOverlayView != null)
-                _sphereOverlayView.Color = TeamIdToColor.RecolorHue(_sphereOverlayView.Color, ViewModel.Get<TeamId>());
+                _sphereOverlayView.Color = TeamIdToColor.RecolorHue(_sphereOverlayView.Color, Get<TeamId>());
             UpdateVolume();
         }
 
@@ -41,6 +41,6 @@ namespace DVG.SkyPirates.Client.Views.Components
                 _sphereOverlayView.SetRadius(radius);
         }
 
-        private float Radius => (float)ViewModel.Get<TargetSearchDistance>().Value;
+        private float Radius => (float)Get<TargetSearchDistance>().Value;
     }
 }

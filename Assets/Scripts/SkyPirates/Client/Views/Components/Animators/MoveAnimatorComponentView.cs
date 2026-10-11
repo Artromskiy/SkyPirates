@@ -17,7 +17,7 @@ namespace DVG.SkyPirates.Client.Views.Components.Animators
         private Animator Animator => GetComponentInChildren<Animator>();
         private AnimView Anim => GetComponentInChildren<AnimView>();
 
-        public override void OnInject()
+        public override void OnBound()
         {
             _prevPosition = transform.position;
         }
@@ -27,7 +27,7 @@ namespace DVG.SkyPirates.Client.Views.Components.Animators
             float3 currentPosition = transform.position;
             var worldVelocity = (currentPosition - _prevPosition) / Time.deltaTime;
             _prevPosition = currentPosition;
-            float maxSpeed = (float)ViewModel.Get<MaxSpeed>().Value;
+            float maxSpeed = (float)Get<MaxSpeed>().Value;
             var localVelocity = transform.InverseTransformVector(worldVelocity) / maxSpeed;
             bool isIdle = localVelocity.sqrMagnitude < 0.01f;
             bool isIdleChanged = _isIdle != isIdle;

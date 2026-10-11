@@ -31,7 +31,7 @@ namespace DVG.SkyPirates.Client.Views.Components.Animators
         private Animator Animator => GetComponentInChildren<Animator>();
         private AnimView Anim => GetComponentInChildren<AnimView>();
 
-        public override void OnInject()
+        public override void OnBound()
         {
             Animate(false);
         }
@@ -108,8 +108,8 @@ namespace DVG.SkyPirates.Client.Views.Components.Animators
             }
         }
 
-        private StateId State => ViewModel.Get<BehaviourState>().State;
-        private float StatePercent => (float)ViewModel.Get<BehaviourState>().Percent;
+        private StateId State => Get<BehaviourState>().State;
+        private float StatePercent => (float)Get<BehaviourState>().Percent;
 
         private bool AnimateWithAnimView(bool animate)
         {

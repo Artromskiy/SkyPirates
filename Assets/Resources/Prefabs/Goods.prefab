@@ -67,7 +67,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 770798841292186487}
-  - component: {fileID: -3625315881860807181}
   - component: {fileID: 5108888446856474518}
   - component: {fileID: -6210558974688769364}
   - component: {fileID: -6498975403291278133}
@@ -94,19 +93,6 @@ Transform:
   - {fileID: 8089445556340368891}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-3625315881860807181
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6742699207346504551}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 31a0d32fd59f84f4c83e938ee37d8900, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: SkyPirates.Client::DVG.SkyPirates.Client.Views.Gameplay.EntityView
-  _disposingDelay: 1
 --- !u!114 &5108888446856474518
 MonoBehaviour:
   m_ObjectHideFlags: 0

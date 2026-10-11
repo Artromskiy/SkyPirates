@@ -465,7 +465,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4158798844447407753}
-  - component: {fileID: -8834433989619325458}
   - component: {fileID: -6682468380582552283}
   - component: {fileID: -3252275758275310920}
   m_Layer: 5
@@ -496,19 +495,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &-8834433989619325458
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4882163872014800961}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 31a0d32fd59f84f4c83e938ee37d8900, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: SkyPirates.Client::DVG.SkyPirates.Client.Views.Gameplay.EntityView
-  _disposingDelay: 0.0625
 --- !u!114 &-6682468380582552283
 MonoBehaviour:
   m_ObjectHideFlags: 0
