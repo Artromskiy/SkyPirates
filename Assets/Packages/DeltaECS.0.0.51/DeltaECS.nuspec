@@ -2,14 +2,14 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
   <metadata>
     <id>DeltaECS</id>
-    <version>0.0.50</version>
+    <version>0.0.51</version>
     <authors>Artromskiy</authors>
     <license type="expression">MIT</license>
     <licenseUrl>https://licenses.nuget.org/MIT</licenseUrl>
     <readme>README.md</readme>
     <description>High-performance archetype-based entity component system for .NET.</description>
     <tags>ecs entity-component-system game-development archetype dotnet</tags>
-    <repository type="git" url="https://github.com/Artromskiy/DeltaECS" commit="bb2887791247cc8f856043d8147d6dfe2362e970" />
+    <repository type="git" url="https://github.com/Artromskiy/DeltaECS" commit="b6a49e4f817e9a3bc29d7f435b47244f32dd9548" />
     <dependencies>
       <group targetFramework="net10.0" />
       <group targetFramework=".NETStandard2.1">

@@ -643,6 +643,24 @@
         <member name="M:Delta.ECS.IArchetypeForEachComponent`2.Invoke(`0@,Delta.ECS.EntityRef,`1@)">
             <summary>Processes the current entity and its writable component reference.</summary>
         </member>
+        <member name="T:Delta.ECS.IArchetypeForEachComponentIn`2">
+            <summary>Processes a required component through a read-only reference.</summary>
+        </member>
+        <member name="M:Delta.ECS.IArchetypeForEachComponentIn`2.Invoke(`0@,Delta.ECS.EntityRef,`1@)">
+            <summary>Processes the current entity and its read-only component reference.</summary>
+        </member>
+        <member name="T:Delta.ECS.IArchetypeForEachComponentRefReadonly`2">
+            <summary>Processes a required component through a read-only reference with explicit ref-readonly semantics.</summary>
+        </member>
+        <member name="M:Delta.ECS.IArchetypeForEachComponentRefReadonly`2.Invoke(`0@,Delta.ECS.EntityRef,`1@)">
+            <summary>Processes the current entity and its ref-readonly component reference.</summary>
+        </member>
+        <member name="T:Delta.ECS.IArchetypeForEachComponentValue`2">
+            <summary>Processes a required component using a value copy.</summary>
+        </member>
+        <member name="M:Delta.ECS.IArchetypeForEachComponentValue`2.Invoke(`0@,Delta.ECS.EntityRef,`1)">
+            <summary>Processes the current entity and a copy of its component value.</summary>
+        </member>
         <member name="T:Delta.ECS.ArchetypeForEachOperation`1">
             <summary>A reusable operation with query-specific archetype processors.</summary>
             <remarks>Queries and processors are added during setup. Each invocation reuses the matching archetype plan.</remarks>
@@ -650,8 +668,17 @@
         <member name="M:Delta.ECS.ArchetypeForEachOperation`1.Process``1(Delta.ECS.Query@,``0)">
             <summary>Adds a query and its entity processor to this shared archetype traversal.</summary>
         </member>
-        <member name="M:Delta.ECS.ArchetypeForEachOperation`1.Process``2(Delta.ECS.Query@,Delta.ECS.ComponentId,``1)">
+        <member name="M:Delta.ECS.ArchetypeForEachOperation`1.ProcessRef``2(Delta.ECS.Query@,Delta.ECS.ComponentId,``1)">
             <summary>Adds a query and processor with its component access bound once per matching archetype.</summary>
+        </member>
+        <member name="M:Delta.ECS.ArchetypeForEachOperation`1.ProcessIn``2(Delta.ECS.Query@,Delta.ECS.ComponentId,``1)">
+            <summary>Adds a required component processor that receives a read-only reference.</summary>
+        </member>
+        <member name="M:Delta.ECS.ArchetypeForEachOperation`1.ProcessReadRef``2(Delta.ECS.Query@,Delta.ECS.ComponentId,``1)">
+            <summary>Adds a required component processor that receives a ref-readonly reference.</summary>
+        </member>
+        <member name="M:Delta.ECS.ArchetypeForEachOperation`1.Process``2(Delta.ECS.Query@,Delta.ECS.ComponentId,``1)">
+            <summary>Adds a required component processor that receives a value copy.</summary>
         </member>
         <member name="M:Delta.ECS.ArchetypeForEachOperation`1.Invoke">
             <summary>Runs every processor over the rows of its matching archetypes.</summary>
