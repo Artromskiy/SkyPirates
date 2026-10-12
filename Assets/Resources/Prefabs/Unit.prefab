@@ -42,12 +42,14 @@ GameObject:
   - component: {fileID: 4188941506159778156}
   - component: {fileID: 7425052853913789391}
   - component: {fileID: 1862366546750641979}
+  - component: {fileID: 8000000000000000300}
   - component: {fileID: 4760704735062532338}
   - component: {fileID: 5449093755541170743}
   - component: {fileID: -1044544908040930330}
   - component: {fileID: -8505252161964659786}
   - component: {fileID: -202616505504618215}
   - component: {fileID: 8081746297075840984}
+  - component: {fileID: 1185714597632849943}
   m_Layer: 0
   m_Name: Unit
   m_TagString: Untagged
@@ -105,6 +107,18 @@ MonoBehaviour:
   _randomizeScale: 0
   _id:
     Value: 
+--- !u!114 &8000000000000000300
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9210316857832955404}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bd8f62b63f94aaf9b8e3e70afc29eed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: SkyPirates.Client::DVG.SkyPirates.Client.Views.Components.ProjectileSourceView
 --- !u!114 &4760704735062532338
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -179,3 +193,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fa7e934cf1094947a9315f3a95ce155, type: 3}
   m_Name: 
   m_EditorClassIdentifier: DVG.SkyPirates.Client::DVG.SkyPirates.Client.Views.Components.DamageVibrationComponentView
+--- !u!114 &1185714597632849943
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9210316857832955404}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b5ab2765f64998a59b37c1cf6b8f27, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: SkyPirates.Client::DVG.SkyPirates.Client.Views.Components.HealthbarSpawnerComponentView
