@@ -674,6 +674,10 @@
         <member name="M:Delta.ECS.ArchetypeForEachOperation`1.ProcessIn``2(Delta.ECS.Query@,Delta.ECS.ComponentId,``1)">
             <summary>Adds a required component processor that receives a read-only reference.</summary>
         </member>
+        <member name="M:Delta.ECS.ArchetypeForEachOperation`1.ProcessChanged``2(Delta.ECS.Query@,Delta.ECS.ComponentId,``1)">
+            <summary>Adds a read-only component processor that runs only when an entity's component stamp changed since the previous successful invocation.</summary>
+            <remarks>The first invocation processes every matching entity. Stamps are tracked per entity for the lifetime of this operation. Tags have no writable row stamp and are processed on every invocation; entities that no longer match are not reported.</remarks>
+        </member>
         <member name="M:Delta.ECS.ArchetypeForEachOperation`1.ProcessReadRef``2(Delta.ECS.Query@,Delta.ECS.ComponentId,``1)">
             <summary>Adds a required component processor that receives a ref-readonly reference.</summary>
         </member>
@@ -685,6 +689,9 @@
         </member>
         <member name="M:Delta.ECS.ArchetypeForEachOperation`1.Invoke(`0@)">
             <summary>Runs every matching query processor using caller-owned state.</summary>
+        </member>
+        <member name="M:Delta.ECS.ArchetypeForEachOperation`1.ResetChangeTracking">
+            <summary>Resets per-entity component stamps tracked by <see cref="M:Delta.ECS.ArchetypeForEachOperation`1.ProcessChanged``2(Delta.ECS.Query@,Delta.ECS.ComponentId,``1)"/>.</summary>
         </member>
         <member name="T:Delta.ECS.ChunkTagMasks">
             <summary>External per-chunk storage for data-less tag membership.</summary>
@@ -768,6 +775,9 @@
             Tries to resolve the primary component registration for a CLR type.
             Later registrations of the same type remain addressable by their explicit ids.
             </summary>
+        </member>
+        <member name="M:Delta.ECS.ComponentLayoutRegistry.TryGetComponentId(Delta.ECS.SchemaId,Delta.ECS.ComponentId@)">
+            <summary>Tries to resolve a component registration from its stable schema identity.</summary>
         </member>
         <member name="M:Delta.ECS.ComponentLayoutRegistry.GetPrimary(System.Type)">
             <summary>Gets the primary component registration for a CLR type.</summary>
