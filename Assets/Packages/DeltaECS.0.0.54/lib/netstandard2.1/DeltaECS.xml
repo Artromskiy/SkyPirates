@@ -56,38 +56,21 @@
             <summary>Gets whether this registration represents membership without component data.</summary>
         </member>
         <member name="T:Delta.ECS.Integration.ComponentSnapshot">
-            <summary>
-            Represents the value and exact component revision observed by a tooling read.
-            Reference values may retain storage identity; mutating such an object directly
-            bypasses revision tracking and is the caller's responsibility. For a data-less
-            tag, the value is its boxed default and the stamp is default because tags have
-            membership but no per-entity value revision.
-            </summary>
+            <summary>Represents a component value observed by a tooling read.</summary>
         </member>
-        <member name="M:Delta.ECS.Integration.ComponentSnapshot.#ctor(System.Object,Delta.ECS.Stamp)">
-            <summary>
-            Represents the value and exact component revision observed by a tooling read.
-            Reference values may retain storage identity; mutating such an object directly
-            bypasses revision tracking and is the caller's responsibility. For a data-less
-            tag, the value is its boxed default and the stamp is default because tags have
-            membership but no per-entity value revision.
-            </summary>
+        <member name="M:Delta.ECS.Integration.ComponentSnapshot.#ctor(System.Object)">
+            <summary>Represents a component value observed by a tooling read.</summary>
         </member>
         <member name="T:Delta.ECS.Integration.RuntimeComponentCatalog">
             <summary>A snapshot of component registrations exposed by a world.</summary>
             <param name="Components">The descriptors in component-id order.</param>
-            <param name="Stamp">The revision of the catalog snapshot.</param>
         </member>
-        <member name="M:Delta.ECS.Integration.RuntimeComponentCatalog.#ctor(System.ReadOnlyMemory{Delta.ECS.Integration.ComponentDescriptor},Delta.ECS.Stamp)">
+        <member name="M:Delta.ECS.Integration.RuntimeComponentCatalog.#ctor(System.ReadOnlyMemory{Delta.ECS.Integration.ComponentDescriptor})">
             <summary>A snapshot of component registrations exposed by a world.</summary>
             <param name="Components">The descriptors in component-id order.</param>
-            <param name="Stamp">The revision of the catalog snapshot.</param>
         </member>
         <member name="P:Delta.ECS.Integration.RuntimeComponentCatalog.Components">
             <summary>The descriptors in component-id order.</summary>
-        </member>
-        <member name="P:Delta.ECS.Integration.RuntimeComponentCatalog.Stamp">
-            <summary>The revision of the catalog snapshot.</summary>
         </member>
         <member name="T:Delta.ECS.Integration.EcsReadErrorCode">
             <summary>Identifies why a tooling component read failed.</summary>
@@ -132,9 +115,6 @@
         </member>
         <member name="F:Delta.ECS.Integration.EcsWriteErrorCode.ComponentMissing">
             <summary>The entity does not have the requested component.</summary>
-        </member>
-        <member name="F:Delta.ECS.Integration.EcsWriteErrorCode.StaleStamp">
-            <summary>The expected stamp does not match the current component revision.</summary>
         </member>
         <member name="F:Delta.ECS.Integration.EcsWriteErrorCode.InvalidValue">
             <summary>The supplied value is null or has an incompatible CLR type.</summary>
@@ -194,16 +174,21 @@
             </summary>
         </member>
         <member name="M:Delta.ECS.Integration.IEcsWorld.TryRead(Delta.ECS.Entity,Delta.ECS.ComponentId,Delta.ECS.Integration.ComponentSnapshot@,Delta.ECS.Integration.EcsReadError@)">
-            <summary>Reads a component value and its current revision through the object API; safe during query iteration.</summary>
+            <summary>Reads a component value through the object API; safe during query iteration.</summary>
         </member>
-        <member name="M:Delta.ECS.Integration.IEcsWorld.TryWrite(Delta.ECS.Entity,Delta.ECS.ComponentId,System.Object,Delta.ECS.Stamp,Delta.ECS.Stamp@,Delta.ECS.Integration.EcsWriteError@)">
-            <summary>Writes a component value if its current revision matches the expected stamp.</summary>
+        <member name="M:Delta.ECS.Integration.IEcsWorld.TryWrite(Delta.ECS.Entity,Delta.ECS.ComponentId,System.Object,Delta.ECS.Integration.EcsWriteError@)">
+            <summary>Writes a component value through the object API.</summary>
         </member>
         <member name="T:Delta.ECS.World">
             <summary>Implements the object-based tooling integration contract for a world.</summary>
             <summary>Owns entities, component storage, archetypes, and cached queries.</summary>
+            <remarks>
+            A world is not generally thread-safe. Generated parallel iteration is the supported concurrent execution path;
+            do not invoke other world operations or dispose the world concurrently with an active operation.
+            Structural changes and observer registration are rejected while a query lease is active.
+            </remarks>
         </member>
-        <member name="M:Delta.ECS.World.#ctor(Delta.ECS.ComponentLayoutRegistry,System.Int32)">
+        <member name="M:Delta.ECS.World.#ctor(Delta.ECS.ComponentRegistry,System.Int32)">
             <summary>Creates a world using the supplied component layouts.</summary>
             <param name="layouts">The registered component layouts, or null to create an empty registry.</param>
             <param name="initialEntityCapacity">The initial capacity for entity records.</param>
@@ -211,8 +196,17 @@
         <member name="P:Delta.ECS.World.AliveEntityCount">
             <summary>Gets the number of entities currently alive in this world.</summary>
         </member>
-        <member name="P:Delta.ECS.World.Layouts">
-            <summary>Gets the registry containing this world's component layouts.</summary>
+        <member name="P:Delta.ECS.World.Components">
+            <summary>Gets the registry containing this world's components.</summary>
+        </member>
+        <member name="M:Delta.ECS.World.TryGetAlias(System.String,Delta.ECS.ComponentId@)">
+            <summary>Tries to get the component registered under an alias in this world's catalog.</summary>
+        </member>
+        <member name="M:Delta.ECS.World.GetAlias(System.String)">
+            <summary>Gets the component registered under an alias in this world's catalog.</summary>
+        </member>
+        <member name="M:Delta.ECS.World.GetGroup``1(``0)">
+            <summary>Gets the registered components in a group in this world.</summary>
         </member>
         <member name="M:Delta.ECS.World.Dispose">
             <summary>
@@ -242,8 +236,8 @@
         <member name="M:Delta.ECS.World.WhereNone(Delta.ECS.ComponentId)">
             <summary>Creates a query excluding the supplied component registration.</summary>
         </member>
-        <member name="M:Delta.ECS.World.ForEachArchetype``1(``0)">
-            <summary>Creates a reusable operation that combines query-specific processors into one archetype traversal.</summary>
+        <member name="M:Delta.ECS.World.ForEachChange``1(Delta.ECS.ComponentId,Delta.ECS.ComponentChangeAction{``0})">
+            <summary>Creates a reusable operation that reports changes to one component registration across the world.</summary>
         </member>
         <member name="M:Delta.ECS.World.Create(System.ReadOnlySpan{Delta.ECS.ComponentId})">
             <summary>Creates one entity with the supplied component registrations.</summary>
@@ -253,6 +247,9 @@
         </member>
         <member name="M:Delta.ECS.World.Create(Delta.ECS.ComponentId,System.Int32,System.Span{Delta.ECS.Entity})">
             <summary>Creates entities with the supplied component registration and caller-owned output storage.</summary>
+        </member>
+        <member name="M:Delta.ECS.World.Create(Delta.ECS.ComponentId,System.Int32)">
+            <summary>Creates entities with the supplied component registration without retaining handles.</summary>
         </member>
         <member name="M:Delta.ECS.World.Create(System.ReadOnlySpan{Delta.ECS.ComponentId},System.Span{Delta.ECS.Entity})">
             <summary>Creates one entity for each output slot and stores its handle.</summary>
@@ -275,9 +272,6 @@
         </member>
         <member name="M:Delta.ECS.World.Has(Delta.ECS.Entity,Delta.ECS.ComponentId)">
             <summary>Reports whether an alive entity owns the specified component.</summary>
-        </member>
-        <member name="M:Delta.ECS.World.TryGetComponentStamp(Delta.ECS.Entity,Delta.ECS.ComponentId,Delta.ECS.Stamp@)">
-            <summary>Gets the component stamp, or the tag-presence stamp when the entity owns a tag.</summary>
         </member>
         <member name="M:Delta.ECS.World.Add(Delta.ECS.Entity,System.ReadOnlySpan{Delta.ECS.ComponentId})">
             <summary>Adds the component set to one entity and reports whether it changed.</summary>
@@ -377,23 +371,6 @@
             component parameters.
             </summary>
         </member>
-        <member name="M:Delta.ECS.World.ForEachStamp(Delta.ECS.Query@,Delta.ECS.ForEachAction)">
-            <summary>
-            Zero-component stamp callback anchor. Use a generated
-            <c>ForEachStamp</c> form with one or more <c>in Stamp</c> parameters,
-            for example <c>world.ForEachStamp&lt;Health&gt;(in query,
-            static (in Stamp stamp) =&gt; Process(stamp))</c>.
-            </summary>
-            <remarks>This zero-component overload always throws.</remarks>
-        </member>
-        <member name="M:Delta.ECS.World.ForEachEntityStamp(Delta.ECS.Query@,Delta.ECS.ForEachEntityAction)">
-            <summary>
-            Zero-component entity stamp callback anchor. Generated
-            <c>ForEachEntityStamp</c> callbacks receive <c>EntityRef</c> followed by
-            one or more <c>in Stamp</c> parameters.
-            </summary>
-            <remarks>This zero-component overload always throws.</remarks>
-        </member>
         <member name="T:Delta.ECS.World.GenericFunctorOperationInvoker">
             <summary>Direct executor for a runtime-selected generic functor operation.</summary>
         </member>
@@ -423,12 +400,6 @@
         <member name="M:Delta.ECS.World.Create``1(System.Int32)">
             <summary>Creates entities with the primary component for <typeparamref name="T"/> without retaining handles.</summary>
         </member>
-        <member name="M:Delta.ECS.World.Create``1(Delta.ECS.ComponentId,System.Int32,System.Span{Delta.ECS.Entity})">
-            <summary>Creates typed component entities into caller-owned storage.</summary>
-        </member>
-        <member name="M:Delta.ECS.World.Create``1(Delta.ECS.ComponentId,System.Int32)">
-            <summary>Creates typed entities with the specified component registration and returns their handles.</summary>
-        </member>
         <member name="M:Delta.ECS.World.Add``1(Delta.ECS.Entity,``0@)">
             <summary>
             Adds and initializes the primary component for <typeparamref name="T"/> on one entity.
@@ -455,12 +426,6 @@
         <member name="M:Delta.ECS.World.Remove``1(System.ReadOnlySpan{Delta.ECS.Entity})">
             <summary>Removes the primary component for <typeparamref name="T"/> from every eligible entity.</summary>
         </member>
-        <member name="M:Delta.ECS.World.Remove``1(Delta.ECS.Entity,Delta.ECS.ComponentId)">
-            <summary>Removes one typed component from an alive entity.</summary>
-        </member>
-        <member name="M:Delta.ECS.World.Remove``1(System.ReadOnlySpan{Delta.ECS.Entity},Delta.ECS.ComponentId)">
-            <summary>Removes one typed component from every eligible entity in a batch.</summary>
-        </member>
         <member name="M:Delta.ECS.World.TryGet``1(Delta.ECS.Entity,``0@)">
             <summary>Reads the primary component or reports tag presence, returning default for a tag.</summary>
         </member>
@@ -469,15 +434,6 @@
         </member>
         <member name="M:Delta.ECS.World.Has``1(Delta.ECS.Entity)">
             <summary>Reports whether an alive entity owns the primary component for <typeparamref name="T"/>.</summary>
-        </member>
-        <member name="M:Delta.ECS.World.Has``1(Delta.ECS.Entity,Delta.ECS.ComponentId)">
-            <summary>Reports whether an alive entity owns a typed component registration.</summary>
-        </member>
-        <member name="M:Delta.ECS.World.TryGetComponentStamp``1(Delta.ECS.Entity,Delta.ECS.Stamp@)">
-            <summary>Reads the primary component stamp when present.</summary>
-        </member>
-        <member name="M:Delta.ECS.World.TryGetComponentStamp``1(Delta.ECS.Entity,Delta.ECS.ComponentId,Delta.ECS.Stamp@)">
-            <summary>Reads a typed component stamp when the entity owns the matching registration.</summary>
         </member>
         <member name="M:Delta.ECS.World.Get``1(Delta.ECS.Entity,Delta.ECS.ComponentId)">
             <summary>
@@ -595,112 +551,38 @@
             static (State value, EntityRef entity) =&gt; Log(value, entity), workerCount: 4)</c>.
             </summary>
         </member>
-        <member name="M:Delta.ECS.World.ForEachStampParallel(Delta.ECS.Query@,Delta.ECS.ForEachAction,System.Int32)">
-            <summary>
-            Zero-component parallel stamp callback anchor. Use a generated
-            <c>ForEachStampParallel</c> form with one or more <c>in Stamp</c>
-            parameters and an explicit worker count.
-            </summary>
-            <remarks>This zero-component overload always throws.</remarks>
-        </member>
-        <member name="M:Delta.ECS.World.ForEachEntityStampParallel(Delta.ECS.Query@,Delta.ECS.ForEachEntityAction,System.Int32)">
-            <summary>
-            Zero-component parallel entity stamp callback anchor. Generated
-            <c>ForEachEntityStampParallel</c> callbacks receive <c>EntityRef</c>
-            followed by one or more <c>in Stamp</c> parameters.
-            </summary>
-            <remarks>This zero-component overload always throws.</remarks>
-        </member>
-        <member name="M:Delta.ECS.World.ForEachStampParallel``1(Delta.ECS.Query@,``0@,Delta.ECS.ForEachContextActionIn{``0},System.Int32)">
-            <summary>
-            Zero-component parallel stamp context anchor. Generated forms support
-            read-only or value context and one or more <c>in Stamp</c> parameters.
-            </summary>
-            <remarks>This zero-component overload always throws.</remarks>
-        </member>
-        <member name="M:Delta.ECS.World.ForEachStampParallel``1(Delta.ECS.Query@,``0,Delta.ECS.ForEachContextActionValue{``0},System.Int32)">
-            <summary>Zero-component parallel value-context stamp anchor.</summary>
-            <remarks>This zero-component overload always throws.</remarks>
-        </member>
-        <member name="M:Delta.ECS.World.ForEachEntityStampParallel``1(Delta.ECS.Query@,``0@,Delta.ECS.ForEachContextEntityActionIn{``0},System.Int32)">
-            <summary>Zero-component parallel entity stamp context anchor.</summary>
-            <remarks>This zero-component overload always throws.</remarks>
-        </member>
-        <member name="M:Delta.ECS.World.ForEachEntityStampParallel``1(Delta.ECS.Query@,``0,Delta.ECS.ForEachContextEntityActionValue{``0},System.Int32)">
-            <summary>Zero-component parallel entity value-context stamp anchor.</summary>
-            <remarks>This zero-component overload always throws.</remarks>
-        </member>
-        <member name="T:Delta.ECS.IArchetypeForEachEntity`1">
-            <summary>Processes an entity selected by an archetype iteration query.</summary>
-        </member>
-        <member name="M:Delta.ECS.IArchetypeForEachEntity`1.Invoke(`0@,Delta.ECS.EntityRef)">
-            <summary>Processes the current borrowed entity using caller-owned state.</summary>
-        </member>
-        <member name="T:Delta.ECS.IArchetypeForEachComponent`2">
-            <summary>Processes a required component with direct typed access during archetype iteration.</summary>
-            <remarks>For a tag component, the reference points to the shared placeholder and writes are not stored.</remarks>
-        </member>
-        <member name="M:Delta.ECS.IArchetypeForEachComponent`2.Invoke(`0@,Delta.ECS.EntityRef,`1@)">
-            <summary>Processes the current entity and its writable component reference.</summary>
-        </member>
-        <member name="T:Delta.ECS.IArchetypeForEachComponentIn`2">
-            <summary>Processes a required component through a read-only reference.</summary>
-        </member>
-        <member name="M:Delta.ECS.IArchetypeForEachComponentIn`2.Invoke(`0@,Delta.ECS.EntityRef,`1@)">
-            <summary>Processes the current entity and its read-only component reference.</summary>
-        </member>
-        <member name="T:Delta.ECS.IArchetypeForEachComponentRefReadonly`2">
-            <summary>Processes a required component through a read-only reference with explicit ref-readonly semantics.</summary>
-        </member>
-        <member name="M:Delta.ECS.IArchetypeForEachComponentRefReadonly`2.Invoke(`0@,Delta.ECS.EntityRef,`1@)">
-            <summary>Processes the current entity and its ref-readonly component reference.</summary>
-        </member>
-        <member name="T:Delta.ECS.IArchetypeForEachComponentValue`2">
-            <summary>Processes a required component using a value copy.</summary>
-        </member>
-        <member name="M:Delta.ECS.IArchetypeForEachComponentValue`2.Invoke(`0@,Delta.ECS.EntityRef,`1)">
-            <summary>Processes the current entity and a copy of its component value.</summary>
-        </member>
-        <member name="T:Delta.ECS.ArchetypeForEachOperation`1">
-            <summary>A reusable operation with query-specific archetype processors.</summary>
-            <remarks>Queries and processors are added during setup. Each invocation reuses the matching archetype plan.</remarks>
-        </member>
-        <member name="M:Delta.ECS.ArchetypeForEachOperation`1.Process``1(Delta.ECS.Query@,``0)">
-            <summary>Adds a query and its entity processor to this shared archetype traversal.</summary>
-        </member>
-        <member name="M:Delta.ECS.ArchetypeForEachOperation`1.ProcessRef``2(Delta.ECS.Query@,Delta.ECS.ComponentId,``1)">
-            <summary>Adds a query and processor with its component access bound once per matching archetype.</summary>
-        </member>
-        <member name="M:Delta.ECS.ArchetypeForEachOperation`1.ProcessIn``2(Delta.ECS.Query@,Delta.ECS.ComponentId,``1)">
-            <summary>Adds a required component processor that receives a read-only reference.</summary>
-        </member>
-        <member name="M:Delta.ECS.ArchetypeForEachOperation`1.ProcessChanged``2(Delta.ECS.Query@,Delta.ECS.ComponentId,``1)">
-            <summary>Adds a read-only component processor that runs only when an entity's component stamp changed since the previous successful invocation.</summary>
-            <remarks>The first invocation processes every matching entity. Stamps are tracked per entity for the lifetime of this operation. Tags have no writable row stamp and are processed on every invocation; entities that no longer match are not reported.</remarks>
-        </member>
-        <member name="M:Delta.ECS.ArchetypeForEachOperation`1.ProcessReadRef``2(Delta.ECS.Query@,Delta.ECS.ComponentId,``1)">
-            <summary>Adds a required component processor that receives a ref-readonly reference.</summary>
-        </member>
-        <member name="M:Delta.ECS.ArchetypeForEachOperation`1.Process``2(Delta.ECS.Query@,Delta.ECS.ComponentId,``1)">
-            <summary>Adds a required component processor that receives a value copy.</summary>
-        </member>
-        <member name="M:Delta.ECS.ArchetypeForEachOperation`1.Invoke">
-            <summary>Runs every processor over the rows of its matching archetypes.</summary>
-        </member>
-        <member name="M:Delta.ECS.ArchetypeForEachOperation`1.Invoke(`0@)">
-            <summary>Runs every matching query processor using caller-owned state.</summary>
-        </member>
-        <member name="M:Delta.ECS.ArchetypeForEachOperation`1.ResetChangeTracking">
-            <summary>Resets per-entity component stamps tracked by <see cref="M:Delta.ECS.ArchetypeForEachOperation`1.ProcessChanged``2(Delta.ECS.Query@,Delta.ECS.ComponentId,``1)"/>.</summary>
-        </member>
         <member name="T:Delta.ECS.ChunkTagMasks">
             <summary>External per-chunk storage for data-less tag membership.</summary>
         </member>
-        <member name="T:Delta.ECS.DeltaEcsComponentAttribute">
-            <summary>Marks a component for generated registration.</summary>
+        <member name="T:Delta.ECS.ComponentSchemaAttribute">
+            <summary>Marks a component for generated registration and optionally assigns a stable schema ID.</summary>
         </member>
-        <member name="P:Delta.ECS.DeltaEcsComponentAttribute.SchemaId">
-            <summary>An explicitly assigned stable schema ID; zero requests a generated name-based ID.</summary>
+        <member name="M:Delta.ECS.ComponentSchemaAttribute.#ctor">
+            <summary>Marks a component whose schema ID is derived from its qualified name.</summary>
+        </member>
+        <member name="M:Delta.ECS.ComponentSchemaAttribute.#ctor(System.UInt64)">
+            <summary>Marks a component with an explicitly assigned stable schema ID.</summary>
+        </member>
+        <member name="P:Delta.ECS.ComponentSchemaAttribute.SchemaId">
+            <summary>An explicitly assigned stable schema ID, or zero when the ID is name-derived.</summary>
+        </member>
+        <member name="T:Delta.ECS.ComponentAliasAttribute">
+            <summary>Assigns a catalog-resolvable name to a generated component registration.</summary>
+        </member>
+        <member name="M:Delta.ECS.ComponentAliasAttribute.#ctor(System.String)">
+            <summary>Assigns one alias to a component.</summary>
+        </member>
+        <member name="P:Delta.ECS.ComponentAliasAttribute.Alias">
+            <summary>Gets the assigned alias.</summary>
+        </member>
+        <member name="T:Delta.ECS.ComponentGroupAttribute`1">
+            <summary>Assigns a component to one or more groups identified by an enum.</summary>
+        </member>
+        <member name="M:Delta.ECS.ComponentGroupAttribute`1.#ctor(`0[])">
+            <summary>Assigns a component to the specified enum groups.</summary>
+        </member>
+        <member name="P:Delta.ECS.ComponentGroupAttribute`1.GroupIds">
+            <summary>Gets the enum values that identify the component groups.</summary>
         </member>
         <member name="T:Delta.ECS.IGeneratedComponentRegistration">
             <summary>Generated strongly typed registration for one marked component.</summary>
@@ -714,7 +596,7 @@
         <member name="P:Delta.ECS.IGeneratedComponentRegistration.IsTag">
             <summary>Gets whether the component is a data-less tag.</summary>
         </member>
-        <member name="M:Delta.ECS.IGeneratedComponentRegistration.Register(Delta.ECS.ComponentLayoutRegistry)">
+        <member name="M:Delta.ECS.IGeneratedComponentRegistration.Register(Delta.ECS.ComponentRegistry)">
             <summary>Registers this component using its generated concrete registration route.</summary>
         </member>
         <member name="T:Delta.ECS.GeneratedComponentRegistrationRegistry">
@@ -724,7 +606,7 @@
             <summary>Registers a generated component factory during module initialization.</summary>
         </member>
         <member name="M:Delta.ECS.GeneratedComponentRegistrationRegistry.GetRegistrations">
-            <summary>Copies generated registrations for one-time Unity world initialization.</summary>
+            <summary>Copies generated registrations for one-time layout initialization.</summary>
         </member>
         <member name="T:Delta.ECS.GeneratedComponentCatalog">
             <summary>Provides component registrations emitted by DeltaECS.Generators.</summary>
@@ -735,114 +617,159 @@
         <member name="M:Delta.ECS.GeneratedComponentCatalog.GetRegistration``1">
             <summary>Gets the generated registration for a component type.</summary>
         </member>
-        <member name="T:Delta.ECS.ComponentLayoutRegistry">
+        <member name="T:Delta.ECS.ComponentChangeMasks">
+            <summary>Word and range operations for component change and presence masks.</summary>
+        </member>
+        <member name="T:Delta.ECS.ChangeKind">
+            <summary>Describes a component addition, modification, or removal.</summary>
+        </member>
+        <member name="F:Delta.ECS.ChangeKind.Added">
+            <summary>The component is present but was absent at the previous invocation.</summary>
+        </member>
+        <member name="F:Delta.ECS.ChangeKind.Modified">
+            <summary>The component was opened for writing since the previous invocation.</summary>
+        </member>
+        <member name="F:Delta.ECS.ChangeKind.Removed">
+            <summary>The component or its entity is no longer present.</summary>
+        </member>
+        <member name="T:Delta.ECS.ComponentChangeAction`1">
+            <summary>Handles a change to one component registration.</summary>
+            <remarks>For <see cref="F:Delta.ECS.ChangeKind.Removed"/>, <paramref name="component"/> is a null reference and must not be dereferenced.</remarks>
+        </member>
+        <member name="T:Delta.ECS.ComponentChangeOperation`1">
+            <summary>Reports changes to one component registration across the world.</summary>
+            <remarks>The first invocation reports every existing component as <see cref="F:Delta.ECS.ChangeKind.Added"/>. Later invocations report current state changes.</remarks>
+        </member>
+        <member name="M:Delta.ECS.ComponentChangeOperation`1.Invoke">
+            <summary>Reports additions, modifications, and removals since the previous invocation.</summary>
+        </member>
+        <member name="T:Delta.ECS.ComponentRegistry">
             <summary>Registers component CLR types and their stable schema identities.</summary>
         </member>
-        <member name="M:Delta.ECS.ComponentLayoutRegistry.Visit(Delta.ECS.ComponentId,Delta.ECS.IVisitor)">
+        <member name="M:Delta.ECS.ComponentRegistry.Visit(Delta.ECS.ComponentId,Delta.ECS.IVisitor)">
             <summary>Visits a compatible registered component type and does nothing for an invalid ID or unsupported visitor.</summary>
         </member>
-        <member name="M:Delta.ECS.ComponentLayoutRegistry.TryVisit(Delta.ECS.ComponentId,Delta.ECS.IVisitor)">
+        <member name="M:Delta.ECS.ComponentRegistry.TryVisit(Delta.ECS.ComponentId,Delta.ECS.IVisitor)">
             <summary>Visits a compatible component type; returns false for an invalid ID, null visitor, or unsupported route.</summary>
         </member>
-        <member name="M:Delta.ECS.ComponentLayoutRegistry.Register(Delta.ECS.IGeneratedComponentRegistration)">
+        <member name="M:Delta.ECS.ComponentRegistry.Register(Delta.ECS.IGeneratedComponentRegistration)">
             <summary>Registers one component from the generated component catalog.</summary>
         </member>
-        <member name="M:Delta.ECS.ComponentLayoutRegistry.Register(System.Type,Delta.ECS.ComponentId,Delta.ECS.SchemaId)">
+        <member name="M:Delta.ECS.ComponentRegistry.GetGroup``1(``0)">
+            <summary>Gets the generated component IDs assigned to an enum group.</summary>
+            <remarks>The returned span remains valid if the registry later registers more generated components.</remarks>
+        </member>
+        <member name="M:Delta.ECS.ComponentRegistry.AddGroup``1(``0,Delta.ECS.ComponentId)">
+            <summary>Adds a registered component to a group in this catalog.</summary>
+        </member>
+        <member name="M:Delta.ECS.ComponentRegistry.AddAlias(System.String,Delta.ECS.ComponentId)">
+            <summary>Adds an alias for a registered component in this catalog.</summary>
+        </member>
+        <member name="M:Delta.ECS.ComponentRegistry.TryGetAlias(System.String,Delta.ECS.ComponentId@)">
+            <summary>Tries to get the component registered under an alias in this catalog.</summary>
+        </member>
+        <member name="M:Delta.ECS.ComponentRegistry.GetAlias(System.String)">
+            <summary>Gets the component registered under an alias in this catalog.</summary>
+        </member>
+        <member name="M:Delta.ECS.ComponentRegistry.RegisterGeneratedComponentGroup(System.RuntimeTypeHandle,System.UInt64,Delta.ECS.ComponentId)">
+            <summary>Registers a generated component's enum group membership.</summary>
+        </member>
+        <member name="M:Delta.ECS.ComponentRegistry.Register(System.Type,Delta.ECS.ComponentId,Delta.ECS.SchemaId)">
             <summary>
             Closes a generic component definition with the CLR types selected by
             <paramref name="componentArgument"/> and registers the resulting type.
             Uses the explicitly supplied schema identity for the closed type.
             </summary>
         </member>
-        <member name="M:Delta.ECS.ComponentLayoutRegistry.Register(System.Type,System.ReadOnlySpan{Delta.ECS.ComponentId},Delta.ECS.SchemaId)">
+        <member name="M:Delta.ECS.ComponentRegistry.Register(System.Type,System.ReadOnlySpan{Delta.ECS.ComponentId},Delta.ECS.SchemaId)">
             <summary>
             Closes a generic component definition with the CLR types selected by
             <paramref name="componentArguments"/> and registers the resulting type.
             The span length must match the generic definition's arity.
             </summary>
         </member>
-        <member name="M:Delta.ECS.ComponentLayoutRegistry.RegisterGeneric(System.Type,Delta.ECS.SchemaId,System.ReadOnlySpan{Delta.ECS.ComponentId})">
+        <member name="M:Delta.ECS.ComponentRegistry.RegisterGeneric(System.Type,Delta.ECS.SchemaId,System.ReadOnlySpan{Delta.ECS.ComponentId})">
             <summary>
             Closes a generic component definition with the CLR types selected by
             <paramref name="componentArguments"/> and registers the resulting type.
             </summary>
         </member>
-        <member name="M:Delta.ECS.ComponentLayoutRegistry.GetComponentType(Delta.ECS.ComponentId)">
+        <member name="M:Delta.ECS.ComponentRegistry.GetComponentType(Delta.ECS.ComponentId)">
             <summary>Gets the CLR type of a registered component.</summary>
         </member>
-        <member name="M:Delta.ECS.ComponentLayoutRegistry.TryGetPrimary(System.Type,Delta.ECS.ComponentId@)">
+        <member name="M:Delta.ECS.ComponentRegistry.TryGetPrimary(System.Type,Delta.ECS.ComponentId@)">
             <summary>
             Tries to resolve the primary component registration for a CLR type.
             Later registrations of the same type remain addressable by their explicit ids.
             </summary>
         </member>
-        <member name="M:Delta.ECS.ComponentLayoutRegistry.TryGetComponentId(Delta.ECS.SchemaId,Delta.ECS.ComponentId@)">
+        <member name="M:Delta.ECS.ComponentRegistry.TryGetComponentId(Delta.ECS.SchemaId,Delta.ECS.ComponentId@)">
             <summary>Tries to resolve a component registration from its stable schema identity.</summary>
         </member>
-        <member name="M:Delta.ECS.ComponentLayoutRegistry.GetPrimary(System.Type)">
+        <member name="M:Delta.ECS.ComponentRegistry.GetPrimary(System.Type)">
             <summary>Gets the primary component registration for a CLR type.</summary>
         </member>
-        <member name="M:Delta.ECS.ComponentLayoutRegistry.TryGetPrimary``1(Delta.ECS.ComponentId@)">
+        <member name="M:Delta.ECS.ComponentRegistry.TryGetPrimary``1(Delta.ECS.ComponentId@)">
             <summary>Tries to resolve the primary component registration for <typeparamref name="T"/>.</summary>
         </member>
-        <member name="M:Delta.ECS.ComponentLayoutRegistry.GetPrimary``1">
+        <member name="M:Delta.ECS.ComponentRegistry.GetPrimary``1">
             <summary>Gets the primary component registration for <typeparamref name="T"/>.</summary>
         </member>
-        <member name="T:Delta.ECS.IComponentLayoutRegistryRoute">
+        <member name="T:Delta.ECS.IComponentRegistryRoute">
             <summary>Routes component registry extension calls through the selected registration constraints.</summary>
         </member>
-        <member name="T:Delta.ECS.IComponentLayoutRegistryNewRoute">
+        <member name="T:Delta.ECS.IComponentRegistryNewRoute">
             <summary>Registration route marker for types that satisfy <c>new()</c>.</summary>
         </member>
-        <member name="T:Delta.ECS.IComponentLayoutRegistryStructRoute">
+        <member name="T:Delta.ECS.IComponentRegistryStructRoute">
             <summary>Registration route marker for struct types.</summary>
         </member>
-        <member name="T:Delta.ECS.IComponentLayoutRegistryUnmanagedRoute">
+        <member name="T:Delta.ECS.IComponentRegistryUnmanagedRoute">
             <summary>Registration route marker for unmanaged types.</summary>
         </member>
-        <member name="T:Delta.ECS.IComponentLayoutRegistryClassRoute">
+        <member name="T:Delta.ECS.IComponentRegistryClassRoute">
             <summary>Registration route marker for class types.</summary>
         </member>
-        <member name="T:Delta.ECS.IComponentLayoutRegistryClassNewRoute">
+        <member name="T:Delta.ECS.IComponentRegistryClassNewRoute">
             <summary>Registration route marker for constructible class types.</summary>
         </member>
-        <member name="T:Delta.ECS.ComponentLayoutRegistryRegistrationExtensions">
+        <member name="T:Delta.ECS.ComponentRegistryRegistrationExtensions">
             <summary>Provides constraint-selected registration and interface binding for component layouts.</summary>
         </member>
-        <member name="M:Delta.ECS.ComponentLayoutRegistryRegistrationExtensions.Register``1(Delta.ECS.IComponentLayoutRegistryRoute,Delta.ECS.SchemaId)">
+        <member name="M:Delta.ECS.ComponentRegistryRegistrationExtensions.Register``1(Delta.ECS.IComponentRegistryRoute,Delta.ECS.SchemaId)">
             <summary>Registers a component using the constraints available for <typeparamref name="T"/>.</summary>
         </member>
-        <member name="M:Delta.ECS.ComponentLayoutRegistryRegistrationExtensions.Register``1(Delta.ECS.IComponentLayoutRegistryNewRoute,Delta.ECS.SchemaId)">
+        <member name="M:Delta.ECS.ComponentRegistryRegistrationExtensions.Register``1(Delta.ECS.IComponentRegistryNewRoute,Delta.ECS.SchemaId)">
             <summary>Registers a component with a public parameterless constructor.</summary>
         </member>
-        <member name="M:Delta.ECS.ComponentLayoutRegistryRegistrationExtensions.Register``1(Delta.ECS.IComponentLayoutRegistryStructRoute,Delta.ECS.SchemaId)">
+        <member name="M:Delta.ECS.ComponentRegistryRegistrationExtensions.Register``1(Delta.ECS.IComponentRegistryStructRoute,Delta.ECS.SchemaId)">
             <summary>Registers a struct component.</summary>
         </member>
-        <member name="M:Delta.ECS.ComponentLayoutRegistryRegistrationExtensions.Register``1(Delta.ECS.IComponentLayoutRegistryUnmanagedRoute,Delta.ECS.SchemaId)">
+        <member name="M:Delta.ECS.ComponentRegistryRegistrationExtensions.Register``1(Delta.ECS.IComponentRegistryUnmanagedRoute,Delta.ECS.SchemaId)">
             <summary>Registers an unmanaged component.</summary>
         </member>
-        <member name="M:Delta.ECS.ComponentLayoutRegistryRegistrationExtensions.Register``1(Delta.ECS.IComponentLayoutRegistryClassRoute,Delta.ECS.SchemaId)">
+        <member name="M:Delta.ECS.ComponentRegistryRegistrationExtensions.Register``1(Delta.ECS.IComponentRegistryClassRoute,Delta.ECS.SchemaId)">
             <summary>Registers a class component.</summary>
         </member>
-        <member name="M:Delta.ECS.ComponentLayoutRegistryRegistrationExtensions.Register``1(Delta.ECS.IComponentLayoutRegistryClassNewRoute,Delta.ECS.SchemaId)">
+        <member name="M:Delta.ECS.ComponentRegistryRegistrationExtensions.Register``1(Delta.ECS.IComponentRegistryClassNewRoute,Delta.ECS.SchemaId)">
             <summary>Registers a constructible class component.</summary>
         </member>
-        <member name="M:Delta.ECS.ComponentLayoutRegistryRegistrationExtensions.BindInterface``2(Delta.ECS.IComponentLayoutRegistryRoute)">
+        <member name="M:Delta.ECS.ComponentRegistryRegistrationExtensions.BindInterface``2(Delta.ECS.IComponentRegistryRoute)">
             <summary>Binds an interface visitor route for every registration of one component CLR type.</summary>
         </member>
-        <member name="M:Delta.ECS.ComponentLayoutRegistryRegistrationExtensions.BindInterface``2(Delta.ECS.IComponentLayoutRegistryNewRoute)">
+        <member name="M:Delta.ECS.ComponentRegistryRegistrationExtensions.BindInterface``2(Delta.ECS.IComponentRegistryNewRoute)">
             <summary>Binds an interface visitor route to a component with a public parameterless constructor.</summary>
         </member>
-        <member name="M:Delta.ECS.ComponentLayoutRegistryRegistrationExtensions.BindInterface``2(Delta.ECS.IComponentLayoutRegistryStructRoute)">
+        <member name="M:Delta.ECS.ComponentRegistryRegistrationExtensions.BindInterface``2(Delta.ECS.IComponentRegistryStructRoute)">
             <summary>Binds an interface visitor route to a struct component CLR type.</summary>
         </member>
-        <member name="M:Delta.ECS.ComponentLayoutRegistryRegistrationExtensions.BindInterface``2(Delta.ECS.IComponentLayoutRegistryUnmanagedRoute)">
+        <member name="M:Delta.ECS.ComponentRegistryRegistrationExtensions.BindInterface``2(Delta.ECS.IComponentRegistryUnmanagedRoute)">
             <summary>Binds an interface visitor route to an unmanaged component CLR type.</summary>
         </member>
-        <member name="M:Delta.ECS.ComponentLayoutRegistryRegistrationExtensions.BindInterface``2(Delta.ECS.IComponentLayoutRegistryClassRoute)">
+        <member name="M:Delta.ECS.ComponentRegistryRegistrationExtensions.BindInterface``2(Delta.ECS.IComponentRegistryClassRoute)">
             <summary>Binds an interface visitor route to a class component CLR type.</summary>
         </member>
-        <member name="M:Delta.ECS.ComponentLayoutRegistryRegistrationExtensions.BindInterface``2(Delta.ECS.IComponentLayoutRegistryClassNewRoute)">
+        <member name="M:Delta.ECS.ComponentRegistryRegistrationExtensions.BindInterface``2(Delta.ECS.IComponentRegistryClassNewRoute)">
             <summary>Binds an interface visitor route to a constructible class component CLR type.</summary>
         </member>
         <member name="T:Delta.ECS.ComponentSet">
@@ -1177,9 +1104,6 @@
         <member name="M:Delta.ECS.EntityRef.Has``1">
             <summary>Reports whether the current entity has the primary registration for <typeparamref name="T"/>.</summary>
         </member>
-        <member name="M:Delta.ECS.EntityRef.Has``1(Delta.ECS.ComponentId)">
-            <summary>Reports whether the current entity has the specified registration of <typeparamref name="T"/>.</summary>
-        </member>
         <member name="M:Delta.ECS.EntityRef.TryGet``1(Delta.ECS.ComponentId,``0@)">
             <summary>Attempts to read a component by registration, returning its default value when absent or mismatched.</summary>
         </member>
@@ -1193,7 +1117,7 @@
             <summary>Reads the specified component registration as <typeparamref name="T"/> or throws when it is missing.</summary>
         </member>
         <member name="M:Delta.ECS.EntityRef.GetRef``1(Delta.ECS.ComponentId)">
-            <summary>Gets a writable component reference and marks its change stamp.</summary>
+            <summary>Gets a writable component reference.</summary>
             <remarks>For a tag, this returns the shared default placeholder; writes through it are not stored.</remarks>
         </member>
         <member name="M:Delta.ECS.EntityRef.GetRef``1">
@@ -1204,15 +1128,6 @@
         </member>
         <member name="M:Delta.ECS.EntityRef.GetReadRef``1(Delta.ECS.ComponentId)">
             <summary>Gets a read-only reference to the specified component registration as <typeparamref name="T"/>.</summary>
-        </member>
-        <member name="M:Delta.ECS.EntityRef.TryGetComponentStamp``1(Delta.ECS.Stamp@)">
-            <summary>Attempts to read the stamp for the primary component of <typeparamref name="T"/>.</summary>
-        </member>
-        <member name="M:Delta.ECS.EntityRef.TryGetComponentStamp(Delta.ECS.ComponentId,Delta.ECS.Stamp@)">
-            <summary>Attempts to read the stamp for the specified component registration.</summary>
-        </member>
-        <member name="M:Delta.ECS.EntityRef.TryGetComponentStamp``1(Delta.ECS.ComponentId,Delta.ECS.Stamp@)">
-            <summary>Attempts to read the stamp for the specified registration of <typeparamref name="T"/>.</summary>
         </member>
         <member name="T:Delta.ECS.GeneratedEntityRefView">
             <summary>Stack-owned backing view for a scoped entity reference.</summary>
@@ -1483,29 +1398,6 @@
             <summary>
             Fallback when no generated component-bearing <c>ForEachEntity</c>
             overload is selected.
-            </summary>
-        </member>
-        <member name="M:Delta.ECS.FunctorAnchors.ForEachStamp``1(Delta.ECS.World,Delta.ECS.Query@,``0)">
-            <summary>
-            Fallback when no generated stamp <c>ForEachStamp</c> functor overload is
-            selected.
-            </summary>
-        </member>
-        <member name="M:Delta.ECS.FunctorAnchors.ForEachEntityStamp``1(Delta.ECS.World,Delta.ECS.Query@,``0)">
-            <summary>
-            Fallback when no generated stamp <c>ForEachEntityStamp</c> functor
-            overload is selected.
-            </summary>
-        </member>
-        <member name="M:Delta.ECS.FunctorAnchors.ForEachStampParallel``1(Delta.ECS.World,Delta.ECS.Query@,``0,System.Int32)">
-            <summary>
-            Fallback when no generated parallel stamp functor overload is selected.
-            </summary>
-        </member>
-        <member name="M:Delta.ECS.FunctorAnchors.ForEachEntityStampParallel``1(Delta.ECS.World,Delta.ECS.Query@,``0,System.Int32)">
-            <summary>
-            Fallback when no generated parallel entity stamp functor overload is
-            selected.
             </summary>
         </member>
         <member name="T:Delta.ECS.IWherePredicate">
@@ -1865,15 +1757,6 @@
         <member name="M:Delta.ECS.GeneratedForEachRuntime.GetPreparedReadRoute``1(Delta.ECS.Query@,Delta.ECS.ComponentId)">
             <summary>Returns a cached explicit-component read route after sequence validation.</summary>
         </member>
-        <member name="M:Delta.ECS.GeneratedForEachRuntime.GetPreparedStampAccess``1(Delta.ECS.Query@)">
-            <summary>Returns a cached stamp access for a generated primary component.</summary>
-        </member>
-        <member name="M:Delta.ECS.GeneratedForEachRuntime.GetPreparedStampAccess(Delta.ECS.Query@,Delta.ECS.ComponentId)">
-            <summary>Returns a cached stamp access for an explicit component registration.</summary>
-        </member>
-        <member name="M:Delta.ECS.GeneratedForEachRuntime.GetPreparedStampAccess``1(Delta.ECS.Query@,Delta.ECS.ComponentId)">
-            <summary>Returns a cached typed stamp access for an explicit component registration.</summary>
-        </member>
         <member name="M:Delta.ECS.GeneratedForEachRuntime.GetPreparedWriteAccess``1(Delta.ECS.Query@)">
             <summary>Returns a cached primary write access using the generated component type.</summary>
         </member>
@@ -1884,7 +1767,7 @@
             <summary>Returns a cached explicit-component write route after sequence validation.</summary>
         </member>
         <member name="M:Delta.ECS.GeneratedForEachRuntime.GetWriteQueryComponentIndex(Delta.ECS.WriteAccess)">
-            <summary>Returns the trusted query-local route used by batch write marking.</summary>
+            <summary>Returns the trusted query-local component route used for write tracking.</summary>
         </member>
         <member name="M:Delta.ECS.GeneratedForEachRuntime.GetReadQueryComponentIndex(Delta.ECS.ReadAccess)">
             <summary>Returns a trusted query-local route used by generated parallel invokers.</summary>
@@ -1922,13 +1805,13 @@
         <member name="M:Delta.ECS.GeneratedGenericBindingRegistry.TryGetFunctorDispatcher(System.Type,System.Int32@,Delta.ECS.GeneratedGenericFunctorDispatcher@)">
             <summary>Finds a generated functor dispatcher for an open generic definition.</summary>
         </member>
-        <member name="M:Delta.ECS.GeneratedGenericBindingRegistry.RegisterComponent``1(Delta.ECS.ComponentLayoutRegistry,Delta.ECS.SchemaId,System.ReadOnlySpan{Delta.ECS.ComponentId})">
+        <member name="M:Delta.ECS.GeneratedGenericBindingRegistry.RegisterComponent``1(Delta.ECS.ComponentRegistry,Delta.ECS.SchemaId,System.ReadOnlySpan{Delta.ECS.ComponentId})">
             <summary>Registers a closed generic component from generated code.</summary>
         </member>
-        <member name="M:Delta.ECS.GeneratedGenericBindingRegistry.RegisterComponent``1(Delta.ECS.ComponentLayoutRegistry,Delta.ECS.SchemaId,System.ReadOnlySpan{Delta.ECS.ComponentId},Delta.ECS.IGeneratedComponentTypeToken)">
+        <member name="M:Delta.ECS.GeneratedGenericBindingRegistry.RegisterComponent``1(Delta.ECS.ComponentRegistry,Delta.ECS.SchemaId,System.ReadOnlySpan{Delta.ECS.ComponentId},Delta.ECS.IGeneratedComponentTypeToken)">
             <summary>Registers a closed generic component with its generated constraint-capability token.</summary>
         </member>
-        <member name="M:Delta.ECS.GeneratedGenericBindingRegistry.RegisterComponentDefinition(Delta.ECS.ComponentLayoutRegistry,System.Type,Delta.ECS.SchemaId,System.ReadOnlySpan{Delta.ECS.ComponentId})">
+        <member name="M:Delta.ECS.GeneratedGenericBindingRegistry.RegisterComponentDefinition(Delta.ECS.ComponentRegistry,System.Type,Delta.ECS.SchemaId,System.ReadOnlySpan{Delta.ECS.ComponentId})">
             <summary>Registers an open generic component from generated code using positional component IDs.</summary>
         </member>
         <member name="T:Delta.ECS.GeneratedGenericFunctorMode">
@@ -2042,9 +1925,6 @@
         <member name="T:Delta.ECS.IGeneratedParallelInvoker">
             <summary>Compiler-support contract for one direct generated parallel chunk invocation.</summary>
         </member>
-        <member name="T:Delta.ECS.IGeneratedArchetypeStampWriter">
-            <summary>Compiler-support contract for generated archetype stamp writers.</summary>
-        </member>
         <member name="T:Delta.ECS.IGeneratedComponentValueInitializer">
             <summary>Compiler-support contract for generated multi-component value operations.</summary>
         </member>
@@ -2063,20 +1943,11 @@
         <member name="P:Delta.ECS.GeneratedDenseExecution.HasTagFilters">
             <summary>Reports whether this execution applies tag filters.</summary>
         </member>
-        <member name="M:Delta.ECS.GeneratedDenseExecution.MarkArchetypeWrite(System.Int32)">
-            <summary>
-            Marks one write component for every non-empty matching archetype once
-            before the generated chunk loop starts.
-            </summary>
+        <member name="M:Delta.ECS.GeneratedDenseExecution.RecordComponentWrite(System.Int32)">
+            <summary>Reports one generated component write before the chunk loop starts.</summary>
         </member>
-        <member name="M:Delta.ECS.GeneratedDenseExecution.MarkArchetypeWrites(System.ReadOnlySpan{System.Int32})">
-            <summary>
-            Marks several write components for every non-empty matching archetype
-            in one plan traversal before the generated chunk loop starts.
-            </summary>
-        </member>
-        <member name="M:Delta.ECS.GeneratedDenseExecution.MarkArchetypeWrites``1(``0@)">
-            <summary>Runs the generated, arity-specific writer once for every matching archetype.</summary>
+        <member name="M:Delta.ECS.GeneratedDenseExecution.RecordComponentWrites(System.ReadOnlySpan{System.Int32})">
+            <summary>Reports generated component writes before the chunk loop starts.</summary>
         </member>
         <member name="M:Delta.ECS.GeneratedDenseExecution.MoveNextTrusted(Delta.ECS.GeneratedQuerySlots@)">
             <summary>Advances a validated generated execution without repeating the lifetime guard.</summary>
@@ -2100,33 +1971,6 @@
             <summary>
             Persistent executor for a generated invoker with static per-worker ranges.
             </summary>
-        </member>
-        <member name="T:Delta.ECS.Stamp">
-            <summary>Opaque 64-bit equality token used for component mutation revision tracking.</summary>
-        </member>
-        <member name="M:Delta.ECS.Stamp.#ctor(System.UInt64)">
-            <summary>Creates a stamp from its numeric revision value.</summary>
-        </member>
-        <member name="P:Delta.ECS.Stamp.Value">
-            <summary>Gets the numeric revision value.</summary>
-        </member>
-        <member name="M:Delta.ECS.Stamp.Equals(Delta.ECS.Stamp)">
-            <summary>Determines whether this stamp equals another stamp.</summary>
-        </member>
-        <member name="M:Delta.ECS.Stamp.Equals(System.Object)">
-            <summary>Determines whether this stamp equals the specified object.</summary>
-        </member>
-        <member name="M:Delta.ECS.Stamp.GetHashCode">
-            <summary>Returns a hash code for this stamp.</summary>
-        </member>
-        <member name="M:Delta.ECS.Stamp.op_Equality(Delta.ECS.Stamp,Delta.ECS.Stamp)">
-            <summary>Determines whether two stamps are equal.</summary>
-        </member>
-        <member name="M:Delta.ECS.Stamp.op_Inequality(Delta.ECS.Stamp,Delta.ECS.Stamp)">
-            <summary>Determines whether two stamps are different.</summary>
-        </member>
-        <member name="M:Delta.ECS.Stamp.ToString">
-            <summary>Returns the numeric revision value using invariant formatting.</summary>
         </member>
         <member name="M:Delta.ECS.GeneratedQueryExtensions_A854020D726757C3.WhereAll(Delta.ECS.QuerySpec,Delta.ECS.ComponentId)">
             <summary>

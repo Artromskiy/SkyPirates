@@ -1,4 +1,4 @@
-using Delta.ECS;
+﻿using Delta.ECS;
 using Delta.ECS.Unity;
 using ConfigViewToken = DVG.SkyPirates.Shared.Components.Config.ViewToken;
 using BindingViewToken = Delta.ECS.Unity.ViewToken;
@@ -20,10 +20,10 @@ namespace DVG.SkyPirates.Client.Systems
             _viewBinding = viewBinding;
             _configViewTokenEntities = _world.WhereAll(stackalloc ComponentId[1]
             {
-                _world.Layouts.GetPrimary<ConfigViewToken>()
+                _world.Components.GetPrimary<ConfigViewToken>()
             }).WhereNone(stackalloc ComponentId[1]
             {
-                _world.Layouts.GetPrimary<BindingViewToken>()
+                _world.Components.GetPrimary<BindingViewToken>()
             });
         }
 
