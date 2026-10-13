@@ -188,16 +188,16 @@
             Structural changes and observer registration are rejected while a query lease is active.
             </remarks>
         </member>
-        <member name="M:Delta.ECS.World.#ctor(Delta.ECS.ComponentRegistry,System.Int32)">
-            <summary>Creates a world using the supplied component layouts.</summary>
-            <param name="layouts">The registered component layouts, or null to create an empty registry.</param>
-            <param name="initialEntityCapacity">The initial capacity for entity records.</param>
-        </member>
         <member name="P:Delta.ECS.World.AliveEntityCount">
             <summary>Gets the number of entities currently alive in this world.</summary>
         </member>
         <member name="P:Delta.ECS.World.Components">
             <summary>Gets the registry containing this world's components.</summary>
+        </member>
+        <member name="M:Delta.ECS.World.#ctor(Delta.ECS.ComponentRegistry,System.Int32)">
+            <summary>Creates a world using the supplied component layouts.</summary>
+            <param name="layouts">The registered component layouts, or null to create an empty registry.</param>
+            <param name="initialEntityCapacity">The initial capacity for entity records.</param>
         </member>
         <member name="M:Delta.ECS.World.TryGetAlias(System.String,Delta.ECS.ComponentId@)">
             <summary>Tries to get the component registered under an alias in this world's catalog.</summary>
@@ -371,6 +371,14 @@
             component parameters.
             </summary>
         </member>
+        <member name="M:Delta.ECS.World.CreateGenericFunctorOperation(Delta.ECS.Query@,System.ReadOnlySpan{Delta.ECS.Entity},System.Boolean,Delta.ECS.GeneratedGenericFunctorMode,System.Type,System.Int32,System.ReadOnlySpan{Delta.ECS.ComponentId})">
+            <summary>Creates a reusable operation for a runtime-selected generic functor.</summary>
+            <remarks>The input snapshots are stored in native memory owned and released by this world.</remarks>
+        </member>
+        <member name="M:Delta.ECS.World.CreateGenericFunctorOperation``1(Delta.ECS.Query@,System.ReadOnlySpan{Delta.ECS.Entity},System.Boolean,Delta.ECS.GeneratedGenericFunctorMode,System.Type,System.Int32,``0,System.ReadOnlySpan{Delta.ECS.ComponentId})">
+            <summary>Creates a reusable operation for a runtime-selected generic functor with mutable caller-owned context.</summary>
+            <remarks>The input snapshots are stored in native memory owned and released by this world.</remarks>
+        </member>
         <member name="T:Delta.ECS.World.GenericFunctorOperationInvoker">
             <summary>Direct executor for a runtime-selected generic functor operation.</summary>
         </member>
@@ -382,14 +390,6 @@
         </member>
         <member name="M:Delta.ECS.World.GenericFunctorContextOperationInvoker`1.Invoke(`0@)">
             <summary>Resolves the typed executor once and runs the operation.</summary>
-        </member>
-        <member name="M:Delta.ECS.World.CreateGenericFunctorOperation(Delta.ECS.Query@,System.ReadOnlySpan{Delta.ECS.Entity},System.Boolean,Delta.ECS.GeneratedGenericFunctorMode,System.Type,System.Int32,System.ReadOnlySpan{Delta.ECS.ComponentId})">
-            <summary>Creates a reusable operation for a runtime-selected generic functor.</summary>
-            <remarks>The input snapshots are stored in native memory owned and released by this world.</remarks>
-        </member>
-        <member name="M:Delta.ECS.World.CreateGenericFunctorOperation``1(Delta.ECS.Query@,System.ReadOnlySpan{Delta.ECS.Entity},System.Boolean,Delta.ECS.GeneratedGenericFunctorMode,System.Type,System.Int32,``0,System.ReadOnlySpan{Delta.ECS.ComponentId})">
-            <summary>Creates a reusable operation for a runtime-selected generic functor with mutable caller-owned context.</summary>
-            <remarks>The input snapshots are stored in native memory owned and released by this world.</remarks>
         </member>
         <member name="M:Delta.ECS.World.Create``1">
             <summary>Creates one entity with the primary component for <typeparamref name="T"/>.</summary>
@@ -468,24 +468,6 @@
         <member name="M:Delta.ECS.World.GetReadRef``1(Delta.ECS.Entity)">
             <summary>Returns a read-only reference to the primary component row.</summary>
         </member>
-        <member name="T:Delta.ECS.World.EntityParallelOperation">
-            <summary>Direct executor for a zero-component entity parallel operation.</summary>
-        </member>
-        <member name="M:Delta.ECS.World.EntityParallelOperation.Invoke">
-            <summary>Executes the stored entity callback in parallel.</summary>
-        </member>
-        <member name="T:Delta.ECS.World.EntityParallelInContextOperation`1">
-            <summary>Direct executor for a zero-component entity parallel operation with read-only context.</summary>
-        </member>
-        <member name="M:Delta.ECS.World.EntityParallelInContextOperation`1.Invoke">
-            <summary>Executes the stored entity callback in parallel.</summary>
-        </member>
-        <member name="T:Delta.ECS.World.EntityParallelValueContextOperation`1">
-            <summary>Direct executor for a zero-component entity parallel operation with value context.</summary>
-        </member>
-        <member name="M:Delta.ECS.World.EntityParallelValueContextOperation`1.Invoke">
-            <summary>Executes the stored entity callback in parallel.</summary>
-        </member>
         <member name="M:Delta.ECS.World.ForEachParallel(Delta.ECS.Query@,Delta.ECS.ForEachAction,System.Int32)">
             <summary>
             Zero-component parallel callback overload.
@@ -551,11 +533,32 @@
             static (State value, EntityRef entity) =&gt; Log(value, entity), workerCount: 4)</c>.
             </summary>
         </member>
+        <member name="T:Delta.ECS.World.EntityParallelOperation">
+            <summary>Direct executor for a zero-component entity parallel operation.</summary>
+        </member>
+        <member name="M:Delta.ECS.World.EntityParallelOperation.Invoke">
+            <summary>Executes the stored entity callback in parallel.</summary>
+        </member>
+        <member name="T:Delta.ECS.World.EntityParallelInContextOperation`1">
+            <summary>Direct executor for a zero-component entity parallel operation with read-only context.</summary>
+        </member>
+        <member name="M:Delta.ECS.World.EntityParallelInContextOperation`1.Invoke">
+            <summary>Executes the stored entity callback in parallel.</summary>
+        </member>
+        <member name="T:Delta.ECS.World.EntityParallelValueContextOperation`1">
+            <summary>Direct executor for a zero-component entity parallel operation with value context.</summary>
+        </member>
+        <member name="M:Delta.ECS.World.EntityParallelValueContextOperation`1.Invoke">
+            <summary>Executes the stored entity callback in parallel.</summary>
+        </member>
         <member name="T:Delta.ECS.ChunkTagMasks">
             <summary>External per-chunk storage for data-less tag membership.</summary>
         </member>
         <member name="T:Delta.ECS.ComponentSchemaAttribute">
             <summary>Marks a component for generated registration and optionally assigns a stable schema ID.</summary>
+        </member>
+        <member name="P:Delta.ECS.ComponentSchemaAttribute.SchemaId">
+            <summary>An explicitly assigned stable schema ID, or zero when the ID is name-derived.</summary>
         </member>
         <member name="M:Delta.ECS.ComponentSchemaAttribute.#ctor">
             <summary>Marks a component whose schema ID is derived from its qualified name.</summary>
@@ -563,26 +566,23 @@
         <member name="M:Delta.ECS.ComponentSchemaAttribute.#ctor(System.UInt64)">
             <summary>Marks a component with an explicitly assigned stable schema ID.</summary>
         </member>
-        <member name="P:Delta.ECS.ComponentSchemaAttribute.SchemaId">
-            <summary>An explicitly assigned stable schema ID, or zero when the ID is name-derived.</summary>
-        </member>
         <member name="T:Delta.ECS.ComponentAliasAttribute">
             <summary>Assigns a catalog-resolvable name to a generated component registration.</summary>
-        </member>
-        <member name="M:Delta.ECS.ComponentAliasAttribute.#ctor(System.String)">
-            <summary>Assigns one alias to a component.</summary>
         </member>
         <member name="P:Delta.ECS.ComponentAliasAttribute.Alias">
             <summary>Gets the assigned alias.</summary>
         </member>
-        <member name="T:Delta.ECS.ComponentGroupAttribute`1">
-            <summary>Assigns a component to one or more groups identified by an enum.</summary>
+        <member name="M:Delta.ECS.ComponentAliasAttribute.#ctor(System.String)">
+            <summary>Assigns one alias to a component.</summary>
         </member>
-        <member name="M:Delta.ECS.ComponentGroupAttribute`1.#ctor(`0[])">
-            <summary>Assigns a component to the specified enum groups.</summary>
+        <member name="T:Delta.ECS.ComponentGroupAttribute">
+            <summary>Assigns a component to enum groups without a generic attribute type.</summary>
         </member>
-        <member name="P:Delta.ECS.ComponentGroupAttribute`1.GroupIds">
+        <member name="P:Delta.ECS.ComponentGroupAttribute.GroupIds">
             <summary>Gets the enum values that identify the component groups.</summary>
+        </member>
+        <member name="M:Delta.ECS.ComponentGroupAttribute.#ctor(System.Object[])">
+            <summary>Assigns a component to enum values or arrays of enum values.</summary>
         </member>
         <member name="T:Delta.ECS.IGeneratedComponentRegistration">
             <summary>Generated strongly typed registration for one marked component.</summary>
@@ -619,6 +619,20 @@
         </member>
         <member name="T:Delta.ECS.ComponentChangeMasks">
             <summary>Word and range operations for component change and presence masks.</summary>
+            <remarks>Bit positions and lengths are trusted, in-range chunk-local values.</remarks>
+        </member>
+        <member name="M:Delta.ECS.ComponentChangeMasks.MergeRange(System.ReadOnlySpan{System.UInt64},System.Int32,System.Span{System.UInt64},System.Int32,System.Int32)">
+            <summary>OR the original source bit range into the target, including overlaps.</summary>
+        </member>
+        <member name="M:Delta.ECS.ComponentChangeMasks.CopyBits(System.ReadOnlySpan{System.UInt64},System.Int32,System.Span{System.UInt64},System.Int32,System.Int32)">
+            <summary>Replace destination bits by source bits; overlapping spans are supported.</summary>
+        </member>
+        <member name="T:Delta.ECS.ComponentChangeOperation`1">
+            <summary>Reports changes to one component registration across the world.</summary>
+            <remarks>The first invocation reports every existing component as <see cref="F:Delta.ECS.ChangeKind.Added"/>. Later invocations report current state changes.</remarks>
+        </member>
+        <member name="M:Delta.ECS.ComponentChangeOperation`1.Invoke">
+            <summary>Reports additions, modifications, and removals since the previous invocation.</summary>
         </member>
         <member name="T:Delta.ECS.ChangeKind">
             <summary>Describes a component addition, modification, or removal.</summary>
@@ -635,13 +649,6 @@
         <member name="T:Delta.ECS.ComponentChangeAction`1">
             <summary>Handles a change to one component registration.</summary>
             <remarks>For <see cref="F:Delta.ECS.ChangeKind.Removed"/>, <paramref name="component"/> is a null reference and must not be dereferenced.</remarks>
-        </member>
-        <member name="T:Delta.ECS.ComponentChangeOperation`1">
-            <summary>Reports changes to one component registration across the world.</summary>
-            <remarks>The first invocation reports every existing component as <see cref="F:Delta.ECS.ChangeKind.Added"/>. Later invocations report current state changes.</remarks>
-        </member>
-        <member name="M:Delta.ECS.ComponentChangeOperation`1.Invoke">
-            <summary>Reports additions, modifications, and removals since the previous invocation.</summary>
         </member>
         <member name="T:Delta.ECS.ComponentRegistry">
             <summary>Registers component CLR types and their stable schema identities.</summary>
@@ -688,12 +695,6 @@
             The span length must match the generic definition's arity.
             </summary>
         </member>
-        <member name="M:Delta.ECS.ComponentRegistry.RegisterGeneric(System.Type,Delta.ECS.SchemaId,System.ReadOnlySpan{Delta.ECS.ComponentId})">
-            <summary>
-            Closes a generic component definition with the CLR types selected by
-            <paramref name="componentArguments"/> and registers the resulting type.
-            </summary>
-        </member>
         <member name="M:Delta.ECS.ComponentRegistry.GetComponentType(Delta.ECS.ComponentId)">
             <summary>Gets the CLR type of a registered component.</summary>
         </member>
@@ -708,6 +709,12 @@
         </member>
         <member name="M:Delta.ECS.ComponentRegistry.GetPrimary(System.Type)">
             <summary>Gets the primary component registration for a CLR type.</summary>
+        </member>
+        <member name="M:Delta.ECS.ComponentRegistry.RegisterGeneric(System.Type,Delta.ECS.SchemaId,System.ReadOnlySpan{Delta.ECS.ComponentId})">
+            <summary>
+            Closes a generic component definition with the CLR types selected by
+            <paramref name="componentArguments"/> and registers the resulting type.
+            </summary>
         </member>
         <member name="M:Delta.ECS.ComponentRegistry.TryGetPrimary``1(Delta.ECS.ComponentId@)">
             <summary>Tries to resolve the primary component registration for <typeparamref name="T"/>.</summary>
@@ -772,39 +779,27 @@
         <member name="M:Delta.ECS.ComponentRegistryRegistrationExtensions.BindInterface``2(Delta.ECS.IComponentRegistryClassNewRoute)">
             <summary>Binds an interface visitor route to a constructible class component CLR type.</summary>
         </member>
-        <member name="T:Delta.ECS.ComponentSet">
-            <summary>Immutable component registrations and their matching mask.</summary>
-        </member>
         <member name="T:Delta.ECS.ComponentSetCache">
             <summary>World-owned cache for immutable component sets.</summary>
+        </member>
+        <member name="T:Delta.ECS.ComponentSet">
+            <summary>Immutable component registrations and their matching mask.</summary>
         </member>
         <member name="T:Delta.ECS.ComponentId">
             <summary>Identifies one component registration within a layout registry.</summary>
         </member>
+        <member name="P:Delta.ECS.ComponentId.Invalid">
+            <summary>Gets the invalid component identifier.</summary>
+        </member>
         <member name="P:Delta.ECS.ComponentId.Value">
             <summary>Gets the registry-local numeric value of this identifier.</summary>
-        </member>
-        <member name="M:Delta.ECS.ComponentId.#ctor(System.Int32)">
-            <summary>Creates a component identifier from its registry-local numeric value.</summary>
-            <param name="value">The numeric identifier; negative values are invalid.</param>
         </member>
         <member name="P:Delta.ECS.ComponentId.IsValid">
             <summary>Gets whether this identifier represents a registered component.</summary>
         </member>
-        <member name="P:Delta.ECS.ComponentId.Invalid">
-            <summary>Gets the invalid component identifier.</summary>
-        </member>
-        <member name="M:Delta.ECS.ComponentId.CompareTo(Delta.ECS.ComponentId)">
-            <summary>Compares this identifier with another identifier.</summary>
-        </member>
-        <member name="M:Delta.ECS.ComponentId.Equals(Delta.ECS.ComponentId)">
-            <summary>Determines whether this identifier equals another identifier.</summary>
-        </member>
-        <member name="M:Delta.ECS.ComponentId.Equals(System.Object)">
-            <summary>Determines whether this identifier equals the specified object.</summary>
-        </member>
-        <member name="M:Delta.ECS.ComponentId.GetHashCode">
-            <summary>Returns a hash code for this identifier.</summary>
+        <member name="M:Delta.ECS.ComponentId.#ctor(System.Int32)">
+            <summary>Creates a component identifier from its registry-local numeric value.</summary>
+            <param name="value">The numeric identifier; negative values are invalid.</param>
         </member>
         <member name="M:Delta.ECS.ComponentId.op_Equality(Delta.ECS.ComponentId,Delta.ECS.ComponentId)">
             <summary>Determines whether two component identifiers are equal.</summary>
@@ -824,21 +819,20 @@
         <member name="M:Delta.ECS.ComponentId.op_GreaterThanOrEqual(Delta.ECS.ComponentId,Delta.ECS.ComponentId)">
             <summary>Determines whether the first identifier sorts after or equals the second.</summary>
         </member>
+        <member name="M:Delta.ECS.ComponentId.CompareTo(Delta.ECS.ComponentId)">
+            <summary>Compares this identifier with another identifier.</summary>
+        </member>
+        <member name="M:Delta.ECS.ComponentId.Equals(Delta.ECS.ComponentId)">
+            <summary>Determines whether this identifier equals another identifier.</summary>
+        </member>
+        <member name="M:Delta.ECS.ComponentId.Equals(System.Object)">
+            <summary>Determines whether this identifier equals the specified object.</summary>
+        </member>
+        <member name="M:Delta.ECS.ComponentId.GetHashCode">
+            <summary>Returns a hash code for this identifier.</summary>
+        </member>
         <member name="M:Delta.ECS.ComponentId.ToString">
             <summary>Returns the numeric identifier as text.</summary>
-        </member>
-        <member name="T:Delta.ECS.ComponentMask">
-            <summary>
-            Immutable set of component ids backed by dynamically sized native words.
-            </summary>
-        </member>
-        <member name="M:Delta.ECS.ComponentMask.GetEnumerator">
-            <summary>
-            Enumerates the set component ids in ascending numeric order without allocating.
-            </summary>
-        </member>
-        <member name="T:Delta.ECS.NativeComponentMaskStorage">
-            <summary>Immutable native word storage owned by a component mask.</summary>
         </member>
         <member name="T:Delta.ECS.SchemaId">
             <summary>Stable application-defined identity for a component registration.</summary>
@@ -849,6 +843,12 @@
         <member name="M:Delta.ECS.SchemaId.#ctor(System.UInt64)">
             <summary>Creates a schema identifier from an application-defined value.</summary>
             <param name="value">A nonzero identity that remains stable across runs.</param>
+        </member>
+        <member name="M:Delta.ECS.SchemaId.op_Equality(Delta.ECS.SchemaId,Delta.ECS.SchemaId)">
+            <summary>Determines whether two schema identifiers are equal.</summary>
+        </member>
+        <member name="M:Delta.ECS.SchemaId.op_Inequality(Delta.ECS.SchemaId,Delta.ECS.SchemaId)">
+            <summary>Determines whether two schema identifiers are different.</summary>
         </member>
         <member name="M:Delta.ECS.SchemaId.Equals(Delta.ECS.SchemaId)">
             <summary>Determines whether this schema identifier equals another identifier.</summary>
@@ -862,11 +862,18 @@
         <member name="M:Delta.ECS.SchemaId.ToString">
             <summary>Returns the numeric schema value as text.</summary>
         </member>
-        <member name="M:Delta.ECS.SchemaId.op_Equality(Delta.ECS.SchemaId,Delta.ECS.SchemaId)">
-            <summary>Determines whether two schema identifiers are equal.</summary>
+        <member name="T:Delta.ECS.ComponentMask">
+            <summary>
+            Immutable set of component ids backed by dynamically sized native words.
+            </summary>
         </member>
-        <member name="M:Delta.ECS.SchemaId.op_Inequality(Delta.ECS.SchemaId,Delta.ECS.SchemaId)">
-            <summary>Determines whether two schema identifiers are different.</summary>
+        <member name="M:Delta.ECS.ComponentMask.GetEnumerator">
+            <summary>
+            Enumerates the set component ids in ascending numeric order without allocating.
+            </summary>
+        </member>
+        <member name="T:Delta.ECS.NativeComponentMaskStorage">
+            <summary>Immutable native word storage owned by a component mask.</summary>
         </member>
         <member name="T:Delta.ECS.IVisitor">
             <summary>Marker for visitors that receive a registered component type.</summary>
@@ -992,48 +999,6 @@
         <member name="M:Delta.ECS.GeneralComponentTypeVisitor`1.VisitClassConstructible``1(Delta.ECS.ComponentId)">
             <summary>Visits a component type satisfying the class, interface, and constructor constraints.</summary>
         </member>
-        <member name="T:Delta.ECS.IOperation">
-            <summary>A deferred operation that can be executed without boxing its concrete value.</summary>
-        </member>
-        <member name="M:Delta.ECS.IOperation.Invoke">
-            <summary>Executes this operation.</summary>
-        </member>
-        <member name="T:Delta.ECS.IOperation`1">
-            <summary>A deferred operation that can also use caller-owned mutable state.</summary>
-        </member>
-        <member name="M:Delta.ECS.IOperation`1.Invoke(`0@)">
-            <summary>Executes this operation using and updating caller-owned state.</summary>
-        </member>
-        <member name="T:Delta.ECS.IOperation`2">
-            <summary>A deferred operation that can use caller-owned context and functor state.</summary>
-        </member>
-        <member name="M:Delta.ECS.IOperation`2.Invoke(`1@)">
-            <summary>Executes the operation using caller-owned functor state and its owned context.</summary>
-        </member>
-        <member name="M:Delta.ECS.IOperation`2.InvokeWithContext(`0@)">
-            <summary>Executes the operation using its owned functor and caller-owned context.</summary>
-        </member>
-        <member name="M:Delta.ECS.IOperation`2.Invoke(`0@,`1@)">
-            <summary>Executes the operation using and updating caller-owned context and functor state.</summary>
-        </member>
-        <member name="T:Delta.ECS.IEcsOperationInvoker">
-            <summary>Execution contract for an operation with no mutable caller-owned state.</summary>
-        </member>
-        <member name="M:Delta.ECS.IEcsOperationInvoker.Invoke">
-            <summary>Executes the operation.</summary>
-        </member>
-        <member name="T:Delta.ECS.IEcsOperationInvoker`1">
-            <summary>Execution contract for an operation with one mutable state value.</summary>
-        </member>
-        <member name="M:Delta.ECS.IEcsOperationInvoker`1.Invoke(`0@)">
-            <summary>Executes the operation using and updating caller-owned state.</summary>
-        </member>
-        <member name="T:Delta.ECS.IEcsOperationInvoker`2">
-            <summary>Execution contract for an operation with mutable context and functor state.</summary>
-        </member>
-        <member name="M:Delta.ECS.IEcsOperationInvoker`2.Invoke(`0@,`1@)">
-            <summary>Executes the operation using caller-owned context and functor state.</summary>
-        </member>
         <member name="T:Delta.ECS.EcsOperation`1">
             <summary>A reusable deferred operation with a concrete value-type executor.</summary>
             <remarks>Use <see cref="T:Delta.ECS.IOperation"/> to store different operation shapes behind one reference.</remarks>
@@ -1076,6 +1041,48 @@
         <member name="M:Delta.ECS.EcsOperation`3.Invoke(`0@,`1@)">
             <summary>Executes the operation using and updating caller-owned context and functor.</summary>
         </member>
+        <member name="T:Delta.ECS.IOperation">
+            <summary>A deferred operation that can be executed without boxing its concrete value.</summary>
+        </member>
+        <member name="M:Delta.ECS.IOperation.Invoke">
+            <summary>Executes this operation.</summary>
+        </member>
+        <member name="T:Delta.ECS.IOperation`1">
+            <summary>A deferred operation that can also use caller-owned mutable state.</summary>
+        </member>
+        <member name="M:Delta.ECS.IOperation`1.Invoke(`0@)">
+            <summary>Executes this operation using and updating caller-owned state.</summary>
+        </member>
+        <member name="T:Delta.ECS.IOperation`2">
+            <summary>A deferred operation that can use caller-owned context and functor state.</summary>
+        </member>
+        <member name="M:Delta.ECS.IOperation`2.Invoke(`1@)">
+            <summary>Executes the operation using caller-owned functor state and its owned context.</summary>
+        </member>
+        <member name="M:Delta.ECS.IOperation`2.InvokeWithContext(`0@)">
+            <summary>Executes the operation using its owned functor and caller-owned context.</summary>
+        </member>
+        <member name="M:Delta.ECS.IOperation`2.Invoke(`0@,`1@)">
+            <summary>Executes the operation using and updating caller-owned context and functor state.</summary>
+        </member>
+        <member name="T:Delta.ECS.IEcsOperationInvoker">
+            <summary>Execution contract for an operation with no mutable caller-owned state.</summary>
+        </member>
+        <member name="M:Delta.ECS.IEcsOperationInvoker.Invoke">
+            <summary>Executes the operation.</summary>
+        </member>
+        <member name="T:Delta.ECS.IEcsOperationInvoker`1">
+            <summary>Execution contract for an operation with one mutable state value.</summary>
+        </member>
+        <member name="M:Delta.ECS.IEcsOperationInvoker`1.Invoke(`0@)">
+            <summary>Executes the operation using and updating caller-owned state.</summary>
+        </member>
+        <member name="T:Delta.ECS.IEcsOperationInvoker`2">
+            <summary>Execution contract for an operation with mutable context and functor state.</summary>
+        </member>
+        <member name="M:Delta.ECS.IEcsOperationInvoker`2.Invoke(`0@,`1@)">
+            <summary>Executes the operation using caller-owned context and functor state.</summary>
+        </member>
         <member name="T:Delta.ECS.EcsResultOperation`1">
             <summary>A reusable, deferred ECS operation that produces a result when invoked.</summary>
         </member>
@@ -1089,14 +1096,14 @@
             <summary>A scoped entity handle for an entity-aware iteration callback.</summary>
             <remarks>Component access uses trusted world paths while this scoped view is valid.</remarks>
         </member>
-        <member name="M:Delta.ECS.EntityRef.op_Implicit(Delta.ECS.EntityRef)~Delta.ECS.Entity">
-            <summary>Converts this scoped view to its stable entity handle.</summary>
-        </member>
         <member name="P:Delta.ECS.EntityRef.Index">
             <summary>Gets the current entity's index.</summary>
         </member>
         <member name="P:Delta.ECS.EntityRef.Generation">
             <summary>Gets the current entity's lifetime generation.</summary>
+        </member>
+        <member name="M:Delta.ECS.EntityRef.op_Implicit(Delta.ECS.EntityRef)~Delta.ECS.Entity">
+            <summary>Converts this scoped view to its stable entity handle.</summary>
         </member>
         <member name="M:Delta.ECS.EntityRef.Has(Delta.ECS.ComponentId)">
             <summary>Reports whether the current entity has the specified component registration.</summary>
@@ -1141,11 +1148,6 @@
         <member name="P:Delta.ECS.Entity.Generation">
             <summary>Gets the generation that distinguishes this lifetime from reused slots.</summary>
         </member>
-        <member name="M:Delta.ECS.Entity.#ctor(System.Int32,System.Int32)">
-            <summary>Creates an entity handle from its slot index and generation.</summary>
-            <param name="index">The entity slot index.</param>
-            <param name="generation">The lifetime generation.</param>
-        </member>
         <member name="P:Delta.ECS.Entity.IsValid">
             <summary>
             Gets whether this handle has a non-negative index and a positive generation.
@@ -1156,6 +1158,17 @@
             <see cref="M:Delta.ECS.World.IsAlive(Delta.ECS.Entity)"/> for a world-specific liveness check.
             </remarks>
         </member>
+        <member name="M:Delta.ECS.Entity.#ctor(System.Int32,System.Int32)">
+            <summary>Creates an entity handle from its slot index and generation.</summary>
+            <param name="index">The entity slot index.</param>
+            <param name="generation">The lifetime generation.</param>
+        </member>
+        <member name="M:Delta.ECS.Entity.op_Equality(Delta.ECS.Entity,Delta.ECS.Entity)">
+            <summary>Determines whether two entity handles are equal.</summary>
+        </member>
+        <member name="M:Delta.ECS.Entity.op_Inequality(Delta.ECS.Entity,Delta.ECS.Entity)">
+            <summary>Determines whether two entity handles are different.</summary>
+        </member>
         <member name="M:Delta.ECS.Entity.Equals(Delta.ECS.Entity)">
             <summary>Determines whether this handle equals another entity handle.</summary>
         </member>
@@ -1165,12 +1178,6 @@
         <member name="M:Delta.ECS.Entity.GetHashCode">
             <summary>Returns a hash code for this entity handle.</summary>
         </member>
-        <member name="M:Delta.ECS.Entity.op_Equality(Delta.ECS.Entity,Delta.ECS.Entity)">
-            <summary>Determines whether two entity handles are equal.</summary>
-        </member>
-        <member name="M:Delta.ECS.Entity.op_Inequality(Delta.ECS.Entity,Delta.ECS.Entity)">
-            <summary>Determines whether two entity handles are different.</summary>
-        </member>
         <member name="M:Delta.ECS.Entity.ToString">
             <summary>Returns the index and generation as text.</summary>
         </member>
@@ -1179,6 +1186,9 @@
         </member>
         <member name="P:Delta.ECS.Query.IsValid">
             <summary>Gets whether this query belongs to a live, undisposed world.</summary>
+        </member>
+        <member name="M:Delta.ECS.Query.First">
+            <summary>Returns the first entity matching this query, or <see langword="default"/> if there is no match.</summary>
         </member>
         <member name="M:Delta.ECS.Query.WhereAll(System.ReadOnlySpan{Delta.ECS.ComponentId})">
             <summary>Extends this query's required component registrations.</summary>
@@ -1207,6 +1217,15 @@
         <member name="T:Delta.ECS.OrderedQuery">
             <summary>An immutable ordering of a query, with lexicographic keys added by generated component comparer functors.</summary>
         </member>
+        <member name="P:Delta.ECS.OrderedQuery.SourceQuery">
+            <summary>Gets the source query used to create this ordered view.</summary>
+        </member>
+        <member name="P:Delta.ECS.OrderedQuery.World">
+            <summary>Gets the owning world for generated ordered iteration extensions.</summary>
+        </member>
+        <member name="M:Delta.ECS.OrderedQuery.CreateGenerated(Delta.ECS.Query,Delta.ECS.IGeneratedComponentComparer)">
+            <summary>Creates an ordered view using a generated component comparer.</summary>
+        </member>
         <member name="M:Delta.ECS.OrderedQuery.First">
             <summary>Returns the first entity in ordering order, or <see langword="default"/> if the query has no result.</summary>
         </member>
@@ -1219,20 +1238,11 @@
         <member name="M:Delta.ECS.OrderedQuery.FirstEntity(System.Func{Delta.ECS.Entity,System.Boolean})">
             <summary>Returns the first entity accepted by <paramref name="predicate"/> in ordering order, or <see langword="default"/>.</summary>
         </member>
-        <member name="P:Delta.ECS.OrderedQuery.SourceQuery">
-            <summary>Gets the source query used to create this ordered view.</summary>
-        </member>
-        <member name="P:Delta.ECS.OrderedQuery.World">
-            <summary>Gets the owning world for generated ordered iteration extensions.</summary>
-        </member>
         <member name="M:Delta.ECS.OrderedQuery.BeginForEach">
             <summary>Collects and sorts the source query into reusable world-owned storage for generated iteration.</summary>
         </member>
         <member name="M:Delta.ECS.OrderedQuery.EndForEach">
             <summary>Releases the ordered-query execution guard after generated iteration.</summary>
-        </member>
-        <member name="M:Delta.ECS.OrderedQuery.CreateGenerated(Delta.ECS.Query,Delta.ECS.IGeneratedComponentComparer)">
-            <summary>Creates an ordered view using a generated component comparer.</summary>
         </member>
         <member name="M:Delta.ECS.OrderedQuery.AppendGenerated(Delta.ECS.IGeneratedComponentComparer)">
             <summary>Adds a generated component comparer as a lexicographic key.</summary>
@@ -1258,14 +1268,8 @@
         <member name="T:Delta.ECS.QuerySpec">
             <summary>Immutable component filter used to create or extend a query.</summary>
         </member>
-        <member name="M:Delta.ECS.QuerySpec.Equals(Delta.ECS.QuerySpec)">
-            <summary>Determines whether this filter has the same requirements as another filter.</summary>
-        </member>
-        <member name="M:Delta.ECS.QuerySpec.Equals(System.Object)">
-            <summary>Determines whether this filter equals the specified object.</summary>
-        </member>
-        <member name="M:Delta.ECS.QuerySpec.GetHashCode">
-            <summary>Returns a hash code for this filter.</summary>
+        <member name="P:Delta.ECS.QuerySpec.Empty">
+            <summary>Gets an empty query specification that can be extended with generated filters.</summary>
         </member>
         <member name="M:Delta.ECS.QuerySpec.WhereAll(System.ReadOnlySpan{Delta.ECS.ComponentId})">
             <summary>Creates a filter requiring every listed component registration.</summary>
@@ -1285,8 +1289,14 @@
         <member name="M:Delta.ECS.QuerySpec.WhereNone(Delta.ECS.ComponentId)">
             <summary>Creates a filter excluding entities with the specified component registration.</summary>
         </member>
-        <member name="P:Delta.ECS.QuerySpec.Empty">
-            <summary>Gets an empty query specification that can be extended with generated filters.</summary>
+        <member name="M:Delta.ECS.QuerySpec.Equals(Delta.ECS.QuerySpec)">
+            <summary>Determines whether this filter has the same requirements as another filter.</summary>
+        </member>
+        <member name="M:Delta.ECS.QuerySpec.Equals(System.Object)">
+            <summary>Determines whether this filter equals the specified object.</summary>
+        </member>
+        <member name="M:Delta.ECS.QuerySpec.GetHashCode">
+            <summary>Returns a hash code for this filter.</summary>
         </member>
         <member name="M:Delta.ECS.QuerySpec.WithAll(System.ReadOnlySpan{Delta.ECS.ComponentId})">
             <summary>Adds an all-components filter to this specification.</summary>
@@ -1595,21 +1605,6 @@
         <member name="M:Delta.ECS.GeneratedComponentTypeDispatch.DispatchNullableClassConstructible``1(Delta.ECS.IGeneratedComponentTypeToken,System.ReadOnlySpan{Delta.ECS.IGeneratedComponentTypeToken},``0@)">
             <summary>Dispatches a registered class? with a public parameterless constructor.</summary>
         </member>
-        <member name="T:Delta.ECS.GeneratedBoundChunk">
-            <summary>Compiler-support reference to a bound chunk with a live entity count.</summary>
-        </member>
-        <member name="P:Delta.ECS.GeneratedBoundChunk.Count">
-            <summary>Reads the current population, including changes that do not alter chunk topology.</summary>
-        </member>
-        <member name="M:Delta.ECS.GeneratedBoundChunk.GetEntityReference">
-            <summary>Returns the live entity row inside a validated execution lease.</summary>
-        </member>
-        <member name="P:Delta.ECS.GeneratedBoundChunk.HasTagFilters">
-            <summary>Reports whether the owning query contains tag filters.</summary>
-        </member>
-        <member name="M:Delta.ECS.GeneratedBoundChunk.TryGetTagSlots(System.ReadOnlySpan{System.Int32}@)">
-            <summary>Returns selected physical slots when this chunk is sparse for the query's tag filters.</summary>
-        </member>
         <member name="T:Delta.ECS.GeneratedDenseBinding`1">
             <summary>Query-owned compiler-support cache for a generated, typed row signature.</summary>
         </member>
@@ -1621,6 +1616,21 @@
         </member>
         <member name="M:Delta.ECS.GeneratedDenseBinding`1.SetWriteRoutes(System.ReadOnlySpan{System.Int32})">
             <summary>Stores unique write routes for marking before any callback executes.</summary>
+        </member>
+        <member name="T:Delta.ECS.GeneratedBoundChunk">
+            <summary>Compiler-support reference to a bound chunk with a live entity count.</summary>
+        </member>
+        <member name="P:Delta.ECS.GeneratedBoundChunk.Count">
+            <summary>Reads the current population, including changes that do not alter chunk topology.</summary>
+        </member>
+        <member name="P:Delta.ECS.GeneratedBoundChunk.HasTagFilters">
+            <summary>Reports whether the owning query contains tag filters.</summary>
+        </member>
+        <member name="M:Delta.ECS.GeneratedBoundChunk.GetEntityReference">
+            <summary>Returns the live entity row inside a validated execution lease.</summary>
+        </member>
+        <member name="M:Delta.ECS.GeneratedBoundChunk.TryGetTagSlots(System.ReadOnlySpan{System.Int32}@)">
+            <summary>Returns selected physical slots when this chunk is sparse for the query's tag filters.</summary>
         </member>
         <member name="T:Delta.ECS.GeneratedBoundExecution`1">
             <summary>Borrowed typed rows, valid only while this compiler-support execution is alive.</summary>
@@ -1784,12 +1794,6 @@
             validation. The component/type contract remains checked by the plan.
             </summary>
         </member>
-        <member name="T:Delta.ECS.GeneratedGenericComponentDispatcher">
-            <summary>Creates a closed generic component using generated type-token dispatch.</summary>
-        </member>
-        <member name="T:Delta.ECS.GeneratedGenericFunctorDispatcher">
-            <summary>Creates a closed generic functor using generated type-token dispatch.</summary>
-        </member>
         <member name="T:Delta.ECS.GeneratedGenericBindingRegistry">
             <summary>Receives generated generic dispatchers.</summary>
         </member>
@@ -1799,12 +1803,6 @@
         <member name="M:Delta.ECS.GeneratedGenericBindingRegistry.RegisterFunctorDispatcher(System.Type,System.Int32,Delta.ECS.GeneratedGenericFunctorDispatcher)">
             <summary>Registers a generated dispatcher for a generic functor definition.</summary>
         </member>
-        <member name="M:Delta.ECS.GeneratedGenericBindingRegistry.TryGetComponentDispatcher(System.Type,System.Int32@,Delta.ECS.GeneratedGenericComponentDispatcher@)">
-            <summary>Finds a generated component dispatcher for an open generic definition.</summary>
-        </member>
-        <member name="M:Delta.ECS.GeneratedGenericBindingRegistry.TryGetFunctorDispatcher(System.Type,System.Int32@,Delta.ECS.GeneratedGenericFunctorDispatcher@)">
-            <summary>Finds a generated functor dispatcher for an open generic definition.</summary>
-        </member>
         <member name="M:Delta.ECS.GeneratedGenericBindingRegistry.RegisterComponent``1(Delta.ECS.ComponentRegistry,Delta.ECS.SchemaId,System.ReadOnlySpan{Delta.ECS.ComponentId})">
             <summary>Registers a closed generic component from generated code.</summary>
         </member>
@@ -1813,6 +1811,18 @@
         </member>
         <member name="M:Delta.ECS.GeneratedGenericBindingRegistry.RegisterComponentDefinition(Delta.ECS.ComponentRegistry,System.Type,Delta.ECS.SchemaId,System.ReadOnlySpan{Delta.ECS.ComponentId})">
             <summary>Registers an open generic component from generated code using positional component IDs.</summary>
+        </member>
+        <member name="M:Delta.ECS.GeneratedGenericBindingRegistry.TryGetComponentDispatcher(System.Type,System.Int32@,Delta.ECS.GeneratedGenericComponentDispatcher@)">
+            <summary>Finds a generated component dispatcher for an open generic definition.</summary>
+        </member>
+        <member name="M:Delta.ECS.GeneratedGenericBindingRegistry.TryGetFunctorDispatcher(System.Type,System.Int32@,Delta.ECS.GeneratedGenericFunctorDispatcher@)">
+            <summary>Finds a generated functor dispatcher for an open generic definition.</summary>
+        </member>
+        <member name="T:Delta.ECS.GeneratedGenericComponentDispatcher">
+            <summary>Creates a closed generic component using generated type-token dispatch.</summary>
+        </member>
+        <member name="T:Delta.ECS.GeneratedGenericFunctorDispatcher">
+            <summary>Creates a closed generic functor using generated type-token dispatch.</summary>
         </member>
         <member name="T:Delta.ECS.GeneratedGenericFunctorMode">
             <summary>Generated execution shape for a runtime-selected generic functor.</summary>
@@ -1844,11 +1854,11 @@
         <member name="P:Delta.ECS.GeneratedQuerySlots.HasTagFilters">
             <summary>Reports whether the owning query applies tag filters.</summary>
         </member>
-        <member name="M:Delta.ECS.GeneratedQuerySlots.IsTagSelected(System.Int32)">
-            <summary>Tests whether a physical chunk slot satisfies the query's tag filters.</summary>
-        </member>
         <member name="P:Delta.ECS.GeneratedQuerySlots.ChunkId">
             <summary>Gets the stable identity of the current chunk.</summary>
+        </member>
+        <member name="M:Delta.ECS.GeneratedQuerySlots.IsTagSelected(System.Int32)">
+            <summary>Tests whether a physical chunk slot satisfies the query's tag filters.</summary>
         </member>
         <member name="M:Delta.ECS.GeneratedQuerySlots.GetEntityRef(Delta.ECS.GeneratedEntityRefView@,System.Int32)">
             <summary>Creates a borrowed view for one logical entity in this query chunk.</summary>
@@ -1937,11 +1947,11 @@
         <member name="T:Delta.ECS.GeneratedDenseExecution">
             <summary>Trusted compiler-support execution state for generated write queries.</summary>
         </member>
-        <member name="M:Delta.ECS.GeneratedDenseExecution.TryGetTagSlots(System.ReadOnlySpan{System.Int32}@)">
-            <summary>Returns the selected physical entity slots for the current chunk, when filtered by tags.</summary>
-        </member>
         <member name="P:Delta.ECS.GeneratedDenseExecution.HasTagFilters">
             <summary>Reports whether this execution applies tag filters.</summary>
+        </member>
+        <member name="M:Delta.ECS.GeneratedDenseExecution.TryGetTagSlots(System.ReadOnlySpan{System.Int32}@)">
+            <summary>Returns the selected physical entity slots for the current chunk, when filtered by tags.</summary>
         </member>
         <member name="M:Delta.ECS.GeneratedDenseExecution.RecordComponentWrite(System.Int32)">
             <summary>Reports one generated component write before the chunk loop starts.</summary>
@@ -1958,11 +1968,11 @@
         <member name="T:Delta.ECS.GeneratedReadDenseExecution">
             <summary>Trusted compiler-support execution state for generated read queries.</summary>
         </member>
-        <member name="M:Delta.ECS.GeneratedReadDenseExecution.TryGetTagSlots(System.ReadOnlySpan{System.Int32}@)">
-            <summary>Returns the selected physical entity slots for the current chunk, when filtered by tags.</summary>
-        </member>
         <member name="P:Delta.ECS.GeneratedReadDenseExecution.HasTagFilters">
             <summary>Reports whether this execution applies tag filters.</summary>
+        </member>
+        <member name="M:Delta.ECS.GeneratedReadDenseExecution.TryGetTagSlots(System.ReadOnlySpan{System.Int32}@)">
+            <summary>Returns the selected physical entity slots for the current chunk, when filtered by tags.</summary>
         </member>
         <member name="M:Delta.ECS.GeneratedReadDenseExecution.MoveNextTrusted(System.Array[]@,System.Int32@)">
             <summary>Advances a validated read execution while exposing only component rows and count.</summary>
