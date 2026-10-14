@@ -162,7 +162,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d000f88ccb55644478a0f379b2914c9c, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: DVG.SkyPirates.Tooling.Testing.Editor::DVG.SkyPirates.Tooling.Testing.PropertyDrawers.DoublePropertyDrawerTest
+  m_EditorClassIdentifier: SkyPirates.Tooling.Testing.Editor::SkyPirates.Tooling.Testing.PropertyDrawers.DoublePropertyDrawerTest
   _doubles:
     _single:
       _source: 1
@@ -361,7 +361,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c90a032aaa9182140b61b9e68e5256e8, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: DVG.SkyPirates.Tooling.Testing.Editor::DVG.SkyPirates.Tooling.Testing.PropertyDrawers.FloatPropertyDrawerTest
+  m_EditorClassIdentifier: SkyPirates.Tooling.Testing.Editor::SkyPirates.Tooling.Testing.PropertyDrawers.FloatPropertyDrawerTest
   _floats:
     _single:
       _source: 1
@@ -555,7 +555,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 44d89679b4ef54d4097a9c26f535018a, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: DVG.SkyPirates.Tooling.Testing.Editor::DVG.SkyPirates.Tooling.Testing.PropertyDrawers.FixPropertyDrawerTest
+  m_EditorClassIdentifier: SkyPirates.Tooling.Testing.Editor::SkyPirates.Tooling.Testing.PropertyDrawers.FixPropertyDrawerTest
   _fixes:
     _single:
       _source:

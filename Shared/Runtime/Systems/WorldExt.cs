@@ -1,8 +1,8 @@
 ﻿using Delta.ECS;
-using DVG.SkyPirates.Shared.Data;
-using DVG.SkyPirates.Shared.Ecs;
+using SkyPirates.Shared.Data;
+using SkyPirates.Shared.Ecs;
 
-namespace DVG.SkyPirates.Shared.Systems
+namespace SkyPirates.Shared.Systems
 {
     public static class WorldExt
     {

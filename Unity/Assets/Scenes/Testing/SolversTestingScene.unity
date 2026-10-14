@@ -243,7 +243,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e633e5851b5bce84f82dfe53d3b5ab1a, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: DVG.SkyPirates.Tooling.Testing.Editor::DVG.SkyPirates.Tooling.Testing.CollideAndSlideTester
+  m_EditorClassIdentifier: SkyPirates.Tooling.Testing.Editor::SkyPirates.Tooling.Testing.CollideAndSlideTester
   _radius:
     raw: 9830
   _start: {fileID: 565479543}
@@ -861,7 +861,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 46b4325aede20ef4784cf42c2073f4fb, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: DVG.SkyPirates.Tooling.Testing.Editor::DVG.SkyPirates.Tooling.Testing.RayCircleTester
+  m_EditorClassIdentifier: SkyPirates.Tooling.Testing.Editor::SkyPirates.Tooling.Testing.RayCircleTester
   _radius:
     raw: 32768
   _rayStart: {fileID: 652514269}
@@ -1102,7 +1102,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e633e5851b5bce84f82dfe53d3b5ab1a, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: DVG.SkyPirates.Tooling.Testing.Editor::DVG.SkyPirates.Tooling.Testing.CollideAndSlideTester
+  m_EditorClassIdentifier: SkyPirates.Tooling.Testing.Editor::SkyPirates.Tooling.Testing.CollideAndSlideTester
   _radius:
     raw: 9830
   _start: {fileID: 882132012}
@@ -1156,7 +1156,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e633e5851b5bce84f82dfe53d3b5ab1a, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: DVG.SkyPirates.Tooling.Testing.Editor::DVG.SkyPirates.Tooling.Testing.CollideAndSlideTester
+  m_EditorClassIdentifier: SkyPirates.Tooling.Testing.Editor::SkyPirates.Tooling.Testing.CollideAndSlideTester
   _radius:
     raw: 9830
   _start: {fileID: 1830032217}
@@ -1369,7 +1369,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 46b4325aede20ef4784cf42c2073f4fb, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: DVG.SkyPirates.Tooling.Testing.Editor::DVG.SkyPirates.Tooling.Testing.RayCircleTester
+  m_EditorClassIdentifier: SkyPirates.Tooling.Testing.Editor::SkyPirates.Tooling.Testing.RayCircleTester
   _radius:
     raw: 32768
   _rayStart: {fileID: 1549181488}
@@ -1486,7 +1486,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8c99186527572294999ca7d7c11a7a26, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: DVG.SkyPirates.Tooling.Testing.Editor::DVG.SkyPirates.Tooling.Testing.CircleCastTester
+  m_EditorClassIdentifier: SkyPirates.Tooling.Testing.Editor::SkyPirates.Tooling.Testing.CircleCastTester
   _radius:
     raw: 9830
   _rayStart: {fileID: 1503650155}
@@ -1600,7 +1600,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8c99186527572294999ca7d7c11a7a26, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: DVG.SkyPirates.Tooling.Testing.Editor::DVG.SkyPirates.Tooling.Testing.CircleCastTester
+  m_EditorClassIdentifier: SkyPirates.Tooling.Testing.Editor::SkyPirates.Tooling.Testing.CircleCastTester
   _radius:
     raw: 9830
   _rayStart: {fileID: 1473647788}
@@ -1807,7 +1807,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e633e5851b5bce84f82dfe53d3b5ab1a, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: DVG.SkyPirates.Tooling.Testing.Editor::DVG.SkyPirates.Tooling.Testing.CollideAndSlideTester
+  m_EditorClassIdentifier: SkyPirates.Tooling.Testing.Editor::SkyPirates.Tooling.Testing.CollideAndSlideTester
   _radius:
     raw: 9830
   _start: {fileID: 2043315908}
@@ -1956,7 +1956,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e633e5851b5bce84f82dfe53d3b5ab1a, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: DVG.SkyPirates.Tooling.Testing.Editor::DVG.SkyPirates.Tooling.Testing.CollideAndSlideTester
+  m_EditorClassIdentifier: SkyPirates.Tooling.Testing.Editor::SkyPirates.Tooling.Testing.CollideAndSlideTester
   _radius:
     raw: 9830
   _start: {fileID: 1190653064}
@@ -2134,7 +2134,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 46b4325aede20ef4784cf42c2073f4fb, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: DVG.SkyPirates.Tooling.Testing.Editor::DVG.SkyPirates.Tooling.Testing.RayCircleTester
+  m_EditorClassIdentifier: SkyPirates.Tooling.Testing.Editor::SkyPirates.Tooling.Testing.RayCircleTester
   _radius:
     raw: 32768
   _rayStart: {fileID: 2119805722}
@@ -2441,7 +2441,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e633e5851b5bce84f82dfe53d3b5ab1a, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: DVG.SkyPirates.Tooling.Testing.Editor::DVG.SkyPirates.Tooling.Testing.CollideAndSlideTester
+  m_EditorClassIdentifier: SkyPirates.Tooling.Testing.Editor::SkyPirates.Tooling.Testing.CollideAndSlideTester
   _radius:
     raw: 9830
   _start: {fileID: 45507935}
@@ -2526,7 +2526,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 46b4325aede20ef4784cf42c2073f4fb, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: DVG.SkyPirates.Tooling.Testing.Editor::DVG.SkyPirates.Tooling.Testing.RayCircleTester
+  m_EditorClassIdentifier: SkyPirates.Tooling.Testing.Editor::SkyPirates.Tooling.Testing.RayCircleTester
   _radius:
     raw: 32768
   _rayStart: {fileID: 1190746233}
@@ -2771,7 +2771,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e7cf2c007c2131f47a6a9e807ccbcbcf, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: DVG.SkyPirates.Tooling.Testing.Editor::DVG.SkyPirates.Tooling.Testing.RaycastTester
+  m_EditorClassIdentifier: SkyPirates.Tooling.Testing.Editor::SkyPirates.Tooling.Testing.RaycastTester
   _rayStart: {fileID: 950992256}
   _rayEnd: {fileID: 209450208}
   _segments: {fileID: 529444669}
@@ -2914,7 +2914,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8c99186527572294999ca7d7c11a7a26, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: DVG.SkyPirates.Tooling.Testing.Editor::DVG.SkyPirates.Tooling.Testing.CircleCastTester
+  m_EditorClassIdentifier: SkyPirates.Tooling.Testing.Editor::SkyPirates.Tooling.Testing.CircleCastTester
   _radius:
     raw: 9830
   _rayStart: {fileID: 1614194265}
@@ -3185,7 +3185,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8c99186527572294999ca7d7c11a7a26, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: DVG.SkyPirates.Tooling.Testing.Editor::DVG.SkyPirates.Tooling.Testing.CircleCastTester
+  m_EditorClassIdentifier: SkyPirates.Tooling.Testing.Editor::SkyPirates.Tooling.Testing.CircleCastTester
   _radius:
     raw: 9830
   _rayStart: {fileID: 590324477}
@@ -3644,7 +3644,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e7cf2c007c2131f47a6a9e807ccbcbcf, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: DVG.SkyPirates.Tooling.Testing.Editor::DVG.SkyPirates.Tooling.Testing.RaycastTester
+  m_EditorClassIdentifier: SkyPirates.Tooling.Testing.Editor::SkyPirates.Tooling.Testing.RaycastTester
   _rayStart: {fileID: 1387556113}
   _rayEnd: {fileID: 1688144649}
   _segments: {fileID: 916213130}
@@ -3787,7 +3787,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e7cf2c007c2131f47a6a9e807ccbcbcf, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: DVG.SkyPirates.Tooling.Testing.Editor::DVG.SkyPirates.Tooling.Testing.RaycastTester
+  m_EditorClassIdentifier: SkyPirates.Tooling.Testing.Editor::SkyPirates.Tooling.Testing.RaycastTester
   _rayStart: {fileID: 67094895}
   _rayEnd: {fileID: 1523498517}
   _segments: {fileID: 326244856}
@@ -3868,7 +3868,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8c99186527572294999ca7d7c11a7a26, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: DVG.SkyPirates.Tooling.Testing.Editor::DVG.SkyPirates.Tooling.Testing.CircleCastTester
+  m_EditorClassIdentifier: SkyPirates.Tooling.Testing.Editor::SkyPirates.Tooling.Testing.CircleCastTester
   _radius:
     raw: 9830
   _rayStart: {fileID: 1654872659}
@@ -3920,7 +3920,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 46b4325aede20ef4784cf42c2073f4fb, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: DVG.SkyPirates.Tooling.Testing.Editor::DVG.SkyPirates.Tooling.Testing.RayCircleTester
+  m_EditorClassIdentifier: SkyPirates.Tooling.Testing.Editor::SkyPirates.Tooling.Testing.RayCircleTester
   _radius:
     raw: 32768
   _rayStart: {fileID: 1561311075}
@@ -3972,7 +3972,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e633e5851b5bce84f82dfe53d3b5ab1a, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: DVG.SkyPirates.Tooling.Testing.Editor::DVG.SkyPirates.Tooling.Testing.CollideAndSlideTester
+  m_EditorClassIdentifier: SkyPirates.Tooling.Testing.Editor::SkyPirates.Tooling.Testing.CollideAndSlideTester
   _radius:
     raw: 9830
   _start: {fileID: 1902455647}
@@ -4075,7 +4075,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e633e5851b5bce84f82dfe53d3b5ab1a, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: DVG.SkyPirates.Tooling.Testing.Editor::DVG.SkyPirates.Tooling.Testing.CollideAndSlideTester
+  m_EditorClassIdentifier: SkyPirates.Tooling.Testing.Editor::SkyPirates.Tooling.Testing.CollideAndSlideTester
   _radius:
     raw: 9830
   _start: {fileID: 1034322656}
@@ -4394,7 +4394,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 46b4325aede20ef4784cf42c2073f4fb, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: DVG.SkyPirates.Tooling.Testing.Editor::DVG.SkyPirates.Tooling.Testing.RayCircleTester
+  m_EditorClassIdentifier: SkyPirates.Tooling.Testing.Editor::SkyPirates.Tooling.Testing.RayCircleTester
   _radius:
     raw: 32768
   _rayStart: {fileID: 1181738281}
@@ -5006,7 +5006,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e7cf2c007c2131f47a6a9e807ccbcbcf, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: DVG.SkyPirates.Tooling.Testing.Editor::DVG.SkyPirates.Tooling.Testing.RaycastTester
+  m_EditorClassIdentifier: SkyPirates.Tooling.Testing.Editor::SkyPirates.Tooling.Testing.RaycastTester
   _rayStart: {fileID: 56182870}
   _rayEnd: {fileID: 1575037676}
   _segments: {fileID: 405182042}
@@ -5087,7 +5087,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e633e5851b5bce84f82dfe53d3b5ab1a, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: DVG.SkyPirates.Tooling.Testing.Editor::DVG.SkyPirates.Tooling.Testing.CollideAndSlideTester
+  m_EditorClassIdentifier: SkyPirates.Tooling.Testing.Editor::SkyPirates.Tooling.Testing.CollideAndSlideTester
   _radius:
     raw: 9830
   _start: {fileID: 1509316090}
@@ -5141,7 +5141,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e633e5851b5bce84f82dfe53d3b5ab1a, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: DVG.SkyPirates.Tooling.Testing.Editor::DVG.SkyPirates.Tooling.Testing.CollideAndSlideTester
+  m_EditorClassIdentifier: SkyPirates.Tooling.Testing.Editor::SkyPirates.Tooling.Testing.CollideAndSlideTester
   _radius:
     raw: 32768
   _start: {fileID: 1961280101}
@@ -5178,7 +5178,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8c99186527572294999ca7d7c11a7a26, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: DVG.SkyPirates.Tooling.Testing.Editor::DVG.SkyPirates.Tooling.Testing.CircleCastTester
+  m_EditorClassIdentifier: SkyPirates.Tooling.Testing.Editor::SkyPirates.Tooling.Testing.CircleCastTester
   _radius:
     raw: 32768
   _rayStart: {fileID: 1961280101}
@@ -5308,7 +5308,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8c99186527572294999ca7d7c11a7a26, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: DVG.SkyPirates.Tooling.Testing.Editor::DVG.SkyPirates.Tooling.Testing.CircleCastTester
+  m_EditorClassIdentifier: SkyPirates.Tooling.Testing.Editor::SkyPirates.Tooling.Testing.CircleCastTester
   _radius:
     raw: 9830
   _rayStart: {fileID: 1989989426}
@@ -5814,7 +5814,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e7cf2c007c2131f47a6a9e807ccbcbcf, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: DVG.SkyPirates.Tooling.Testing.Editor::DVG.SkyPirates.Tooling.Testing.RaycastTester
+  m_EditorClassIdentifier: SkyPirates.Tooling.Testing.Editor::SkyPirates.Tooling.Testing.RaycastTester
   _rayStart: {fileID: 1209446473}
   _rayEnd: {fileID: 378346384}
   _segments: {fileID: 1873161323}
@@ -6050,7 +6050,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8c99186527572294999ca7d7c11a7a26, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: DVG.SkyPirates.Tooling.Testing.Editor::DVG.SkyPirates.Tooling.Testing.CircleCastTester
+  m_EditorClassIdentifier: SkyPirates.Tooling.Testing.Editor::SkyPirates.Tooling.Testing.CircleCastTester
   _radius:
     raw: 9830
   _rayStart: {fileID: 827016260}

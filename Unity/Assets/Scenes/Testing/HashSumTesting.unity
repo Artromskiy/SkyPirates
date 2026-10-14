@@ -147,7 +147,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c061d968360bb54448bcec55bd4ddc5a, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: DVG.SkyPirates.Tooling.Testing.Editor::DVG.SkyPirates.Tooling.Testing.HashedTimelineComparer
+  m_EditorClassIdentifier: SkyPirates.Tooling.Testing.Editor::SkyPirates.Tooling.Testing.HashedTimelineComparer
   _assets:
   - {fileID: 4900000, guid: 8c4ff3194cb4b5149b406dcb504ecd0b, type: 3}
   - {fileID: 4900000, guid: e343123127de06840a1018be864c6c65, type: 3}

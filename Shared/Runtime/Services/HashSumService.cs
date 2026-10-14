@@ -1,10 +1,10 @@
-﻿using DVG.SkyPirates.Shared.IServices;
-using DVG.SkyPirates.Shared.IServices.TickableExecutors;
-using DVG.SkyPirates.Shared.Tools.Json;
+﻿using SkyPirates.Shared.IServices;
+using SkyPirates.Shared.IServices.TickableExecutors;
+using SkyPirates.Shared.Tools.Json;
 using System;
 using System.Threading.Tasks;
 
-namespace DVG.SkyPirates.Shared.Services
+namespace SkyPirates.Shared.Services
 {
     public class HashSumService : IHashSumService
     {

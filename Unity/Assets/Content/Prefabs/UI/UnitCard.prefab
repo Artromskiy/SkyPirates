@@ -546,7 +546,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7013366e57879044a9eb07830653eec1, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: DVG.SkyPirates.Client::DVG.SkyPirates.Client.Views.UnitCardView
+  m_EditorClassIdentifier: SkyPirates.Client::SkyPirates.Client.Views.UnitCardView
   _button: {fileID: 4408910918403313968}
   _icon: {fileID: 3986292724440408922}
   _price: {fileID: 2073450422694043090}

@@ -1,11 +1,11 @@
 ﻿using Delta;
 using Delta.ECS.Unity;
-using DVG.SkyPirates.Shared.Core.Ids;
-using DVG.SkyPirates.Client.IFactories;
+using SkyPirates.Shared.Core.Ids;
+using SkyPirates.Client.IFactories;
 using System;
 using UnityEngine;
 
-namespace DVG.SkyPirates.Client.Views.Components
+namespace SkyPirates.Client.Views.Components
 {
     public abstract class VisualComponentView<T> : MonoBehaviour, IEntityView
         where T : struct, IId, IEquatable<T>

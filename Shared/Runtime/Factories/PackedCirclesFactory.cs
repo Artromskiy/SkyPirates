@@ -1,9 +1,9 @@
-﻿using DVG.SkyPirates.Shared.Core;
-using DVG.SkyPirates.Shared;
-using DVG.SkyPirates.Shared.Data;
-using DVG.SkyPirates.Shared.IFactories;
+﻿using SkyPirates.Shared.Core;
+using SkyPirates.Shared;
+using SkyPirates.Shared.Data;
+using SkyPirates.Shared.IFactories;
 
-namespace DVG.SkyPirates.Shared.Factories
+namespace SkyPirates.Shared.Factories
 {
     public class PackedCirclesFactory : IPackedCirclesFactory
     {

@@ -1,24 +1,24 @@
-using DVG.SkyPirates.Shared.Core;
-using DVG.SkyPirates.Shared;
-using DVG.SkyPirates.Client.Entry;
-using DVG.SkyPirates.Client.IFactories;
-using DVG.SkyPirates.Client.IServices;
-using DVG.SkyPirates.Client.Factories;
-using DVG.SkyPirates.Client.IViewModels;
-using DVG.SkyPirates.Client.Services;
-using DVG.SkyPirates.Client.Systems;
-using DVG.SkyPirates.Client.ViewModels.UI;
-using DVG.SkyPirates.Shared.DI;
-using DVG.SkyPirates.Shared.IServices;
-using DVG.SkyPirates.Shared.IServices.TickableExecutors;
-using DVG.SkyPirates.Shared.Services;
+using SkyPirates.Shared.Core;
+using SkyPirates.Shared;
+using SkyPirates.Client.Entry;
+using SkyPirates.Client.IFactories;
+using SkyPirates.Client.IServices;
+using SkyPirates.Client.Factories;
+using SkyPirates.Client.IViewModels;
+using SkyPirates.Client.Services;
+using SkyPirates.Client.Systems;
+using SkyPirates.Client.ViewModels.UI;
+using SkyPirates.Shared.DI;
+using SkyPirates.Shared.IServices;
+using SkyPirates.Shared.IServices.TickableExecutors;
+using SkyPirates.Shared.Services;
 using Riptide.Transports.Udp;
 using SimpleInjector;
 using System;
 using Delta.ECS.Unity;
 using UnityEngine;
 
-namespace DVG.SkyPirates.Client.DI
+namespace SkyPirates.Client.DI
 {
     public class ClientContainer : SharedContainer
     {

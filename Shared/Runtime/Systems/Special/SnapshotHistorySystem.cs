@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using Delta.ECS;
-using DVG.SkyPirates.Shared.Components;
-using DVG.SkyPirates.Shared.Components.Runtime;
-using DVG.SkyPirates.Shared.Data;
-using DVG.SkyPirates.Shared.Ecs;
-using DVG.SkyPirates.Shared.IFactories;
-using DVG.SkyPirates.Shared.IServices;
+using SkyPirates.Shared.Components;
+using SkyPirates.Shared.Components.Runtime;
+using SkyPirates.Shared.Data;
+using SkyPirates.Shared.Ecs;
+using SkyPirates.Shared.IFactories;
+using SkyPirates.Shared.IServices;
 
-namespace DVG.SkyPirates.Shared.Systems.Special
+namespace SkyPirates.Shared.Systems.Special
 {
     internal sealed class SnapshotHistorySystem
     {

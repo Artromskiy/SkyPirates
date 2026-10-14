@@ -1,9 +1,9 @@
-﻿using DVG.SkyPirates.Shared.Core;
-using DVG.SkyPirates.Shared;
-using DVG.SkyPirates.Shared.Ids;
+﻿using SkyPirates.Shared.Core;
+using SkyPirates.Shared;
+using SkyPirates.Shared.Ids;
 using System.Collections.Generic;
 
-namespace DVG.SkyPirates.Client.IViewModels
+namespace SkyPirates.Client.IViewModels
 {
     public interface IGoodsVM : IViewModel
     {

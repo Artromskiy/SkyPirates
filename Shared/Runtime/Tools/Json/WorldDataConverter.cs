@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Delta.ECS;
-using DVG.SkyPirates.Shared.Components;
-using DVG.SkyPirates.Shared.Core;
-using DVG.SkyPirates.Shared.Data;
+using SkyPirates.Shared.Components;
+using SkyPirates.Shared.Core;
+using SkyPirates.Shared.Data;
 
-namespace DVG.SkyPirates.Shared.Tools.Json
+namespace SkyPirates.Shared.Tools.Json
 {
     public sealed class WorldDataConverter : JsonConverter<WorldData>
     {

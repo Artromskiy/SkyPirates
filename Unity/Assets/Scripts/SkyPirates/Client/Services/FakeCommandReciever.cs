@@ -1,8 +1,8 @@
 ﻿using Delta.Netcode;
-using DVG.SkyPirates.Shared.IServices;
+using SkyPirates.Shared.IServices;
 using System;
 
-namespace DVG.SkyPirates.Client.Services
+namespace SkyPirates.Client.Services
 {
     public class FakeCommandReciever : ICommandReciever
     {

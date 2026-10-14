@@ -3,7 +3,7 @@ using Delta.ECS;
 using Delta.ECS.Unity;
 using UnityEngine;
 
-namespace DVG.SkyPirates.Client.Views.Components
+namespace SkyPirates.Client.Views.Components
 {
     public sealed class ProjectileSourceView : MonoBehaviour, IEntityView
     {

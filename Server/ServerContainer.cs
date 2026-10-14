@@ -1,18 +1,18 @@
-﻿using DVG.SkyPirates.Shared.Core;
-using DVG.SkyPirates.Shared;
-using DVG.SkyPirates.Server.Factories;
-using DVG.SkyPirates.Server.IServices;
-using DVG.SkyPirates.Server.Services;
-using DVG.SkyPirates.Shared.DI;
-using DVG.SkyPirates.Shared.IServices;
-using DVG.SkyPirates.Shared.IServices.TickableExecutors;
-using DVG.SkyPirates.Shared.Services;
+﻿using SkyPirates.Shared.Core;
+using SkyPirates.Shared;
+using SkyPirates.Server.Factories;
+using SkyPirates.Server.IServices;
+using SkyPirates.Server.Services;
+using SkyPirates.Shared.DI;
+using SkyPirates.Shared.IServices;
+using SkyPirates.Shared.IServices.TickableExecutors;
+using SkyPirates.Shared.Services;
 using Riptide.Transports.Udp;
 using SimpleInjector;
 using SimpleInjector.Diagnostics;
 using System;
 
-namespace DVG.SkyPirates.Server
+namespace SkyPirates.Server
 {
     internal class ServerContainer : SharedContainer
     {

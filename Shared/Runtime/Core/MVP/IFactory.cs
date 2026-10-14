@@ -1,4 +1,4 @@
-namespace DVG.SkyPirates.Shared.Core
+namespace SkyPirates.Shared.Core
 {
 	public interface IFactory { }
 

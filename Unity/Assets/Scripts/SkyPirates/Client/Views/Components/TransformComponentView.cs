@@ -1,9 +1,9 @@
 ﻿using Delta;
 using Delta.ECS.Unity;
-using DVG.SkyPirates.Shared.Components.Runtime;
+using SkyPirates.Shared.Components.Runtime;
 using UnityEngine;
 
-namespace DVG.SkyPirates.Client.Views.Components
+namespace SkyPirates.Client.Views.Components
 {
     public class TransformComponentView : MonoBehaviour, IEntityView
     {

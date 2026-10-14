@@ -1,10 +1,10 @@
 using Delta.ECS;
-using DVG.SkyPirates.Shared.Data;
-using DVG.SkyPirates.Shared.IServices;
+using SkyPirates.Shared.Data;
+using SkyPirates.Shared.IServices;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
-namespace DVG.SkyPirates.Shared.Services
+namespace SkyPirates.Shared.Services
 {
     public class ComponentDefaultsService : IComponentDefaultsService
     {

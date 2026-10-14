@@ -1,12 +1,12 @@
 using Delta;
 using Delta.ECS;
-using DVG.SkyPirates.Shared.Components.Config;
-using DVG.SkyPirates.Shared.Ids;
-using DVG.SkyPirates.Shared.IServices.TickableExecutors;
+using SkyPirates.Shared.Components.Config;
+using SkyPirates.Shared.Ids;
+using SkyPirates.Shared.IServices.TickableExecutors;
 using System.Collections.Generic;
 using System.Collections.Frozen;
 
-namespace DVG.SkyPirates.Shared.Systems
+namespace SkyPirates.Shared.Systems
 {
     public sealed class HexMapUpdateSystem : ITransientDeltaTickableExecutor
     {

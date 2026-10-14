@@ -7,7 +7,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering;
 
-namespace DVG.SkyPirates.Tooling.IslandGeneration.Editor
+namespace SkyPirates.Tooling.IslandGeneration.Editor
 {
     public static class IslandGenerationGenerator
     {

@@ -1,8 +1,8 @@
 ﻿using Delta.ECS;
 using Delta;
-using DVG.SkyPirates.Shared.Components;
+using SkyPirates.Shared.Components;
 
-namespace DVG.SkyPirates.Shared.Components.Framed
+namespace SkyPirates.Shared.Components.Framed
 {
     [ComponentSchema]
     [ComponentAlias("DesiredPosition")]

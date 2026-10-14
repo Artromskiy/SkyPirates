@@ -11,7 +11,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c2b20e9f24867d649a6c702738b5d8de, type: 3}
   m_Name: UnitsDatabase
-  m_EditorClassIdentifier: DVG.SkyPirates.Client::DVG.SkyPirates.Client.Databases.UnitsDatabase
+  m_EditorClassIdentifier: SkyPirates.Client::SkyPirates.Client.Databases.UnitsDatabase
   _items:
   - Key:
       Value: Sailor

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace DVG.SkyPirates.Tooling.IslandGeneration
+namespace SkyPirates.Tooling.IslandGeneration
 {
     [CreateAssetMenu(
         fileName = "IslandGenerationProfile",

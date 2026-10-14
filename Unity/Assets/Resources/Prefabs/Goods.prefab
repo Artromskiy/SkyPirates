@@ -57,7 +57,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f64dc5e1a5e0463c9af9fef3e462497a, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: DVG.SkyPirates.Rendering.SphereOverlay::DVG.SkyPirates.Rendering.SphereOverlay.View.SphereOverlayReceiverView
+  m_EditorClassIdentifier: SkyPirates.Rendering.SphereOverlay::SkyPirates.Rendering.SphereOverlay.View.SphereOverlayReceiverView
 --- !u!1 &6742699207346504551
 GameObject:
   m_ObjectHideFlags: 0
@@ -104,7 +104,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d6d599fa8256b1e48a519ddb53e83c46, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: SkyPirates.Client::DVG.SkyPirates.Client.Views.Components.TransformComponentView
+  m_EditorClassIdentifier: SkyPirates.Client::SkyPirates.Client.Views.Components.TransformComponentView
   _mode: 2
   _sharpness: 13
   _realPosition:
@@ -122,7 +122,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 06bc90641934bd547bb03d45515871cb, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: SkyPirates.Client::DVG.SkyPirates.Client.Views.Components.GoodsComponentView
+  m_EditorClassIdentifier: SkyPirates.Client::SkyPirates.Client.Views.Components.GoodsComponentView
   _visualRoot: {fileID: 8089445556340368891}
   _randomizeScale: 1
   _id:
@@ -138,5 +138,5 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3417a5ab8fbe1ec4fbcab3d77ca9d5a4, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: SkyPirates.Client::DVG.SkyPirates.Client.Views.Components.DisposeScaleComponentView
+  m_EditorClassIdentifier: SkyPirates.Client::SkyPirates.Client.Views.Components.DisposeScaleComponentView
   _delay: 0.1

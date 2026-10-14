@@ -1,8 +1,8 @@
-﻿using DVG.SkyPirates.Shared.Core.Tools;
-using DVG.SkyPirates.Shared.Ids;
+﻿using SkyPirates.Shared.Core.Tools;
+using SkyPirates.Shared.Ids;
 using System.Collections.Generic;
 
-namespace DVG.SkyPirates.Shared.Tools.IdProviders
+namespace SkyPirates.Shared.Tools.IdProviders
 {
     public class UnitIdProvider : StringIdProvider<UnitIdProvider, UnitId>
     {

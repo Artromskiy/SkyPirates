@@ -1,8 +1,8 @@
-﻿using DVG.SkyPirates.Shared.Core;
-using DVG.SkyPirates.Shared;
+﻿using SkyPirates.Shared.Core;
+using SkyPirates.Shared;
 using UnityEngine;
 
-namespace DVG.SkyPirates.Client.IViews
+namespace SkyPirates.Client.IViews
 {
     [SelectionBase]
     public abstract class View<T> : MonoBehaviour,

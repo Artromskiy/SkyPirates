@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace DVG.SkyPirates.Client.Views
+namespace SkyPirates.Client.Views
 {
     public sealed class TouchCameraRotationView : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerUpHandler
     {

@@ -1,7 +1,7 @@
 using UnityEngine;
-using DVG.SkyPirates.Rendering.SphereOverlay.Internals;
+using SkyPirates.Rendering.SphereOverlay.Internals;
 
-namespace DVG.SkyPirates.Rendering.SphereOverlay.View
+namespace SkyPirates.Rendering.SphereOverlay.View
 {
     [DisallowMultipleComponent]
     public sealed class SphereOverlayView : MonoBehaviour

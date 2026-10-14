@@ -1,9 +1,9 @@
-using DVG.SkyPirates.Shared.Data;
+using SkyPirates.Shared.Data;
 using System;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace DVG.SkyPirates.Shared.Tools.Json
+namespace SkyPirates.Shared.Tools.Json
 {
     public sealed class ComponentIdListConverter : JsonConverter<ComponentIdList>
     {

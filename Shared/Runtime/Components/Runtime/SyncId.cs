@@ -1,7 +1,7 @@
 ﻿using Delta.ECS;
-using DVG.SkyPirates.Shared.Core.NewType;
+using SkyPirates.Shared.Core.NewType;
 
-namespace DVG.SkyPirates.Shared.Components.Runtime
+namespace SkyPirates.Shared.Components.Runtime
 {
 	[ComponentSchema]
 	[ComponentGroup(Group.History)]

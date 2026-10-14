@@ -1,10 +1,10 @@
 using System;
 using System.IO;
-using DVG.SkyPirates.Local.Entry;
+using SkyPirates.Local.Entry;
 using UnityEditor;
 using UnityEngine;
 
-namespace DVG.SkyPirates.Editor
+namespace SkyPirates.Editor
 {
     public sealed class SkyPiratesReplayWindow : EditorWindow
     {

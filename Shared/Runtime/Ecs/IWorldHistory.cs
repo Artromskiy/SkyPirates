@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using Delta.ECS;
-using DVG.SkyPirates.Shared.Data;
+using SkyPirates.Shared.Data;
 
-namespace DVG.SkyPirates.Shared.Ecs
+namespace SkyPirates.Shared.Ecs
 {
     public interface IWorldHistory : IDisposable
     {

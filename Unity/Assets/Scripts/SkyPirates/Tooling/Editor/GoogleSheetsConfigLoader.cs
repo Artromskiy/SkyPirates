@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace DVG.SkyPirates.Tooling
+namespace SkyPirates.Tooling
 {
     public enum DsvSeparator
     {

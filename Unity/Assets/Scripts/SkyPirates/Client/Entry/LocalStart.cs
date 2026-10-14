@@ -1,24 +1,24 @@
 using Delta.Netcode;
 using Delta.ECS.Unity;
-using DVG.SkyPirates.Shared.Core;
-using DVG.SkyPirates.Shared;
-using DVG.SkyPirates.Client.DI;
-using DVG.SkyPirates.Client.Entry;
-using DVG.SkyPirates.Client.IServices;
-using DVG.SkyPirates.Shared.Commands;
-using DVG.SkyPirates.Shared.Data;
-using DVG.SkyPirates.Shared.IServices;
-using DVG.SkyPirates.Shared.IServices.TickableExecutors;
-using DVG.SkyPirates.Shared.Services.Netcode;
-using DVG.SkyPirates.Shared.Services.Replay;
-using DVG.SkyPirates.Client.Systems;
+using SkyPirates.Shared.Core;
+using SkyPirates.Shared;
+using SkyPirates.Client.DI;
+using SkyPirates.Client.Entry;
+using SkyPirates.Client.IServices;
+using SkyPirates.Shared.Commands;
+using SkyPirates.Shared.Data;
+using SkyPirates.Shared.IServices;
+using SkyPirates.Shared.IServices.TickableExecutors;
+using SkyPirates.Shared.Services.Netcode;
+using SkyPirates.Shared.Services.Replay;
+using SkyPirates.Client.Systems;
 using SimpleInjector;
 using System;
 using System.IO;
 using System.Linq;
 using UnityEngine;
 
-namespace DVG.SkyPirates.Local.Entry
+namespace SkyPirates.Local.Entry
 {
     public class LocalStart : MonoBehaviour
     {

@@ -1,9 +1,9 @@
 using Delta.Netcode;
-using DVG.SkyPirates.Shared.Core;
-using DVG.SkyPirates.Shared;
-using DVG.SkyPirates.Shared.IServices;
+using SkyPirates.Shared.Core;
+using SkyPirates.Shared;
+using SkyPirates.Shared.IServices;
 
-namespace DVG.SkyPirates.Shared.Services.CommandValidators
+namespace SkyPirates.Shared.Services.CommandValidators
 {
     public sealed class LateCommandValidator<T> : ICommandValidator<T>, ICommandValidatorRegistration
     {

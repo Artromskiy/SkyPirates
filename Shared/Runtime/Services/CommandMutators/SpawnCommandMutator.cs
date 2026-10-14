@@ -1,11 +1,11 @@
 using Delta.Netcode;
-using DVG.SkyPirates.Shared.Components;
-using DVG.SkyPirates.Shared.Components.Runtime;
-using DVG.SkyPirates.Shared.Commands;
-using DVG.SkyPirates.Shared.Data;
-using DVG.SkyPirates.Shared.IServices;
+using SkyPirates.Shared.Components;
+using SkyPirates.Shared.Components.Runtime;
+using SkyPirates.Shared.Commands;
+using SkyPirates.Shared.Data;
+using SkyPirates.Shared.IServices;
 
-namespace DVG.SkyPirates.Shared.Services.CommandMutators
+namespace SkyPirates.Shared.Services.CommandMutators
 {
     public sealed class SpawnCommandMutator :
         ICommandMutator<SpawnSquadCommand>,

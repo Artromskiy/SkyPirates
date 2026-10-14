@@ -1,11 +1,11 @@
 using Delta;
 using Delta.ECS;
 using Delta.ECS.Unity;
-using DVG.SkyPirates.Shared.Components.Framed;
-using DVG.SkyPirates.Shared.Components.Runtime;
+using SkyPirates.Shared.Components.Framed;
+using SkyPirates.Shared.Components.Runtime;
 using UnityEngine;
 
-namespace DVG.SkyPirates.Client.Views.Components
+namespace SkyPirates.Client.Views.Components
 {
     [RequireComponent(typeof(LineRenderer))]
     public sealed class ProjectileLineView : MonoBehaviour, IEntityView

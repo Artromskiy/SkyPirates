@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Delta.ECS;
 
-namespace DVG.SkyPirates.Shared.Data
+namespace SkyPirates.Shared.Data
 {
     public sealed class WorldData
     {

@@ -1,7 +1,7 @@
 using Delta.ECS.Unity;
 using UnityEngine;
 
-namespace DVG.SkyPirates.Client.Views.Components
+namespace SkyPirates.Client.Views.Components
 {
     internal static class EntityViewLifetime
     {

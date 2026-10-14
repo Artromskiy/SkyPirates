@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace DVG.SkyPirates.Shared.Data
+namespace SkyPirates.Shared.Data
 {
     public sealed class ComponentDefaultsConfig : List<ComponentDefaultsData> { }
 

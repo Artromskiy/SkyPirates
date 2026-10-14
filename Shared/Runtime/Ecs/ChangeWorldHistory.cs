@@ -2,11 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Delta.ECS;
-using DVG.SkyPirates.Shared.Components;
-using DVG.SkyPirates.Shared.Components.Runtime;
-using DVG.SkyPirates.Shared.Data;
+using SkyPirates.Shared.Components;
+using SkyPirates.Shared.Components.Runtime;
+using SkyPirates.Shared.Data;
 
-namespace DVG.SkyPirates.Shared.Ecs
+namespace SkyPirates.Shared.Ecs
 {
     /// <summary>Stores sparse component changes reported by DeltaECS instead of full component frames.</summary>
     public sealed class ChangeWorldHistory : IWorldHistory

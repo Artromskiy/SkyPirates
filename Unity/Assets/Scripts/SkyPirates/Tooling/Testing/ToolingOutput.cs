@@ -1,7 +1,7 @@
 using System.IO;
 using UnityEngine;
 
-namespace DVG.SkyPirates.Tooling.Testing
+namespace SkyPirates.Tooling.Testing
 {
     internal static class ToolingOutput
     {

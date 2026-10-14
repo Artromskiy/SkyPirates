@@ -1,6 +1,6 @@
 using Delta.Netcode;
 
-namespace DVG.SkyPirates.Shared.Commands
+namespace SkyPirates.Shared.Commands
 {
     [NetCommand(Id = 1, Predicted = false)]
     public struct InvalidateCommand

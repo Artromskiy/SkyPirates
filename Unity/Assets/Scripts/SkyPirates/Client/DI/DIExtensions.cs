@@ -1,5 +1,5 @@
-﻿using DVG.SkyPirates.Shared.Core;
-using DVG.SkyPirates.Shared;
+﻿using SkyPirates.Shared.Core;
+using SkyPirates.Shared;
 using SimpleInjector;
 using SimpleInjector.Diagnostics;
 using System;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Reflection;
 using UnityEngine;
 
-namespace DVG.SkyPirates.Client.DI
+namespace SkyPirates.Client.DI
 {
     public static class DIExtensions
     {

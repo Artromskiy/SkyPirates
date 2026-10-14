@@ -1,10 +1,10 @@
 using Delta.Netcode;
-using DVG.SkyPirates.Shared.Components;
-using DVG.SkyPirates.Shared.Components.Runtime;
-using DVG.SkyPirates.Shared.Data;
-using DVG.SkyPirates.Shared.Ids;
+using SkyPirates.Shared.Components;
+using SkyPirates.Shared.Components.Runtime;
+using SkyPirates.Shared.Data;
+using SkyPirates.Shared.Ids;
 
-namespace DVG.SkyPirates.Shared.Commands
+namespace SkyPirates.Shared.Commands
 {
     [NetCommand(Id = 6, Predicted = false)]
     public struct SpawnUnitCommand

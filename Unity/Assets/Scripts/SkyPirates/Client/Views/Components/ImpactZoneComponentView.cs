@@ -1,10 +1,10 @@
 ﻿using Delta;
 using Delta.ECS.Unity;
-using DVG.SkyPirates.Shared;
-using DVG.SkyPirates.Client.Views;
-using DVG.SkyPirates.Client.Views.Components;
-using DVG.SkyPirates.Rendering.SphereOverlay.View;
-using DVG.SkyPirates.Shared.Components.Config;
+using SkyPirates.Shared;
+using SkyPirates.Client.Views;
+using SkyPirates.Client.Views.Components;
+using SkyPirates.Rendering.SphereOverlay.View;
+using SkyPirates.Shared.Components.Config;
 using UnityEngine;
 
 namespace SkyPirates.Client.Views.Components

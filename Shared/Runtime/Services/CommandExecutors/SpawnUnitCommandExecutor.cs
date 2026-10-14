@@ -1,24 +1,24 @@
 using Delta;
 using Delta.ECS;
-using DVG.SkyPirates.Shared.Ecs;
+using SkyPirates.Shared.Ecs;
 using Delta.Netcode;
-using DVG.SkyPirates.Shared.Components;
-using DVG.SkyPirates.Shared.Components.Runtime;
-using DVG.SkyPirates.Shared.Commands;
-using DVG.SkyPirates.Shared.Components.Config;
-using DVG.SkyPirates.Shared.Data;
-using DVG.SkyPirates.Shared.Ids;
-using DVG.SkyPirates.Shared.IFactories;
-using DVG.SkyPirates.Shared.IServices;
-using DVG.SkyPirates.Shared.Systems;
-using DVG.SkyPirates.Shared.Tools.TraceHelpers;
+using SkyPirates.Shared.Components;
+using SkyPirates.Shared.Components.Runtime;
+using SkyPirates.Shared.Commands;
+using SkyPirates.Shared.Components.Config;
+using SkyPirates.Shared.Data;
+using SkyPirates.Shared.Ids;
+using SkyPirates.Shared.IFactories;
+using SkyPirates.Shared.IServices;
+using SkyPirates.Shared.Systems;
+using SkyPirates.Shared.Tools.TraceHelpers;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Diagnostics;
 using System.Linq;
 using System;
 
-namespace DVG.SkyPirates.Shared.Services.CommandExecutors
+namespace SkyPirates.Shared.Services.CommandExecutors
 {
     public class SpawnUnitCommandExecutor : ICommandExecutorRegistration, ICommandExecutor<SpawnUnitCommand>
     {

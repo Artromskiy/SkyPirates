@@ -1,7 +1,7 @@
-using DVG.SkyPirates.Shared.Data;
+using SkyPirates.Shared.Data;
 using System.Collections.Generic;
 
-namespace DVG.SkyPirates.Shared.Services.Replay
+namespace SkyPirates.Shared.Services.Replay
 {
     public sealed class SkyPiratesReplayData
     {

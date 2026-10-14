@@ -324,7 +324,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 38b89627ab7cbc0409dd7d7ad3ab5ed6, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: SkyPirates.Client::DVG.SkyPirates.Client.Views.TouchJoystickView
+  m_EditorClassIdentifier: SkyPirates.Client::SkyPirates.Client.Views.TouchJoystickView
   _outKnob: {fileID: 2852205873439609320}
   _inKnob: {fileID: 366860511717497304}
 --- !u!114 &1638390913271297901

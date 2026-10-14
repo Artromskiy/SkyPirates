@@ -1,7 +1,7 @@
 using Delta.Netcode;
 using System;
 
-namespace DVG.SkyPirates.Shared.Services.Netcode
+namespace SkyPirates.Shared.Services.Netcode
 {
     public interface ISessionTransport : ITransport
     {

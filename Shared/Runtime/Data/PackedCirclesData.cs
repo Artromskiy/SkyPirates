@@ -1,7 +1,7 @@
 ﻿using Delta;
 using System.Collections.Generic;
 
-namespace DVG.SkyPirates.Shared.Data
+namespace SkyPirates.Shared.Data
 {
     public class PackedCirclesConfig : Dictionary<int, PackedCirclesData> { }
 

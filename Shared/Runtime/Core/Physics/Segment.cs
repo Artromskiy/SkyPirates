@@ -1,5 +1,5 @@
 ﻿using Delta;
-namespace DVG.SkyPirates.Shared.Core.Physics
+namespace SkyPirates.Shared.Core.Physics
 {
 	public readonly struct Segment
 	{

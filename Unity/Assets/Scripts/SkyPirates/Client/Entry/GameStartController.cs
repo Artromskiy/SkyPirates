@@ -1,14 +1,14 @@
 using Delta.Netcode;
-using DVG.SkyPirates.Client.IServices;
-using DVG.SkyPirates.Shared.Commands;
-using DVG.SkyPirates.Shared.IServices;
-using DVG.SkyPirates.Shared.Services.Netcode;
-using DVG.SkyPirates.Shared;
+using SkyPirates.Client.IServices;
+using SkyPirates.Shared.Commands;
+using SkyPirates.Shared.IServices;
+using SkyPirates.Shared.Services.Netcode;
+using SkyPirates.Shared;
 using System;
 using System.Buffers;
 using System.Diagnostics;
 
-namespace DVG.SkyPirates.Client.Entry
+namespace SkyPirates.Client.Entry
 {
     public sealed class GameStartController
     {

@@ -9,7 +9,7 @@ using System.Text.Json.Serialization;
 using System.Text.Json.Serialization.Metadata;
 using System.Threading;
 
-namespace DVG.SkyPirates.Shared.Tools.Json
+namespace SkyPirates.Shared.Tools.Json
 {
     public static class SerializationUTF8
     {

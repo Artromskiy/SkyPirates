@@ -1,12 +1,12 @@
 using Delta;
 using Delta.ECS.Unity;
-using DVG.SkyPirates.Client.IFactories;
-using DVG.SkyPirates.Shared.Components.Config;
-using DVG.SkyPirates.Shared.Core;
-using DVG.SkyPirates.Shared.Ids;
+using SkyPirates.Client.IFactories;
+using SkyPirates.Shared.Components.Config;
+using SkyPirates.Shared.Core;
+using SkyPirates.Shared.Ids;
 using UnityEngine;
 
-namespace DVG.SkyPirates.Client.Views.Components
+namespace SkyPirates.Client.Views.Components
 {
     public sealed class HexTileComponentView : MonoBehaviour, IEntityView
     {

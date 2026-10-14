@@ -1,7 +1,7 @@
 using Delta.Netcode;
-using DVG.SkyPirates.Shared.Data;
+using SkyPirates.Shared.Data;
 
-namespace DVG.SkyPirates.Shared.Commands
+namespace SkyPirates.Shared.Commands
 {
     [NetCommand(Id = 5, Predicted = false)]
     public struct SpawnSquadCommand

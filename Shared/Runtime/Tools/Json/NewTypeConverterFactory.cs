@@ -1,9 +1,9 @@
-﻿using DVG.SkyPirates.Shared.Core.NewType;
+﻿using SkyPirates.Shared.Core.NewType;
 using System;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace DVG.SkyPirates.Shared.Tools.Json
+namespace SkyPirates.Shared.Tools.Json
 {
     public class NewTypeConverterFactory : JsonConverterFactory
     {

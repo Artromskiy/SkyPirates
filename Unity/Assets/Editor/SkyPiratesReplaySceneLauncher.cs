@@ -1,12 +1,12 @@
 using System;
 using System.IO;
-using DVG.SkyPirates.Local.Entry;
+using SkyPirates.Local.Entry;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace DVG.SkyPirates.Editor
+namespace SkyPirates.Editor
 {
     [InitializeOnLoad]
     internal static class SkyPiratesReplaySceneLauncher

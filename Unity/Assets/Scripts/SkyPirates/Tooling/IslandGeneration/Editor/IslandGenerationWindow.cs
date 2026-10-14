@@ -6,7 +6,7 @@ using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace DVG.SkyPirates.Tooling.IslandGeneration.Editor
+namespace SkyPirates.Tooling.IslandGeneration.Editor
 {
     public sealed class IslandGenerationWindow : EditorWindow
     {

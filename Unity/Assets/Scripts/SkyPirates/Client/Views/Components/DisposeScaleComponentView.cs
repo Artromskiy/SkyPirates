@@ -1,11 +1,11 @@
 using Delta;
 using Delta.ECS.Unity;
-using DVG.SkyPirates.Shared.Components;
-using DVG.SkyPirates.Shared.Components.Runtime;
+using SkyPirates.Shared.Components;
+using SkyPirates.Shared.Components.Runtime;
 using DG.Tweening;
 using UnityEngine;
 
-namespace DVG.SkyPirates.Client.Views.Components
+namespace SkyPirates.Client.Views.Components
 {
     public class DisposeScaleComponentView : MonoBehaviour, IEntityView
     {

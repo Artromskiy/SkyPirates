@@ -1,13 +1,13 @@
-using DVG.SkyPirates.Client.DI;
+using SkyPirates.Client.DI;
 using Delta.ECS.Unity;
-using DVG.SkyPirates.Shared.Commands;
-using DVG.SkyPirates.Shared.Services.Netcode;
+using SkyPirates.Shared.Commands;
+using SkyPirates.Shared.Services.Netcode;
 using Riptide;
 using Riptide.Utils;
 using SimpleInjector;
 using System;
 
-namespace DVG.SkyPirates.Client.Entry
+namespace SkyPirates.Client.Entry
 {
     public class ClientStart : UnityEngine.MonoBehaviour
     {

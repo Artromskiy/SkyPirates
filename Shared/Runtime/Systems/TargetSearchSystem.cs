@@ -1,15 +1,15 @@
 ﻿using Delta;
 using Delta.ECS;
-using DVG.SkyPirates.Shared.Ecs;
-using DVG.SkyPirates.Shared.Components;
-using DVG.SkyPirates.Shared.Components.Runtime;
-using DVG.SkyPirates.Shared.Core.Collections;
-using DVG.SkyPirates.Shared.Components.Config;
-using DVG.SkyPirates.Shared.Components.Framed;
-using DVG.SkyPirates.Shared.IServices;
+using SkyPirates.Shared.Ecs;
+using SkyPirates.Shared.Components;
+using SkyPirates.Shared.Components.Runtime;
+using SkyPirates.Shared.Core.Collections;
+using SkyPirates.Shared.Components.Config;
+using SkyPirates.Shared.Components.Framed;
+using SkyPirates.Shared.IServices;
 using System.Collections.Generic;
 
-namespace DVG.SkyPirates.Shared.Systems
+namespace SkyPirates.Shared.Systems
 {
     /// <summary>
     /// Caches Entities with their position quantized by <see cref="SquareSize"/>.

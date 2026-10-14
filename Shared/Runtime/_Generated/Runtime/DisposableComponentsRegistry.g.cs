@@ -12,10 +12,10 @@
 
 using System;
 using System.Collections.Generic;
-using DVG.SkyPirates.Shared.Core;
+using SkyPirates.Shared.Core;
 
 
-namespace DVG.SkyPirates.Shared.Components
+namespace SkyPirates.Shared.Components
 {
     public static class DisposableComponentsRegistry
     {

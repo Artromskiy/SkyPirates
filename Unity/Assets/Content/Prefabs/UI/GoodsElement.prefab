@@ -227,7 +227,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a27c73870e249c442bd7be7e2a8b08e3, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: DVG.SkyPirates.Client::DVG.SkyPirates.Client.Views.UI.GoodsElement
+  m_EditorClassIdentifier: SkyPirates.Client::SkyPirates.Client.Views.UI.GoodsElement
   _icon: {fileID: 7745053138387125128}
   _count: {fileID: 6557898619905636787}
   _goodsDatabase: {fileID: 11400000, guid: a42a328636906024397d9dce1d47042d, type: 2}

@@ -1,9 +1,9 @@
 ﻿using Delta.ECS;
 using Delta;
-using DVG.SkyPirates.Shared.Core.NewType;
-using DVG.SkyPirates.Shared.Components;
+using SkyPirates.Shared.Core.NewType;
+using SkyPirates.Shared.Components;
 
-namespace DVG.SkyPirates.Shared.Components.Runtime
+namespace SkyPirates.Shared.Components.Runtime
 {
     [ComponentSchema]
     [ComponentAlias("Rotation")]

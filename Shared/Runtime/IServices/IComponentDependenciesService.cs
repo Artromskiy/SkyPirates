@@ -1,4 +1,4 @@
-namespace DVG.SkyPirates.Shared.IServices
+namespace SkyPirates.Shared.IServices
 {
     public interface IComponentDependenciesService
     {

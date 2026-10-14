@@ -1,10 +1,10 @@
-﻿using DVG.SkyPirates.Shared.Core.Ids;
-using DVG.SkyPirates.Shared.Data;
-using DVG.SkyPirates.Shared.IFactories;
+﻿using SkyPirates.Shared.Core.Ids;
+using SkyPirates.Shared.Data;
+using SkyPirates.Shared.IFactories;
 using System;
 using System.Collections.Generic;
 
-namespace DVG.SkyPirates.Shared.Factories
+namespace SkyPirates.Shared.Factories
 {
     public class EntityConfigFactory<T> : IEntityConfigFactory<T> where T : struct, IId, IEquatable<T>
     {

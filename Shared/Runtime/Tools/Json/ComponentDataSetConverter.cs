@@ -1,15 +1,15 @@
-using DVG.SkyPirates.Shared.Core;
+using SkyPirates.Shared.Core;
 using Delta.ECS;
-using DVG.SkyPirates.Shared.Components;
-using DVG.SkyPirates.Shared.Components.Runtime;
-using DVG.SkyPirates.Shared.Data;
-using DVG.SkyPirates.Shared.Components.Framed;
+using SkyPirates.Shared.Components;
+using SkyPirates.Shared.Components.Runtime;
+using SkyPirates.Shared.Data;
+using SkyPirates.Shared.Components.Framed;
 using System;
 using System.Collections.Generic;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace DVG.SkyPirates.Shared.Tools.Json
+namespace SkyPirates.Shared.Tools.Json
 {
     public sealed class ComponentDataSetConverter : JsonConverter<ComponentDataSet>
     {

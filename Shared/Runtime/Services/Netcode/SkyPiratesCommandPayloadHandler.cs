@@ -1,9 +1,9 @@
 using Delta.Netcode;
-using DVG.SkyPirates.Shared.Tools.Json;
+using SkyPirates.Shared.Tools.Json;
 using System;
 using System.Buffers;
 
-namespace DVG.SkyPirates.Shared.Services.Netcode
+namespace SkyPirates.Shared.Services.Netcode
 {
     public sealed class SkyPiratesCommandPayloadHandler : ICommandPayloadHandler
     {

@@ -1,9 +1,9 @@
 ﻿using Delta.ECS;
 using Delta;
-using DVG.SkyPirates.Shared.Ids;
-using DVG.SkyPirates.Shared.Components;
+using SkyPirates.Shared.Ids;
+using SkyPirates.Shared.Components;
 
-namespace DVG.SkyPirates.Shared.Components.Runtime
+namespace SkyPirates.Shared.Components.Runtime
 {
     [ComponentSchema]
     [ComponentAlias("BehaviourState")]

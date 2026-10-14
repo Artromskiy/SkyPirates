@@ -1,4 +1,4 @@
-﻿namespace DVG.SkyPirates.Shared.Components
+﻿namespace SkyPirates.Shared.Components
 {
     public enum Group
     {

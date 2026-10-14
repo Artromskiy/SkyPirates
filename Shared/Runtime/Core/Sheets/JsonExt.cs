@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Text.Json.Nodes;
 
-namespace DVG.SkyPirates.Shared.Core.Sheets
+namespace SkyPirates.Shared.Core.Sheets
 {
 	public static class JsonExt
 	{

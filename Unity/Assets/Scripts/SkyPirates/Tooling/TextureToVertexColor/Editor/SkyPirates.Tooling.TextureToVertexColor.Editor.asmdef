@@ -1,6 +1,6 @@
 {
-    "name": "DVG.SkyPirates.Tooling.TextureToVertexColor.Editor",
-    "rootNamespace": "DVG.SkyPirates.Tooling.TextureToVertexColor.Editor",
+    "name": "SkyPirates.Tooling.TextureToVertexColor.Editor",
+    "rootNamespace": "SkyPirates.Tooling.TextureToVertexColor.Editor",
     "references": [],
     "includePlatforms": ["Editor"],
     "excludePlatforms": [],

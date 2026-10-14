@@ -1,12 +1,12 @@
 using Delta.Netcode;
-using DVG.SkyPirates.Shared.Data;
-using DVG.SkyPirates.Shared.IServices.TickableExecutors;
-using DVG.SkyPirates.Shared.Services.Netcode;
-using DVG.SkyPirates.Shared.Tools.Json;
+using SkyPirates.Shared.Data;
+using SkyPirates.Shared.IServices.TickableExecutors;
+using SkyPirates.Shared.Services.Netcode;
+using SkyPirates.Shared.Tools.Json;
 using System;
 using System.Linq;
 
-namespace DVG.SkyPirates.Shared.Services.Replay
+namespace SkyPirates.Shared.Services.Replay
 {
     public sealed class SkyPiratesReplayRecorder
     {

@@ -12,7 +12,7 @@
 
 using System;
 
-namespace DVG.SkyPirates.Shared.Ids
+namespace SkyPirates.Shared.Ids
 {
     partial struct StateId
     {

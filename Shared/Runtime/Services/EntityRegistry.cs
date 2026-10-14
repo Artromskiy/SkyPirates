@@ -1,11 +1,11 @@
 ﻿using Delta;
 using Delta.ECS;
-using DVG.SkyPirates.Shared.Components;
-using DVG.SkyPirates.Shared.Components.Runtime;
-using DVG.SkyPirates.Shared.Core.Collections;
-using DVG.SkyPirates.Shared.IServices;
+using SkyPirates.Shared.Components;
+using SkyPirates.Shared.Components.Runtime;
+using SkyPirates.Shared.Core.Collections;
+using SkyPirates.Shared.IServices;
 
-namespace DVG.SkyPirates.Shared.Services
+namespace SkyPirates.Shared.Services
 {
     public class EntityRegistry : IEntityRegistry
     {

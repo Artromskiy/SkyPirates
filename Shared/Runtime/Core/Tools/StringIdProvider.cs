@@ -1,7 +1,7 @@
-﻿using DVG.SkyPirates.Shared.Core.Ids;
+﻿using SkyPirates.Shared.Core.Ids;
 using System.Collections.Generic;
 
-namespace DVG.SkyPirates.Shared.Core.Tools
+namespace SkyPirates.Shared.Core.Tools
 {
 	public abstract class StringIdProvider<T, V> : IStringIdProvider<V>
 		where T : StringIdProvider<T, V>, new()

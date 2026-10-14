@@ -2,7 +2,7 @@
 using Delta.Diagnostics;
 using UnityEngine;
 
-namespace DVG.SkyPirates.Client.Init
+namespace SkyPirates.Client.Init
 {
     public class DebugLogInit
     {

@@ -1,12 +1,12 @@
 ﻿using Delta.ECS;
-using DVG.SkyPirates.Shared.Ecs;
-using DVG.SkyPirates.Shared.Components.Runtime;
-using DVG.SkyPirates.Shared.Data;
-using DVG.SkyPirates.Shared.IFactories;
-using DVG.SkyPirates.Shared.IServices;
-using DVG.SkyPirates.Shared.Systems;
+using SkyPirates.Shared.Ecs;
+using SkyPirates.Shared.Components.Runtime;
+using SkyPirates.Shared.Data;
+using SkyPirates.Shared.IFactories;
+using SkyPirates.Shared.IServices;
+using SkyPirates.Shared.Systems;
 
-namespace DVG.SkyPirates.Shared.Factories
+namespace SkyPirates.Shared.Factories
 {
     public class SquadFactory : ISquadFactory
     {

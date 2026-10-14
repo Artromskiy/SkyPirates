@@ -5,7 +5,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering;
 
-namespace DVG.SkyPirates.Tooling.IslandGeneration.Editor
+namespace SkyPirates.Tooling.IslandGeneration.Editor
 {
     internal sealed class IslandGeneration3DPreview : IDisposable
     {

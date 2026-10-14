@@ -84,7 +84,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d6d599fa8256b1e48a519ddb53e83c46, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: SkyPirates.Client::DVG.SkyPirates.Client.Views.Components.TransformComponentView
+  m_EditorClassIdentifier: SkyPirates.Client::SkyPirates.Client.Views.Components.TransformComponentView
   _mode: 3
   _sharpness: 4
   _realPosition:
@@ -102,7 +102,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 47138f36901d72c4f901abcce6ffe8d3, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: SkyPirates.Client::DVG.SkyPirates.Client.Views.Components.UnitComponentView
+  m_EditorClassIdentifier: SkyPirates.Client::SkyPirates.Client.Views.Components.UnitComponentView
   _visualRoot: {fileID: 5509234527777714279}
   _randomizeScale: 0
   _id:
@@ -118,7 +118,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9bd8f62b63f94aaf9b8e3e70afc29eed, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: SkyPirates.Client::DVG.SkyPirates.Client.Views.Components.ProjectileSourceView
+  m_EditorClassIdentifier: SkyPirates.Client::SkyPirates.Client.Views.Components.ProjectileSourceView
 --- !u!114 &4760704735062532338
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -130,7 +130,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 31974ba26a2769e42a636dd2ff67de03, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: SkyPirates.Client::DVG.SkyPirates.Client.Views.Components.BehaviourAnimatorComponentView
+  m_EditorClassIdentifier: SkyPirates.Client::SkyPirates.Client.Views.Components.BehaviourAnimatorComponentView
   _animate: 1
 --- !u!114 &5449093755541170743
 MonoBehaviour:
@@ -143,7 +143,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 915fe3fbcfd27af4b84bce5e0b126a39, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: SkyPirates.Client::DVG.SkyPirates.Client.Views.Components.MoveAnimatorComponentView
+  m_EditorClassIdentifier: SkyPirates.Client::SkyPirates.Client.Views.Components.MoveAnimatorComponentView
 --- !u!114 &-1044544908040930330
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -167,7 +167,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3fb0590b4b8a7034c8c07a461b5a0647, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: SkyPirates.Client::DVG.SkyPirates.Client.Views.Components.Animators.DamagedAnimatorComponentView
+  m_EditorClassIdentifier: SkyPirates.Client::SkyPirates.Client.Views.Components.Animators.DamagedAnimatorComponentView
 --- !u!114 &-202616505504618215
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -179,7 +179,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3417a5ab8fbe1ec4fbcab3d77ca9d5a4, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: SkyPirates.Client::DVG.SkyPirates.Client.Views.Components.DisposeScaleComponentView
+  m_EditorClassIdentifier: SkyPirates.Client::SkyPirates.Client.Views.Components.DisposeScaleComponentView
   _delay: 2
 --- !u!114 &8081746297075840984
 MonoBehaviour:
@@ -192,7 +192,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4fa7e934cf1094947a9315f3a95ce155, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: DVG.SkyPirates.Client::DVG.SkyPirates.Client.Views.Components.DamageVibrationComponentView
+  m_EditorClassIdentifier: SkyPirates.Client::SkyPirates.Client.Views.Components.DamageVibrationComponentView
 --- !u!114 &1185714597632849943
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -204,4 +204,4 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 64b5ab2765f64998a59b37c1cf6b8f27, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: SkyPirates.Client::DVG.SkyPirates.Client.Views.Components.HealthbarSpawnerComponentView
+  m_EditorClassIdentifier: SkyPirates.Client::SkyPirates.Client.Views.Components.HealthbarSpawnerComponentView

@@ -1,10 +1,10 @@
-﻿using DVG.SkyPirates.Shared.Core;
-using DVG.SkyPirates.Shared;
-using DVG.SkyPirates.Shared.Core.Ids;
-using DVG.SkyPirates.Shared.Data;
+﻿using SkyPirates.Shared.Core;
+using SkyPirates.Shared;
+using SkyPirates.Shared.Core.Ids;
+using SkyPirates.Shared.Data;
 using System;
 
-namespace DVG.SkyPirates.Shared.IFactories
+namespace SkyPirates.Shared.IFactories
 {
     public interface IEntityConfigFactory<T> : IFactory<ComponentDataSet, T> where T : struct, IId, IEquatable<T> { }
 }

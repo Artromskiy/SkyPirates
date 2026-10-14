@@ -10,11 +10,11 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using DVG.SkyPirates.Shared.Core.Ids;
+using SkyPirates.Shared.Core.Ids;
 using System;
 using System.Runtime.Serialization;
 
-namespace DVG.SkyPirates.Shared.Ids
+namespace SkyPirates.Shared.Ids
 {
     [Serializable]
     partial struct TreeId : IId, IEquatable<TreeId>, IComparable<TreeId>

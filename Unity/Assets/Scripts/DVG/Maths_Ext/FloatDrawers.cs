@@ -2,7 +2,7 @@
 using UnityEditor;
 using UnityEngine;
 using Delta;
-namespace DVG.SkyPirates.Shared.Core
+namespace SkyPirates.Shared.Core
 {
     [CustomPropertyDrawer(typeof(float2))]
     public class Float2Drawer : PropertyDrawer

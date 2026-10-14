@@ -1,8 +1,8 @@
 {
-    "name": "DVG.SkyPirates.Tooling.Testing.Editor",
-    "rootNamespace": "DVG.SkyPirates.Tooling.Testing",
+    "name": "SkyPirates.Tooling.Testing.Editor",
+    "rootNamespace": "SkyPirates.Tooling.Testing",
     "references": [
-        "DVG.SkyPirates.Shared",
+        "SkyPirates.Shared",
         "DeltaMaths.Unity"
     ],
     "includePlatforms": [

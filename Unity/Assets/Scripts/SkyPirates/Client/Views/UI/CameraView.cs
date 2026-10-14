@@ -1,12 +1,12 @@
 ﻿#nullable enable
 using Delta;
-using DVG.SkyPirates.Client.IViewModels;
-using DVG.SkyPirates.Client.IViews;
+using SkyPirates.Client.IViewModels;
+using SkyPirates.Client.IViews;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
-namespace DVG.SkyPirates.Client.Views
+namespace SkyPirates.Client.Views
 {
     internal class CameraView : View<ICameraVM>
     {

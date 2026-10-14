@@ -1,13 +1,13 @@
 ﻿using Delta;
 using Delta.ECS;
-using DVG.SkyPirates.Shared.Ecs;
-using DVG.SkyPirates.Shared.Components;
-using DVG.SkyPirates.Shared.Components.Runtime;
-using DVG.SkyPirates.Shared.IServices.TickableExecutors;
+using SkyPirates.Shared.Ecs;
+using SkyPirates.Shared.Components;
+using SkyPirates.Shared.Components.Runtime;
+using SkyPirates.Shared.IServices.TickableExecutors;
 using System;
 using System.Text;
 
-namespace DVG.SkyPirates.Shared.Systems.Special
+namespace SkyPirates.Shared.Systems.Special
 {
     [Obsolete]
     public sealed class LogHashSumSystem : IDeltaTickableExecutor

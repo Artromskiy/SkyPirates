@@ -1,7 +1,7 @@
 ﻿using Delta.ECS;
-using DVG.SkyPirates.Shared.Components;
+using SkyPirates.Shared.Components;
 
-namespace DVG.SkyPirates.Shared.Components.Config
+namespace SkyPirates.Shared.Components.Config
 {
     [ComponentSchema]
     [ComponentAlias("Ranged")]

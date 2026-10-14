@@ -147,7 +147,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7e7f1bf9a6c7a7d43b71f90ccfb2c1b0, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: DVG.SkyPirates.Tooling.Testing.Editor::DVG.SkyPirates.Tooling.Testing.SerializeChecker
+  m_EditorClassIdentifier: SkyPirates.Tooling.Testing.Editor::SkyPirates.Tooling.Testing.SerializeChecker
   _textAsset: {fileID: 4900000, guid: 4402b0fec6fbe0e4f88a646785d41d33, type: 3}
 --- !u!4 &451490251
 Transform:

@@ -1,4 +1,4 @@
-﻿namespace DVG.SkyPirates.Shared.Core.Collections
+﻿namespace SkyPirates.Shared.Core.Collections
 {
 	public sealed class GenericCreator
 	{

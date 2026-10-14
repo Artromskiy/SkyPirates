@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace DVG.SkyPirates.Shared.Ids
+namespace SkyPirates.Shared.Ids
 {
     public partial struct GoodsId : ISerializationCallbackReceiver
     {

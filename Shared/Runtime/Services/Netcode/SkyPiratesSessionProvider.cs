@@ -1,15 +1,15 @@
 using Delta;
 using Delta.Netcode;
-using DVG.SkyPirates.Shared.Commands;
-using DVG.SkyPirates.Shared.IServices;
-using DVG.SkyPirates.Shared.IServices.TickableExecutors;
+using SkyPirates.Shared.Commands;
+using SkyPirates.Shared.IServices;
+using SkyPirates.Shared.IServices.TickableExecutors;
 using System;
 using System.Buffers;
 using System.Buffers.Binary;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace DVG.SkyPirates.Shared.Services.Netcode
+namespace SkyPirates.Shared.Services.Netcode
 {
     public sealed class SkyPiratesSessionProvider
     {

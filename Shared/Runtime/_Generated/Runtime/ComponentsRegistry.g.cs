@@ -12,14 +12,14 @@
 
 using System;
 using System.Collections.Generic;
-using DVG.SkyPirates.Shared.Core;
+using SkyPirates.Shared.Core;
 
-using DVG.SkyPirates.Shared.Components.Config;
-using DVG.SkyPirates.Shared.Components.Runtime;
-using DVG.SkyPirates.Shared.Components.Framed;
-using DVG.SkyPirates.Shared.Ids;
+using SkyPirates.Shared.Components.Config;
+using SkyPirates.Shared.Components.Runtime;
+using SkyPirates.Shared.Components.Framed;
+using SkyPirates.Shared.Ids;
 
-namespace DVG.SkyPirates.Shared.Components
+namespace SkyPirates.Shared.Components
 {
     public static class ComponentsRegistry
     {

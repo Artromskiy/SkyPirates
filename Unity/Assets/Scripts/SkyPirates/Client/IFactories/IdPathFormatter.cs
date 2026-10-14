@@ -1,6 +1,6 @@
-﻿using DVG.SkyPirates.Shared.Core.Ids;
+﻿using SkyPirates.Shared.Core.Ids;
 
-namespace DVG.SkyPirates.Client.IFactories
+namespace SkyPirates.Client.IFactories
 {
     public static class IdPathFormatter
     {

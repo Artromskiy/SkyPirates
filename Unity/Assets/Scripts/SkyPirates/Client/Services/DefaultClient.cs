@@ -1,6 +1,6 @@
-﻿using DVG.SkyPirates.Client.IServices;
+﻿using SkyPirates.Client.IServices;
 
-namespace DVG.SkyPirates.Client.Services
+namespace SkyPirates.Client.Services
 {
     internal class DefaultClient : IClientService
     {

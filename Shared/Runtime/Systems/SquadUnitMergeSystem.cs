@@ -1,14 +1,14 @@
 using Delta;
 using Delta.ECS;
-using DVG.SkyPirates.Shared.Components;
-using DVG.SkyPirates.Shared.Components.Runtime;
-using DVG.SkyPirates.Shared.Components.Config;
-using DVG.SkyPirates.Shared.Ecs;
-using DVG.SkyPirates.Shared.Ids;
-using DVG.SkyPirates.Shared.IServices.TickableExecutors;
+using SkyPirates.Shared.Components;
+using SkyPirates.Shared.Components.Runtime;
+using SkyPirates.Shared.Components.Config;
+using SkyPirates.Shared.Ecs;
+using SkyPirates.Shared.Ids;
+using SkyPirates.Shared.IServices.TickableExecutors;
 using System.Collections.Generic;
 
-namespace DVG.SkyPirates.Shared.Systems
+namespace SkyPirates.Shared.Systems
 {
     public sealed class SquadUnitMergeSystem : IDeltaTickableExecutor
     {

@@ -4,7 +4,7 @@ using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 
-namespace DVG.SkyPirates.Tooling.Editor
+namespace SkyPirates.Tooling.Editor
 {
     [CustomEditor(typeof(GoogleSheetsConfigLoader))]
     public sealed class GoogleSheetsConfigLoaderEditor : UnityEditor.Editor

@@ -1,6 +1,6 @@
-﻿using DVG.SkyPirates.Shared.Ids;
+﻿using SkyPirates.Shared.Ids;
 
-namespace DVG.SkyPirates.Server.IServices
+namespace SkyPirates.Server.IServices
 {
     public interface ICheatLoggerService
     {

@@ -1,8 +1,8 @@
 using Delta;
-using DVG.SkyPirates.Shared.Core.Physics;
+using SkyPirates.Shared.Core.Physics;
 using UnityEngine;
 
-namespace DVG.SkyPirates.Tooling.Testing
+namespace SkyPirates.Tooling.Testing
 {
     public class RaycastTester : MonoBehaviour
     {

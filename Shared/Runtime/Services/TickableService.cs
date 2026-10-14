@@ -1,8 +1,8 @@
-﻿using DVG.SkyPirates.Shared.IServices.TickableExecutors;
+﻿using SkyPirates.Shared.IServices.TickableExecutors;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace DVG.SkyPirates.Shared.Services
+namespace SkyPirates.Shared.Services
 {
     public class TickableService<T> : ITickableService<T>
         where T : ITickable

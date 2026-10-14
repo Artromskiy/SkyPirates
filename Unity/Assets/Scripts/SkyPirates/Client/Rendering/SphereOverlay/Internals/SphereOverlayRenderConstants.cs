@@ -1,4 +1,4 @@
-namespace DVG.SkyPirates.Rendering.SphereOverlay.Internals
+namespace SkyPirates.Rendering.SphereOverlay.Internals
 {
     internal static class SphereOverlayRenderConstants
     {

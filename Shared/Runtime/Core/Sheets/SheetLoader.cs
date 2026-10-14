@@ -3,7 +3,7 @@ using System.Net.Http;
 using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 
-namespace DVG.SkyPirates.Shared.Core.Sheets
+namespace SkyPirates.Shared.Core.Sheets
 {
     public class SheetLoader
     {

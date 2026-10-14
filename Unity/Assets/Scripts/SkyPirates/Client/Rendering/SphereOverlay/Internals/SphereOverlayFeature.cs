@@ -5,7 +5,7 @@ using UnityEngine.Rendering.RenderGraphModule;
 using UnityEngine.Rendering.RenderGraphModule.Util;
 using UnityEngine.Rendering.Universal;
 
-namespace DVG.SkyPirates.Rendering.SphereOverlay.Internals
+namespace SkyPirates.Rendering.SphereOverlay.Internals
 {
     internal sealed class SphereOverlayFeature : ScriptableRendererFeature
     {

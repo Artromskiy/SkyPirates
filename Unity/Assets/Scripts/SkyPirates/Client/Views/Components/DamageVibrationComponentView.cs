@@ -1,8 +1,8 @@
 ﻿using Delta.ECS.Unity;
-using DVG.SkyPirates.Shared.Components.Runtime;
+using SkyPirates.Shared.Components.Runtime;
 using UnityEngine;
 
-namespace DVG.SkyPirates.Client.Views.Components
+namespace SkyPirates.Client.Views.Components
 {
     internal class DamageVibrationComponentView : MonoBehaviour, IEntityView
     {

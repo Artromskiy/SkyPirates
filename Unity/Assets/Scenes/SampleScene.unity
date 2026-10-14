@@ -626,7 +626,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 16de4c6bd32a497c981336d82b45a8de, type: 3}
   m_Name: ''
-  m_EditorClassIdentifier: SkyPirates.Client::DVG.SkyPirates.Client.Views.MouseCameraRotationView
+  m_EditorClassIdentifier: SkyPirates.Client::SkyPirates.Client.Views.MouseCameraRotationView
   _cameraView: {fileID: 330585548}
 --- !u!1001 &920010000000000007
 PrefabInstance:
@@ -815,7 +815,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2a033f7a21bc139429f42df7e5038872, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: SkyPirates.Client::DVG.SkyPirates.Client.Views.KeyboardJoystickView
+  m_EditorClassIdentifier: SkyPirates.Client::SkyPirates.Client.Views.KeyboardJoystickView
 --- !u!224 &1111748158 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 9147575593197186751, guid: a890db9af6c3d57449bb46dcdda82d20, type: 3}
@@ -864,7 +864,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a20161a2f812de941a66d423ba066d99, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: SkyPirates.Client::DVG.SkyPirates.Client.Views.KeyboardCardsView
+  m_EditorClassIdentifier: SkyPirates.Client::SkyPirates.Client.Views.KeyboardCardsView
 --- !u!1001 &1438473186
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1024,7 +1024,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9f1e1490b7874aa4b9906faab027bbdc, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: SkyPirates.Client::DVG.SkyPirates.Local.Entry.LocalStart
+  m_EditorClassIdentifier: SkyPirates.Client::SkyPirates.Local.Entry.LocalStart
 --- !u!1 &2084602767
 GameObject:
   m_ObjectHideFlags: 0
@@ -2097,7 +2097,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 75690f4f02772a743a05b2292f397417, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: DVG.SkyPirates.Client::DVG.SkyPirates.Client.Views.ShareTimelineView
+  m_EditorClassIdentifier: SkyPirates.Client::SkyPirates.Client.Views.ShareTimelineView
   _button: {fileID: 2861481535893632889}
 --- !u!222 &8603332611246642798
 CanvasRenderer:

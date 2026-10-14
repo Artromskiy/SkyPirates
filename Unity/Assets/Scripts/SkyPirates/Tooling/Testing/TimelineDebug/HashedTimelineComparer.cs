@@ -6,12 +6,12 @@ using System.IO.Hashing;
 using System.Threading.Tasks;
 using Delta;
 using Delta.Netcode;
-using DVG.SkyPirates.Shared.Commands;
-using DVG.SkyPirates.Shared.Data;
-using DVG.SkyPirates.Shared.Tools.Json;
+using SkyPirates.Shared.Commands;
+using SkyPirates.Shared.Data;
+using SkyPirates.Shared.Tools.Json;
 using UnityEngine;
 
-namespace DVG.SkyPirates.Tooling.Testing
+namespace SkyPirates.Tooling.Testing
 {
     public class HashedTimelineComparer : MonoBehaviour
     {

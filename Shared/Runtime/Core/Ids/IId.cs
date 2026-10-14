@@ -1,4 +1,4 @@
-namespace DVG.SkyPirates.Shared.Core.Ids
+namespace SkyPirates.Shared.Core.Ids
 {
 	public interface IId
 	{

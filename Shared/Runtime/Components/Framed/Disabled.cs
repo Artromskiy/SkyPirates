@@ -1,5 +1,5 @@
 ﻿using Delta.ECS;
-namespace DVG.SkyPirates.Shared.Components.Framed
+namespace SkyPirates.Shared.Components.Framed
 {
     [ComponentSchema]
     [ComponentAlias("Disabled")]

@@ -1,18 +1,18 @@
 using Delta.Netcode;
-using DVG.SkyPirates.Shared.Core;
-using DVG.SkyPirates.Shared;
-using DVG.SkyPirates.Shared.Data;
-using DVG.SkyPirates.Shared.DI;
-using DVG.SkyPirates.Shared.IServices;
-using DVG.SkyPirates.Shared.IServices.TickableExecutors;
-using DVG.SkyPirates.Shared.Services.Netcode;
-using DVG.SkyPirates.Shared.Services.Replay;
-using DVG.SkyPirates.Shared.Tools.Json;
+using SkyPirates.Shared.Core;
+using SkyPirates.Shared;
+using SkyPirates.Shared.Data;
+using SkyPirates.Shared.DI;
+using SkyPirates.Shared.IServices;
+using SkyPirates.Shared.IServices.TickableExecutors;
+using SkyPirates.Shared.Services.Netcode;
+using SkyPirates.Shared.Services.Replay;
+using SkyPirates.Shared.Tools.Json;
 using SimpleInjector;
 using System;
 using System.IO;
 
-namespace DVG.SkyPirates.ReplayRunner
+namespace SkyPirates.ReplayRunner
 {
     internal static class Program
     {

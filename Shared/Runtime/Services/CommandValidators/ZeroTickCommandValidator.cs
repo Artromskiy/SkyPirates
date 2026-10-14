@@ -1,7 +1,7 @@
 using Delta.Netcode;
-using DVG.SkyPirates.Shared.IServices;
+using SkyPirates.Shared.IServices;
 
-namespace DVG.SkyPirates.Shared.Services.CommandValidators
+namespace SkyPirates.Shared.Services.CommandValidators
 {
     public sealed class ZeroTickCommandValidator<T> : ICommandValidator<T>, ICommandValidatorRegistration
     {

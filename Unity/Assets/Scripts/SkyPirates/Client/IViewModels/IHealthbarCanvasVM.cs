@@ -1,9 +1,9 @@
-﻿using DVG.SkyPirates.Shared.Core;
-using DVG.SkyPirates.Shared;
+﻿using SkyPirates.Shared.Core;
+using SkyPirates.Shared;
 using System;
 using UnityEngine;
 
-namespace DVG.SkyPirates.Client.IViewModels
+namespace SkyPirates.Client.IViewModels
 {
     public interface IHealthbarCanvasVM : IViewModel
     {

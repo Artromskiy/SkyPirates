@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.Playables;
 
-namespace DVG.SkyPirates.Client.Views.Components.Animators
+namespace SkyPirates.Client.Views.Components.Animators
 {
     public readonly struct AnimBlend
     {

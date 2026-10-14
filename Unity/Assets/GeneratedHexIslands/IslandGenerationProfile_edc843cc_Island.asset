@@ -11,7 +11,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7da0fa12fbbb4c29ac6a16a57705fd3f, type: 3}
   m_Name: IslandGenerationProfile_edc843cc_Island
-  m_EditorClassIdentifier: DVG.SkyPirates.Tooling::DVG.SkyPirates.Tooling.IslandGeneration.HexIslandMap
+  m_EditorClassIdentifier: SkyPirates.Tooling::SkyPirates.Tooling.IslandGeneration.HexIslandMap
   columns: 100
   rows: 100
   seed: 3

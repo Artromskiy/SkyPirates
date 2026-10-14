@@ -1,11 +1,11 @@
-using DVG.SkyPirates.Client.Databases;
-using DVG.SkyPirates.Shared.Ids;
+using SkyPirates.Client.Databases;
+using SkyPirates.Shared.Ids;
 using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace DVG.SkyPirates.Client.Views
+namespace SkyPirates.Client.Views
 {
     public class UnitCardView : MonoBehaviour
     {

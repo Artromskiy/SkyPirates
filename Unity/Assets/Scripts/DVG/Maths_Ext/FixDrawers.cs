@@ -3,7 +3,7 @@ using UnityEditor;
 using UnityEngine;
 using Delta;
 
-namespace DVG.SkyPirates.Shared.Core
+namespace SkyPirates.Shared.Core
 {
     [CustomPropertyDrawer(typeof(fix))]
     public class FixDrawer : PropertyDrawer

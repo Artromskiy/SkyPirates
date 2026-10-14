@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace DVG.SkyPirates.Tooling.IslandGeneration
+namespace SkyPirates.Tooling.IslandGeneration
 {
     [Serializable]
     public struct HexIslandCell

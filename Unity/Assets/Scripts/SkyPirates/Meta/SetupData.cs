@@ -1,4 +1,4 @@
-namespace DVG.SkyPirates.Meta
+namespace SkyPirates.Meta
 {
     public static class SetupData
     {

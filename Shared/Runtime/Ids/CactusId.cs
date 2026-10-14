@@ -1,8 +1,8 @@
 ﻿using Delta.ECS;
-using DVG.SkyPirates.Shared.Core.Ids.Attributes;
-using DVG.SkyPirates.Shared.Components;
+using SkyPirates.Shared.Core.Ids.Attributes;
+using SkyPirates.Shared.Components;
 
-namespace DVG.SkyPirates.Shared.Ids
+namespace SkyPirates.Shared.Ids
 {
     [Id(false)]
     [ComponentSchema]

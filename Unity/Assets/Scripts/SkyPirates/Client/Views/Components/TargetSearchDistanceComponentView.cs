@@ -1,11 +1,11 @@
 ﻿using Delta;
 using Delta.ECS.Unity;
-using DVG.SkyPirates.Rendering.SphereOverlay.View;
-using DVG.SkyPirates.Shared.Components.Config;
-using DVG.SkyPirates.Shared.Components.Runtime;
+using SkyPirates.Rendering.SphereOverlay.View;
+using SkyPirates.Shared.Components.Config;
+using SkyPirates.Shared.Components.Runtime;
 using UnityEngine;
 
-namespace DVG.SkyPirates.Client.Views.Components
+namespace SkyPirates.Client.Views.Components
 {
     public class TargetSearchDistanceComponentView : MonoBehaviour, IEntityView
     {

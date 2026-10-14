@@ -1,10 +1,10 @@
 using Delta.Netcode;
-using DVG.SkyPirates.Shared.Data;
-using DVG.SkyPirates.Shared.IServices.TickableExecutors;
-using DVG.SkyPirates.Shared.Services.Netcode;
+using SkyPirates.Shared.Data;
+using SkyPirates.Shared.IServices.TickableExecutors;
+using SkyPirates.Shared.Services.Netcode;
 using System;
 
-namespace DVG.SkyPirates.Shared.Services.Replay
+namespace SkyPirates.Shared.Services.Replay
 {
     public sealed class SkyPiratesReplayPlayback
     {
@@ -68,7 +68,7 @@ namespace DVG.SkyPirates.Shared.Services.Replay
 
             expected = check.Hash;
             WorldData snapshot = _history.GetSnapshot(step < 0 ? int.MinValue : checked((int)step));
-            actual = DVG.SkyPirates.Shared.Tools.Json.SerializationUTF8.GetHashSum(snapshot);
+            actual = SkyPirates.Shared.Tools.Json.SerializationUTF8.GetHashSum(snapshot);
             return actual == expected;
         }
 

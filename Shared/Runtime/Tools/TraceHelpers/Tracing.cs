@@ -1,7 +1,7 @@
-﻿using DVG.SkyPirates.Shared.Components;
-using DVG.SkyPirates.Shared.Components.Runtime;
+﻿using SkyPirates.Shared.Components;
+using SkyPirates.Shared.Components.Runtime;
 
-namespace DVG.SkyPirates.Shared.Tools.TraceHelpers
+namespace SkyPirates.Shared.Tools.TraceHelpers
 {
     internal static class Tracing
     {

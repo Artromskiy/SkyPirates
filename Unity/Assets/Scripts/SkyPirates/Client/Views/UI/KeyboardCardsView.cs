@@ -1,9 +1,9 @@
 #nullable enable
-using DVG.SkyPirates.Client.IViewModels;
-using DVG.SkyPirates.Client.IViews;
+using SkyPirates.Client.IViewModels;
+using SkyPirates.Client.IViews;
 using UnityEngine;
 
-namespace DVG.SkyPirates.Client.Views
+namespace SkyPirates.Client.Views
 {
     public class KeyboardCardsView : View<ICardsVM>
     {

@@ -2,7 +2,7 @@
 using System;
 using System.Runtime.CompilerServices;
 
-namespace DVG.SkyPirates.Shared.Core
+namespace SkyPirates.Shared.Core
 {
 	public static class Hex
 	{

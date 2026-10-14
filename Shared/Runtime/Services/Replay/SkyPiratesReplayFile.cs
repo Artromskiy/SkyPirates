@@ -1,7 +1,7 @@
 using System.IO;
-using DVG.SkyPirates.Shared.Tools.Json;
+using SkyPirates.Shared.Tools.Json;
 
-namespace DVG.SkyPirates.Shared.Services.Replay
+namespace SkyPirates.Shared.Services.Replay
 {
     public static class SkyPiratesReplayFile
     {

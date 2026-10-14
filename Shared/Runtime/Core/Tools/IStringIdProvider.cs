@@ -1,9 +1,9 @@
-﻿using DVG.SkyPirates.Shared.Core.Ids;
+﻿using SkyPirates.Shared.Core.Ids;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace DVG.SkyPirates.Shared.Core.Tools
+namespace SkyPirates.Shared.Core.Tools
 {
 	public interface IStringIdProvider
 	{

@@ -1,10 +1,10 @@
-using DVG.SkyPirates.Shared;
-using DVG.SkyPirates.Shared.Services.Netcode;
+using SkyPirates.Shared;
+using SkyPirates.Shared.Services.Netcode;
 using System;
 using System.Diagnostics;
 using System.Threading;
 
-namespace DVG.SkyPirates.Server
+namespace SkyPirates.Server
 {
     public sealed class GameStartController
     {

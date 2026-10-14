@@ -1,14 +1,14 @@
-using DVG.SkyPirates.Client.DI;
-using DVG.SkyPirates.Shared.IServices;
-using DVG.SkyPirates.Shared.Services;
-using DVG.SkyPirates.Shared.Services.Netcode;
-using DVG.SkyPirates.Shared.Tools.Json;
+using SkyPirates.Client.DI;
+using SkyPirates.Shared.IServices;
+using SkyPirates.Shared.Services;
+using SkyPirates.Shared.Services.Netcode;
+using SkyPirates.Shared.Tools.Json;
 using System.Buffers;
 using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace DVG.SkyPirates.Client.Views
+namespace SkyPirates.Client.Views
 {
     [Inject]
     public class ShareTimelineView : MonoBehaviour

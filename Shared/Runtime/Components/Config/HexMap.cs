@@ -1,10 +1,10 @@
 using Delta;
 using Delta.ECS;
-using DVG.SkyPirates.Shared.Components;
-using DVG.SkyPirates.Shared.Ids;
+using SkyPirates.Shared.Components;
+using SkyPirates.Shared.Ids;
 using System.Collections.Frozen;
 
-namespace DVG.SkyPirates.Shared.Components.Config
+namespace SkyPirates.Shared.Components.Config
 {
     [ComponentSchema]
     [ComponentAlias("HexMap")]

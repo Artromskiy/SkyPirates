@@ -46,7 +46,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d6d599fa8256b1e48a519ddb53e83c46, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: DVG.SkyPirates.Client::DVG.SkyPirates.Client.Views.Components.TransformComponentView
+  m_EditorClassIdentifier: SkyPirates.Client::SkyPirates.Client.Views.Components.TransformComponentView
   _mode: 3
   _sharpness: 4
   _realPosition:
@@ -64,7 +64,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a58fff9939ac7884faa0bf47be0e4872, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: DVG.SkyPirates.Client::DVG.SkyPirates.Client.Views.Components.TargetSearchDistanceComponentView
+  m_EditorClassIdentifier: SkyPirates.Client::SkyPirates.Client.Views.Components.TargetSearchDistanceComponentView
   _sphereOverlayView: {fileID: 2229205673072113901}
 --- !u!114 &4885073806335233957
 MonoBehaviour:
@@ -77,7 +77,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e4ed62a030335ab418e94a5fc2c8997c, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: DVG.SkyPirates.Client::DVG.SkyPirates.Client.Views.Components.ActivityRangeComponentView
+  m_EditorClassIdentifier: SkyPirates.Client::SkyPirates.Client.Views.Components.ActivityRangeComponentView
 --- !u!1 &4474500479695683042
 GameObject:
   m_ObjectHideFlags: 0
@@ -121,7 +121,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8a72af54420a4a51952f0618395f4b8b, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: DVG.SkyPirates.Rendering.SphereOverlay::DVG.SkyPirates.Rendering.SphereOverlay.View.SphereOverlayView
+  m_EditorClassIdentifier: SkyPirates.Rendering.SphereOverlay::SkyPirates.Rendering.SphereOverlay.View.SphereOverlayView
   _gradient:
     serializedVersion: 2
     key0: {r: 1, g: 1, b: 1, a: 0}

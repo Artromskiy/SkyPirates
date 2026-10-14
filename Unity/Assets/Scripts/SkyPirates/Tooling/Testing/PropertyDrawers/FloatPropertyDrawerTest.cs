@@ -1,7 +1,7 @@
 ﻿using Delta;
 using UnityEngine;
 
-namespace DVG.SkyPirates.Tooling.Testing.PropertyDrawers
+namespace SkyPirates.Tooling.Testing.PropertyDrawers
 {
     public class FloatPropertyDrawerTest : MonoBehaviour
     {

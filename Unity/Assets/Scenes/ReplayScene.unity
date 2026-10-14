@@ -615,7 +615,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9f1e1490b7874aa4b9906faab027bbdc, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: SkyPirates.Client::DVG.SkyPirates.Local.Entry.LocalStart
+  m_EditorClassIdentifier: SkyPirates.Client::SkyPirates.Local.Entry.LocalStart
 --- !u!1001 &1877581703393161869
 PrefabInstance:
   m_ObjectHideFlags: 0

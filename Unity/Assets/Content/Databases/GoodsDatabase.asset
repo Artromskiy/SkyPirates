@@ -11,7 +11,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 78b299eadead2db4bac0615658c00370, type: 3}
   m_Name: GoodsDatabase
-  m_EditorClassIdentifier: DVG.SkyPirates.Client::DVG.SkyPirates.Client.Databases.GoodsDatabase
+  m_EditorClassIdentifier: SkyPirates.Client::SkyPirates.Client.Databases.GoodsDatabase
   _items:
   - Key:
       Value: Gold

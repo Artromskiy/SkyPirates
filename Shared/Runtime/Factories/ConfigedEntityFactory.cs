@@ -1,12 +1,12 @@
 ﻿using Delta.ECS;
-using DVG.SkyPirates.Shared.Core.Ids;
-using DVG.SkyPirates.Shared.Data;
-using DVG.SkyPirates.Shared.IFactories;
-using DVG.SkyPirates.Shared.IServices;
-using DVG.SkyPirates.Shared.Systems;
+using SkyPirates.Shared.Core.Ids;
+using SkyPirates.Shared.Data;
+using SkyPirates.Shared.IFactories;
+using SkyPirates.Shared.IServices;
+using SkyPirates.Shared.Systems;
 using System;
 
-namespace DVG.SkyPirates.Shared.Factories
+namespace SkyPirates.Shared.Factories
 {
     public class ConfigedEntityFactory<T> : IConfigedEntityFactory<T>
         where T : struct, IId, IEquatable<T>

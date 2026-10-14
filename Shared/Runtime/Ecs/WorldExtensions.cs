@@ -1,13 +1,13 @@
-﻿using DVG.SkyPirates.Shared.Core;
+﻿using SkyPirates.Shared.Core;
 using Delta.ECS;
-using DVG.SkyPirates.Shared.Components;
-using DVG.SkyPirates.Shared.Components.Runtime;
-using DVG.SkyPirates.Shared.Components.Framed;
+using SkyPirates.Shared.Components;
+using SkyPirates.Shared.Components.Runtime;
+using SkyPirates.Shared.Components.Framed;
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
-namespace DVG.SkyPirates.Shared.Ecs
+namespace SkyPirates.Shared.Ecs
 {
     internal static class WorldExtensions
     {

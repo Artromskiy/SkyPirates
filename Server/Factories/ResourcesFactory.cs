@@ -1,9 +1,9 @@
-﻿using DVG.SkyPirates.Shared.Core;
-using DVG.SkyPirates.Shared;
-using DVG.SkyPirates.Shared.Tools.Json;
+﻿using SkyPirates.Shared.Core;
+using SkyPirates.Shared;
+using SkyPirates.Shared.Tools.Json;
 using System.IO;
 
-namespace DVG.SkyPirates.Server.Factories
+namespace SkyPirates.Server.Factories
 {
     public class ResourcesFactory<T> : IPathFactory<T>
     {

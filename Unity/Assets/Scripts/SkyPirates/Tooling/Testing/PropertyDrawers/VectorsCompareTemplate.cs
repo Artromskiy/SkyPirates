@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace DVG.SkyPirates.Tooling.Testing.PropertyDrawers
+namespace SkyPirates.Tooling.Testing.PropertyDrawers
 {
     [Serializable]
     public class VectorsCompareTemplate<Single, Two, Three, Four>

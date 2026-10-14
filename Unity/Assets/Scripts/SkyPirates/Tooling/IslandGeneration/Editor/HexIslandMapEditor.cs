@@ -3,7 +3,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace DVG.SkyPirates.Tooling.IslandGeneration.Editor
+namespace SkyPirates.Tooling.IslandGeneration.Editor
 {
     [CustomEditor(typeof(HexIslandMap))]
     public sealed class HexIslandMapEditor : UnityEditor.Editor

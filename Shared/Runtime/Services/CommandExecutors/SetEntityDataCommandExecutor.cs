@@ -1,16 +1,16 @@
-using DVG.SkyPirates.Shared.Core;
+using SkyPirates.Shared.Core;
 using Delta.ECS;
 using Delta.Netcode;
-using DVG.SkyPirates.Shared.Components;
-using DVG.SkyPirates.Shared.Components.Runtime;
-using DVG.SkyPirates.Shared.Commands;
-using DVG.SkyPirates.Shared.IServices;
-using DVG.SkyPirates.Shared.Data;
-using DVG.SkyPirates.Shared.Systems;
-using DVG.SkyPirates.Shared.Tools.TraceHelpers;
+using SkyPirates.Shared.Components;
+using SkyPirates.Shared.Components.Runtime;
+using SkyPirates.Shared.Commands;
+using SkyPirates.Shared.IServices;
+using SkyPirates.Shared.Data;
+using SkyPirates.Shared.Systems;
+using SkyPirates.Shared.Tools.TraceHelpers;
 using System.Diagnostics;
 
-namespace DVG.SkyPirates.Shared.Services.CommandExecutors
+namespace SkyPirates.Shared.Services.CommandExecutors
 {
     public class SetEntityDataCommandExecutor : ICommandExecutorRegistration, ICommandExecutor<SetEntityDataCommand>
     {

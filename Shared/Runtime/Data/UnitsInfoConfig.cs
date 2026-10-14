@@ -1,7 +1,7 @@
-﻿using DVG.SkyPirates.Shared.Ids;
+﻿using SkyPirates.Shared.Ids;
 using System.Collections.Generic;
 
-namespace DVG.SkyPirates.Shared.Data
+namespace SkyPirates.Shared.Data
 {
     public sealed class UnitsInfoConfig : Dictionary<UnitId, UnitInfoData> { }
 

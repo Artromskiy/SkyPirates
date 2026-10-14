@@ -1,6 +1,6 @@
-﻿using DVG.SkyPirates.Shared.Data;
+﻿using SkyPirates.Shared.Data;
 
-namespace DVG.SkyPirates.Shared.IServices.TickableExecutors
+namespace SkyPirates.Shared.IServices.TickableExecutors
 {
     public interface IHistorySystem
     {

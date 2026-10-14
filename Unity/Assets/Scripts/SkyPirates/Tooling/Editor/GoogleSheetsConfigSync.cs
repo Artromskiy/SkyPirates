@@ -1,7 +1,7 @@
 #if UNITY_EDITOR
-using DVG.SkyPirates.Shared.Core.Sheets;
-using DVG.SkyPirates.Shared.Data;
-using DVG.SkyPirates.Shared.Tools.Json;
+using SkyPirates.Shared.Core.Sheets;
+using SkyPirates.Shared.Data;
+using SkyPirates.Shared.Tools.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,7 +11,7 @@ using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using UnityEditor;
 
-namespace DVG.SkyPirates.Tooling.Editor
+namespace SkyPirates.Tooling.Editor
 {
     internal static class GoogleSheetsConfigSync
     {

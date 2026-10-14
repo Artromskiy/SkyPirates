@@ -1,9 +1,9 @@
 ﻿using Delta.ECS.Unity;
-using DVG.SkyPirates.Shared.Components.Runtime;
-using DVG.SkyPirates.Client.Views.Components;
+using SkyPirates.Shared.Components.Runtime;
+using SkyPirates.Client.Views.Components;
 using UnityEngine;
 
-namespace DVG.SkyPirates.Client.Views.Components.Animators
+namespace SkyPirates.Client.Views.Components.Animators
 {
     public class DamagedAnimatorComponentView : MonoBehaviour, IEntityView
     {

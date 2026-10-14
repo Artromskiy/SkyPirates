@@ -1,6 +1,6 @@
-﻿using DVG.SkyPirates.Shared;
+﻿using SkyPirates.Shared;
 
-namespace DVG.SkyPirates.Client.Views
+namespace SkyPirates.Client.Views
 {
     public static class LerpConstants
     {
