@@ -3,80 +3,62 @@ using Delta.ECS;
 using SkyPirates.Shared.Components;
 using SkyPirates.Shared.Components.Runtime;
 using SkyPirates.Shared.Data;
-using SkyPirates.Shared.Ecs;
 using SkyPirates.Shared.IFactories;
 using SkyPirates.Shared.IServices;
 
-namespace SkyPirates.Shared.Systems.Special
+namespace SkyPirates.Shared.Ecs
 {
-    internal sealed class SnapshotHistorySystem
+    internal static class WorldSnapshotApplier
     {
-        private readonly World _world;
-        private readonly IWorldHistory _history;
-        private readonly ComponentId _syncIdId;
-        private readonly Query _syncIdQuery;
-        private readonly ForEachContextEntityAction<CollectState> _collectEntitiesAction;
-        private readonly IOperation<CollectState> _collectEntitiesOperation;
-        private readonly HashSet<int> _snapshotSyncIds = new();
-        private readonly List<Entity> _entitiesToRetire = new();
-        private readonly IEntityFactory _entityFactory;
-        private readonly IEntityRegistry _entityRegistry;
-        private readonly IComponentDependenciesService _componentDependencies;
+        private static readonly ForEachContextEntityAction<CollectState> CollectEntitiesAction = CollectEntity;
 
-        public SnapshotHistorySystem(
+        public static void Apply(
             World world,
             IWorldHistory history,
             IEntityFactory entityFactory,
             IEntityRegistry entityRegistry,
-            IComponentDependenciesService componentDependencies)
+            IComponentDependenciesService componentDependencies,
+            WorldData snapshot)
         {
-            _world = world;
-            _history = history;
-            _syncIdId = world.Components.GetPrimary<SyncId>();
-            _syncIdQuery = world.WhereAll(_syncIdId);
-            _collectEntitiesAction = CollectEntity;
+            ComponentId syncIdId = world.Components.GetPrimary<SyncId>();
+            Query syncIdQuery = world.WhereAll(syncIdId);
+            var snapshotSyncIds = new HashSet<int>();
+            var entitiesToRetire = new List<Entity>();
             var initialState = default(CollectState);
-            _collectEntitiesOperation = world.ForEachEntity(in _syncIdQuery, ref initialState, _collectEntitiesAction);
-            _entityFactory = entityFactory;
-            _entityRegistry = entityRegistry;
-            _componentDependencies = componentDependencies;
-        }
+            IOperation<CollectState> collectEntitiesOperation =
+                world.ForEachEntity(in syncIdQuery, ref initialState, CollectEntitiesAction);
 
-        public void ApplySnapshot(WorldData snapshot)
-        {
-            _snapshotSyncIds.Clear();
             foreach (var syncId in snapshot.Get<SyncId>().Values)
             {
-                _snapshotSyncIds.Add(syncId.Value);
+                snapshotSyncIds.Add(syncId.Value);
             }
 
-            _entitiesToRetire.Clear();
-            var collectState = new CollectState(_world, _syncIdId, _snapshotSyncIds, _entitiesToRetire);
-            _collectEntitiesOperation.Invoke(ref collectState);
-            for (int i = 0; i < _entitiesToRetire.Count; i++)
+            var collectState = new CollectState(world, syncIdId, snapshotSyncIds, entitiesToRetire);
+            collectEntitiesOperation.Invoke(ref collectState);
+            for (int i = 0; i < entitiesToRetire.Count; i++)
             {
-                Entity entity = _entitiesToRetire[i];
-                _history.RetireEntityFromSnapshot(entity);
-                if (_world.Has<Alive>(entity))
+                Entity entity = entitiesToRetire[i];
+                history.RetireEntityFromSnapshot(entity);
+                if (world.Has<Alive>(entity))
                 {
-                    _world.Remove<Alive>(entity);
+                    world.Remove<Alive>(entity);
                 }
             }
 
             foreach (var syncId in snapshot.Get<SyncId>().Values)
             {
-                _entityRegistry.Reserve(syncId);
+                entityRegistry.Reserve(syncId);
             }
 
             foreach (var syncIdReserve in snapshot.Get<SyncIdReserve>().Values)
             {
-                _entityRegistry.Reserve(syncIdReserve);
+                entityRegistry.Reserve(syncIdReserve);
             }
 
             var entitiesBySyncId = new Dictionary<int, Entity>();
             foreach (var syncId in snapshot.Get<SyncId>().Values)
             {
-                Entity entity = _entityFactory.Create(new()
+                Entity entity = entityFactory.Create(new()
                 {
                     SyncId = syncId,
                     RandomSeed = default,
@@ -86,10 +68,10 @@ namespace SkyPirates.Shared.Systems.Special
                 entitiesBySyncId.Add(syncId.Value, entity);
             }
 
-            _history.ApplySnapshot(snapshot, entitiesBySyncId);
+            history.ApplySnapshot(snapshot, entitiesBySyncId);
             foreach (Entity entity in entitiesBySyncId.Values)
             {
-                _componentDependencies.Apply(entity);
+                componentDependencies.Apply(entity);
             }
         }
 

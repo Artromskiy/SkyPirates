@@ -28,6 +28,9 @@ namespace SkyPirates.Local.Entry
         private ViewBindingTickSystem _viewBinding = null!;
         private SkyPiratesReplayRecorder? _replayRecorder;
         private SkyPiratesReplayPlayback? _replayPlayback;
+        private SkyPiratesReplayFrameRunner? _replayFrameRunner;
+        private SkyPiratesReplayRunMode _replayRunMode;
+        private int _replayFramesPerTick = 1;
         private bool _replayMode;
         private bool _replayPlaying;
         private bool _spawnSquadSent;
@@ -86,12 +89,18 @@ namespace SkyPirates.Local.Entry
                     if (stepsToAdvance > 0)
                     {
                         _replayStepAccumulator -= stepsToAdvance;
-                        long targetStep = System.Math.Min(
-                            _replayPlayback.LastStep,
-                            _replayPlayback.CurrentStep + stepsToAdvance);
-                        SeekReplayInternal(targetStep);
+                        for (int i = 0; i < stepsToAdvance; i++)
+                        {
+                            if (_replayFrameRunner == null
+                                || !_replayFrameRunner.TryAdvanceOneTick(_replayRunMode, _replayFramesPerTick, out _))
+                            {
+                                break;
+                            }
 
-                        if (targetStep >= _replayPlayback.LastStep)
+                            _viewBinding.Tick(checked((int)_replayFrameRunner.CurrentStep));
+                        }
+
+                        if (_replayPlayback.CurrentStep >= _replayPlayback.LastStep)
                             SetReplayPlaying(false);
                     }
                 }
@@ -179,10 +188,14 @@ namespace SkyPirates.Local.Entry
 
             _replayPlayback ??= new SkyPiratesReplayPlayback(_history, _session);
             _replayPlayback.Load(SkyPiratesReplayFile.Load(path));
+            _replayFrameRunner = new SkyPiratesReplayFrameRunner(
+                _replayPlayback,
+                _container.GetInstance<ITransientSimulation<JoystickCommand>>());
             _replayMode = true;
             _replayPlaying = false;
             _replayStepAccumulator = 0f;
             _replaySpeed = 1f;
+            _replayFrameRunner.ResetStatistics();
             _viewBinding.Tick(checked((int)_replayPlayback.CurrentStep));
             Delta.Diagnostics.Trace.Info($"[LocalStart] Replay loaded from {path}, frame={_replayPlayback.CurrentStep}..{_replayPlayback.LastStep}.");
         }
@@ -193,6 +206,7 @@ namespace SkyPirates.Local.Entry
                 return;
 
             SetReplayPlaying(false);
+            _replayFrameRunner?.ResetStatistics();
             SeekReplayInternal(step);
         }
 
@@ -220,11 +234,36 @@ namespace SkyPirates.Local.Entry
             _replayStepAccumulator = 0f;
         }
 
+        public void SetReplayRunMode(SkyPiratesReplayRunMode mode)
+        {
+            if (_replayRunMode == mode)
+                return;
+
+            _replayRunMode = mode;
+            _replayFrameRunner?.ResetStatistics();
+        }
+
+        public void SetReplayFramesPerTick(int framesPerTick)
+        {
+            framesPerTick = System.Math.Max(1, framesPerTick);
+            if (_replayFramesPerTick == framesPerTick)
+                return;
+
+            _replayFramesPerTick = framesPerTick;
+            _replayFrameRunner?.ResetStatistics();
+        }
+
         public bool HasReplay => _replayPlayback != null;
 
         public bool IsReplayPlaying => _replayPlaying;
 
         public float ReplaySpeed => _replaySpeed;
+
+        public SkyPiratesReplayRunMode ReplayRunMode => _replayRunMode;
+
+        public int ReplayFramesPerTick => _replayFramesPerTick;
+
+        public SkyPiratesReplayRunStatistics ReplayRunStatistics => _replayFrameRunner?.Statistics ?? default;
 
         public long ReplayFrame => _replayPlayback?.CurrentStep ?? 0;
 

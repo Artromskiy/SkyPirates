@@ -10,7 +10,10 @@ namespace SkyPirates.Shared.Systems.Special
     public sealed class HistorySystem : IHistorySystem
     {
         private readonly IWorldHistory _history;
-        private readonly SnapshotHistorySystem _snapshot;
+        private readonly World _world;
+        private readonly IEntityFactory _entityFactory;
+        private readonly IEntityRegistry _entityRegistry;
+        private readonly IComponentDependenciesService _componentDependencies;
 
         public HistorySystem(
             World world,
@@ -19,8 +22,11 @@ namespace SkyPirates.Shared.Systems.Special
             IEntityRegistry entityRegistry,
             IComponentDependenciesService componentDependencies)
         {
+            _world = world;
             _history = history;
-            _snapshot = new SnapshotHistorySystem(world, history, entityFactory, entityRegistry, componentDependencies);
+            _entityFactory = entityFactory;
+            _entityRegistry = entityRegistry;
+            _componentDependencies = componentDependencies;
         }
 
         public void GoTo(int tick)
@@ -46,7 +52,13 @@ namespace SkyPirates.Shared.Systems.Special
         public void ApplySnapshot(WorldData snapshot)
         {
             _history.Clear();
-            _snapshot.ApplySnapshot(snapshot);
+            WorldSnapshotApplier.Apply(
+                _world,
+                _history,
+                _entityFactory,
+                _entityRegistry,
+                _componentDependencies,
+                snapshot);
         }
 
         public WorldData GetSnapshot(int tick)

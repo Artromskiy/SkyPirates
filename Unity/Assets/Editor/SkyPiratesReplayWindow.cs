@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using SkyPirates.Local.Entry;
+using SkyPirates.Shared.Services.Replay;
 using UnityEditor;
 using UnityEngine;
 
@@ -115,6 +116,23 @@ namespace SkyPirates.Editor
                 EditorGUILayout.LabelField($"{speed:0.00}×", GUILayout.Width(44));
                 _localStart.SetReplaySpeed(speed);
             }
+
+            SkyPiratesReplayRunMode runMode = (SkyPiratesReplayRunMode)EditorGUILayout.EnumPopup(
+                "Transient mode",
+                _localStart.ReplayRunMode);
+            _localStart.SetReplayRunMode(runMode);
+            if (runMode == SkyPiratesReplayRunMode.RunFixedFps)
+            {
+                int framesPerTick = EditorGUILayout.IntField("Transient frames / tick", _localStart.ReplayFramesPerTick);
+                _localStart.SetReplayFramesPerTick(framesPerTick);
+            }
+
+            SkyPiratesReplayRunStatistics runStatistics = _localStart.ReplayRunStatistics;
+            EditorGUILayout.LabelField(
+                "Run statistics",
+                $"ticks={runStatistics.Ticks}, transient frames={runStatistics.TransientFrames}, " +
+                $"avg={runStatistics.AverageFramesPerTick:F2}, " +
+                $"min={runStatistics.MinimumFramesPerTick}, max={runStatistics.MaximumFramesPerTick}");
 
             _frame = EditorGUILayout.LongField("Go to frame", _frame);
             using (new EditorGUILayout.HorizontalScope())
