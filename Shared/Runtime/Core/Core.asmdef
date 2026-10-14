@@ -1,6 +1,6 @@
 {
     "name": "DVG.Core",
-    "rootNamespace": "DVG",
+    "rootNamespace": "DVG.SkyPirates.Shared.Core",
     "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],

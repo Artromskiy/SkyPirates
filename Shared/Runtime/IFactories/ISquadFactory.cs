@@ -1,5 +1,6 @@
 ﻿using Delta.ECS;
-using DVG.Core;
+using DVG.SkyPirates.Shared.Core;
+using DVG.SkyPirates.Shared;
 using DVG.SkyPirates.Shared.Components.Runtime;
 using DVG.SkyPirates.Shared.Data;
 

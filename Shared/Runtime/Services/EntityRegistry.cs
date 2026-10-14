@@ -1,7 +1,8 @@
 ﻿using Delta;
 using Delta.ECS;
-using DVG.Components;
-using DVG.Core.Collections;
+using DVG.SkyPirates.Shared.Components;
+using DVG.SkyPirates.Shared.Components.Runtime;
+using DVG.SkyPirates.Shared.Core.Collections;
 using DVG.SkyPirates.Shared.IServices;
 
 namespace DVG.SkyPirates.Shared.Services

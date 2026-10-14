@@ -1,5 +1,5 @@
 ﻿using Delta;
-using DVG.Physics;
+using DVG.SkyPirates.Shared.Core.Physics;
 using UnityEngine;
 
 namespace DVG.SkyPirates.Tooling.Testing

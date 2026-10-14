@@ -1,4 +1,4 @@
-﻿using DVG.Ids.Attributes;
+﻿using DVG.SkyPirates.Shared.Core.Ids.Attributes;
 
 namespace DVG.SkyPirates.Shared.Ids
 {

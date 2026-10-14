@@ -12,10 +12,11 @@
 
 using System;
 using System.Collections.Generic;
+using DVG.SkyPirates.Shared.Core;
 
 using DVG.SkyPirates.Shared.Components.Framed;
 
-namespace DVG.Components
+namespace DVG.SkyPirates.Shared.Components
 {
     public static class FramedComponentsRegistry
     {

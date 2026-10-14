@@ -1,5 +1,5 @@
 #nullable enable
-using DVG.Ids;
+using DVG.SkyPirates.Shared.Core.Ids;
 using UnityEngine;
 
 namespace DVG.Editor.Configs

@@ -166,12 +166,11 @@ Used for:
 
 ---
 
-## Submodules
+## Shared code
 
-The Unity project installs fixed-point math from NuGetForUnity, and the .NET projects reference the same NuGet package. The remaining Git submodules are:
+The Unity project installs fixed-point math from NuGetForUnity, and the .NET projects reference the same NuGet package. Shared simulation and core utilities are maintained in the monorepo's `Shared` package.
 
-* **[SkyPirates.Shared](https://github.com/Artromskiy/DVG.SkyPirates.Shared)** — shared simulation code (client/server)
-* **[DVG.Main](https://github.com/Artromskiy/DVG.Core)** — core utilities and infrastructure
+* **Shared** — game simulation and core utilities used by the client, server, and replay runner.
 
 ---
 

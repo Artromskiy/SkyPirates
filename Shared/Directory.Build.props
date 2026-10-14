@@ -1,8 +1,8 @@
 <Project>
     <PropertyGroup>
-        <!-- In the Unity submodule checkout, keep generated C# files outside Assets. -->
-        <BaseIntermediateOutputPath Condition="Exists('$(MSBuildThisFileDirectory)../Unity/ProjectSettings/ProjectVersion.txt')">$(MSBuildThisFileDirectory)../Unity/Temp/obj/SkyPirates.Shared/</BaseIntermediateOutputPath>
-        <MSBuildProjectExtensionsPath Condition="Exists('$(MSBuildThisFileDirectory)../Unity/ProjectSettings/ProjectVersion.txt')">$(MSBuildThisFileDirectory)../Unity/Temp/obj/SkyPirates.Shared/</MSBuildProjectExtensionsPath>
-        <BaseOutputPath Condition="Exists('$(MSBuildThisFileDirectory)../Unity/ProjectSettings/ProjectVersion.txt')">$(MSBuildThisFileDirectory)../Unity/Temp/bin/SkyPirates.Shared/</BaseOutputPath>
+        <!-- In the monorepo checkout, keep generated C# files outside Unity Assets. -->
+        <BaseIntermediateOutputPath Condition="Exists('$(MSBuildThisFileDirectory)../Unity/ProjectSettings/ProjectVersion.txt')">$(MSBuildThisFileDirectory)../Unity/Temp/obj/$(MSBuildProjectName)/</BaseIntermediateOutputPath>
+        <MSBuildProjectExtensionsPath Condition="Exists('$(MSBuildThisFileDirectory)../Unity/ProjectSettings/ProjectVersion.txt')">$(MSBuildThisFileDirectory)../Unity/Temp/obj/$(MSBuildProjectName)/</MSBuildProjectExtensionsPath>
+        <BaseOutputPath Condition="Exists('$(MSBuildThisFileDirectory)../Unity/ProjectSettings/ProjectVersion.txt')">$(MSBuildThisFileDirectory)../Unity/Temp/bin/$(MSBuildProjectName)/</BaseOutputPath>
     </PropertyGroup>
 </Project>

@@ -1,4 +1,5 @@
-﻿using DVG.Core;
+﻿using DVG.SkyPirates.Shared.Core;
+using DVG.SkyPirates.Shared;
 using System;
 using UnityEngine;
 

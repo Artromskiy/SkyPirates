@@ -82,3 +82,7 @@ crashlytics-build.properties
 # Monorepo build projects
 !Shared/SkyPirates.Shared.csproj
 !Server/SkyPirates.Server.csproj
+
+# .NET build output
+**/bin/
+**/obj/

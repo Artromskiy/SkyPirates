@@ -43,13 +43,8 @@ namespace DVG.SkyPirates.Shared.Services.Netcode
         {
             if (_started)
             {
-                if (_mode == SessionMode.Client)
+                if (_mode == SessionMode.Client && Session.Start.AuthorId == authorId)
                 {
-                    if (Session.Start.AuthorId != authorId)
-                    {
-                        throw new InvalidOperationException("A client must keep the same author ID when resuming a session.");
-                    }
-
                     BeginJoin();
                     return;
                 }
@@ -57,8 +52,41 @@ namespace DVG.SkyPirates.Shared.Services.Netcode
                 throw new InvalidOperationException("The SkyPirates session has already started.");
             }
 
+            StartCore(_setup.Create(_mode, authorId, _transport));
+        }
+
+        public void Restart(SessionStart start)
+        {
+            if (_mode != SessionMode.Local)
+            {
+                throw new InvalidOperationException("A replay session can only restart in local mode.");
+            }
+
+            Session = _setup.Create(start, _mode, _transport);
             _started = true;
-            Session = _setup.Create(_mode, authorId, _transport);
+            IsReady = true;
+            Ready?.Invoke();
+        }
+
+        public void ApplyReplayCommand(CommandHeader header, ReadOnlySpan<byte> finalPayload)
+        {
+            if (_mode != SessionMode.Local || Session == null)
+            {
+                throw new InvalidOperationException("Replay commands require a started local session.");
+            }
+
+            var outcome = new CommandOutcome(CommandResult.Accepted, header);
+            CommandOutcome applied = Session.ApplyOutcome(outcome, finalPayload);
+            if (applied.Result != CommandResult.Accepted)
+            {
+                throw new InvalidOperationException($"Replay command {header.TypeId} at step {header.Step} was rejected: {applied.Result}.");
+            }
+        }
+
+        private void StartCore(SessionHost session)
+        {
+            _started = true;
+            Session = session;
             _transport.Received += OnMessage;
 
             if (_mode == SessionMode.Server)

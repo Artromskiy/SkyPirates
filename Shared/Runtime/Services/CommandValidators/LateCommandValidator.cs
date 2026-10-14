@@ -1,5 +1,6 @@
 using Delta.Netcode;
-using DVG.Core;
+using DVG.SkyPirates.Shared.Core;
+using DVG.SkyPirates.Shared;
 using DVG.SkyPirates.Shared.IServices;
 
 namespace DVG.SkyPirates.Shared.Services.CommandValidators

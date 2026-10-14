@@ -1,4 +1,4 @@
-﻿using DVG.Ids;
+﻿using DVG.SkyPirates.Shared.Core.Ids;
 
 namespace DVG.SkyPirates.Client.IFactories
 {

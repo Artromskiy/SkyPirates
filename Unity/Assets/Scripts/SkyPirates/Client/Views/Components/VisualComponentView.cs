@@ -1,6 +1,6 @@
 ﻿using Delta;
 using Delta.ECS.Unity;
-using DVG.Ids;
+using DVG.SkyPirates.Shared.Core.Ids;
 using DVG.SkyPirates.Client.IFactories;
 using System;
 using UnityEngine;

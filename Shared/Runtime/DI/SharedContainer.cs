@@ -1,10 +1,10 @@
 ﻿using Delta.ECS;
-using DVG;
-using DVG.Components;
-using DVG.Core;
+using DVG.SkyPirates.Shared;
+using DVG.SkyPirates.Shared.Components;
+using DVG.SkyPirates.Shared.Components.Runtime;
+using DVG.SkyPirates.Shared.Core;
 using DVG.SkyPirates.Shared.Components.Config;
 using DVG.SkyPirates.Shared.Components.Framed;
-using DVG.SkyPirates.Shared.Components.Runtime;
 using DVG.SkyPirates.Shared.Commands;
 using DVG.SkyPirates.Shared.Data;
 using DVG.SkyPirates.Shared.Ecs;

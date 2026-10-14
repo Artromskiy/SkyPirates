@@ -1,4 +1,4 @@
-﻿using DVG.Collections;
+﻿using DVG.SkyPirates.Shared.Core.Collections;
 using DVG.SkyPirates.Shared.IServices;
 using System;
 using System.Collections.Generic;

@@ -1,6 +1,6 @@
 ﻿using Delta;
 using Delta.ECS.Unity;
-using DVG;
+using DVG.SkyPirates.Shared;
 using DVG.SkyPirates.Client.Views;
 using DVG.SkyPirates.Client.Views.Components;
 using DVG.SkyPirates.Rendering.SphereOverlay.View;

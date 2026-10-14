@@ -1,5 +1,7 @@
-﻿using DVG.Collections;
-using DVG.Components;
+﻿using DVG.SkyPirates.Shared.Core;
+using DVG.SkyPirates.Shared.Core.Collections;
+using DVG.SkyPirates.Shared.Components;
+using DVG.SkyPirates.Shared.Components.Runtime;
 using DVG.SkyPirates.Shared.Data;
 using DVG.SkyPirates.Shared.IServices.TickableExecutors;
 using System;

@@ -1,4 +1,4 @@
-using DVG;
+using DVG.SkyPirates.Shared;
 using DVG.SkyPirates.Shared.Services.Netcode;
 using System;
 using System.Diagnostics;

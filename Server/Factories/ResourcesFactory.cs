@@ -1,4 +1,5 @@
-﻿using DVG.Core;
+﻿using DVG.SkyPirates.Shared.Core;
+using DVG.SkyPirates.Shared;
 using DVG.SkyPirates.Shared.Tools.Json;
 using System.IO;
 

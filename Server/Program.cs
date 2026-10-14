@@ -1,5 +1,6 @@
 using DVG.SkyPirates.Server.Factories;
-using DVG.Core;
+using DVG.SkyPirates.Shared.Core;
+using DVG.SkyPirates.Shared;
 using DVG.SkyPirates.Shared.Data;
 using DVG.SkyPirates.Shared.IFactories;
 using DVG.SkyPirates.Shared.IServices;

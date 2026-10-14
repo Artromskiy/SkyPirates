@@ -1,7 +1,8 @@
 ﻿using Delta;
 using Delta.ECS;
 using DVG.SkyPirates.Shared.Ecs;
-using DVG.Components;
+using DVG.SkyPirates.Shared.Components;
+using DVG.SkyPirates.Shared.Components.Runtime;
 using DVG.SkyPirates.Shared.IServices.TickableExecutors;
 using System;
 using System.Text;

@@ -1,4 +1,5 @@
-﻿using DVG.Components;
+﻿using DVG.SkyPirates.Shared.Components;
+using DVG.SkyPirates.Shared.Components.Runtime;
 
 namespace DVG.SkyPirates.Shared.Tools.TraceHelpers
 {

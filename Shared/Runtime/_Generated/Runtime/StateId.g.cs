@@ -10,7 +10,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using DVG.Ids;
+using DVG.SkyPirates.Shared.Core.Ids;
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;

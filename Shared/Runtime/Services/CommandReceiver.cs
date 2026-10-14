@@ -1,4 +1,4 @@
-using DVG.Collections;
+using DVG.SkyPirates.Shared.Core.Collections;
 using Delta.Netcode;
 using DVG.SkyPirates.Shared.IServices;
 using System;

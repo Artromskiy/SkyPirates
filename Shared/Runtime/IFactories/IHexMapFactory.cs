@@ -1,5 +1,6 @@
 ﻿using Delta.ECS;
-using DVG.Core;
+using DVG.SkyPirates.Shared.Core;
+using DVG.SkyPirates.Shared;
 
 namespace DVG.SkyPirates.Shared.IFactories
 {

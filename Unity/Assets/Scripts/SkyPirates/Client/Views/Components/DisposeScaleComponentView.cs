@@ -1,6 +1,7 @@
 using Delta;
 using Delta.ECS.Unity;
-using DVG.Components;
+using DVG.SkyPirates.Shared.Components;
+using DVG.SkyPirates.Shared.Components.Runtime;
 using DG.Tweening;
 using UnityEngine;
 

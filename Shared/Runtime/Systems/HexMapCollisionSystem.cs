@@ -1,7 +1,8 @@
 ﻿using Delta;
 using Delta.ECS;
 using DVG.SkyPirates.Shared.Ecs;
-using DVG.Physics;
+using DVG.SkyPirates.Shared.Core;
+using DVG.SkyPirates.Shared.Core.Physics;
 using DVG.SkyPirates.Shared.Components.Config;
 using DVG.SkyPirates.Shared.Components.Framed;
 using DVG.SkyPirates.Shared.Components.Runtime;

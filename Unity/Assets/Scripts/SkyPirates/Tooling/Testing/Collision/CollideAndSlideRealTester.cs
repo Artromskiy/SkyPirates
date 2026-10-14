@@ -1,5 +1,5 @@
 ﻿using Delta;
-using DVG.Physics;
+using DVG.SkyPirates.Shared.Core.Physics;
 using DVG.SkyPirates.Shared.Systems;
 using System;
 using System.Collections.Generic;

@@ -3,6 +3,7 @@ using DVG.SkyPirates.Client.IServices;
 using DVG.SkyPirates.Shared.Commands;
 using DVG.SkyPirates.Shared.IServices;
 using DVG.SkyPirates.Shared.Services.Netcode;
+using DVG.SkyPirates.Shared;
 using System;
 using System.Buffers;
 using System.Diagnostics;

@@ -1,6 +1,5 @@
 ﻿using Delta.ECS;
-using DVG.Components.Attributes;
-using DVG.Ids.Attributes;
+using DVG.SkyPirates.Shared.Core.Ids.Attributes;
 using DVG.SkyPirates.Shared.Components;
 
 namespace DVG.SkyPirates.Shared.Ids
@@ -9,6 +8,5 @@ namespace DVG.SkyPirates.Shared.Ids
     [ComponentSchema]
     [ComponentAlias("TreeId")]
     [ComponentGroup(Group.History)]
-    [Component(true)]
     public partial struct TreeId { }
 }

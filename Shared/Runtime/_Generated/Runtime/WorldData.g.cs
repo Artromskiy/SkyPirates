@@ -15,7 +15,6 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 using DVG.SkyPirates.Shared.Components.Config;
-using DVG.Components;
 using DVG.SkyPirates.Shared.Components.Runtime;
 using DVG.SkyPirates.Shared.Components.Framed;
 using DVG.SkyPirates.Shared.Ids;

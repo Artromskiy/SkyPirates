@@ -3,7 +3,8 @@ using System.Buffers;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Delta.ECS;
-using DVG.Components;
+using DVG.SkyPirates.Shared.Components;
+using DVG.SkyPirates.Shared.Components.Runtime;
 using DVG.SkyPirates.Shared.Data;
 
 namespace DVG.SkyPirates.Shared.Ecs

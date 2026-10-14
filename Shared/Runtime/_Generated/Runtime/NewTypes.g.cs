@@ -11,7 +11,7 @@
 //------------------------------------------------------------------------------
 
 using System;
-using DVG.NewType;
+using DVG.SkyPirates.Shared.Core.NewType;
 
 namespace DVG.SkyPirates.Shared.Components.Config
 {
