@@ -1,3 +1,4 @@
+using System.IO;
 using DVG.SkyPirates.Local.Entry;
 using UnityEditor;
 using UnityEngine;
@@ -29,6 +30,12 @@ namespace DVG.SkyPirates.Editor
                     if (!string.IsNullOrEmpty(selected))
                         _path = selected;
                 }
+            }
+
+            using (new EditorGUI.DisabledScope(string.IsNullOrEmpty(_path) || !File.Exists(_path) || EditorApplication.isPlayingOrWillChangePlaymode))
+            {
+                if (GUILayout.Button("Open replay scene and start"))
+                    SkyPiratesReplaySceneLauncher.OpenAndPlay(_path);
             }
 
             using (new EditorGUI.DisabledScope(!EditorApplication.isPlaying || string.IsNullOrEmpty(_path)))

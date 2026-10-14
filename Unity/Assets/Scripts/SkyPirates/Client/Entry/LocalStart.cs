@@ -32,6 +32,8 @@ namespace DVG.SkyPirates.Local.Entry
         private bool _replayPlaying;
         private bool _spawnSquadSent;
 
+        public bool IsInitialized => _container != null && _session != null;
+
         private void Start()
         {
             try
