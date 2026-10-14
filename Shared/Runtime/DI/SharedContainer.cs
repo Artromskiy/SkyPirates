@@ -47,7 +47,6 @@ namespace DVG.SkyPirates.Shared.DI
             RegisterFactorySingleton<IGlobalConfigFactory, GlobalConfigFactory, GlobalConfig>();
             RegisterFactorySingleton<IPackedCirclesFactory, PackedCirclesFactory, PackedCirclesConfig>();
             RegisterSingleton<IEntityFactory, EntityFactory>();
-            RegisterSingleton<IHexMapFactory, HexMapFactory>();
             RegisterSingleton<ISquadFactory, SquadFactory>();
 
             RegisterSingleton<IComponentDependenciesService, ComponentDependenciesService>();
@@ -84,6 +83,7 @@ namespace DVG.SkyPirates.Shared.DI
                 typeof(SquadMemberDestinationSystem),
                 typeof(MoveSystem),
                 typeof(SeparationSystem),
+                typeof(HexMapUpdateSystem),
                 typeof(HexMapCollisionSystem),
                 typeof(SimpleHeightSystem),
             }, Lifestyle.Singleton);
@@ -118,6 +118,7 @@ namespace DVG.SkyPirates.Shared.DI
             typeof(SetTargetDestinationSystem), // sets destination to target or skips
             typeof(MoveSystem),
             typeof(SeparationSystem),
+            typeof(HexMapUpdateSystem),
             typeof(HexMapCollisionSystem),
             typeof(SimpleHeightSystem),
             typeof(SimpleBehaviourSystem),

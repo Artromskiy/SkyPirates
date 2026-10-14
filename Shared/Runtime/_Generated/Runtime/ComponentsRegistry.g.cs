@@ -47,6 +47,8 @@ namespace DVG.SkyPirates.Shared.Components
             action.Invoke<GoodsId>();
             action.Invoke<Health>();
             action.Invoke<HexMap>();
+            action.Invoke<HexTile>();
+            action.Invoke<TileId>();
             action.Invoke<ImpactDistance>();
             action.Invoke<Level>();
             action.Invoke<MaxHealth>();

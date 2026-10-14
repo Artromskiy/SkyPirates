@@ -4,6 +4,7 @@ using DVG.SkyPirates.Shared.Core.NewType;
 namespace DVG.SkyPirates.Shared.Components.Runtime
 {
 	[ComponentSchema]
+	[ComponentGroup(Group.History)]
 	public struct SyncId : INewType<int>
 	{
 		public int Value;

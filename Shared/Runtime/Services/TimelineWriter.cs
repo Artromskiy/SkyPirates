@@ -11,7 +11,6 @@ namespace DVG.SkyPirates.Shared.Services
 {
     public class TimelineWriter : ITickableExecutor
     {
-        private static readonly Action<WorldData>[] TrimActions = CreateTrimActions();
         private readonly IHistorySystem _historySystem;
         private readonly Dictionary<int, WorldData> _timeline = new();
 
@@ -24,38 +23,11 @@ namespace DVG.SkyPirates.Shared.Services
         {
             int snapshotTick = tick - Constants.MaxHistoryTicks + 1;
             var snapshot = _historySystem.GetSnapshot(snapshotTick);
-            for (int i = 0; i < TrimActions.Length; i++)
-            {
-                TrimActions[i](snapshot);
-            }
+            snapshot.TrimExcess();
 
             _timeline[snapshotTick] = snapshot;
         }
 
         public Dictionary<int, WorldData> GetSnapshots() => _timeline;
-
-        private static Action<WorldData>[] CreateTrimActions()
-        {
-            var actions = new List<Action<WorldData>>();
-            var collectActions = new CollectTrimActions(actions);
-            HistoryComponentsRegistry.ForEachData(ref collectActions);
-            return actions.ToArray();
-        }
-
-        private static void TrimExcess<T>(WorldData data) where T : struct
-            => data.Get<T>().TrimExcess();
-
-        private readonly struct CollectTrimActions : IStructGenericAction
-        {
-            private readonly List<Action<WorldData>> _actions;
-
-            public CollectTrimActions(List<Action<WorldData>> actions)
-            {
-                _actions = actions;
-            }
-
-            public void Invoke<T>() where T : struct
-                => _actions.Add(TrimExcess<T>);
-        }
     }
 }

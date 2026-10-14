@@ -16,7 +16,6 @@ namespace DVG.SkyPirates.Shared.Systems
             WhereAll<Position, CachePosition, Radius, Collide>().Alive().NotDisabled();
 
         private readonly World _world;
-
         public SimpleHeightSystem(World world)
         {
             _world = world;
@@ -24,22 +23,21 @@ namespace DVG.SkyPirates.Shared.Systems
 
         public void Tick(int tick, fix deltaTime)
         {
-            var hexMapEntity = _world.WhereAll<HexMap>()
-                .First()
-                .Invoke();
-            if (!hexMapEntity.IsValid)
+            Entity mapEntity = _world.WhereAll<HexMap>().First().Invoke();
+            if (!mapEntity.IsValid)
             {
                 return;
             }
 
-            var hexMap = _world.Get<HexMap>(hexMapEntity);
-            if (hexMap.Data == null)
+            HexMap hexMap = _world.Get<HexMap>(mapEntity);
+            if (hexMap.Data == null || hexMap.Data.Count == 0)
             {
                 return;
             }
 
+            var state = hexMap;
             var desc = _desc;
-            _world.ForEach<HexMap, Position>(in desc, ref hexMap,
+            _world.ForEach<HexMap, Position>(in desc, ref state,
                 static (ref HexMap map, ref Position position) =>
                 {
                     var axial = Hex.WorldToAxial(position);
@@ -67,7 +65,7 @@ namespace DVG.SkyPirates.Shared.Systems
                     }
 
                     Delta.Diagnostics.Debug.Assert(false, context: "Wrong height behaviour detected");
-                }).Invoke(ref hexMap);
+                }).Invoke(ref state);
         }
     }
 }

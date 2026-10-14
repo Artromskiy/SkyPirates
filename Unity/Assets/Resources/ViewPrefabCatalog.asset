@@ -23,8 +23,8 @@ MonoBehaviour:
     _prefab: {fileID: 6742699207346504551, guid: 2bc3c6c9e75d0c644a07a6fa7cfa7758, type: 3}
   - _id: cactus
     _prefab: {fileID: 6965248604887090938, guid: 473686d25b2e5af4db2baff2915fa75f, type: 3}
-  - _id: hex-map
-    _prefab: {fileID: 3798016910567893903, guid: 442561bf0ce11ad4bb3c95bd04a5666f, type: 3}
+  - _id: hex-tile
+    _prefab: {fileID: 100000, guid: 30cec5f5b5e7483c96c9af4637f45745, type: 3}
   - _id: squad
     _prefab: {fileID: 3537932759143078318, guid: 792d12099816d404799cc4dcb105e6dd, type: 3}
   - _id: projectile

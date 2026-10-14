@@ -1,8 +1,8 @@
-﻿using Delta.ECS;
 using Delta;
+using Delta.ECS;
+using DVG.SkyPirates.Shared.Components;
 using DVG.SkyPirates.Shared.Ids;
 using System.Collections.Frozen;
-using DVG.SkyPirates.Shared.Components;
 
 namespace DVG.SkyPirates.Shared.Components.Config
 {

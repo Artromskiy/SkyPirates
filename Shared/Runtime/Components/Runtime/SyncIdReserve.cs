@@ -3,6 +3,7 @@
 namespace DVG.SkyPirates.Shared.Components.Runtime
 {
 	[ComponentSchema]
+	[ComponentGroup(Group.History)]
 	public struct SyncIdReserve
 	{
 		public int First;

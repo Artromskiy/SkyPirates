@@ -20,7 +20,7 @@ namespace DVG.SkyPirates.Tooling.TextureToVertexColor.Editor
         private HelpBox _status;
         private Renderer _selectedRenderer;
 
-        [MenuItem("Tools/Sky Pirates/Texture To Vertex Color")]
+        [MenuItem("Sky Pirates/Texture To Vertex Color")]
         public static void Open()
         {
             TextureToVertexColorWindow window = GetWindow<TextureToVertexColorWindow>();

@@ -37,15 +37,10 @@ namespace DVG.SkyPirates.Shared.Ecs
 
         private WorldComponentIds(World world)
         {
-            var history = new List<ComponentId>();
-            var historyAction = new CollectHistoryIds(world, history);
-            HistoryComponentsRegistry.ForEachData(ref historyAction);
-            AddHistoryComponent(history, world.Components.GetPrimary<SyncId>());
+            ReadOnlySpan<ComponentId> history = world.GetGroup(Group.History);
             History = history.ToArray();
 
-            var framed = new List<ComponentId>();
-            var framedAction = new CollectComponentIds(world, framed);
-            FramedComponentsRegistry.ForEachData(ref framedAction);
+            ReadOnlySpan<ComponentId> framed = world.GetGroup(Group.Temporary);
             Framed = framed.ToArray();
 
             var disposable = new List<DisposableComponentIds>();
@@ -56,44 +51,6 @@ namespace DVG.SkyPirates.Shared.Ecs
 
         public static WorldComponentIds For(World world)
             => Cache.GetValue(world, static owner => new WorldComponentIds(owner));
-
-        private static void AddHistoryComponent(List<ComponentId> history, ComponentId component)
-        {
-            if (!history.Contains(component))
-            {
-                history.Add(component);
-            }
-        }
-
-        private readonly struct CollectHistoryIds : IStructGenericAction
-        {
-            private readonly World _world;
-            private readonly List<ComponentId> _entries;
-
-            public CollectHistoryIds(World world, List<ComponentId> entries)
-            {
-                _world = world;
-                _entries = entries;
-            }
-
-            public void Invoke<T>() where T : struct
-                => _entries.Add(_world.Components.GetPrimary<T>());
-        }
-
-        private readonly struct CollectComponentIds : IStructGenericAction
-        {
-            private readonly World _world;
-            private readonly List<ComponentId> _entries;
-
-            public CollectComponentIds(World world, List<ComponentId> entries)
-            {
-                _world = world;
-                _entries = entries;
-            }
-
-            public void Invoke<T>() where T : struct
-                => _entries.Add(_world.Components.GetPrimary<T>());
-        }
 
         private readonly struct CollectDisposableIds : IStructGenericAction<IDisposable>
         {

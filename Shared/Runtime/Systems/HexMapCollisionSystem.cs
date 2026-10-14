@@ -22,7 +22,6 @@ namespace DVG.SkyPirates.Shared.Systems
         public static event Action<Segment[], fix2, fix2, fix>? OnFailedToSolve;
         private readonly ThreadLocal<List<Segment>> _segmentsCache = new(() => new List<Segment>());
         private readonly World _world;
-
         public HexMapCollisionSystem(World world)
         {
             _world = world;
@@ -30,16 +29,14 @@ namespace DVG.SkyPirates.Shared.Systems
 
         public void Tick(int tick, fix deltaTime)
         {
-            var hexMapEntity = _world.WhereAll<HexMap>()
-                .First()
-                .Invoke();
-            if (!hexMapEntity.IsValid)
+            Entity mapEntity = _world.WhereAll<HexMap>().First().Invoke();
+            if (!mapEntity.IsValid)
             {
                 return;
             }
 
-            var hexMap = _world.Get<HexMap>(hexMapEntity);
-            if (hexMap.Data == null)
+            HexMap hexMap = _world.Get<HexMap>(mapEntity);
+            if (hexMap.Data == null || hexMap.Data.Count == 0)
             {
                 return;
             }
