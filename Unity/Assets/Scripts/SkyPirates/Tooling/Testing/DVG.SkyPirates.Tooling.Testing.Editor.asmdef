@@ -1,0 +1,20 @@
+{
+    "name": "DVG.SkyPirates.Tooling.Testing.Editor",
+    "rootNamespace": "DVG.SkyPirates.Tooling.Testing",
+    "references": [
+        "DVG.Core",
+        "DVG.SkyPirates.Shared",
+        "DeltaMaths.Unity"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -14,13 +14,19 @@ namespace DVG.SkyPirates.Tooling.Testing
         [SerializeField]
         private List<UnsolvedData> _unsolved = new();
 
-        private void Start()
+        private void OnEnable()
         {
             HexMapCollisionSystem.OnFailedToSolve += OnFailedToSolve;
         }
 
+        private void OnDisable()
+        {
+            HexMapCollisionSystem.OnFailedToSolve -= OnFailedToSolve;
+        }
+
         private void OnFailedToSolve(Segment[] segments, fix2 from, fix2 to, fix radius)
         {
+            _unsolved ??= new List<UnsolvedData>();
             _unsolved.Add(new()
             {
                 segments = segments,
@@ -37,7 +43,7 @@ namespace DVG.SkyPirates.Tooling.Testing
                 return;
             }
 
-            if (_solveIndex == -1)
+            if (_unsolved == null || _solveIndex < 0 || _solveIndex >= _unsolved.Count)
             {
                 return;
             }

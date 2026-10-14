@@ -10,7 +10,7 @@ The compute shader handles independent raster-field samples, without hex-coordin
 
 ## Use
 
-1. Open **Tools → Sky Pirates → Island Generation**.
+1. Open **Sky Pirates → Tools → Island Generation**.
 2. Create a profile in the window or select an existing `IslandGenerationProfile` asset.
 3. Adjust the grid, outline, elevation, and erosion settings. Use **Reset Settings** to restore defaults.
 4. Press **Generate Island** to update the preview.

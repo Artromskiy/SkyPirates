@@ -19,7 +19,7 @@ namespace DVG.SkyPirates.Tooling
         public DsvSeparator Separator = DsvSeparator.Tab;
     }
 
-    [CreateAssetMenu(fileName = "GoogleSheetsConfigLoader", menuName = "DVG/Configs/Google Sheets Loader")]
+    [CreateAssetMenu(fileName = "GoogleSheetsConfigLoader", menuName = "Sky Pirates/Tools/Google Sheets Loader")]
     public sealed class GoogleSheetsConfigLoader : ScriptableObject
     {
         public List<GoogleSheetSource> Sheets = new();

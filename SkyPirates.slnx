@@ -12,6 +12,7 @@
     <Project Path="Unity/DVG.SkyPirates.Rendering.SphereOverlay.csproj" />
     <Project Path="Unity/DVG.SkyPirates.Shared.csproj" />
     <Project Path="Unity/DVG.SkyPirates.Tooling.csproj" />
+    <Project Path="Unity/DVG.SkyPirates.Tooling.Testing.Editor.csproj" />
     <Project Path="Unity/DVG.SkyPirates.Tooling.MeshColorFilter.Editor.csproj" />
     <Project Path="Unity/DVG.SkyPirates.Tooling.MeshColorFilter.Editor.Tests.csproj" />
     <Project Path="Unity/DVG.SkyPirates.Tooling.TextureToVertexColor.Editor.csproj" />

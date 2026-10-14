@@ -36,7 +36,7 @@ namespace DVG.SkyPirates.Tooling.IslandGeneration.Editor
         private double _generationDueTime;
         private IslandGenerationGenerator.GenerationOperation _activeGeneration;
 
-        [MenuItem("Sky Pirates/Island Generation")]
+        [MenuItem("Sky Pirates/Tools/Island Generation")]
         public static void Open()
         {
             var window = GetWindow<IslandGenerationWindow>();

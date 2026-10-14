@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5295962777709150873}
-  - component: {fileID: 204633023513707823}
   - component: {fileID: 3250467186983446116}
   - component: {fileID: 7556704498093592253}
   - component: {fileID: 4885073806335233957}
@@ -36,20 +35,6 @@ Transform:
   - {fileID: 3342850812849034004}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &204633023513707823
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3537932759143078318}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9cfdc94bfa63d1c4c9b56a5ac93e81f5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: DVG.SkyPirates.Tooling::DVG.SkyPirates.Tooling.Testing.CollideAndSlideRealTester
-  _solveIndex: -1
-  _unsolved: []
 --- !u!114 &3250467186983446116
 MonoBehaviour:
   m_ObjectHideFlags: 0

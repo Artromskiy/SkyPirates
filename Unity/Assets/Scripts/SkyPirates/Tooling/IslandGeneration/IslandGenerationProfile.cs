@@ -4,7 +4,7 @@ namespace DVG.SkyPirates.Tooling.IslandGeneration
 {
     [CreateAssetMenu(
         fileName = "IslandGenerationProfile",
-        menuName = "Sky Pirates/Tooling/Island Generation Profile")]
+        menuName = "Sky Pirates/Tools/Island Generation Profile")]
     public sealed class IslandGenerationProfile : ScriptableObject
     {
         private const int DefaultColumns = 81;

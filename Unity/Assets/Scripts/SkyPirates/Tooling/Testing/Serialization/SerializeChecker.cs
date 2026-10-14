@@ -12,28 +12,20 @@ namespace DVG.SkyPirates.Tooling.Testing
         [SerializeField]
         private TextAsset _textAsset;
 
-        private void Update()
-        {
-            TestSerialize();
-        }
-
         [ContextMenu("Serialization/Test Serialize")]
         private void TestSerialize()
         {
+            if (_textAsset == null)
+            {
+                Debug.LogError("Assign a compressed world and command data asset before testing serialization.", this);
+                return;
+            }
+
             var commandsData = SerializationUTF8.
                 DeserializeCompressed<(Dictionary<int, WorldData> WorldData, CommandsData Commands)>(_textAsset.bytes).Commands;
 
             string commandsDataJson = SerializationUTF8.SerializeOrdered(commandsData);
-            File.WriteAllText(GetPath("CommandsData"), commandsDataJson);
-        }
-
-        private string GetPath(string fileName)
-        {
-            const string folder = "Scripts/SkyPirates/Tooling/TimelineDebug";
-            string path = Path.Combine(Application.dataPath, folder, fileName);
-            path = Path.ChangeExtension(path, "json");
-            Directory.CreateDirectory(Path.GetDirectoryName(path));
-            return path;
+            File.WriteAllText(ToolingOutput.GetJsonPath("TimelineDebug", "CommandsData"), commandsDataJson);
         }
     }
 }
