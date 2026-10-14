@@ -1,5 +1,4 @@
 <Solution>
-  <Project Path="Shared/DVG.Core.csproj" />
   <Project Path="Shared/SkyPirates.Shared.csproj" />
   <Folder Name="/Unity/">
     <Project Path="Unity/Assembly-CSharp-Editor.csproj" />

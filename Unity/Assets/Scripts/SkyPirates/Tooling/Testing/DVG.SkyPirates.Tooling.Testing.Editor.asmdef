@@ -2,7 +2,6 @@
     "name": "DVG.SkyPirates.Tooling.Testing.Editor",
     "rootNamespace": "DVG.SkyPirates.Tooling.Testing",
     "references": [
-        "DVG.Core",
         "DVG.SkyPirates.Shared",
         "DeltaMaths.Unity"
     ],

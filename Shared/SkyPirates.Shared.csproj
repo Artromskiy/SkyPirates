@@ -12,10 +12,6 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'" />
 
   <ItemGroup>
-    <Compile Remove="Runtime/Core/**/*.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Include="Resources/**">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -34,10 +30,4 @@
     <PackageReference Include="System.IO.Hashing" Version="10.0.3" />
     <PackageReference Include="System.Text.Json" Version="10.0.3" />
   </ItemGroup>
-
-
-  <ItemGroup>
-    <ProjectReference Include="DVG.Core.csproj" />
-  </ItemGroup>
-
 </Project>

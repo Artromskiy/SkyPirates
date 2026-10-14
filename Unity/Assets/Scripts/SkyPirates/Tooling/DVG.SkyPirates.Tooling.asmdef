@@ -2,7 +2,6 @@
     "name": "DVG.SkyPirates.Tooling",
     "rootNamespace": "",
     "references": [
-        "DVG.Core",
         "DVG.SkyPirates.Shared",
         "DVG.SkyPirates.Client",
         "Unity.RenderPipelines.Universal.Runtime"

@@ -17,7 +17,6 @@
   <Project Path="UnityEngine.TestRunner.csproj" />
   <Project Path="DVG.SkyPirates.Tooling.csproj" />
   <Project Path="DVG.SkyPirates.Shared.csproj" />
-  <Project Path="DVG.Core.csproj" />
   <Project Path="Unity.PathTracing.Runtime.csproj" />
   <Project Path="Unity.TextMeshPro.Editor.csproj" />
   <Project Path="Unity.RenderPipelines.Core.Runtime.Shared.csproj" />
