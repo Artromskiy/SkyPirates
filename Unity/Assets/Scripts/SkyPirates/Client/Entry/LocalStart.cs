@@ -66,9 +66,12 @@ namespace DVG.SkyPirates.Local.Entry
                 return;
 
             if (Input.GetKeyDown(KeyCode.F9))
-                BeginReplayRecording();
-            if (Input.GetKeyDown(KeyCode.F10))
-                SaveReplayRecording();
+            {
+                if (_replayRecorder == null)
+                    BeginReplayRecording();
+                else
+                    SaveReplayRecording();
+            }
 
             if (_replayMode)
             {
@@ -101,7 +104,7 @@ namespace DVG.SkyPirates.Local.Entry
                 _history,
                 initialWorld,
                 initialStep);
-            Delta.Diagnostics.Trace.Info($"[LocalStart] Replay recording started from saved step {initialStep}. Press F10 to save.");
+            Delta.Diagnostics.Trace.Info($"[LocalStart] Replay recording started from saved step {initialStep}. Press F9 again to save.");
         }
 
         private void SaveReplayRecording()
@@ -111,9 +114,14 @@ namespace DVG.SkyPirates.Local.Entry
 
             try
             {
-                string directory = Path.Combine(Application.persistentDataPath, "Replays");
+                string directory = GetReplayDirectory();
                 Directory.CreateDirectory(directory);
-                string path = Path.Combine(directory, $"skypirates-{DateTime.Now:yyyyMMdd-HHmmss}.json");
+                string fileName = $"skypirates-{DateTime.Now:yyyyMMdd-HHmmss-fff}.json";
+                string path = Path.Combine(directory, fileName);
+                int suffix = 1;
+                while (File.Exists(path))
+                    path = Path.Combine(directory, $"skypirates-{DateTime.Now:yyyyMMdd-HHmmss-fff}-{suffix++}.json");
+
                 SkyPiratesReplayFile.Save(path, _replayRecorder.Capture());
                 _replayRecorder = null;
                 Delta.Diagnostics.Trace.Info($"[LocalStart] Replay saved: {path}");
@@ -122,6 +130,23 @@ namespace DVG.SkyPirates.Local.Entry
             {
                 Delta.Diagnostics.Debug.Error(exception);
             }
+        }
+
+        private static string GetReplayDirectory()
+        {
+            var directory = new DirectoryInfo(Application.dataPath);
+            while (directory != null)
+            {
+                bool hasGitMetadata = Directory.Exists(Path.Combine(directory.FullName, ".git"))
+                    || File.Exists(Path.Combine(directory.FullName, ".git"));
+                bool hasRootSolution = File.Exists(Path.Combine(directory.FullName, "SkyPirates.slnx"));
+                if (hasGitMetadata && hasRootSolution)
+                    return Path.Combine(directory.FullName, "Replays");
+
+                directory = directory.Parent;
+            }
+
+            return Path.Combine(Application.persistentDataPath, "Replays");
         }
 
         public void LoadReplayFile(string path)
