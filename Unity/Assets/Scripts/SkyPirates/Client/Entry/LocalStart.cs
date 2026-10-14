@@ -31,6 +31,8 @@ namespace DVG.SkyPirates.Local.Entry
         private bool _replayMode;
         private bool _replayPlaying;
         private bool _spawnSquadSent;
+        private float _replayStepAccumulator;
+        private float _replaySpeed = 1f;
 
         public bool IsInitialized => _container != null && _session != null;
 
@@ -78,7 +80,26 @@ namespace DVG.SkyPirates.Local.Entry
             if (_replayMode)
             {
                 if (_replayPlaying && _replayPlayback != null && _replayPlayback.CurrentStep < _replayPlayback.LastStep)
-                    SeekReplay(_replayPlayback.CurrentStep + 1);
+                {
+                    _replayStepAccumulator += _replaySpeed;
+                    int stepsToAdvance = (int)_replayStepAccumulator;
+                    if (stepsToAdvance > 0)
+                    {
+                        _replayStepAccumulator -= stepsToAdvance;
+                        long targetStep = System.Math.Min(
+                            _replayPlayback.LastStep,
+                            _replayPlayback.CurrentStep + stepsToAdvance);
+                        SeekReplayInternal(targetStep);
+
+                        if (targetStep >= _replayPlayback.LastStep)
+                            SetReplayPlaying(false);
+                    }
+                }
+                else if (_replayPlaying)
+                {
+                    SetReplayPlaying(false);
+                }
+
                 return;
             }
 
@@ -160,6 +181,8 @@ namespace DVG.SkyPirates.Local.Entry
             _replayPlayback.Load(SkyPiratesReplayFile.Load(path));
             _replayMode = true;
             _replayPlaying = false;
+            _replayStepAccumulator = 0f;
+            _replaySpeed = 1f;
             _viewBinding.Tick(checked((int)_replayPlayback.CurrentStep));
             Delta.Diagnostics.Trace.Info($"[LocalStart] Replay loaded from {path}, frame={_replayPlayback.CurrentStep}..{_replayPlayback.LastStep}.");
         }
@@ -169,13 +192,39 @@ namespace DVG.SkyPirates.Local.Entry
             if (_replayPlayback == null)
                 return;
 
-            _replayPlayback.Seek(step);
+            SetReplayPlaying(false);
+            SeekReplayInternal(step);
+        }
+
+        private void SeekReplayInternal(long step)
+        {
+            _replayPlayback!.Seek(step);
             _viewBinding.Tick(checked((int)step));
         }
 
-        public void SetReplayPlaying(bool playing) => _replayPlaying = playing;
+        public void SetReplayPlaying(bool playing)
+        {
+            _replayStepAccumulator = 0f;
+            _replayPlaying = playing
+                && _replayPlayback != null
+                && _replayPlayback.CurrentStep < _replayPlayback.LastStep;
+        }
+
+        public void SetReplaySpeed(float speed)
+        {
+            speed = Mathf.Clamp(speed, 0.1f, 1f);
+            if (Mathf.Approximately(_replaySpeed, speed))
+                return;
+
+            _replaySpeed = speed;
+            _replayStepAccumulator = 0f;
+        }
+
+        public bool HasReplay => _replayPlayback != null;
 
         public bool IsReplayPlaying => _replayPlaying;
+
+        public float ReplaySpeed => _replaySpeed;
 
         public long ReplayFrame => _replayPlayback?.CurrentStep ?? 0;
 
