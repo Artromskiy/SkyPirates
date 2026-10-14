@@ -59,7 +59,6 @@ namespace SkyPirates.Client.DI
         private static readonly Type[] PostTickableExecutors = new Type[]
         {
             typeof(ViewBindingTickSystem),
-            //typeof(TimelineWriter),
             //typeof(IHashSumService),
         };
 

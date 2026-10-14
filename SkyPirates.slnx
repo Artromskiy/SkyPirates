@@ -14,8 +14,6 @@
     <Project Path="Unity/SkyPirates.Tooling.Testing.Editor.csproj" />
     <Project Path="Unity/SkyPirates.Tooling.TextureToVertexColor.Editor.csproj" />
     <Project Path="Unity/DVG.UniTools.csproj" />
-    <Project Path="Unity/NativeShare.Editor.csproj" />
-    <Project Path="Unity/NativeShare.Runtime.csproj" />
     <Project Path="Unity/SkyPirates.Meta.csproj" />
     <Project Path="Unity/Vibration.csproj" />
   </Folder>

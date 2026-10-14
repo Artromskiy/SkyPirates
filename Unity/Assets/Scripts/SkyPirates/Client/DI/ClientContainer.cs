@@ -63,7 +63,6 @@ namespace SkyPirates.Client.DI
         private static readonly Type[] PostTickableExecutors = new Type[]
         {
             typeof(ViewBindingTickSystem),
-            //typeof(TimelineWriter)
         };
 
         private static readonly Type[] InTickables = new Type[]
