@@ -52,7 +52,7 @@ namespace DVG.SkyPirates.Client.ViewModels.UI
 
                 var query = _squadMembers;
                 (int SquadId, Dictionary<GoodsId, int> Goods) goodsState = (_player.SquadEntityId.Value, _goods);
-                _world.ForEach<(int SquadId, Dictionary<GoodsId, int> Goods), SquadMember, GoodsDrop>(in query, ref goodsState, static (ref (int SquadId, Dictionary<GoodsId, int> Goods) context, ref SquadMember member, ref GoodsDrop drop) =>
+                _world.ForEach<(int SquadId, Dictionary<GoodsId, int> Goods), SquadMember, GoodsDrop>(in query, ref goodsState, static (ref (int SquadId, Dictionary<GoodsId, int> Goods) context, SquadMember member, GoodsDrop drop) =>
                 {
                     if (drop.Values == null || member.SquadId != context.SquadId)
                         return;
