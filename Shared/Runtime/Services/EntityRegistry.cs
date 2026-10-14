@@ -23,7 +23,8 @@ namespace DVG.SkyPirates.Shared.Services
         public void Reserve(SyncId syncId)
         {
             _entityIdCounter = Maths.Max(_entityIdCounter, syncId.Value + 1);
-            _idToEntity[syncId.Value] = default;
+            if (!_idToEntity.TryGetValue(syncId.Value, out Entity entity) || entity == default)
+                _idToEntity[syncId.Value] = default;
         }
 
         public void Reserve(SyncIdReserve syncIdReserve)
@@ -31,7 +32,8 @@ namespace DVG.SkyPirates.Shared.Services
             int end = checked(syncIdReserve.First + syncIdReserve.Count);
             for (int i = syncIdReserve.First; i < end; i++)
             {
-                _idToEntity[i] = default;
+                if (!_idToEntity.TryGetValue(i, out Entity entity) || entity == default)
+                    _idToEntity[i] = default;
             }
 
             _entityIdCounter = Maths.Max(_entityIdCounter, syncIdReserve.First + syncIdReserve.Count);

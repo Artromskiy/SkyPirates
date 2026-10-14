@@ -1,11 +1,14 @@
 using Delta.Netcode;
 using DVG.SkyPirates.Shared.Core;
 using DVG.SkyPirates.Shared;
+using DVG.SkyPirates.Shared.Data;
 using DVG.SkyPirates.Shared.DI;
+using DVG.SkyPirates.Shared.IServices;
 using DVG.SkyPirates.Shared.IServices.TickableExecutors;
 using DVG.SkyPirates.Shared.Services.Netcode;
 using DVG.SkyPirates.Shared.Services.Replay;
 using DVG.SkyPirates.Shared.Tools.Json;
+using SimpleInjector;
 using System;
 using System.IO;
 
@@ -28,6 +31,10 @@ namespace DVG.SkyPirates.ReplayRunner
                 using var container = new ReplayContainer();
 
                 IHistorySystem history = container.GetInstance<IHistorySystem>();
+                WorldData initialMap = container.GetInstance<IPathFactory<WorldData>>().Create("Configs/Maps/Map1");
+                history.ApplySnapshot(initialMap);
+                history.SaveBaseline();
+
                 var session = container.GetInstance<SkyPiratesSessionProvider>();
                 var playback = new SkyPiratesReplayPlayback(history, session);
                 playback.Load(replay);
@@ -38,11 +45,11 @@ namespace DVG.SkyPirates.ReplayRunner
 
                 playback.Seek(targetStep);
                 Console.WriteLine($"Replay reached step {targetStep}; commands={replay.Commands.Count}.");
-                bool hasCheck = playback.VerifyHashAt(targetStep, out ulong expected, out ulong actual);
-                if (hasCheck)
+                if (targetStep == replay.EndHashCheck.Step)
                 {
+                    bool matches = playback.VerifyHashAt(targetStep, out ulong expected, out ulong actual);
                     Console.WriteLine($"Hash at step {targetStep}: expected=0x{expected:X16}, actual=0x{actual:X16}.");
-                    return expected == actual ? 0 : 1;
+                    return matches ? 0 : 1;
                 }
 
                 Console.WriteLine("No hash check is stored for this step.");
@@ -71,6 +78,9 @@ namespace DVG.SkyPirates.ReplayRunner
             public ReplayContainer() : base(SessionMode.Local)
             {
                 RegisterSingleton(typeof(IPathFactory<>), typeof(FileResourcesFactory<>));
+                Collection.Register<IInTickable>(Array.Empty<Type>(), Lifestyle.Singleton);
+                Collection.Register<IPreTickable>(Array.Empty<Type>(), Lifestyle.Singleton);
+                Collection.Register<IPostTickable>(Array.Empty<Type>(), Lifestyle.Singleton);
             }
         }
 
