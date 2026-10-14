@@ -1,0 +1,15 @@
+[
+  {
+    "MaxSpeed": 7,
+    "Radius": 0.4,
+    "GoodsDrop": {
+      "Values": {
+        "Rum": 3
+      }
+    },
+    "ActivityRange": 15,
+    "ViewToken": {
+      "Value": "squad"
+    }
+  }
+]

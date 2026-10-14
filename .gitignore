@@ -79,3 +79,6 @@ crashlytics-build.properties
 .idea/
 .DS_Store
 *.DotSettings.user
+# Monorepo build projects
+!Shared/SkyPirates.Shared.csproj
+!Server/SkyPirates.Server.csproj

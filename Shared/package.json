@@ -1,0 +1,8 @@
+{
+  "name": "com.artromskiy.skypirates.shared",
+  "version": "1.0.0",
+  "displayName": "Sky Pirates Shared",
+  "description": "Shared Sky Pirates runtime and simulation code.",
+  "unity": "7000.0",
+  "license": "MIT"
+}

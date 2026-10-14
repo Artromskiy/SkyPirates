@@ -1,0 +1,22 @@
+﻿Components naming rules
+
+For Component with single field there are naming rules
+
+It is Config
+{
+	Component's name is self explaining => Value => NewType pattern used
+}
+
+It is Runtime
+{
+	It's SyncId copy and it is self referencing (e.g. Squad) => Id
+	It's SyncId copy and it is not self referencing (e.g. SquadMember) => Think of a good name
+	It's Id	but not SyncId (eg. Team) => Id
+	It is Tick/Frame (eg. Creation) => Tick
+}
+
+It is Framed
+{
+	Type of field is Entity => Entity;
+	Component's name is self explaining => Value
+}

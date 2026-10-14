@@ -1,0 +1,53 @@
+[
+  {
+    "Has": {
+      "UnitId": true
+    },
+    "Add": {
+      "Target": true,
+      "DesiredPosition": true,
+      "DesiredRotation": true
+    }
+  },
+  {
+    "Has": {
+      "CactusId": true
+    },
+    "Add": {
+      "Targets": true
+    }
+  },
+  {
+    "Has": {
+      "MaxHealth": true
+    },
+    "Add": {
+      "RecivedDamage": true
+    }
+  },
+  {
+    "Has": {
+      "Position": true
+    },
+    "Add": {
+      "CachePosition": true
+    }
+  },
+  {
+    "Has": {
+      "Position": true,
+      "TargetSearchDistance": true
+    },
+    "Add": {
+      "TargetSearchPosition": true
+    }
+  },
+  {
+    "Has": {
+      "Squad": true
+    },
+    "Add": {
+      "SquadMemberCount": true
+    }
+  }
+]

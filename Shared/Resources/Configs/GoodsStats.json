@@ -1,0 +1,65 @@
+[
+  {
+    "GoodsId": "Gold",
+    "MaxSpeed": 5,
+    "ViewToken": {
+      "Value": "goods"
+    }
+  },
+  {
+    "GoodsId": "Wood",
+    "MaxSpeed": 5,
+    "ViewToken": {
+      "Value": "goods"
+    }
+  },
+  {
+    "GoodsId": "Spice",
+    "MaxSpeed": 5,
+    "ViewToken": {
+      "Value": "goods"
+    }
+  },
+  {
+    "GoodsId": "Sugar",
+    "MaxSpeed": 5,
+    "ViewToken": {
+      "Value": "goods"
+    }
+  },
+  {
+    "GoodsId": "Tea",
+    "MaxSpeed": 5,
+    "ViewToken": {
+      "Value": "goods"
+    }
+  },
+  {
+    "GoodsId": "Coffee",
+    "MaxSpeed": 5,
+    "ViewToken": {
+      "Value": "goods"
+    }
+  },
+  {
+    "GoodsId": "Sail",
+    "MaxSpeed": 5,
+    "ViewToken": {
+      "Value": "goods"
+    }
+  },
+  {
+    "GoodsId": "Rope",
+    "MaxSpeed": 5,
+    "ViewToken": {
+      "Value": "goods"
+    }
+  },
+  {
+    "GoodsId": "Rum",
+    "MaxSpeed": 5,
+    "ViewToken": {
+      "Value": "goods"
+    }
+  }
+]

@@ -1,0 +1,84 @@
+[
+  {
+    "Has": {
+      "Squad": true
+    },
+    "Add": {
+      "Position": true,
+      "Rotation": true,
+      "TeamId": true,
+      "Collide": true,
+      "Direction": true,
+      "Fixation": true,
+      "TargetSearchDistance": true
+    }
+  },
+  {
+    "Has": {
+      "UnitId": true
+    },
+    "Add": {
+      "Position": true,
+      "Rotation": true,
+      "TeamId": true,
+      "Collide": true
+    }
+  },
+  {
+    "Has": {
+      "CactusId": true
+    },
+    "Add": {
+      "Position": true,
+      "Rotation": true,
+      "TeamId": true
+    }
+  },
+  {
+    "Has": {
+      "TreeId": true
+    },
+    "Add": {
+      "Position": true,
+      "Rotation": true,
+      "TeamId": true
+    }
+  },
+  {
+    "Has": {
+      "RockId": true
+    },
+    "Add": {
+      "Position": true,
+      "Rotation": true,
+      "TeamId": true
+    }
+  },
+  {
+    "Has": {
+      "GoodsId": true
+    },
+    "Add": {
+      "Position": true,
+      "Rotation": true,
+      "GoodsAmount": true
+    }
+  },
+  {
+    "Has": {
+      "MaxHealth": true
+    },
+    "Add": {
+      "AutoHeal": true,
+      "Health": true
+    }
+  },
+  {
+    "Has": {
+      "BehaviourConfig": true
+    },
+    "Add": {
+      "BehaviourState": true
+    }
+  }
+]

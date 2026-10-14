@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <Nullable>enable</Nullable>
+    <LangVersion>9.0</LangVersion>
+    <RootNamespace>DVG.SkyPirates.Shared</RootNamespace>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'" />
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'" />
+
+  <ItemGroup>
+    <Content Include="Resources/**">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Delta.Diagnostics" Version="0.0.7" />
+    <PackageReference Include="DeltaNetcode" Version="0.0.7" />
+    <PackageReference Include="DeltaECS" Version="0.0.58" />
+    <PackageReference Include="DeltaECS.Generators" Version="0.0.58" PrivateAssets="all" />
+    <PackageReference Include="DeltaMaths" Version="0.0.14" />
+    <PackageReference Include="CommunityToolkit.HighPerformance" Version="8.2.2" />
+    <PackageReference Include="RiptideNetworking.Riptide" Version="2.2.1" />
+    <PackageReference Include="SimpleInjector" Version="5.5.0" />
+    <PackageReference Include="System.Collections.Immutable" Version="10.0.3" />
+    <PackageReference Include="System.IO.Hashing" Version="10.0.3" />
+    <PackageReference Include="System.Text.Json" Version="10.0.3" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <ProjectReference Include="..\Unity\Assets\Scripts\DVG\Main\Core.csproj" />
+  </ItemGroup>
+
+</Project>

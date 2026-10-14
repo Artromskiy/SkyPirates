@@ -1,6 +1,3 @@
-[submodule "Assets/Scripts/Core"]
-	path = Assets/Scripts/DVG/Main
+[submodule "Unity/DVG.Core"]
+	path = Unity/Assets/Scripts/DVG/Main
 	url = https://github.com/Artromskiy/DVG.Core.git
-[submodule "Assets/Scripts/SkyPirates/Shared"]
-	path = Assets/Scripts/SkyPirates/Shared
-	url = https://github.com/Artromskiy/DVG.SkyPirates.Shared.git

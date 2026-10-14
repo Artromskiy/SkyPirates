@@ -1,0 +1,1566 @@
+[
+  {
+    "RockId": "HardRock_01",
+    "MaxHealth": 30,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 1
+      }
+    },
+    "ViewToken": {
+      "Value": "rock"
+    }
+  },
+  {
+    "RockId": "HardRock_02",
+    "MaxHealth": 30,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 1
+      }
+    },
+    "ViewToken": {
+      "Value": "rock"
+    }
+  },
+  {
+    "RockId": "HardRock_03",
+    "MaxHealth": 30,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 1
+      }
+    },
+    "ViewToken": {
+      "Value": "rock"
+    }
+  },
+  {
+    "RockId": "HardRock_04",
+    "MaxHealth": 30,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 1
+      }
+    },
+    "ViewToken": {
+      "Value": "rock"
+    }
+  },
+  {
+    "RockId": "HardRock_05",
+    "MaxHealth": 30,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 1
+      }
+    },
+    "ViewToken": {
+      "Value": "rock"
+    }
+  },
+  {
+    "RockId": "HardRock_06",
+    "MaxHealth": 30,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 1
+      }
+    },
+    "ViewToken": {
+      "Value": "rock"
+    }
+  },
+  {
+    "RockId": "HardRock_07",
+    "MaxHealth": 30,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 1
+      }
+    },
+    "ViewToken": {
+      "Value": "rock"
+    }
+  },
+  {
+    "RockId": "HardRock_08",
+    "MaxHealth": 30,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 1
+      }
+    },
+    "ViewToken": {
+      "Value": "rock"
+    }
+  },
+  {
+    "RockId": "HardRock_09",
+    "MaxHealth": 30,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 1
+      }
+    },
+    "ViewToken": {
+      "Value": "rock"
+    }
+  },
+  {
+    "RockId": "HardRock_10",
+    "MaxHealth": 30,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 1
+      }
+    },
+    "ViewToken": {
+      "Value": "rock"
+    }
+  },
+  {
+    "RockId": "HardRock_11",
+    "MaxHealth": 30,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 1
+      }
+    },
+    "ViewToken": {
+      "Value": "rock"
+    }
+  },
+  {
+    "RockId": "HardRock_12",
+    "MaxHealth": 30,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 1
+      }
+    },
+    "ViewToken": {
+      "Value": "rock"
+    }
+  },
+  {
+    "RockId": "HardRock_13",
+    "MaxHealth": 30,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 1
+      }
+    },
+    "ViewToken": {
+      "Value": "rock"
+    }
+  },
+  {
+    "RockId": "HardRock_14",
+    "MaxHealth": 30,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 1
+      }
+    },
+    "ViewToken": {
+      "Value": "rock"
+    }
+  },
+  {
+    "RockId": "HardRock_15",
+    "MaxHealth": 30,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 1
+      }
+    },
+    "ViewToken": {
+      "Value": "rock"
+    }
+  },
+  {
+    "RockId": "HardRock_16",
+    "MaxHealth": 30,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 1
+      }
+    },
+    "ViewToken": {
+      "Value": "rock"
+    }
+  },
+  {
+    "RockId": "HardRock_17",
+    "MaxHealth": 30,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 1
+      }
+    },
+    "ViewToken": {
+      "Value": "rock"
+    }
+  },
+  {
+    "RockId": "HardRock_18",
+    "MaxHealth": 30,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 1
+      }
+    },
+    "ViewToken": {
+      "Value": "rock"
+    }
+  },
+  {
+    "RockId": "HardRock_19",
+    "MaxHealth": 30,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 1
+      }
+    },
+    "ViewToken": {
+      "Value": "rock"
+    }
+  },
+  {
+    "RockId": "HardRock_20",
+    "MaxHealth": 30,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 1
+      }
+    },
+    "ViewToken": {
+      "Value": "rock"
+    }
+  },
+  {
+    "RockId": "HardRock_21",
+    "MaxHealth": 30,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 1
+      }
+    },
+    "ViewToken": {
+      "Value": "rock"
+    }
+  },
+  {
+    "RockId": "HardRock_22",
+    "MaxHealth": 30,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 1
+      }
+    },
+    "ViewToken": {
+      "Value": "rock"
+    }
+  },
+  {
+    "RockId": "HardRock_23",
+    "MaxHealth": 30,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 1
+      }
+    },
+    "ViewToken": {
+      "Value": "rock"
+    }
+  },
+  {
+    "RockId": "HardRock_24",
+    "MaxHealth": 30,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 1
+      }
+    },
+    "ViewToken": {
+      "Value": "rock"
+    }
+  },
+  {
+    "RockId": "HardRock_25",
+    "MaxHealth": 30,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 1
+      }
+    },
+    "ViewToken": {
+      "Value": "rock"
+    }
+  },
+  {
+    "RockId": "HardRock_26",
+    "MaxHealth": 30,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 1
+      }
+    },
+    "ViewToken": {
+      "Value": "rock"
+    }
+  },
+  {
+    "RockId": "HardRock_27",
+    "MaxHealth": 30,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 1
+      }
+    },
+    "ViewToken": {
+      "Value": "rock"
+    }
+  },
+  {
+    "RockId": "HardRock_28",
+    "MaxHealth": 30,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 1
+      }
+    },
+    "ViewToken": {
+      "Value": "rock"
+    }
+  },
+  {
+    "RockId": "HardRock_29",
+    "MaxHealth": 30,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 1
+      }
+    },
+    "ViewToken": {
+      "Value": "rock"
+    }
+  },
+  {
+    "RockId": "HardRock_30",
+    "MaxHealth": 30,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 1
+      }
+    },
+    "ViewToken": {
+      "Value": "rock"
+    }
+  },
+  {
+    "RockId": "HardRock_31",
+    "MaxHealth": 30,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 1
+      }
+    },
+    "ViewToken": {
+      "Value": "rock"
+    }
+  },
+  {
+    "RockId": "HardRock_32",
+    "MaxHealth": 30,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 1
+      }
+    },
+    "ViewToken": {
+      "Value": "rock"
+    }
+  },
+  {
+    "RockId": "HardRock_33",
+    "MaxHealth": 30,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 1
+      }
+    },
+    "ViewToken": {
+      "Value": "rock"
+    }
+  },
+  {
+    "RockId": "HardRock_34",
+    "MaxHealth": 30,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 1
+      }
+    },
+    "ViewToken": {
+      "Value": "rock"
+    }
+  },
+  {
+    "RockId": "HardRock_35",
+    "MaxHealth": 30,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 1
+      }
+    },
+    "ViewToken": {
+      "Value": "rock"
+    }
+  },
+  {
+    "RockId": "HardRock_36",
+    "MaxHealth": 30,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 1
+      }
+    },
+    "ViewToken": {
+      "Value": "rock"
+    }
+  },
+  {
+    "RockId": "HardRock_37",
+    "MaxHealth": 30,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 1
+      }
+    },
+    "ViewToken": {
+      "Value": "rock"
+    }
+  },
+  {
+    "RockId": "HardRock_38",
+    "MaxHealth": 30,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 1
+      }
+    },
+    "ViewToken": {
+      "Value": "rock"
+    }
+  },
+  {
+    "RockId": "HardRock_39",
+    "MaxHealth": 30,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 1
+      }
+    },
+    "ViewToken": {
+      "Value": "rock"
+    }
+  },
+  {
+    "RockId": "HardRock_40",
+    "MaxHealth": 30,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 1
+      }
+    },
+    "ViewToken": {
+      "Value": "rock"
+    }
+  },
+  {
+    "RockId": "HardRock_41",
+    "MaxHealth": 30,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 1
+      }
+    },
+    "ViewToken": {
+      "Value": "rock"
+    }
+  },
+  {
+    "RockId": "HardRock_42",
+    "MaxHealth": 30,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 1
+      }
+    },
+    "ViewToken": {
+      "Value": "rock"
+    }
+  },
+  {
+    "RockId": "HardRock_43",
+    "MaxHealth": 30,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 1
+      }
+    },
+    "ViewToken": {
+      "Value": "rock"
+    }
+  },
+  {
+    "RockId": "HardRock_44",
+    "MaxHealth": 30,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 1
+      }
+    },
+    "ViewToken": {
+      "Value": "rock"
+    }
+  },
+  {
+    "RockId": "HardRock_45",
+    "MaxHealth": 30,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 1
+      }
+    },
+    "ViewToken": {
+      "Value": "rock"
+    }
+  },
+  {
+    "RockId": "HardRock_46",
+    "MaxHealth": 30,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 1
+      }
+    },
+    "ViewToken": {
+      "Value": "rock"
+    }
+  },
+  {
+    "RockId": "HardRock_47",
+    "MaxHealth": 30,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 1
+      }
+    },
+    "ViewToken": {
+      "Value": "rock"
+    }
+  },
+  {
+    "RockId": "HardRock_48",
+    "MaxHealth": 30,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 1
+      }
+    },
+    "ViewToken": {
+      "Value": "rock"
+    }
+  },
+  {
+    "RockId": "HardRock_49",
+    "MaxHealth": 30,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 1
+      }
+    },
+    "ViewToken": {
+      "Value": "rock"
+    }
+  },
+  {
+    "RockId": "HardRock_50",
+    "MaxHealth": 30,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 1
+      }
+    },
+    "ViewToken": {
+      "Value": "rock"
+    }
+  },
+  {
+    "RockId": "HardRock_51",
+    "MaxHealth": 30,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 1
+      }
+    },
+    "ViewToken": {
+      "Value": "rock"
+    }
+  },
+  {
+    "RockId": "HardRock_52",
+    "MaxHealth": 30,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 1
+      }
+    },
+    "ViewToken": {
+      "Value": "rock"
+    }
+  },
+  {
+    "RockId": "HardRock_53",
+    "MaxHealth": 30,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 1
+      }
+    },
+    "ViewToken": {
+      "Value": "rock"
+    }
+  },
+  {
+    "RockId": "HardRock_54",
+    "MaxHealth": 30,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 1
+      }
+    },
+    "ViewToken": {
+      "Value": "rock"
+    }
+  },
+  {
+    "RockId": "HardRock_55",
+    "MaxHealth": 30,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 1
+      }
+    },
+    "ViewToken": {
+      "Value": "rock"
+    }
+  },
+  {
+    "RockId": "HardRock_56",
+    "MaxHealth": 30,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 1
+      }
+    },
+    "ViewToken": {
+      "Value": "rock"
+    }
+  },
+  {
+    "RockId": "HardRock_57",
+    "MaxHealth": 30,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 1
+      }
+    },
+    "ViewToken": {
+      "Value": "rock"
+    }
+  },
+  {
+    "RockId": "HardRock_58",
+    "MaxHealth": 30,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 1
+      }
+    },
+    "ViewToken": {
+      "Value": "rock"
+    }
+  },
+  {
+    "RockId": "HardRock_59",
+    "MaxHealth": 30,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 1
+      }
+    },
+    "ViewToken": {
+      "Value": "rock"
+    }
+  },
+  {
+    "RockId": "HardRock_60",
+    "MaxHealth": 30,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 1
+      }
+    },
+    "ViewToken": {
+      "Value": "rock"
+    }
+  },
+  {
+    "RockId": "SoftRock_32",
+    "MaxHealth": 30,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 1
+      }
+    },
+    "ViewToken": {
+      "Value": "rock"
+    }
+  },
+  {
+    "RockId": "SoftRock_01",
+    "MaxHealth": 30,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 1
+      }
+    },
+    "ViewToken": {
+      "Value": "rock"
+    }
+  },
+  {
+    "RockId": "SoftRock_02",
+    "MaxHealth": 30,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 1
+      }
+    },
+    "ViewToken": {
+      "Value": "rock"
+    }
+  },
+  {
+    "RockId": "SoftRock_03",
+    "MaxHealth": 30,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 1
+      }
+    },
+    "ViewToken": {
+      "Value": "rock"
+    }
+  },
+  {
+    "RockId": "SoftRock_04",
+    "MaxHealth": 30,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 1
+      }
+    },
+    "ViewToken": {
+      "Value": "rock"
+    }
+  },
+  {
+    "RockId": "SoftRock_05",
+    "MaxHealth": 30,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 1
+      }
+    },
+    "ViewToken": {
+      "Value": "rock"
+    }
+  },
+  {
+    "RockId": "SoftRock_06",
+    "MaxHealth": 30,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 1
+      }
+    },
+    "ViewToken": {
+      "Value": "rock"
+    }
+  },
+  {
+    "RockId": "SoftRock_07",
+    "MaxHealth": 30,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 1
+      }
+    },
+    "ViewToken": {
+      "Value": "rock"
+    }
+  },
+  {
+    "RockId": "SoftRock_08",
+    "MaxHealth": 30,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 1
+      }
+    },
+    "ViewToken": {
+      "Value": "rock"
+    }
+  },
+  {
+    "RockId": "SoftRock_09",
+    "MaxHealth": 30,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 1
+      }
+    },
+    "ViewToken": {
+      "Value": "rock"
+    }
+  },
+  {
+    "RockId": "SoftRock_10",
+    "MaxHealth": 30,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 1
+      }
+    },
+    "ViewToken": {
+      "Value": "rock"
+    }
+  },
+  {
+    "RockId": "SoftRock_11",
+    "MaxHealth": 30,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 1
+      }
+    },
+    "ViewToken": {
+      "Value": "rock"
+    }
+  },
+  {
+    "RockId": "SoftRock_12",
+    "MaxHealth": 30,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 1
+      }
+    },
+    "ViewToken": {
+      "Value": "rock"
+    }
+  },
+  {
+    "RockId": "SoftRock_13",
+    "MaxHealth": 30,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 1
+      }
+    },
+    "ViewToken": {
+      "Value": "rock"
+    }
+  },
+  {
+    "RockId": "SoftRock_14",
+    "MaxHealth": 30,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 1
+      }
+    },
+    "ViewToken": {
+      "Value": "rock"
+    }
+  },
+  {
+    "RockId": "SoftRock_15",
+    "MaxHealth": 30,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 1
+      }
+    },
+    "ViewToken": {
+      "Value": "rock"
+    }
+  },
+  {
+    "RockId": "SoftRock_16",
+    "MaxHealth": 30,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 1
+      }
+    },
+    "ViewToken": {
+      "Value": "rock"
+    }
+  },
+  {
+    "RockId": "SoftRock_17",
+    "MaxHealth": 30,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 1
+      }
+    },
+    "ViewToken": {
+      "Value": "rock"
+    }
+  },
+  {
+    "RockId": "SoftRock_18",
+    "MaxHealth": 30,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 1
+      }
+    },
+    "ViewToken": {
+      "Value": "rock"
+    }
+  },
+  {
+    "RockId": "SoftRock_19",
+    "MaxHealth": 30,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 1
+      }
+    },
+    "ViewToken": {
+      "Value": "rock"
+    }
+  },
+  {
+    "RockId": "SoftRock_20",
+    "MaxHealth": 30,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 1
+      }
+    },
+    "ViewToken": {
+      "Value": "rock"
+    }
+  },
+  {
+    "RockId": "SoftRock_21",
+    "MaxHealth": 30,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 1
+      }
+    },
+    "ViewToken": {
+      "Value": "rock"
+    }
+  },
+  {
+    "RockId": "SoftRock_22",
+    "MaxHealth": 30,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 1
+      }
+    },
+    "ViewToken": {
+      "Value": "rock"
+    }
+  },
+  {
+    "RockId": "SoftRock_23",
+    "MaxHealth": 30,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 1
+      }
+    },
+    "ViewToken": {
+      "Value": "rock"
+    }
+  },
+  {
+    "RockId": "SoftRock_24",
+    "MaxHealth": 30,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 1
+      }
+    },
+    "ViewToken": {
+      "Value": "rock"
+    }
+  },
+  {
+    "RockId": "SoftRock_25",
+    "MaxHealth": 30,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 1
+      }
+    },
+    "ViewToken": {
+      "Value": "rock"
+    }
+  },
+  {
+    "RockId": "SoftRock_26",
+    "MaxHealth": 30,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 1
+      }
+    },
+    "ViewToken": {
+      "Value": "rock"
+    }
+  },
+  {
+    "RockId": "SoftRock_27",
+    "MaxHealth": 30,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 1
+      }
+    },
+    "ViewToken": {
+      "Value": "rock"
+    }
+  },
+  {
+    "RockId": "SoftRock_28",
+    "MaxHealth": 30,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 1
+      }
+    },
+    "ViewToken": {
+      "Value": "rock"
+    }
+  },
+  {
+    "RockId": "SoftRock_29",
+    "MaxHealth": 30,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 1
+      }
+    },
+    "ViewToken": {
+      "Value": "rock"
+    }
+  },
+  {
+    "RockId": "SoftRock_30",
+    "MaxHealth": 30,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 1
+      }
+    },
+    "ViewToken": {
+      "Value": "rock"
+    }
+  },
+  {
+    "RockId": "SoftRock_31",
+    "MaxHealth": 30,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 1
+      }
+    },
+    "ViewToken": {
+      "Value": "rock"
+    }
+  }
+]

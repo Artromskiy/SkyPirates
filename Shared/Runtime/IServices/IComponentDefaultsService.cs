@@ -1,0 +1,7 @@
+namespace DVG.SkyPirates.Shared.IServices
+{
+    public interface IComponentDefaultsService
+    {
+        void ProcessChanges();
+    }
+}

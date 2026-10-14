@@ -1,0 +1,348 @@
+[
+  {
+    "UnitId": "Sailor",
+    "MaxHealth": 45,
+    "Damage": 3,
+    "ImpactDistance": 4,
+    "TargetSearchDistance": 5,
+    "MaxSpeed": 10,
+    "Radius": 0.3,
+    "Separator": {
+      "Radius": 0.3,
+      "Coefficient": 1
+    },
+    "Separation": 1,
+    "GoodsCollectorRadius": 2,
+    "BehaviourConfig": {
+      "Durations": {
+        "PreAttack": 0.5,
+        "PostAttack": 0.3,
+        "Reload": 0.2,
+        "None": 0
+      },
+      "Scenario": {
+        "PreAttack": "PostAttack",
+        "PostAttack": "Reload",
+        "Reload": "None",
+        "None": "None"
+      }
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 5,
+        "Rum": 2
+      }
+    },
+    "ViewToken": {
+      "Value": "unit"
+    }
+  },
+  {
+    "UnitId": "Rogue",
+    "MaxHealth": 20,
+    "Damage": 4,
+    "ImpactDistance": 2,
+    "TargetSearchDistance": 5,
+    "MaxSpeed": 10,
+    "Radius": 0.3,
+    "Separator": {
+      "Radius": 0.3,
+      "Coefficient": 1
+    },
+    "Separation": 1,
+    "GoodsCollectorRadius": 2,
+    "BehaviourConfig": {
+      "Durations": {
+        "PreAttack": 0.2,
+        "PostAttack": 0.3,
+        "Reload": 0.3,
+        "None": 0
+      },
+      "Scenario": {
+        "PreAttack": "PostAttack",
+        "PostAttack": "Reload",
+        "Reload": "None",
+        "None": "None"
+      }
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 5,
+        "Rum": 2
+      }
+    },
+    "ViewToken": {
+      "Value": "unit"
+    }
+  },
+  {
+    "UnitId": "Pirate",
+    "MaxHealth": 45,
+    "Damage": 10,
+    "ImpactDistance": 3,
+    "TargetSearchDistance": 5,
+    "MaxSpeed": 10,
+    "Radius": 0.3,
+    "Separator": {
+      "Radius": 0.3,
+      "Coefficient": 1
+    },
+    "Separation": 1,
+    "GoodsCollectorRadius": 2,
+    "BehaviourConfig": {
+      "Durations": {
+        "PreAttack": 0.35,
+        "PostAttack": 0.3,
+        "Reload": 0.35,
+        "None": 0
+      },
+      "Scenario": {
+        "PreAttack": "PostAttack",
+        "PostAttack": "Reload",
+        "Reload": "None",
+        "None": "None"
+      }
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 5,
+        "Rum": 2
+      }
+    },
+    "ViewToken": {
+      "Value": "unit"
+    }
+  },
+  {
+    "UnitId": "Skelly",
+    "MaxHealth": 45,
+    "Damage": 6,
+    "ImpactDistance": 3,
+    "TargetSearchDistance": 5,
+    "MaxSpeed": 10,
+    "Radius": 0.3,
+    "Separator": {
+      "Radius": 0.3,
+      "Coefficient": 1
+    },
+    "Separation": 1,
+    "GoodsCollectorRadius": 2,
+    "BehaviourConfig": {
+      "Durations": {
+        "PreAttack": 0.35,
+        "PostAttack": 0.3,
+        "Reload": 0.35,
+        "None": 0
+      },
+      "Scenario": {
+        "PreAttack": "PostAttack",
+        "PostAttack": "Reload",
+        "Reload": "None",
+        "None": "None"
+      }
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 5,
+        "Rum": 2
+      }
+    },
+    "ViewToken": {
+      "Value": "unit"
+    }
+  },
+  {
+    "UnitId": "Militia",
+    "MaxHealth": 100,
+    "Damage": 15,
+    "ImpactDistance": 2,
+    "TargetSearchDistance": 5,
+    "MaxSpeed": 10,
+    "Radius": 0.3,
+    "Separator": {
+      "Radius": 0.3,
+      "Coefficient": 1
+    },
+    "Separation": 1,
+    "GoodsCollectorRadius": 2,
+    "BehaviourConfig": {
+      "Durations": {
+        "PreAttack": 0.5,
+        "PostAttack": 0.3,
+        "Reload": 0.5,
+        "None": 0
+      },
+      "Scenario": {
+        "PreAttack": "PostAttack",
+        "PostAttack": "Reload",
+        "Reload": "None",
+        "None": "None"
+      }
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 5,
+        "Rum": 2
+      }
+    },
+    "ViewToken": {
+      "Value": "unit"
+    }
+  },
+  {
+    "UnitId": "Imp",
+    "MaxHealth": 50,
+    "Damage": 1,
+    "ImpactDistance": 2,
+    "TargetSearchDistance": 5,
+    "MaxSpeed": 10,
+    "Radius": 0.3,
+    "Separator": {
+      "Radius": 0.3,
+      "Coefficient": 1
+    },
+    "Separation": 1,
+    "GoodsCollectorRadius": 2,
+    "BehaviourConfig": {
+      "Durations": {
+        "PreAttack": 0.2,
+        "PostAttack": 0.2,
+        "Reload": 0.1,
+        "None": 0
+      },
+      "Scenario": {
+        "PreAttack": "PostAttack",
+        "PostAttack": "Reload",
+        "Reload": "None",
+        "None": "None"
+      }
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 5,
+        "Rum": 2
+      }
+    },
+    "ViewToken": {
+      "Value": "unit"
+    }
+  },
+  {
+    "UnitId": "Daemon",
+    "MaxHealth": 65,
+    "Damage": 10,
+    "ImpactDistance": 4,
+    "TargetSearchDistance": 5,
+    "MaxSpeed": 10,
+    "Radius": 0.3,
+    "Separator": {
+      "Radius": 0.3,
+      "Coefficient": 1
+    },
+    "Separation": 1,
+    "GoodsCollectorRadius": 2,
+    "BehaviourConfig": {
+      "Durations": {
+        "PreAttack": 0.7,
+        "PostAttack": 0.3,
+        "Reload": 0.3,
+        "None": 0
+      },
+      "Scenario": {
+        "PreAttack": "PostAttack",
+        "PostAttack": "Reload",
+        "Reload": "None",
+        "None": "None"
+      }
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 5,
+        "Rum": 2
+      }
+    },
+    "ViewToken": {
+      "Value": "unit"
+    }
+  },
+  {
+    "UnitId": "Buccaneer",
+    "Ranged": {
+      "ProjectileSpeed": 22,
+      "ProjectileViewToken": "projectile"
+    },
+    "MaxHealth": 10,
+    "Damage": 15,
+    "ImpactDistance": 5,
+    "TargetSearchDistance": 5,
+    "MaxSpeed": 10,
+    "Radius": 0.3,
+    "Separator": {
+      "Radius": 0.3,
+      "Coefficient": 1
+    },
+    "Separation": 1,
+    "GoodsCollectorRadius": 2,
+    "BehaviourConfig": {
+      "Durations": {
+        "PreAttack": 0.3,
+        "PostAttack": 0.3,
+        "Reload": 0.5,
+        "None": 0
+      },
+      "Scenario": {
+        "PreAttack": "PostAttack",
+        "PostAttack": "Reload",
+        "Reload": "None",
+        "None": "None"
+      }
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 5,
+        "Rum": 2
+      }
+    },
+    "ViewToken": {
+      "Value": "unit"
+    }
+  },
+  {
+    "UnitId": "Bonny",
+    "MaxHealth": 10,
+    "Damage": 7,
+    "ImpactDistance": 7,
+    "TargetSearchDistance": 5,
+    "MaxSpeed": 10,
+    "Radius": 0.3,
+    "Separator": {
+      "Radius": 0.3,
+      "Coefficient": 1
+    },
+    "Separation": 1,
+    "GoodsCollectorRadius": 2,
+    "BehaviourConfig": {
+      "Durations": {
+        "PreAttack": 0.5,
+        "PostAttack": 0.3,
+        "Reload": 0.3,
+        "None": 0
+      },
+      "Scenario": {
+        "PreAttack": "PostAttack",
+        "PostAttack": "Reload",
+        "Reload": "None",
+        "None": "None"
+      }
+    },
+    "GoodsDrop": {
+      "Values": {
+        "Gold": 5,
+        "Rum": 2
+      }
+    },
+    "ViewToken": {
+      "Value": "unit"
+    }
+  }
+]

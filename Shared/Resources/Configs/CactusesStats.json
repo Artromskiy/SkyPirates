@@ -1,0 +1,1874 @@
+[
+  {
+    "CactusId": "Cactus_39_B",
+    "Damage": 1,
+    "ImpactDistance": 2,
+    "TargetSearchDistance": 2,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "BehaviourConfig": {
+      "Durations": {
+        "PreAttack": 0.4,
+        "None": 0
+      },
+      "Scenario": {
+        "PreAttack": "None",
+        "None": "None"
+      }
+    },
+    "ViewToken": {
+      "Value": "cactus"
+    }
+  },
+  {
+    "CactusId": "Cactus_02_B",
+    "Damage": 1,
+    "ImpactDistance": 2,
+    "TargetSearchDistance": 2,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "BehaviourConfig": {
+      "Durations": {
+        "PreAttack": 0.4,
+        "None": 0
+      },
+      "Scenario": {
+        "PreAttack": "None",
+        "None": "None"
+      }
+    },
+    "ViewToken": {
+      "Value": "cactus"
+    }
+  },
+  {
+    "CactusId": "Cactus_03_B",
+    "Damage": 1,
+    "ImpactDistance": 2,
+    "TargetSearchDistance": 2,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "BehaviourConfig": {
+      "Durations": {
+        "PreAttack": 0.4,
+        "None": 0
+      },
+      "Scenario": {
+        "PreAttack": "None",
+        "None": "None"
+      }
+    },
+    "ViewToken": {
+      "Value": "cactus"
+    }
+  },
+  {
+    "CactusId": "Cactus_05_B",
+    "Damage": 1,
+    "ImpactDistance": 2,
+    "TargetSearchDistance": 2,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "BehaviourConfig": {
+      "Durations": {
+        "PreAttack": 0.4,
+        "None": 0
+      },
+      "Scenario": {
+        "PreAttack": "None",
+        "None": "None"
+      }
+    },
+    "ViewToken": {
+      "Value": "cactus"
+    }
+  },
+  {
+    "CactusId": "Cactus_06_B",
+    "Damage": 1,
+    "ImpactDistance": 2,
+    "TargetSearchDistance": 2,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "BehaviourConfig": {
+      "Durations": {
+        "PreAttack": 0.4,
+        "None": 0
+      },
+      "Scenario": {
+        "PreAttack": "None",
+        "None": "None"
+      }
+    },
+    "ViewToken": {
+      "Value": "cactus"
+    }
+  },
+  {
+    "CactusId": "Cactus_07_A",
+    "Damage": 1,
+    "ImpactDistance": 2,
+    "TargetSearchDistance": 2,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "BehaviourConfig": {
+      "Durations": {
+        "PreAttack": 0.4,
+        "None": 0
+      },
+      "Scenario": {
+        "PreAttack": "None",
+        "None": "None"
+      }
+    },
+    "ViewToken": {
+      "Value": "cactus"
+    }
+  },
+  {
+    "CactusId": "Cactus_08_B",
+    "Damage": 1,
+    "ImpactDistance": 2,
+    "TargetSearchDistance": 2,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "BehaviourConfig": {
+      "Durations": {
+        "PreAttack": 0.4,
+        "None": 0
+      },
+      "Scenario": {
+        "PreAttack": "None",
+        "None": "None"
+      }
+    },
+    "ViewToken": {
+      "Value": "cactus"
+    }
+  },
+  {
+    "CactusId": "Cactus_09_A",
+    "Damage": 1,
+    "ImpactDistance": 2,
+    "TargetSearchDistance": 2,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "BehaviourConfig": {
+      "Durations": {
+        "PreAttack": 0.4,
+        "None": 0
+      },
+      "Scenario": {
+        "PreAttack": "None",
+        "None": "None"
+      }
+    },
+    "ViewToken": {
+      "Value": "cactus"
+    }
+  },
+  {
+    "CactusId": "Cactus_10_A",
+    "Damage": 1,
+    "ImpactDistance": 2,
+    "TargetSearchDistance": 2,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "BehaviourConfig": {
+      "Durations": {
+        "PreAttack": 0.4,
+        "None": 0
+      },
+      "Scenario": {
+        "PreAttack": "None",
+        "None": "None"
+      }
+    },
+    "ViewToken": {
+      "Value": "cactus"
+    }
+  },
+  {
+    "CactusId": "Cactus_11_A",
+    "Damage": 1,
+    "ImpactDistance": 2,
+    "TargetSearchDistance": 2,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "BehaviourConfig": {
+      "Durations": {
+        "PreAttack": 0.4,
+        "None": 0
+      },
+      "Scenario": {
+        "PreAttack": "None",
+        "None": "None"
+      }
+    },
+    "ViewToken": {
+      "Value": "cactus"
+    }
+  },
+  {
+    "CactusId": "Cactus_12_A",
+    "Damage": 1,
+    "ImpactDistance": 2,
+    "TargetSearchDistance": 2,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "BehaviourConfig": {
+      "Durations": {
+        "PreAttack": 0.4,
+        "None": 0
+      },
+      "Scenario": {
+        "PreAttack": "None",
+        "None": "None"
+      }
+    },
+    "ViewToken": {
+      "Value": "cactus"
+    }
+  },
+  {
+    "CactusId": "Cactus_13_B",
+    "Damage": 1,
+    "ImpactDistance": 2,
+    "TargetSearchDistance": 2,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "BehaviourConfig": {
+      "Durations": {
+        "PreAttack": 0.4,
+        "None": 0
+      },
+      "Scenario": {
+        "PreAttack": "None",
+        "None": "None"
+      }
+    },
+    "ViewToken": {
+      "Value": "cactus"
+    }
+  },
+  {
+    "CactusId": "Cactus_15_B",
+    "Damage": 1,
+    "ImpactDistance": 2,
+    "TargetSearchDistance": 2,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "BehaviourConfig": {
+      "Durations": {
+        "PreAttack": 0.4,
+        "None": 0
+      },
+      "Scenario": {
+        "PreAttack": "None",
+        "None": "None"
+      }
+    },
+    "ViewToken": {
+      "Value": "cactus"
+    }
+  },
+  {
+    "CactusId": "Cactus_16_A",
+    "Damage": 1,
+    "ImpactDistance": 2,
+    "TargetSearchDistance": 2,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "BehaviourConfig": {
+      "Durations": {
+        "PreAttack": 0.4,
+        "None": 0
+      },
+      "Scenario": {
+        "PreAttack": "None",
+        "None": "None"
+      }
+    },
+    "ViewToken": {
+      "Value": "cactus"
+    }
+  },
+  {
+    "CactusId": "Cactus_18_A",
+    "Damage": 1,
+    "ImpactDistance": 2,
+    "TargetSearchDistance": 2,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "BehaviourConfig": {
+      "Durations": {
+        "PreAttack": 0.4,
+        "None": 0
+      },
+      "Scenario": {
+        "PreAttack": "None",
+        "None": "None"
+      }
+    },
+    "ViewToken": {
+      "Value": "cactus"
+    }
+  },
+  {
+    "CactusId": "Cactus_18_B",
+    "Damage": 1,
+    "ImpactDistance": 2,
+    "TargetSearchDistance": 2,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "BehaviourConfig": {
+      "Durations": {
+        "PreAttack": 0.4,
+        "None": 0
+      },
+      "Scenario": {
+        "PreAttack": "None",
+        "None": "None"
+      }
+    },
+    "ViewToken": {
+      "Value": "cactus"
+    }
+  },
+  {
+    "CactusId": "Cactus_23_B",
+    "Damage": 1,
+    "ImpactDistance": 2,
+    "TargetSearchDistance": 2,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "BehaviourConfig": {
+      "Durations": {
+        "PreAttack": 0.4,
+        "None": 0
+      },
+      "Scenario": {
+        "PreAttack": "None",
+        "None": "None"
+      }
+    },
+    "ViewToken": {
+      "Value": "cactus"
+    }
+  },
+  {
+    "CactusId": "Cactus_25_B",
+    "Damage": 1,
+    "ImpactDistance": 2,
+    "TargetSearchDistance": 2,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "BehaviourConfig": {
+      "Durations": {
+        "PreAttack": 0.4,
+        "None": 0
+      },
+      "Scenario": {
+        "PreAttack": "None",
+        "None": "None"
+      }
+    },
+    "ViewToken": {
+      "Value": "cactus"
+    }
+  },
+  {
+    "CactusId": "Cactus_26_A",
+    "Damage": 1,
+    "ImpactDistance": 2,
+    "TargetSearchDistance": 2,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "BehaviourConfig": {
+      "Durations": {
+        "PreAttack": 0.4,
+        "None": 0
+      },
+      "Scenario": {
+        "PreAttack": "None",
+        "None": "None"
+      }
+    },
+    "ViewToken": {
+      "Value": "cactus"
+    }
+  },
+  {
+    "CactusId": "Cactus_26_B",
+    "Damage": 1,
+    "ImpactDistance": 2,
+    "TargetSearchDistance": 2,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "BehaviourConfig": {
+      "Durations": {
+        "PreAttack": 0.4,
+        "None": 0
+      },
+      "Scenario": {
+        "PreAttack": "None",
+        "None": "None"
+      }
+    },
+    "ViewToken": {
+      "Value": "cactus"
+    }
+  },
+  {
+    "CactusId": "Cactus_30_A",
+    "Damage": 1,
+    "ImpactDistance": 2,
+    "TargetSearchDistance": 2,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "BehaviourConfig": {
+      "Durations": {
+        "PreAttack": 0.4,
+        "None": 0
+      },
+      "Scenario": {
+        "PreAttack": "None",
+        "None": "None"
+      }
+    },
+    "ViewToken": {
+      "Value": "cactus"
+    }
+  },
+  {
+    "CactusId": "Cactus_32_A",
+    "Damage": 1,
+    "ImpactDistance": 2,
+    "TargetSearchDistance": 2,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "BehaviourConfig": {
+      "Durations": {
+        "PreAttack": 0.4,
+        "None": 0
+      },
+      "Scenario": {
+        "PreAttack": "None",
+        "None": "None"
+      }
+    },
+    "ViewToken": {
+      "Value": "cactus"
+    }
+  },
+  {
+    "CactusId": "Cactus_36_A",
+    "Damage": 1,
+    "ImpactDistance": 2,
+    "TargetSearchDistance": 2,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "BehaviourConfig": {
+      "Durations": {
+        "PreAttack": 0.4,
+        "None": 0
+      },
+      "Scenario": {
+        "PreAttack": "None",
+        "None": "None"
+      }
+    },
+    "ViewToken": {
+      "Value": "cactus"
+    }
+  },
+  {
+    "CactusId": "Cactus_37_B",
+    "Damage": 1,
+    "ImpactDistance": 2,
+    "TargetSearchDistance": 2,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "BehaviourConfig": {
+      "Durations": {
+        "PreAttack": 0.4,
+        "None": 0
+      },
+      "Scenario": {
+        "PreAttack": "None",
+        "None": "None"
+      }
+    },
+    "ViewToken": {
+      "Value": "cactus"
+    }
+  },
+  {
+    "CactusId": "Cactus_38_B",
+    "Damage": 1,
+    "ImpactDistance": 2,
+    "TargetSearchDistance": 2,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "BehaviourConfig": {
+      "Durations": {
+        "PreAttack": 0.4,
+        "None": 0
+      },
+      "Scenario": {
+        "PreAttack": "None",
+        "None": "None"
+      }
+    },
+    "ViewToken": {
+      "Value": "cactus"
+    }
+  },
+  {
+    "CactusId": "Cactus_01_A",
+    "Damage": 1,
+    "ImpactDistance": 2,
+    "TargetSearchDistance": 2,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "BehaviourConfig": {
+      "Durations": {
+        "PreAttack": 0.4,
+        "None": 0
+      },
+      "Scenario": {
+        "PreAttack": "None",
+        "None": "None"
+      }
+    },
+    "ViewToken": {
+      "Value": "cactus"
+    }
+  },
+  {
+    "CactusId": "Cactus_01_B",
+    "Damage": 1,
+    "ImpactDistance": 2,
+    "TargetSearchDistance": 2,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "BehaviourConfig": {
+      "Durations": {
+        "PreAttack": 0.4,
+        "None": 0
+      },
+      "Scenario": {
+        "PreAttack": "None",
+        "None": "None"
+      }
+    },
+    "ViewToken": {
+      "Value": "cactus"
+    }
+  },
+  {
+    "CactusId": "Cactus_02_A",
+    "Damage": 1,
+    "ImpactDistance": 2,
+    "TargetSearchDistance": 2,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "BehaviourConfig": {
+      "Durations": {
+        "PreAttack": 0.4,
+        "None": 0
+      },
+      "Scenario": {
+        "PreAttack": "None",
+        "None": "None"
+      }
+    },
+    "ViewToken": {
+      "Value": "cactus"
+    }
+  },
+  {
+    "CactusId": "Cactus_03_A",
+    "Damage": 1,
+    "ImpactDistance": 2,
+    "TargetSearchDistance": 2,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "BehaviourConfig": {
+      "Durations": {
+        "PreAttack": 0.4,
+        "None": 0
+      },
+      "Scenario": {
+        "PreAttack": "None",
+        "None": "None"
+      }
+    },
+    "ViewToken": {
+      "Value": "cactus"
+    }
+  },
+  {
+    "CactusId": "Cactus_04_A",
+    "Damage": 1,
+    "ImpactDistance": 2,
+    "TargetSearchDistance": 2,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "BehaviourConfig": {
+      "Durations": {
+        "PreAttack": 0.4,
+        "None": 0
+      },
+      "Scenario": {
+        "PreAttack": "None",
+        "None": "None"
+      }
+    },
+    "ViewToken": {
+      "Value": "cactus"
+    }
+  },
+  {
+    "CactusId": "Cactus_04_B",
+    "Damage": 1,
+    "ImpactDistance": 2,
+    "TargetSearchDistance": 2,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "BehaviourConfig": {
+      "Durations": {
+        "PreAttack": 0.4,
+        "None": 0
+      },
+      "Scenario": {
+        "PreAttack": "None",
+        "None": "None"
+      }
+    },
+    "ViewToken": {
+      "Value": "cactus"
+    }
+  },
+  {
+    "CactusId": "Cactus_05_A",
+    "Damage": 1,
+    "ImpactDistance": 2,
+    "TargetSearchDistance": 2,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "BehaviourConfig": {
+      "Durations": {
+        "PreAttack": 0.4,
+        "None": 0
+      },
+      "Scenario": {
+        "PreAttack": "None",
+        "None": "None"
+      }
+    },
+    "ViewToken": {
+      "Value": "cactus"
+    }
+  },
+  {
+    "CactusId": "Cactus_06_A",
+    "Damage": 1,
+    "ImpactDistance": 2,
+    "TargetSearchDistance": 2,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "BehaviourConfig": {
+      "Durations": {
+        "PreAttack": 0.4,
+        "None": 0
+      },
+      "Scenario": {
+        "PreAttack": "None",
+        "None": "None"
+      }
+    },
+    "ViewToken": {
+      "Value": "cactus"
+    }
+  },
+  {
+    "CactusId": "Cactus_07_B",
+    "Damage": 1,
+    "ImpactDistance": 2,
+    "TargetSearchDistance": 2,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "BehaviourConfig": {
+      "Durations": {
+        "PreAttack": 0.4,
+        "None": 0
+      },
+      "Scenario": {
+        "PreAttack": "None",
+        "None": "None"
+      }
+    },
+    "ViewToken": {
+      "Value": "cactus"
+    }
+  },
+  {
+    "CactusId": "Cactus_08_A",
+    "Damage": 1,
+    "ImpactDistance": 2,
+    "TargetSearchDistance": 2,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "BehaviourConfig": {
+      "Durations": {
+        "PreAttack": 0.4,
+        "None": 0
+      },
+      "Scenario": {
+        "PreAttack": "None",
+        "None": "None"
+      }
+    },
+    "ViewToken": {
+      "Value": "cactus"
+    }
+  },
+  {
+    "CactusId": "Cactus_09_B",
+    "Damage": 1,
+    "ImpactDistance": 2,
+    "TargetSearchDistance": 2,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "BehaviourConfig": {
+      "Durations": {
+        "PreAttack": 0.4,
+        "None": 0
+      },
+      "Scenario": {
+        "PreAttack": "None",
+        "None": "None"
+      }
+    },
+    "ViewToken": {
+      "Value": "cactus"
+    }
+  },
+  {
+    "CactusId": "Cactus_10_B",
+    "Damage": 1,
+    "ImpactDistance": 2,
+    "TargetSearchDistance": 2,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "BehaviourConfig": {
+      "Durations": {
+        "PreAttack": 0.4,
+        "None": 0
+      },
+      "Scenario": {
+        "PreAttack": "None",
+        "None": "None"
+      }
+    },
+    "ViewToken": {
+      "Value": "cactus"
+    }
+  },
+  {
+    "CactusId": "Cactus_11_B",
+    "Damage": 1,
+    "ImpactDistance": 2,
+    "TargetSearchDistance": 2,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "BehaviourConfig": {
+      "Durations": {
+        "PreAttack": 0.4,
+        "None": 0
+      },
+      "Scenario": {
+        "PreAttack": "None",
+        "None": "None"
+      }
+    },
+    "ViewToken": {
+      "Value": "cactus"
+    }
+  },
+  {
+    "CactusId": "Cactus_12_B",
+    "Damage": 1,
+    "ImpactDistance": 2,
+    "TargetSearchDistance": 2,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "BehaviourConfig": {
+      "Durations": {
+        "PreAttack": 0.4,
+        "None": 0
+      },
+      "Scenario": {
+        "PreAttack": "None",
+        "None": "None"
+      }
+    },
+    "ViewToken": {
+      "Value": "cactus"
+    }
+  },
+  {
+    "CactusId": "Cactus_13_A",
+    "Damage": 1,
+    "ImpactDistance": 2,
+    "TargetSearchDistance": 2,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "BehaviourConfig": {
+      "Durations": {
+        "PreAttack": 0.4,
+        "None": 0
+      },
+      "Scenario": {
+        "PreAttack": "None",
+        "None": "None"
+      }
+    },
+    "ViewToken": {
+      "Value": "cactus"
+    }
+  },
+  {
+    "CactusId": "Cactus_14_A",
+    "Damage": 1,
+    "ImpactDistance": 2,
+    "TargetSearchDistance": 2,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "BehaviourConfig": {
+      "Durations": {
+        "PreAttack": 0.4,
+        "None": 0
+      },
+      "Scenario": {
+        "PreAttack": "None",
+        "None": "None"
+      }
+    },
+    "ViewToken": {
+      "Value": "cactus"
+    }
+  },
+  {
+    "CactusId": "Cactus_14_B",
+    "Damage": 1,
+    "ImpactDistance": 2,
+    "TargetSearchDistance": 2,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "BehaviourConfig": {
+      "Durations": {
+        "PreAttack": 0.4,
+        "None": 0
+      },
+      "Scenario": {
+        "PreAttack": "None",
+        "None": "None"
+      }
+    },
+    "ViewToken": {
+      "Value": "cactus"
+    }
+  },
+  {
+    "CactusId": "Cactus_15_A",
+    "Damage": 1,
+    "ImpactDistance": 2,
+    "TargetSearchDistance": 2,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "BehaviourConfig": {
+      "Durations": {
+        "PreAttack": 0.4,
+        "None": 0
+      },
+      "Scenario": {
+        "PreAttack": "None",
+        "None": "None"
+      }
+    },
+    "ViewToken": {
+      "Value": "cactus"
+    }
+  },
+  {
+    "CactusId": "Cactus_16_B",
+    "Damage": 1,
+    "ImpactDistance": 2,
+    "TargetSearchDistance": 2,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "BehaviourConfig": {
+      "Durations": {
+        "PreAttack": 0.4,
+        "None": 0
+      },
+      "Scenario": {
+        "PreAttack": "None",
+        "None": "None"
+      }
+    },
+    "ViewToken": {
+      "Value": "cactus"
+    }
+  },
+  {
+    "CactusId": "Cactus_17_A",
+    "Damage": 1,
+    "ImpactDistance": 2,
+    "TargetSearchDistance": 2,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "BehaviourConfig": {
+      "Durations": {
+        "PreAttack": 0.4,
+        "None": 0
+      },
+      "Scenario": {
+        "PreAttack": "None",
+        "None": "None"
+      }
+    },
+    "ViewToken": {
+      "Value": "cactus"
+    }
+  },
+  {
+    "CactusId": "Cactus_17_B",
+    "Damage": 1,
+    "ImpactDistance": 2,
+    "TargetSearchDistance": 2,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "BehaviourConfig": {
+      "Durations": {
+        "PreAttack": 0.4,
+        "None": 0
+      },
+      "Scenario": {
+        "PreAttack": "None",
+        "None": "None"
+      }
+    },
+    "ViewToken": {
+      "Value": "cactus"
+    }
+  },
+  {
+    "CactusId": "Cactus_19_A",
+    "Damage": 1,
+    "ImpactDistance": 2,
+    "TargetSearchDistance": 2,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "BehaviourConfig": {
+      "Durations": {
+        "PreAttack": 0.4,
+        "None": 0
+      },
+      "Scenario": {
+        "PreAttack": "None",
+        "None": "None"
+      }
+    },
+    "ViewToken": {
+      "Value": "cactus"
+    }
+  },
+  {
+    "CactusId": "Cactus_19_B",
+    "Damage": 1,
+    "ImpactDistance": 2,
+    "TargetSearchDistance": 2,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "BehaviourConfig": {
+      "Durations": {
+        "PreAttack": 0.4,
+        "None": 0
+      },
+      "Scenario": {
+        "PreAttack": "None",
+        "None": "None"
+      }
+    },
+    "ViewToken": {
+      "Value": "cactus"
+    }
+  },
+  {
+    "CactusId": "Cactus_20_A",
+    "Damage": 1,
+    "ImpactDistance": 2,
+    "TargetSearchDistance": 2,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "BehaviourConfig": {
+      "Durations": {
+        "PreAttack": 0.4,
+        "None": 0
+      },
+      "Scenario": {
+        "PreAttack": "None",
+        "None": "None"
+      }
+    },
+    "ViewToken": {
+      "Value": "cactus"
+    }
+  },
+  {
+    "CactusId": "Cactus_20_B",
+    "Damage": 1,
+    "ImpactDistance": 2,
+    "TargetSearchDistance": 2,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "BehaviourConfig": {
+      "Durations": {
+        "PreAttack": 0.4,
+        "None": 0
+      },
+      "Scenario": {
+        "PreAttack": "None",
+        "None": "None"
+      }
+    },
+    "ViewToken": {
+      "Value": "cactus"
+    }
+  },
+  {
+    "CactusId": "Cactus_21_A",
+    "Damage": 1,
+    "ImpactDistance": 2,
+    "TargetSearchDistance": 2,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "BehaviourConfig": {
+      "Durations": {
+        "PreAttack": 0.4,
+        "None": 0
+      },
+      "Scenario": {
+        "PreAttack": "None",
+        "None": "None"
+      }
+    },
+    "ViewToken": {
+      "Value": "cactus"
+    }
+  },
+  {
+    "CactusId": "Cactus_21_B",
+    "Damage": 1,
+    "ImpactDistance": 2,
+    "TargetSearchDistance": 2,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "BehaviourConfig": {
+      "Durations": {
+        "PreAttack": 0.4,
+        "None": 0
+      },
+      "Scenario": {
+        "PreAttack": "None",
+        "None": "None"
+      }
+    },
+    "ViewToken": {
+      "Value": "cactus"
+    }
+  },
+  {
+    "CactusId": "Cactus_22_A",
+    "Damage": 1,
+    "ImpactDistance": 2,
+    "TargetSearchDistance": 2,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "BehaviourConfig": {
+      "Durations": {
+        "PreAttack": 0.4,
+        "None": 0
+      },
+      "Scenario": {
+        "PreAttack": "None",
+        "None": "None"
+      }
+    },
+    "ViewToken": {
+      "Value": "cactus"
+    }
+  },
+  {
+    "CactusId": "Cactus_22_B",
+    "Damage": 1,
+    "ImpactDistance": 2,
+    "TargetSearchDistance": 2,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "BehaviourConfig": {
+      "Durations": {
+        "PreAttack": 0.4,
+        "None": 0
+      },
+      "Scenario": {
+        "PreAttack": "None",
+        "None": "None"
+      }
+    },
+    "ViewToken": {
+      "Value": "cactus"
+    }
+  },
+  {
+    "CactusId": "Cactus_23_A",
+    "Damage": 1,
+    "ImpactDistance": 2,
+    "TargetSearchDistance": 2,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "BehaviourConfig": {
+      "Durations": {
+        "PreAttack": 0.4,
+        "None": 0
+      },
+      "Scenario": {
+        "PreAttack": "None",
+        "None": "None"
+      }
+    },
+    "ViewToken": {
+      "Value": "cactus"
+    }
+  },
+  {
+    "CactusId": "Cactus_24_A",
+    "Damage": 1,
+    "ImpactDistance": 2,
+    "TargetSearchDistance": 2,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "BehaviourConfig": {
+      "Durations": {
+        "PreAttack": 0.4,
+        "None": 0
+      },
+      "Scenario": {
+        "PreAttack": "None",
+        "None": "None"
+      }
+    },
+    "ViewToken": {
+      "Value": "cactus"
+    }
+  },
+  {
+    "CactusId": "Cactus_24_B",
+    "Damage": 1,
+    "ImpactDistance": 2,
+    "TargetSearchDistance": 2,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "BehaviourConfig": {
+      "Durations": {
+        "PreAttack": 0.4,
+        "None": 0
+      },
+      "Scenario": {
+        "PreAttack": "None",
+        "None": "None"
+      }
+    },
+    "ViewToken": {
+      "Value": "cactus"
+    }
+  },
+  {
+    "CactusId": "Cactus_25_A",
+    "Damage": 1,
+    "ImpactDistance": 2,
+    "TargetSearchDistance": 2,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "BehaviourConfig": {
+      "Durations": {
+        "PreAttack": 0.4,
+        "None": 0
+      },
+      "Scenario": {
+        "PreAttack": "None",
+        "None": "None"
+      }
+    },
+    "ViewToken": {
+      "Value": "cactus"
+    }
+  },
+  {
+    "CactusId": "Cactus_27_A",
+    "Damage": 1,
+    "ImpactDistance": 2,
+    "TargetSearchDistance": 2,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "BehaviourConfig": {
+      "Durations": {
+        "PreAttack": 0.4,
+        "None": 0
+      },
+      "Scenario": {
+        "PreAttack": "None",
+        "None": "None"
+      }
+    },
+    "ViewToken": {
+      "Value": "cactus"
+    }
+  },
+  {
+    "CactusId": "Cactus_27_B",
+    "Damage": 1,
+    "ImpactDistance": 2,
+    "TargetSearchDistance": 2,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "BehaviourConfig": {
+      "Durations": {
+        "PreAttack": 0.4,
+        "None": 0
+      },
+      "Scenario": {
+        "PreAttack": "None",
+        "None": "None"
+      }
+    },
+    "ViewToken": {
+      "Value": "cactus"
+    }
+  },
+  {
+    "CactusId": "Cactus_28_A",
+    "Damage": 1,
+    "ImpactDistance": 2,
+    "TargetSearchDistance": 2,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "BehaviourConfig": {
+      "Durations": {
+        "PreAttack": 0.4,
+        "None": 0
+      },
+      "Scenario": {
+        "PreAttack": "None",
+        "None": "None"
+      }
+    },
+    "ViewToken": {
+      "Value": "cactus"
+    }
+  },
+  {
+    "CactusId": "Cactus_28_B",
+    "Damage": 1,
+    "ImpactDistance": 2,
+    "TargetSearchDistance": 2,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "BehaviourConfig": {
+      "Durations": {
+        "PreAttack": 0.4,
+        "None": 0
+      },
+      "Scenario": {
+        "PreAttack": "None",
+        "None": "None"
+      }
+    },
+    "ViewToken": {
+      "Value": "cactus"
+    }
+  },
+  {
+    "CactusId": "Cactus_29_A",
+    "Damage": 1,
+    "ImpactDistance": 2,
+    "TargetSearchDistance": 2,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "BehaviourConfig": {
+      "Durations": {
+        "PreAttack": 0.4,
+        "None": 0
+      },
+      "Scenario": {
+        "PreAttack": "None",
+        "None": "None"
+      }
+    },
+    "ViewToken": {
+      "Value": "cactus"
+    }
+  },
+  {
+    "CactusId": "Cactus_29_B",
+    "Damage": 1,
+    "ImpactDistance": 2,
+    "TargetSearchDistance": 2,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "BehaviourConfig": {
+      "Durations": {
+        "PreAttack": 0.4,
+        "None": 0
+      },
+      "Scenario": {
+        "PreAttack": "None",
+        "None": "None"
+      }
+    },
+    "ViewToken": {
+      "Value": "cactus"
+    }
+  },
+  {
+    "CactusId": "Cactus_30_B",
+    "Damage": 1,
+    "ImpactDistance": 2,
+    "TargetSearchDistance": 2,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "BehaviourConfig": {
+      "Durations": {
+        "PreAttack": 0.4,
+        "None": 0
+      },
+      "Scenario": {
+        "PreAttack": "None",
+        "None": "None"
+      }
+    },
+    "ViewToken": {
+      "Value": "cactus"
+    }
+  },
+  {
+    "CactusId": "Cactus_31_A",
+    "Damage": 1,
+    "ImpactDistance": 2,
+    "TargetSearchDistance": 2,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "BehaviourConfig": {
+      "Durations": {
+        "PreAttack": 0.4,
+        "None": 0
+      },
+      "Scenario": {
+        "PreAttack": "None",
+        "None": "None"
+      }
+    },
+    "ViewToken": {
+      "Value": "cactus"
+    }
+  },
+  {
+    "CactusId": "Cactus_31_B",
+    "Damage": 1,
+    "ImpactDistance": 2,
+    "TargetSearchDistance": 2,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "BehaviourConfig": {
+      "Durations": {
+        "PreAttack": 0.4,
+        "None": 0
+      },
+      "Scenario": {
+        "PreAttack": "None",
+        "None": "None"
+      }
+    },
+    "ViewToken": {
+      "Value": "cactus"
+    }
+  },
+  {
+    "CactusId": "Cactus_32_B",
+    "Damage": 1,
+    "ImpactDistance": 2,
+    "TargetSearchDistance": 2,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "BehaviourConfig": {
+      "Durations": {
+        "PreAttack": 0.4,
+        "None": 0
+      },
+      "Scenario": {
+        "PreAttack": "None",
+        "None": "None"
+      }
+    },
+    "ViewToken": {
+      "Value": "cactus"
+    }
+  },
+  {
+    "CactusId": "Cactus_33_A",
+    "Damage": 1,
+    "ImpactDistance": 2,
+    "TargetSearchDistance": 2,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "BehaviourConfig": {
+      "Durations": {
+        "PreAttack": 0.4,
+        "None": 0
+      },
+      "Scenario": {
+        "PreAttack": "None",
+        "None": "None"
+      }
+    },
+    "ViewToken": {
+      "Value": "cactus"
+    }
+  },
+  {
+    "CactusId": "Cactus_33_B",
+    "Damage": 1,
+    "ImpactDistance": 2,
+    "TargetSearchDistance": 2,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "BehaviourConfig": {
+      "Durations": {
+        "PreAttack": 0.4,
+        "None": 0
+      },
+      "Scenario": {
+        "PreAttack": "None",
+        "None": "None"
+      }
+    },
+    "ViewToken": {
+      "Value": "cactus"
+    }
+  },
+  {
+    "CactusId": "Cactus_34_A",
+    "Damage": 1,
+    "ImpactDistance": 2,
+    "TargetSearchDistance": 2,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "BehaviourConfig": {
+      "Durations": {
+        "PreAttack": 0.4,
+        "None": 0
+      },
+      "Scenario": {
+        "PreAttack": "None",
+        "None": "None"
+      }
+    },
+    "ViewToken": {
+      "Value": "cactus"
+    }
+  },
+  {
+    "CactusId": "Cactus_34_B",
+    "Damage": 1,
+    "ImpactDistance": 2,
+    "TargetSearchDistance": 2,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "BehaviourConfig": {
+      "Durations": {
+        "PreAttack": 0.4,
+        "None": 0
+      },
+      "Scenario": {
+        "PreAttack": "None",
+        "None": "None"
+      }
+    },
+    "ViewToken": {
+      "Value": "cactus"
+    }
+  },
+  {
+    "CactusId": "Cactus_35_A",
+    "Damage": 1,
+    "ImpactDistance": 2,
+    "TargetSearchDistance": 2,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "BehaviourConfig": {
+      "Durations": {
+        "PreAttack": 0.4,
+        "None": 0
+      },
+      "Scenario": {
+        "PreAttack": "None",
+        "None": "None"
+      }
+    },
+    "ViewToken": {
+      "Value": "cactus"
+    }
+  },
+  {
+    "CactusId": "Cactus_35_B",
+    "Damage": 1,
+    "ImpactDistance": 2,
+    "TargetSearchDistance": 2,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "BehaviourConfig": {
+      "Durations": {
+        "PreAttack": 0.4,
+        "None": 0
+      },
+      "Scenario": {
+        "PreAttack": "None",
+        "None": "None"
+      }
+    },
+    "ViewToken": {
+      "Value": "cactus"
+    }
+  },
+  {
+    "CactusId": "Cactus_36_B",
+    "Damage": 1,
+    "ImpactDistance": 2,
+    "TargetSearchDistance": 2,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "BehaviourConfig": {
+      "Durations": {
+        "PreAttack": 0.4,
+        "None": 0
+      },
+      "Scenario": {
+        "PreAttack": "None",
+        "None": "None"
+      }
+    },
+    "ViewToken": {
+      "Value": "cactus"
+    }
+  },
+  {
+    "CactusId": "Cactus_37_A",
+    "Damage": 1,
+    "ImpactDistance": 2,
+    "TargetSearchDistance": 2,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "BehaviourConfig": {
+      "Durations": {
+        "PreAttack": 0.4,
+        "None": 0
+      },
+      "Scenario": {
+        "PreAttack": "None",
+        "None": "None"
+      }
+    },
+    "ViewToken": {
+      "Value": "cactus"
+    }
+  },
+  {
+    "CactusId": "Cactus_38_A",
+    "Damage": 1,
+    "ImpactDistance": 2,
+    "TargetSearchDistance": 2,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "BehaviourConfig": {
+      "Durations": {
+        "PreAttack": 0.4,
+        "None": 0
+      },
+      "Scenario": {
+        "PreAttack": "None",
+        "None": "None"
+      }
+    },
+    "ViewToken": {
+      "Value": "cactus"
+    }
+  },
+  {
+    "CactusId": "Cactus_39_A",
+    "Damage": 1,
+    "ImpactDistance": 2,
+    "TargetSearchDistance": 2,
+    "Radius": 0.5,
+    "Separator": {
+      "Radius": 0.5,
+      "Coefficient": 1
+    },
+    "BehaviourConfig": {
+      "Durations": {
+        "PreAttack": 0.4,
+        "None": 0
+      },
+      "Scenario": {
+        "PreAttack": "None",
+        "None": "None"
+      }
+    },
+    "ViewToken": {
+      "Value": "cactus"
+    }
+  }
+]

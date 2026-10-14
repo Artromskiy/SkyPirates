@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>disabled</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <RootNamespace>DVG.SkyPirates.Server</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DeltaNetcode" Version="0.0.7" />
+    <PackageReference Include="NetCoreServer" Version="8.0.7" />
+    <PackageReference Include="RiptideNetworking.Riptide" Version="2.2.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Shared\SkyPirates.Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Assets/Scripts/**/*.cs" />
+    <Compile Remove="Temp/obj/**/*.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="TimelineDebug\" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,6912 @@
+{
+  "CactusesStats": {
+    "Cactus_39_B": {
+      "BehaviourConfig": {
+        "Durations": {
+          "PreAttack": 0.399993896484375,
+          "None": 0
+        },
+        "Scenario": {
+          "PreAttack": "None",
+          "None": "None"
+        }
+      },
+      "CactusId": "Cactus_39_B",
+      "Damage": 1,
+      "ImpactDistance": 2,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TargetSearchDistance": 2,
+      "ViewToken": {
+        "Value": "cactus"
+      }
+    },
+    "Cactus_02_B": {
+      "BehaviourConfig": {
+        "Durations": {
+          "PreAttack": 0.399993896484375,
+          "None": 0
+        },
+        "Scenario": {
+          "PreAttack": "None",
+          "None": "None"
+        }
+      },
+      "CactusId": "Cactus_02_B",
+      "Damage": 1,
+      "ImpactDistance": 2,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TargetSearchDistance": 2,
+      "ViewToken": {
+        "Value": "cactus"
+      }
+    },
+    "Cactus_03_B": {
+      "BehaviourConfig": {
+        "Durations": {
+          "PreAttack": 0.399993896484375,
+          "None": 0
+        },
+        "Scenario": {
+          "PreAttack": "None",
+          "None": "None"
+        }
+      },
+      "CactusId": "Cactus_03_B",
+      "Damage": 1,
+      "ImpactDistance": 2,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TargetSearchDistance": 2,
+      "ViewToken": {
+        "Value": "cactus"
+      }
+    },
+    "Cactus_05_B": {
+      "BehaviourConfig": {
+        "Durations": {
+          "PreAttack": 0.399993896484375,
+          "None": 0
+        },
+        "Scenario": {
+          "PreAttack": "None",
+          "None": "None"
+        }
+      },
+      "CactusId": "Cactus_05_B",
+      "Damage": 1,
+      "ImpactDistance": 2,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TargetSearchDistance": 2,
+      "ViewToken": {
+        "Value": "cactus"
+      }
+    },
+    "Cactus_06_B": {
+      "BehaviourConfig": {
+        "Durations": {
+          "PreAttack": 0.399993896484375,
+          "None": 0
+        },
+        "Scenario": {
+          "PreAttack": "None",
+          "None": "None"
+        }
+      },
+      "CactusId": "Cactus_06_B",
+      "Damage": 1,
+      "ImpactDistance": 2,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TargetSearchDistance": 2,
+      "ViewToken": {
+        "Value": "cactus"
+      }
+    },
+    "Cactus_07_A": {
+      "BehaviourConfig": {
+        "Durations": {
+          "PreAttack": 0.399993896484375,
+          "None": 0
+        },
+        "Scenario": {
+          "PreAttack": "None",
+          "None": "None"
+        }
+      },
+      "CactusId": "Cactus_07_A",
+      "Damage": 1,
+      "ImpactDistance": 2,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TargetSearchDistance": 2,
+      "ViewToken": {
+        "Value": "cactus"
+      }
+    },
+    "Cactus_08_B": {
+      "BehaviourConfig": {
+        "Durations": {
+          "PreAttack": 0.399993896484375,
+          "None": 0
+        },
+        "Scenario": {
+          "PreAttack": "None",
+          "None": "None"
+        }
+      },
+      "CactusId": "Cactus_08_B",
+      "Damage": 1,
+      "ImpactDistance": 2,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TargetSearchDistance": 2,
+      "ViewToken": {
+        "Value": "cactus"
+      }
+    },
+    "Cactus_09_A": {
+      "BehaviourConfig": {
+        "Durations": {
+          "PreAttack": 0.399993896484375,
+          "None": 0
+        },
+        "Scenario": {
+          "PreAttack": "None",
+          "None": "None"
+        }
+      },
+      "CactusId": "Cactus_09_A",
+      "Damage": 1,
+      "ImpactDistance": 2,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TargetSearchDistance": 2,
+      "ViewToken": {
+        "Value": "cactus"
+      }
+    },
+    "Cactus_10_A": {
+      "BehaviourConfig": {
+        "Durations": {
+          "PreAttack": 0.399993896484375,
+          "None": 0
+        },
+        "Scenario": {
+          "PreAttack": "None",
+          "None": "None"
+        }
+      },
+      "CactusId": "Cactus_10_A",
+      "Damage": 1,
+      "ImpactDistance": 2,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TargetSearchDistance": 2,
+      "ViewToken": {
+        "Value": "cactus"
+      }
+    },
+    "Cactus_11_A": {
+      "BehaviourConfig": {
+        "Durations": {
+          "PreAttack": 0.399993896484375,
+          "None": 0
+        },
+        "Scenario": {
+          "PreAttack": "None",
+          "None": "None"
+        }
+      },
+      "CactusId": "Cactus_11_A",
+      "Damage": 1,
+      "ImpactDistance": 2,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TargetSearchDistance": 2,
+      "ViewToken": {
+        "Value": "cactus"
+      }
+    },
+    "Cactus_12_A": {
+      "BehaviourConfig": {
+        "Durations": {
+          "PreAttack": 0.399993896484375,
+          "None": 0
+        },
+        "Scenario": {
+          "PreAttack": "None",
+          "None": "None"
+        }
+      },
+      "CactusId": "Cactus_12_A",
+      "Damage": 1,
+      "ImpactDistance": 2,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TargetSearchDistance": 2,
+      "ViewToken": {
+        "Value": "cactus"
+      }
+    },
+    "Cactus_13_B": {
+      "BehaviourConfig": {
+        "Durations": {
+          "PreAttack": 0.399993896484375,
+          "None": 0
+        },
+        "Scenario": {
+          "PreAttack": "None",
+          "None": "None"
+        }
+      },
+      "CactusId": "Cactus_13_B",
+      "Damage": 1,
+      "ImpactDistance": 2,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TargetSearchDistance": 2,
+      "ViewToken": {
+        "Value": "cactus"
+      }
+    },
+    "Cactus_15_B": {
+      "BehaviourConfig": {
+        "Durations": {
+          "PreAttack": 0.399993896484375,
+          "None": 0
+        },
+        "Scenario": {
+          "PreAttack": "None",
+          "None": "None"
+        }
+      },
+      "CactusId": "Cactus_15_B",
+      "Damage": 1,
+      "ImpactDistance": 2,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TargetSearchDistance": 2,
+      "ViewToken": {
+        "Value": "cactus"
+      }
+    },
+    "Cactus_16_A": {
+      "BehaviourConfig": {
+        "Durations": {
+          "PreAttack": 0.399993896484375,
+          "None": 0
+        },
+        "Scenario": {
+          "PreAttack": "None",
+          "None": "None"
+        }
+      },
+      "CactusId": "Cactus_16_A",
+      "Damage": 1,
+      "ImpactDistance": 2,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TargetSearchDistance": 2,
+      "ViewToken": {
+        "Value": "cactus"
+      }
+    },
+    "Cactus_18_A": {
+      "BehaviourConfig": {
+        "Durations": {
+          "PreAttack": 0.399993896484375,
+          "None": 0
+        },
+        "Scenario": {
+          "PreAttack": "None",
+          "None": "None"
+        }
+      },
+      "CactusId": "Cactus_18_A",
+      "Damage": 1,
+      "ImpactDistance": 2,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TargetSearchDistance": 2,
+      "ViewToken": {
+        "Value": "cactus"
+      }
+    },
+    "Cactus_18_B": {
+      "BehaviourConfig": {
+        "Durations": {
+          "PreAttack": 0.399993896484375,
+          "None": 0
+        },
+        "Scenario": {
+          "PreAttack": "None",
+          "None": "None"
+        }
+      },
+      "CactusId": "Cactus_18_B",
+      "Damage": 1,
+      "ImpactDistance": 2,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TargetSearchDistance": 2,
+      "ViewToken": {
+        "Value": "cactus"
+      }
+    },
+    "Cactus_23_B": {
+      "BehaviourConfig": {
+        "Durations": {
+          "PreAttack": 0.399993896484375,
+          "None": 0
+        },
+        "Scenario": {
+          "PreAttack": "None",
+          "None": "None"
+        }
+      },
+      "CactusId": "Cactus_23_B",
+      "Damage": 1,
+      "ImpactDistance": 2,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TargetSearchDistance": 2,
+      "ViewToken": {
+        "Value": "cactus"
+      }
+    },
+    "Cactus_25_B": {
+      "BehaviourConfig": {
+        "Durations": {
+          "PreAttack": 0.399993896484375,
+          "None": 0
+        },
+        "Scenario": {
+          "PreAttack": "None",
+          "None": "None"
+        }
+      },
+      "CactusId": "Cactus_25_B",
+      "Damage": 1,
+      "ImpactDistance": 2,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TargetSearchDistance": 2,
+      "ViewToken": {
+        "Value": "cactus"
+      }
+    },
+    "Cactus_26_A": {
+      "BehaviourConfig": {
+        "Durations": {
+          "PreAttack": 0.399993896484375,
+          "None": 0
+        },
+        "Scenario": {
+          "PreAttack": "None",
+          "None": "None"
+        }
+      },
+      "CactusId": "Cactus_26_A",
+      "Damage": 1,
+      "ImpactDistance": 2,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TargetSearchDistance": 2,
+      "ViewToken": {
+        "Value": "cactus"
+      }
+    },
+    "Cactus_26_B": {
+      "BehaviourConfig": {
+        "Durations": {
+          "PreAttack": 0.399993896484375,
+          "None": 0
+        },
+        "Scenario": {
+          "PreAttack": "None",
+          "None": "None"
+        }
+      },
+      "CactusId": "Cactus_26_B",
+      "Damage": 1,
+      "ImpactDistance": 2,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TargetSearchDistance": 2,
+      "ViewToken": {
+        "Value": "cactus"
+      }
+    },
+    "Cactus_30_A": {
+      "BehaviourConfig": {
+        "Durations": {
+          "PreAttack": 0.399993896484375,
+          "None": 0
+        },
+        "Scenario": {
+          "PreAttack": "None",
+          "None": "None"
+        }
+      },
+      "CactusId": "Cactus_30_A",
+      "Damage": 1,
+      "ImpactDistance": 2,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TargetSearchDistance": 2,
+      "ViewToken": {
+        "Value": "cactus"
+      }
+    },
+    "Cactus_32_A": {
+      "BehaviourConfig": {
+        "Durations": {
+          "PreAttack": 0.399993896484375,
+          "None": 0
+        },
+        "Scenario": {
+          "PreAttack": "None",
+          "None": "None"
+        }
+      },
+      "CactusId": "Cactus_32_A",
+      "Damage": 1,
+      "ImpactDistance": 2,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TargetSearchDistance": 2,
+      "ViewToken": {
+        "Value": "cactus"
+      }
+    },
+    "Cactus_36_A": {
+      "BehaviourConfig": {
+        "Durations": {
+          "PreAttack": 0.399993896484375,
+          "None": 0
+        },
+        "Scenario": {
+          "PreAttack": "None",
+          "None": "None"
+        }
+      },
+      "CactusId": "Cactus_36_A",
+      "Damage": 1,
+      "ImpactDistance": 2,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TargetSearchDistance": 2,
+      "ViewToken": {
+        "Value": "cactus"
+      }
+    },
+    "Cactus_37_B": {
+      "BehaviourConfig": {
+        "Durations": {
+          "PreAttack": 0.399993896484375,
+          "None": 0
+        },
+        "Scenario": {
+          "PreAttack": "None",
+          "None": "None"
+        }
+      },
+      "CactusId": "Cactus_37_B",
+      "Damage": 1,
+      "ImpactDistance": 2,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TargetSearchDistance": 2,
+      "ViewToken": {
+        "Value": "cactus"
+      }
+    },
+    "Cactus_38_B": {
+      "BehaviourConfig": {
+        "Durations": {
+          "PreAttack": 0.399993896484375,
+          "None": 0
+        },
+        "Scenario": {
+          "PreAttack": "None",
+          "None": "None"
+        }
+      },
+      "CactusId": "Cactus_38_B",
+      "Damage": 1,
+      "ImpactDistance": 2,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TargetSearchDistance": 2,
+      "ViewToken": {
+        "Value": "cactus"
+      }
+    },
+    "Cactus_01_A": {
+      "BehaviourConfig": {
+        "Durations": {
+          "PreAttack": 0.399993896484375,
+          "None": 0
+        },
+        "Scenario": {
+          "PreAttack": "None",
+          "None": "None"
+        }
+      },
+      "CactusId": "Cactus_01_A",
+      "Damage": 1,
+      "ImpactDistance": 2,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TargetSearchDistance": 2,
+      "ViewToken": {
+        "Value": "cactus"
+      }
+    },
+    "Cactus_01_B": {
+      "BehaviourConfig": {
+        "Durations": {
+          "PreAttack": 0.399993896484375,
+          "None": 0
+        },
+        "Scenario": {
+          "PreAttack": "None",
+          "None": "None"
+        }
+      },
+      "CactusId": "Cactus_01_B",
+      "Damage": 1,
+      "ImpactDistance": 2,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TargetSearchDistance": 2,
+      "ViewToken": {
+        "Value": "cactus"
+      }
+    },
+    "Cactus_02_A": {
+      "BehaviourConfig": {
+        "Durations": {
+          "PreAttack": 0.399993896484375,
+          "None": 0
+        },
+        "Scenario": {
+          "PreAttack": "None",
+          "None": "None"
+        }
+      },
+      "CactusId": "Cactus_02_A",
+      "Damage": 1,
+      "ImpactDistance": 2,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TargetSearchDistance": 2,
+      "ViewToken": {
+        "Value": "cactus"
+      }
+    },
+    "Cactus_03_A": {
+      "BehaviourConfig": {
+        "Durations": {
+          "PreAttack": 0.399993896484375,
+          "None": 0
+        },
+        "Scenario": {
+          "PreAttack": "None",
+          "None": "None"
+        }
+      },
+      "CactusId": "Cactus_03_A",
+      "Damage": 1,
+      "ImpactDistance": 2,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TargetSearchDistance": 2,
+      "ViewToken": {
+        "Value": "cactus"
+      }
+    },
+    "Cactus_04_A": {
+      "BehaviourConfig": {
+        "Durations": {
+          "PreAttack": 0.399993896484375,
+          "None": 0
+        },
+        "Scenario": {
+          "PreAttack": "None",
+          "None": "None"
+        }
+      },
+      "CactusId": "Cactus_04_A",
+      "Damage": 1,
+      "ImpactDistance": 2,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TargetSearchDistance": 2,
+      "ViewToken": {
+        "Value": "cactus"
+      }
+    },
+    "Cactus_04_B": {
+      "BehaviourConfig": {
+        "Durations": {
+          "PreAttack": 0.399993896484375,
+          "None": 0
+        },
+        "Scenario": {
+          "PreAttack": "None",
+          "None": "None"
+        }
+      },
+      "CactusId": "Cactus_04_B",
+      "Damage": 1,
+      "ImpactDistance": 2,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TargetSearchDistance": 2,
+      "ViewToken": {
+        "Value": "cactus"
+      }
+    },
+    "Cactus_05_A": {
+      "BehaviourConfig": {
+        "Durations": {
+          "PreAttack": 0.399993896484375,
+          "None": 0
+        },
+        "Scenario": {
+          "PreAttack": "None",
+          "None": "None"
+        }
+      },
+      "CactusId": "Cactus_05_A",
+      "Damage": 1,
+      "ImpactDistance": 2,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TargetSearchDistance": 2,
+      "ViewToken": {
+        "Value": "cactus"
+      }
+    },
+    "Cactus_06_A": {
+      "BehaviourConfig": {
+        "Durations": {
+          "PreAttack": 0.399993896484375,
+          "None": 0
+        },
+        "Scenario": {
+          "PreAttack": "None",
+          "None": "None"
+        }
+      },
+      "CactusId": "Cactus_06_A",
+      "Damage": 1,
+      "ImpactDistance": 2,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TargetSearchDistance": 2,
+      "ViewToken": {
+        "Value": "cactus"
+      }
+    },
+    "Cactus_07_B": {
+      "BehaviourConfig": {
+        "Durations": {
+          "PreAttack": 0.399993896484375,
+          "None": 0
+        },
+        "Scenario": {
+          "PreAttack": "None",
+          "None": "None"
+        }
+      },
+      "CactusId": "Cactus_07_B",
+      "Damage": 1,
+      "ImpactDistance": 2,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TargetSearchDistance": 2,
+      "ViewToken": {
+        "Value": "cactus"
+      }
+    },
+    "Cactus_08_A": {
+      "BehaviourConfig": {
+        "Durations": {
+          "PreAttack": 0.399993896484375,
+          "None": 0
+        },
+        "Scenario": {
+          "PreAttack": "None",
+          "None": "None"
+        }
+      },
+      "CactusId": "Cactus_08_A",
+      "Damage": 1,
+      "ImpactDistance": 2,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TargetSearchDistance": 2,
+      "ViewToken": {
+        "Value": "cactus"
+      }
+    },
+    "Cactus_09_B": {
+      "BehaviourConfig": {
+        "Durations": {
+          "PreAttack": 0.399993896484375,
+          "None": 0
+        },
+        "Scenario": {
+          "PreAttack": "None",
+          "None": "None"
+        }
+      },
+      "CactusId": "Cactus_09_B",
+      "Damage": 1,
+      "ImpactDistance": 2,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TargetSearchDistance": 2,
+      "ViewToken": {
+        "Value": "cactus"
+      }
+    },
+    "Cactus_10_B": {
+      "BehaviourConfig": {
+        "Durations": {
+          "PreAttack": 0.399993896484375,
+          "None": 0
+        },
+        "Scenario": {
+          "PreAttack": "None",
+          "None": "None"
+        }
+      },
+      "CactusId": "Cactus_10_B",
+      "Damage": 1,
+      "ImpactDistance": 2,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TargetSearchDistance": 2,
+      "ViewToken": {
+        "Value": "cactus"
+      }
+    },
+    "Cactus_11_B": {
+      "BehaviourConfig": {
+        "Durations": {
+          "PreAttack": 0.399993896484375,
+          "None": 0
+        },
+        "Scenario": {
+          "PreAttack": "None",
+          "None": "None"
+        }
+      },
+      "CactusId": "Cactus_11_B",
+      "Damage": 1,
+      "ImpactDistance": 2,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TargetSearchDistance": 2,
+      "ViewToken": {
+        "Value": "cactus"
+      }
+    },
+    "Cactus_12_B": {
+      "BehaviourConfig": {
+        "Durations": {
+          "PreAttack": 0.399993896484375,
+          "None": 0
+        },
+        "Scenario": {
+          "PreAttack": "None",
+          "None": "None"
+        }
+      },
+      "CactusId": "Cactus_12_B",
+      "Damage": 1,
+      "ImpactDistance": 2,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TargetSearchDistance": 2,
+      "ViewToken": {
+        "Value": "cactus"
+      }
+    },
+    "Cactus_13_A": {
+      "BehaviourConfig": {
+        "Durations": {
+          "PreAttack": 0.399993896484375,
+          "None": 0
+        },
+        "Scenario": {
+          "PreAttack": "None",
+          "None": "None"
+        }
+      },
+      "CactusId": "Cactus_13_A",
+      "Damage": 1,
+      "ImpactDistance": 2,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TargetSearchDistance": 2,
+      "ViewToken": {
+        "Value": "cactus"
+      }
+    },
+    "Cactus_14_A": {
+      "BehaviourConfig": {
+        "Durations": {
+          "PreAttack": 0.399993896484375,
+          "None": 0
+        },
+        "Scenario": {
+          "PreAttack": "None",
+          "None": "None"
+        }
+      },
+      "CactusId": "Cactus_14_A",
+      "Damage": 1,
+      "ImpactDistance": 2,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TargetSearchDistance": 2,
+      "ViewToken": {
+        "Value": "cactus"
+      }
+    },
+    "Cactus_14_B": {
+      "BehaviourConfig": {
+        "Durations": {
+          "PreAttack": 0.399993896484375,
+          "None": 0
+        },
+        "Scenario": {
+          "PreAttack": "None",
+          "None": "None"
+        }
+      },
+      "CactusId": "Cactus_14_B",
+      "Damage": 1,
+      "ImpactDistance": 2,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TargetSearchDistance": 2,
+      "ViewToken": {
+        "Value": "cactus"
+      }
+    },
+    "Cactus_15_A": {
+      "BehaviourConfig": {
+        "Durations": {
+          "PreAttack": 0.399993896484375,
+          "None": 0
+        },
+        "Scenario": {
+          "PreAttack": "None",
+          "None": "None"
+        }
+      },
+      "CactusId": "Cactus_15_A",
+      "Damage": 1,
+      "ImpactDistance": 2,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TargetSearchDistance": 2,
+      "ViewToken": {
+        "Value": "cactus"
+      }
+    },
+    "Cactus_16_B": {
+      "BehaviourConfig": {
+        "Durations": {
+          "PreAttack": 0.399993896484375,
+          "None": 0
+        },
+        "Scenario": {
+          "PreAttack": "None",
+          "None": "None"
+        }
+      },
+      "CactusId": "Cactus_16_B",
+      "Damage": 1,
+      "ImpactDistance": 2,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TargetSearchDistance": 2,
+      "ViewToken": {
+        "Value": "cactus"
+      }
+    },
+    "Cactus_17_A": {
+      "BehaviourConfig": {
+        "Durations": {
+          "PreAttack": 0.399993896484375,
+          "None": 0
+        },
+        "Scenario": {
+          "PreAttack": "None",
+          "None": "None"
+        }
+      },
+      "CactusId": "Cactus_17_A",
+      "Damage": 1,
+      "ImpactDistance": 2,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TargetSearchDistance": 2,
+      "ViewToken": {
+        "Value": "cactus"
+      }
+    },
+    "Cactus_17_B": {
+      "BehaviourConfig": {
+        "Durations": {
+          "PreAttack": 0.399993896484375,
+          "None": 0
+        },
+        "Scenario": {
+          "PreAttack": "None",
+          "None": "None"
+        }
+      },
+      "CactusId": "Cactus_17_B",
+      "Damage": 1,
+      "ImpactDistance": 2,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TargetSearchDistance": 2,
+      "ViewToken": {
+        "Value": "cactus"
+      }
+    },
+    "Cactus_19_A": {
+      "BehaviourConfig": {
+        "Durations": {
+          "PreAttack": 0.399993896484375,
+          "None": 0
+        },
+        "Scenario": {
+          "PreAttack": "None",
+          "None": "None"
+        }
+      },
+      "CactusId": "Cactus_19_A",
+      "Damage": 1,
+      "ImpactDistance": 2,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TargetSearchDistance": 2,
+      "ViewToken": {
+        "Value": "cactus"
+      }
+    },
+    "Cactus_19_B": {
+      "BehaviourConfig": {
+        "Durations": {
+          "PreAttack": 0.399993896484375,
+          "None": 0
+        },
+        "Scenario": {
+          "PreAttack": "None",
+          "None": "None"
+        }
+      },
+      "CactusId": "Cactus_19_B",
+      "Damage": 1,
+      "ImpactDistance": 2,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TargetSearchDistance": 2,
+      "ViewToken": {
+        "Value": "cactus"
+      }
+    },
+    "Cactus_20_A": {
+      "BehaviourConfig": {
+        "Durations": {
+          "PreAttack": 0.399993896484375,
+          "None": 0
+        },
+        "Scenario": {
+          "PreAttack": "None",
+          "None": "None"
+        }
+      },
+      "CactusId": "Cactus_20_A",
+      "Damage": 1,
+      "ImpactDistance": 2,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TargetSearchDistance": 2,
+      "ViewToken": {
+        "Value": "cactus"
+      }
+    },
+    "Cactus_20_B": {
+      "BehaviourConfig": {
+        "Durations": {
+          "PreAttack": 0.399993896484375,
+          "None": 0
+        },
+        "Scenario": {
+          "PreAttack": "None",
+          "None": "None"
+        }
+      },
+      "CactusId": "Cactus_20_B",
+      "Damage": 1,
+      "ImpactDistance": 2,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TargetSearchDistance": 2,
+      "ViewToken": {
+        "Value": "cactus"
+      }
+    },
+    "Cactus_21_A": {
+      "BehaviourConfig": {
+        "Durations": {
+          "PreAttack": 0.399993896484375,
+          "None": 0
+        },
+        "Scenario": {
+          "PreAttack": "None",
+          "None": "None"
+        }
+      },
+      "CactusId": "Cactus_21_A",
+      "Damage": 1,
+      "ImpactDistance": 2,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TargetSearchDistance": 2,
+      "ViewToken": {
+        "Value": "cactus"
+      }
+    },
+    "Cactus_21_B": {
+      "BehaviourConfig": {
+        "Durations": {
+          "PreAttack": 0.399993896484375,
+          "None": 0
+        },
+        "Scenario": {
+          "PreAttack": "None",
+          "None": "None"
+        }
+      },
+      "CactusId": "Cactus_21_B",
+      "Damage": 1,
+      "ImpactDistance": 2,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TargetSearchDistance": 2,
+      "ViewToken": {
+        "Value": "cactus"
+      }
+    },
+    "Cactus_22_A": {
+      "BehaviourConfig": {
+        "Durations": {
+          "PreAttack": 0.399993896484375,
+          "None": 0
+        },
+        "Scenario": {
+          "PreAttack": "None",
+          "None": "None"
+        }
+      },
+      "CactusId": "Cactus_22_A",
+      "Damage": 1,
+      "ImpactDistance": 2,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TargetSearchDistance": 2,
+      "ViewToken": {
+        "Value": "cactus"
+      }
+    },
+    "Cactus_22_B": {
+      "BehaviourConfig": {
+        "Durations": {
+          "PreAttack": 0.399993896484375,
+          "None": 0
+        },
+        "Scenario": {
+          "PreAttack": "None",
+          "None": "None"
+        }
+      },
+      "CactusId": "Cactus_22_B",
+      "Damage": 1,
+      "ImpactDistance": 2,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TargetSearchDistance": 2,
+      "ViewToken": {
+        "Value": "cactus"
+      }
+    },
+    "Cactus_23_A": {
+      "BehaviourConfig": {
+        "Durations": {
+          "PreAttack": 0.399993896484375,
+          "None": 0
+        },
+        "Scenario": {
+          "PreAttack": "None",
+          "None": "None"
+        }
+      },
+      "CactusId": "Cactus_23_A",
+      "Damage": 1,
+      "ImpactDistance": 2,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TargetSearchDistance": 2,
+      "ViewToken": {
+        "Value": "cactus"
+      }
+    },
+    "Cactus_24_A": {
+      "BehaviourConfig": {
+        "Durations": {
+          "PreAttack": 0.399993896484375,
+          "None": 0
+        },
+        "Scenario": {
+          "PreAttack": "None",
+          "None": "None"
+        }
+      },
+      "CactusId": "Cactus_24_A",
+      "Damage": 1,
+      "ImpactDistance": 2,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TargetSearchDistance": 2,
+      "ViewToken": {
+        "Value": "cactus"
+      }
+    },
+    "Cactus_24_B": {
+      "BehaviourConfig": {
+        "Durations": {
+          "PreAttack": 0.399993896484375,
+          "None": 0
+        },
+        "Scenario": {
+          "PreAttack": "None",
+          "None": "None"
+        }
+      },
+      "CactusId": "Cactus_24_B",
+      "Damage": 1,
+      "ImpactDistance": 2,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TargetSearchDistance": 2,
+      "ViewToken": {
+        "Value": "cactus"
+      }
+    },
+    "Cactus_25_A": {
+      "BehaviourConfig": {
+        "Durations": {
+          "PreAttack": 0.399993896484375,
+          "None": 0
+        },
+        "Scenario": {
+          "PreAttack": "None",
+          "None": "None"
+        }
+      },
+      "CactusId": "Cactus_25_A",
+      "Damage": 1,
+      "ImpactDistance": 2,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TargetSearchDistance": 2,
+      "ViewToken": {
+        "Value": "cactus"
+      }
+    },
+    "Cactus_27_A": {
+      "BehaviourConfig": {
+        "Durations": {
+          "PreAttack": 0.399993896484375,
+          "None": 0
+        },
+        "Scenario": {
+          "PreAttack": "None",
+          "None": "None"
+        }
+      },
+      "CactusId": "Cactus_27_A",
+      "Damage": 1,
+      "ImpactDistance": 2,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TargetSearchDistance": 2,
+      "ViewToken": {
+        "Value": "cactus"
+      }
+    },
+    "Cactus_27_B": {
+      "BehaviourConfig": {
+        "Durations": {
+          "PreAttack": 0.399993896484375,
+          "None": 0
+        },
+        "Scenario": {
+          "PreAttack": "None",
+          "None": "None"
+        }
+      },
+      "CactusId": "Cactus_27_B",
+      "Damage": 1,
+      "ImpactDistance": 2,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TargetSearchDistance": 2,
+      "ViewToken": {
+        "Value": "cactus"
+      }
+    },
+    "Cactus_28_A": {
+      "BehaviourConfig": {
+        "Durations": {
+          "PreAttack": 0.399993896484375,
+          "None": 0
+        },
+        "Scenario": {
+          "PreAttack": "None",
+          "None": "None"
+        }
+      },
+      "CactusId": "Cactus_28_A",
+      "Damage": 1,
+      "ImpactDistance": 2,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TargetSearchDistance": 2,
+      "ViewToken": {
+        "Value": "cactus"
+      }
+    },
+    "Cactus_28_B": {
+      "BehaviourConfig": {
+        "Durations": {
+          "PreAttack": 0.399993896484375,
+          "None": 0
+        },
+        "Scenario": {
+          "PreAttack": "None",
+          "None": "None"
+        }
+      },
+      "CactusId": "Cactus_28_B",
+      "Damage": 1,
+      "ImpactDistance": 2,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TargetSearchDistance": 2,
+      "ViewToken": {
+        "Value": "cactus"
+      }
+    },
+    "Cactus_29_A": {
+      "BehaviourConfig": {
+        "Durations": {
+          "PreAttack": 0.399993896484375,
+          "None": 0
+        },
+        "Scenario": {
+          "PreAttack": "None",
+          "None": "None"
+        }
+      },
+      "CactusId": "Cactus_29_A",
+      "Damage": 1,
+      "ImpactDistance": 2,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TargetSearchDistance": 2,
+      "ViewToken": {
+        "Value": "cactus"
+      }
+    },
+    "Cactus_29_B": {
+      "BehaviourConfig": {
+        "Durations": {
+          "PreAttack": 0.399993896484375,
+          "None": 0
+        },
+        "Scenario": {
+          "PreAttack": "None",
+          "None": "None"
+        }
+      },
+      "CactusId": "Cactus_29_B",
+      "Damage": 1,
+      "ImpactDistance": 2,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TargetSearchDistance": 2,
+      "ViewToken": {
+        "Value": "cactus"
+      }
+    },
+    "Cactus_30_B": {
+      "BehaviourConfig": {
+        "Durations": {
+          "PreAttack": 0.399993896484375,
+          "None": 0
+        },
+        "Scenario": {
+          "PreAttack": "None",
+          "None": "None"
+        }
+      },
+      "CactusId": "Cactus_30_B",
+      "Damage": 1,
+      "ImpactDistance": 2,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TargetSearchDistance": 2,
+      "ViewToken": {
+        "Value": "cactus"
+      }
+    },
+    "Cactus_31_A": {
+      "BehaviourConfig": {
+        "Durations": {
+          "PreAttack": 0.399993896484375,
+          "None": 0
+        },
+        "Scenario": {
+          "PreAttack": "None",
+          "None": "None"
+        }
+      },
+      "CactusId": "Cactus_31_A",
+      "Damage": 1,
+      "ImpactDistance": 2,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TargetSearchDistance": 2,
+      "ViewToken": {
+        "Value": "cactus"
+      }
+    },
+    "Cactus_31_B": {
+      "BehaviourConfig": {
+        "Durations": {
+          "PreAttack": 0.399993896484375,
+          "None": 0
+        },
+        "Scenario": {
+          "PreAttack": "None",
+          "None": "None"
+        }
+      },
+      "CactusId": "Cactus_31_B",
+      "Damage": 1,
+      "ImpactDistance": 2,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TargetSearchDistance": 2,
+      "ViewToken": {
+        "Value": "cactus"
+      }
+    },
+    "Cactus_32_B": {
+      "BehaviourConfig": {
+        "Durations": {
+          "PreAttack": 0.399993896484375,
+          "None": 0
+        },
+        "Scenario": {
+          "PreAttack": "None",
+          "None": "None"
+        }
+      },
+      "CactusId": "Cactus_32_B",
+      "Damage": 1,
+      "ImpactDistance": 2,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TargetSearchDistance": 2,
+      "ViewToken": {
+        "Value": "cactus"
+      }
+    },
+    "Cactus_33_A": {
+      "BehaviourConfig": {
+        "Durations": {
+          "PreAttack": 0.399993896484375,
+          "None": 0
+        },
+        "Scenario": {
+          "PreAttack": "None",
+          "None": "None"
+        }
+      },
+      "CactusId": "Cactus_33_A",
+      "Damage": 1,
+      "ImpactDistance": 2,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TargetSearchDistance": 2,
+      "ViewToken": {
+        "Value": "cactus"
+      }
+    },
+    "Cactus_33_B": {
+      "BehaviourConfig": {
+        "Durations": {
+          "PreAttack": 0.399993896484375,
+          "None": 0
+        },
+        "Scenario": {
+          "PreAttack": "None",
+          "None": "None"
+        }
+      },
+      "CactusId": "Cactus_33_B",
+      "Damage": 1,
+      "ImpactDistance": 2,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TargetSearchDistance": 2,
+      "ViewToken": {
+        "Value": "cactus"
+      }
+    },
+    "Cactus_34_A": {
+      "BehaviourConfig": {
+        "Durations": {
+          "PreAttack": 0.399993896484375,
+          "None": 0
+        },
+        "Scenario": {
+          "PreAttack": "None",
+          "None": "None"
+        }
+      },
+      "CactusId": "Cactus_34_A",
+      "Damage": 1,
+      "ImpactDistance": 2,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TargetSearchDistance": 2,
+      "ViewToken": {
+        "Value": "cactus"
+      }
+    },
+    "Cactus_34_B": {
+      "BehaviourConfig": {
+        "Durations": {
+          "PreAttack": 0.399993896484375,
+          "None": 0
+        },
+        "Scenario": {
+          "PreAttack": "None",
+          "None": "None"
+        }
+      },
+      "CactusId": "Cactus_34_B",
+      "Damage": 1,
+      "ImpactDistance": 2,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TargetSearchDistance": 2,
+      "ViewToken": {
+        "Value": "cactus"
+      }
+    },
+    "Cactus_35_A": {
+      "BehaviourConfig": {
+        "Durations": {
+          "PreAttack": 0.399993896484375,
+          "None": 0
+        },
+        "Scenario": {
+          "PreAttack": "None",
+          "None": "None"
+        }
+      },
+      "CactusId": "Cactus_35_A",
+      "Damage": 1,
+      "ImpactDistance": 2,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TargetSearchDistance": 2,
+      "ViewToken": {
+        "Value": "cactus"
+      }
+    },
+    "Cactus_35_B": {
+      "BehaviourConfig": {
+        "Durations": {
+          "PreAttack": 0.399993896484375,
+          "None": 0
+        },
+        "Scenario": {
+          "PreAttack": "None",
+          "None": "None"
+        }
+      },
+      "CactusId": "Cactus_35_B",
+      "Damage": 1,
+      "ImpactDistance": 2,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TargetSearchDistance": 2,
+      "ViewToken": {
+        "Value": "cactus"
+      }
+    },
+    "Cactus_36_B": {
+      "BehaviourConfig": {
+        "Durations": {
+          "PreAttack": 0.399993896484375,
+          "None": 0
+        },
+        "Scenario": {
+          "PreAttack": "None",
+          "None": "None"
+        }
+      },
+      "CactusId": "Cactus_36_B",
+      "Damage": 1,
+      "ImpactDistance": 2,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TargetSearchDistance": 2,
+      "ViewToken": {
+        "Value": "cactus"
+      }
+    },
+    "Cactus_37_A": {
+      "BehaviourConfig": {
+        "Durations": {
+          "PreAttack": 0.399993896484375,
+          "None": 0
+        },
+        "Scenario": {
+          "PreAttack": "None",
+          "None": "None"
+        }
+      },
+      "CactusId": "Cactus_37_A",
+      "Damage": 1,
+      "ImpactDistance": 2,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TargetSearchDistance": 2,
+      "ViewToken": {
+        "Value": "cactus"
+      }
+    },
+    "Cactus_38_A": {
+      "BehaviourConfig": {
+        "Durations": {
+          "PreAttack": 0.399993896484375,
+          "None": 0
+        },
+        "Scenario": {
+          "PreAttack": "None",
+          "None": "None"
+        }
+      },
+      "CactusId": "Cactus_38_A",
+      "Damage": 1,
+      "ImpactDistance": 2,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TargetSearchDistance": 2,
+      "ViewToken": {
+        "Value": "cactus"
+      }
+    },
+    "Cactus_39_A": {
+      "BehaviourConfig": {
+        "Durations": {
+          "PreAttack": 0.399993896484375,
+          "None": 0
+        },
+        "Scenario": {
+          "PreAttack": "None",
+          "None": "None"
+        }
+      },
+      "CactusId": "Cactus_39_A",
+      "Damage": 1,
+      "ImpactDistance": 2,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TargetSearchDistance": 2,
+      "ViewToken": {
+        "Value": "cactus"
+      }
+    }
+  },
+  "CameraConfig": {
+    "MaxDistance": 40,
+    "MaxFov": 30,
+    "MaxXAngle": 55,
+    "MinDistance": 40,
+    "MinFov": 30,
+    "MinXAngle": 55,
+    "SmoothMoveTime": 0.149993896484375
+  },
+  "ComponentDefaults": [
+    {
+      "CopyFrom": {
+        "MaxHealth": true
+      },
+      "CopyTo": {
+        "Health": true
+      },
+      "Default": {
+        "AutoHeal": {
+          "HealDelay": 10,
+          "HealLoadPercent": 1,
+          "HealPerSecond": 20
+        }
+      }
+    }
+  ],
+  "ComponentDependencies": [
+    {
+      "Add": {
+        "Collide": true,
+        "Direction": true,
+        "Fixation": true,
+        "Position": true,
+        "Rotation": true,
+        "TargetSearchDistance": true,
+        "TeamId": true
+      },
+      "Has": {
+        "Squad": true
+      }
+    },
+    {
+      "Add": {
+        "Collide": true,
+        "Position": true,
+        "Rotation": true,
+        "TeamId": true
+      },
+      "Has": {
+        "UnitId": true
+      }
+    },
+    {
+      "Add": {
+        "Position": true,
+        "Rotation": true,
+        "TeamId": true
+      },
+      "Has": {
+        "CactusId": true
+      }
+    },
+    {
+      "Add": {
+        "Position": true,
+        "Rotation": true,
+        "TeamId": true
+      },
+      "Has": {
+        "TreeId": true
+      }
+    },
+    {
+      "Add": {
+        "Position": true,
+        "Rotation": true,
+        "TeamId": true
+      },
+      "Has": {
+        "RockId": true
+      }
+    },
+    {
+      "Add": {
+        "GoodsAmount": true,
+        "Position": true,
+        "Rotation": true
+      },
+      "Has": {
+        "GoodsId": true
+      }
+    },
+    {
+      "Add": {
+        "AutoHeal": true,
+        "Health": true
+      },
+      "Has": {
+        "MaxHealth": true
+      }
+    },
+    {
+      "Add": {
+        "BehaviourState": true
+      },
+      "Has": {
+        "BehaviourConfig": true
+      }
+    }
+  ],
+  "FramedComponentDependencies": [
+    {
+      "Add": {
+        "DesiredPosition": true,
+        "DesiredRotation": true,
+        "Target": true
+      },
+      "Has": {
+        "UnitId": true
+      }
+    },
+    {
+      "Add": {
+        "Targets": true
+      },
+      "Has": {
+        "CactusId": true
+      }
+    },
+    {
+      "Add": {
+        "RecivedDamage": true
+      },
+      "Has": {
+        "MaxHealth": true
+      }
+    },
+    {
+      "Add": {
+        "CachePosition": true
+      },
+      "Has": {
+        "Position": true
+      }
+    },
+    {
+      "Add": {
+        "TargetSearchPosition": true
+      },
+      "Has": {
+        "Position": true,
+        "TargetSearchDistance": true
+      }
+    },
+    {
+      "Add": {
+        "SquadMemberCount": true
+      },
+      "Has": {
+        "Squad": true
+      }
+    }
+  ],
+  "GoodsStats": {
+    "Gold": {
+      "GoodsId": "Gold",
+      "MaxSpeed": 5,
+      "ViewToken": {
+        "Value": "goods"
+      }
+    },
+    "Wood": {
+      "GoodsId": "Wood",
+      "MaxSpeed": 5,
+      "ViewToken": {
+        "Value": "goods"
+      }
+    },
+    "Spice": {
+      "GoodsId": "Spice",
+      "MaxSpeed": 5,
+      "ViewToken": {
+        "Value": "goods"
+      }
+    },
+    "Sugar": {
+      "GoodsId": "Sugar",
+      "MaxSpeed": 5,
+      "ViewToken": {
+        "Value": "goods"
+      }
+    },
+    "Tea": {
+      "GoodsId": "Tea",
+      "MaxSpeed": 5,
+      "ViewToken": {
+        "Value": "goods"
+      }
+    },
+    "Coffee": {
+      "GoodsId": "Coffee",
+      "MaxSpeed": 5,
+      "ViewToken": {
+        "Value": "goods"
+      }
+    },
+    "Sail": {
+      "GoodsId": "Sail",
+      "MaxSpeed": 5,
+      "ViewToken": {
+        "Value": "goods"
+      }
+    },
+    "Rope": {
+      "GoodsId": "Rope",
+      "MaxSpeed": 5,
+      "ViewToken": {
+        "Value": "goods"
+      }
+    },
+    "Rum": {
+      "GoodsId": "Rum",
+      "MaxSpeed": 5,
+      "ViewToken": {
+        "Value": "goods"
+      }
+    }
+  },
+  "RocksStats": {
+    "HardRock_01": {
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 1
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "RockId": "HardRock_01",
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "ViewToken": {
+        "Value": "rock"
+      }
+    },
+    "HardRock_02": {
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 1
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "RockId": "HardRock_02",
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "ViewToken": {
+        "Value": "rock"
+      }
+    },
+    "HardRock_03": {
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 1
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "RockId": "HardRock_03",
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "ViewToken": {
+        "Value": "rock"
+      }
+    },
+    "HardRock_04": {
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 1
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "RockId": "HardRock_04",
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "ViewToken": {
+        "Value": "rock"
+      }
+    },
+    "HardRock_05": {
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 1
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "RockId": "HardRock_05",
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "ViewToken": {
+        "Value": "rock"
+      }
+    },
+    "HardRock_06": {
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 1
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "RockId": "HardRock_06",
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "ViewToken": {
+        "Value": "rock"
+      }
+    },
+    "HardRock_07": {
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 1
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "RockId": "HardRock_07",
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "ViewToken": {
+        "Value": "rock"
+      }
+    },
+    "HardRock_08": {
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 1
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "RockId": "HardRock_08",
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "ViewToken": {
+        "Value": "rock"
+      }
+    },
+    "HardRock_09": {
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 1
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "RockId": "HardRock_09",
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "ViewToken": {
+        "Value": "rock"
+      }
+    },
+    "HardRock_10": {
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 1
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "RockId": "HardRock_10",
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "ViewToken": {
+        "Value": "rock"
+      }
+    },
+    "HardRock_11": {
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 1
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "RockId": "HardRock_11",
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "ViewToken": {
+        "Value": "rock"
+      }
+    },
+    "HardRock_12": {
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 1
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "RockId": "HardRock_12",
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "ViewToken": {
+        "Value": "rock"
+      }
+    },
+    "HardRock_13": {
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 1
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "RockId": "HardRock_13",
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "ViewToken": {
+        "Value": "rock"
+      }
+    },
+    "HardRock_14": {
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 1
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "RockId": "HardRock_14",
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "ViewToken": {
+        "Value": "rock"
+      }
+    },
+    "HardRock_15": {
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 1
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "RockId": "HardRock_15",
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "ViewToken": {
+        "Value": "rock"
+      }
+    },
+    "HardRock_16": {
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 1
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "RockId": "HardRock_16",
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "ViewToken": {
+        "Value": "rock"
+      }
+    },
+    "HardRock_17": {
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 1
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "RockId": "HardRock_17",
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "ViewToken": {
+        "Value": "rock"
+      }
+    },
+    "HardRock_18": {
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 1
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "RockId": "HardRock_18",
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "ViewToken": {
+        "Value": "rock"
+      }
+    },
+    "HardRock_19": {
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 1
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "RockId": "HardRock_19",
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "ViewToken": {
+        "Value": "rock"
+      }
+    },
+    "HardRock_20": {
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 1
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "RockId": "HardRock_20",
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "ViewToken": {
+        "Value": "rock"
+      }
+    },
+    "HardRock_21": {
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 1
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "RockId": "HardRock_21",
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "ViewToken": {
+        "Value": "rock"
+      }
+    },
+    "HardRock_22": {
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 1
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "RockId": "HardRock_22",
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "ViewToken": {
+        "Value": "rock"
+      }
+    },
+    "HardRock_23": {
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 1
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "RockId": "HardRock_23",
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "ViewToken": {
+        "Value": "rock"
+      }
+    },
+    "HardRock_24": {
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 1
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "RockId": "HardRock_24",
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "ViewToken": {
+        "Value": "rock"
+      }
+    },
+    "HardRock_25": {
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 1
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "RockId": "HardRock_25",
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "ViewToken": {
+        "Value": "rock"
+      }
+    },
+    "HardRock_26": {
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 1
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "RockId": "HardRock_26",
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "ViewToken": {
+        "Value": "rock"
+      }
+    },
+    "HardRock_27": {
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 1
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "RockId": "HardRock_27",
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "ViewToken": {
+        "Value": "rock"
+      }
+    },
+    "HardRock_28": {
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 1
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "RockId": "HardRock_28",
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "ViewToken": {
+        "Value": "rock"
+      }
+    },
+    "HardRock_29": {
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 1
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "RockId": "HardRock_29",
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "ViewToken": {
+        "Value": "rock"
+      }
+    },
+    "HardRock_30": {
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 1
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "RockId": "HardRock_30",
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "ViewToken": {
+        "Value": "rock"
+      }
+    },
+    "HardRock_31": {
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 1
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "RockId": "HardRock_31",
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "ViewToken": {
+        "Value": "rock"
+      }
+    },
+    "HardRock_32": {
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 1
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "RockId": "HardRock_32",
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "ViewToken": {
+        "Value": "rock"
+      }
+    },
+    "HardRock_33": {
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 1
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "RockId": "HardRock_33",
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "ViewToken": {
+        "Value": "rock"
+      }
+    },
+    "HardRock_34": {
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 1
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "RockId": "HardRock_34",
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "ViewToken": {
+        "Value": "rock"
+      }
+    },
+    "HardRock_35": {
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 1
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "RockId": "HardRock_35",
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "ViewToken": {
+        "Value": "rock"
+      }
+    },
+    "HardRock_36": {
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 1
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "RockId": "HardRock_36",
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "ViewToken": {
+        "Value": "rock"
+      }
+    },
+    "HardRock_37": {
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 1
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "RockId": "HardRock_37",
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "ViewToken": {
+        "Value": "rock"
+      }
+    },
+    "HardRock_38": {
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 1
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "RockId": "HardRock_38",
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "ViewToken": {
+        "Value": "rock"
+      }
+    },
+    "HardRock_39": {
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 1
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "RockId": "HardRock_39",
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "ViewToken": {
+        "Value": "rock"
+      }
+    },
+    "HardRock_40": {
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 1
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "RockId": "HardRock_40",
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "ViewToken": {
+        "Value": "rock"
+      }
+    },
+    "HardRock_41": {
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 1
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "RockId": "HardRock_41",
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "ViewToken": {
+        "Value": "rock"
+      }
+    },
+    "HardRock_42": {
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 1
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "RockId": "HardRock_42",
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "ViewToken": {
+        "Value": "rock"
+      }
+    },
+    "HardRock_43": {
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 1
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "RockId": "HardRock_43",
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "ViewToken": {
+        "Value": "rock"
+      }
+    },
+    "HardRock_44": {
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 1
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "RockId": "HardRock_44",
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "ViewToken": {
+        "Value": "rock"
+      }
+    },
+    "HardRock_45": {
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 1
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "RockId": "HardRock_45",
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "ViewToken": {
+        "Value": "rock"
+      }
+    },
+    "HardRock_46": {
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 1
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "RockId": "HardRock_46",
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "ViewToken": {
+        "Value": "rock"
+      }
+    },
+    "HardRock_47": {
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 1
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "RockId": "HardRock_47",
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "ViewToken": {
+        "Value": "rock"
+      }
+    },
+    "HardRock_48": {
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 1
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "RockId": "HardRock_48",
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "ViewToken": {
+        "Value": "rock"
+      }
+    },
+    "HardRock_49": {
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 1
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "RockId": "HardRock_49",
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "ViewToken": {
+        "Value": "rock"
+      }
+    },
+    "HardRock_50": {
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 1
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "RockId": "HardRock_50",
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "ViewToken": {
+        "Value": "rock"
+      }
+    },
+    "HardRock_51": {
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 1
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "RockId": "HardRock_51",
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "ViewToken": {
+        "Value": "rock"
+      }
+    },
+    "HardRock_52": {
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 1
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "RockId": "HardRock_52",
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "ViewToken": {
+        "Value": "rock"
+      }
+    },
+    "HardRock_53": {
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 1
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "RockId": "HardRock_53",
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "ViewToken": {
+        "Value": "rock"
+      }
+    },
+    "HardRock_54": {
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 1
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "RockId": "HardRock_54",
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "ViewToken": {
+        "Value": "rock"
+      }
+    },
+    "HardRock_55": {
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 1
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "RockId": "HardRock_55",
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "ViewToken": {
+        "Value": "rock"
+      }
+    },
+    "HardRock_56": {
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 1
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "RockId": "HardRock_56",
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "ViewToken": {
+        "Value": "rock"
+      }
+    },
+    "HardRock_57": {
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 1
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "RockId": "HardRock_57",
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "ViewToken": {
+        "Value": "rock"
+      }
+    },
+    "HardRock_58": {
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 1
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "RockId": "HardRock_58",
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "ViewToken": {
+        "Value": "rock"
+      }
+    },
+    "HardRock_59": {
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 1
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "RockId": "HardRock_59",
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "ViewToken": {
+        "Value": "rock"
+      }
+    },
+    "HardRock_60": {
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 1
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "RockId": "HardRock_60",
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "ViewToken": {
+        "Value": "rock"
+      }
+    },
+    "SoftRock_32": {
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 1
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "RockId": "SoftRock_32",
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "ViewToken": {
+        "Value": "rock"
+      }
+    },
+    "SoftRock_01": {
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 1
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "RockId": "SoftRock_01",
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "ViewToken": {
+        "Value": "rock"
+      }
+    },
+    "SoftRock_02": {
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 1
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "RockId": "SoftRock_02",
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "ViewToken": {
+        "Value": "rock"
+      }
+    },
+    "SoftRock_03": {
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 1
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "RockId": "SoftRock_03",
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "ViewToken": {
+        "Value": "rock"
+      }
+    },
+    "SoftRock_04": {
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 1
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "RockId": "SoftRock_04",
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "ViewToken": {
+        "Value": "rock"
+      }
+    },
+    "SoftRock_05": {
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 1
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "RockId": "SoftRock_05",
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "ViewToken": {
+        "Value": "rock"
+      }
+    },
+    "SoftRock_06": {
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 1
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "RockId": "SoftRock_06",
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "ViewToken": {
+        "Value": "rock"
+      }
+    },
+    "SoftRock_07": {
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 1
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "RockId": "SoftRock_07",
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "ViewToken": {
+        "Value": "rock"
+      }
+    },
+    "SoftRock_08": {
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 1
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "RockId": "SoftRock_08",
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "ViewToken": {
+        "Value": "rock"
+      }
+    },
+    "SoftRock_09": {
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 1
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "RockId": "SoftRock_09",
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "ViewToken": {
+        "Value": "rock"
+      }
+    },
+    "SoftRock_10": {
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 1
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "RockId": "SoftRock_10",
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "ViewToken": {
+        "Value": "rock"
+      }
+    },
+    "SoftRock_11": {
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 1
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "RockId": "SoftRock_11",
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "ViewToken": {
+        "Value": "rock"
+      }
+    },
+    "SoftRock_12": {
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 1
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "RockId": "SoftRock_12",
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "ViewToken": {
+        "Value": "rock"
+      }
+    },
+    "SoftRock_13": {
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 1
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "RockId": "SoftRock_13",
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "ViewToken": {
+        "Value": "rock"
+      }
+    },
+    "SoftRock_14": {
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 1
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "RockId": "SoftRock_14",
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "ViewToken": {
+        "Value": "rock"
+      }
+    },
+    "SoftRock_15": {
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 1
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "RockId": "SoftRock_15",
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "ViewToken": {
+        "Value": "rock"
+      }
+    },
+    "SoftRock_16": {
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 1
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "RockId": "SoftRock_16",
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "ViewToken": {
+        "Value": "rock"
+      }
+    },
+    "SoftRock_17": {
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 1
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "RockId": "SoftRock_17",
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "ViewToken": {
+        "Value": "rock"
+      }
+    },
+    "SoftRock_18": {
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 1
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "RockId": "SoftRock_18",
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "ViewToken": {
+        "Value": "rock"
+      }
+    },
+    "SoftRock_19": {
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 1
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "RockId": "SoftRock_19",
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "ViewToken": {
+        "Value": "rock"
+      }
+    },
+    "SoftRock_20": {
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 1
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "RockId": "SoftRock_20",
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "ViewToken": {
+        "Value": "rock"
+      }
+    },
+    "SoftRock_21": {
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 1
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "RockId": "SoftRock_21",
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "ViewToken": {
+        "Value": "rock"
+      }
+    },
+    "SoftRock_22": {
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 1
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "RockId": "SoftRock_22",
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "ViewToken": {
+        "Value": "rock"
+      }
+    },
+    "SoftRock_23": {
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 1
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "RockId": "SoftRock_23",
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "ViewToken": {
+        "Value": "rock"
+      }
+    },
+    "SoftRock_24": {
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 1
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "RockId": "SoftRock_24",
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "ViewToken": {
+        "Value": "rock"
+      }
+    },
+    "SoftRock_25": {
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 1
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "RockId": "SoftRock_25",
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "ViewToken": {
+        "Value": "rock"
+      }
+    },
+    "SoftRock_26": {
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 1
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "RockId": "SoftRock_26",
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "ViewToken": {
+        "Value": "rock"
+      }
+    },
+    "SoftRock_27": {
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 1
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "RockId": "SoftRock_27",
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "ViewToken": {
+        "Value": "rock"
+      }
+    },
+    "SoftRock_28": {
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 1
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "RockId": "SoftRock_28",
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "ViewToken": {
+        "Value": "rock"
+      }
+    },
+    "SoftRock_29": {
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 1
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "RockId": "SoftRock_29",
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "ViewToken": {
+        "Value": "rock"
+      }
+    },
+    "SoftRock_30": {
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 1
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "RockId": "SoftRock_30",
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "ViewToken": {
+        "Value": "rock"
+      }
+    },
+    "SoftRock_31": {
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 1
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "RockId": "SoftRock_31",
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "ViewToken": {
+        "Value": "rock"
+      }
+    }
+  },
+  "SquadStats": [
+    {
+      "ActivityRange": 15,
+      "GoodsDrop": {
+        "Values": {
+          "Rum": 3
+        }
+      },
+      "MaxSpeed": 7,
+      "Radius": 0.399993896484375,
+      "ViewToken": {
+        "Value": "squad"
+      }
+    }
+  ],
+  "TreesStats": {
+    "Tree_01_Fall": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_01_Fall",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_01_Spring": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_01_Spring",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_01_Winter": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_01_Winter",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_02_Fall": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_02_Fall",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_02_Spring": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_02_Spring",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_02_Winter": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_02_Winter",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_03_Fall": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_03_Fall",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_03_Spring": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_03_Spring",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_03_Winter": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_03_Winter",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_04_Fall": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_04_Fall",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_04_Spring": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_04_Spring",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_04_Winter": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_04_Winter",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_05_Fall": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_05_Fall",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_05_Spring": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_05_Spring",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_05_Winter": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_05_Winter",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_06_Fall": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_06_Fall",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_06_Spring": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_06_Spring",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_06_Winter": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_06_Winter",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_07_Fall": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_07_Fall",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_07_Spring": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_07_Spring",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_07_Winter": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_07_Winter",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_08_Fall": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_08_Fall",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_08_Spring": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_08_Spring",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_08_Winter": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_08_Winter",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_09_Fall": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_09_Fall",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_09_Spring": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_09_Spring",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_09_Winter": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_09_Winter",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_10_Fall": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_10_Fall",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_10_Spring": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_10_Spring",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_10_Winter": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_10_Winter",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_11_Fall": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_11_Fall",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_11_Spring": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_11_Spring",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_11_Winter": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_11_Winter",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_12_Fall": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_12_Fall",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_12_Spring": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_12_Spring",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_12_Winter": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_12_Winter",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_13_Fall": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_13_Fall",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_13_Spring": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_13_Spring",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_13_Winter": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_13_Winter",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_14_Fall": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_14_Fall",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_14_Spring": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_14_Spring",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_14_Winter": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_14_Winter",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_15_Fall": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_15_Fall",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_15_Spring": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_15_Spring",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_15_Winter": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_15_Winter",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_16_Fall": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_16_Fall",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_16_Spring": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_16_Spring",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_16_Winter": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_16_Winter",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_17_Fall": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_17_Fall",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_17_Spring": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_17_Spring",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_17_Winter": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_17_Winter",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_18_Fall": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_18_Fall",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_18_Spring": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_18_Spring",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_18_Winter": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_18_Winter",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_19_Fall": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_19_Fall",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_19_Spring": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_19_Spring",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_19_Winter": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_19_Winter",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_20_Fall": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_20_Fall",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_20_Spring": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_20_Spring",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_20_Winter": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_20_Winter",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_21_Fall": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_21_Fall",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_21_Spring": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_21_Spring",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_21_Winter": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_21_Winter",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_22_Fall": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_22_Fall",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_22_Spring": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_22_Spring",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_22_Winter": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_22_Winter",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_23_Fall": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_23_Fall",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_23_Spring": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_23_Spring",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_23_Winter": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_23_Winter",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_24_Fall": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_24_Fall",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_24_Spring": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_24_Spring",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_24_Winter": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_24_Winter",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_25_Fall": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_25_Fall",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_25_Spring": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_25_Spring",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_25_Winter": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_25_Winter",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_26_Fall": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_26_Fall",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_26_Spring": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_26_Spring",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_26_Winter": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_26_Winter",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_27_Fall": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_27_Fall",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_27_Spring": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_27_Spring",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_27_Winter": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_27_Winter",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_28_Fall": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_28_Fall",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_28_Spring": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_28_Spring",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_28_Winter": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_28_Winter",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_29_Fall": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_29_Fall",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_29_Spring": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_29_Spring",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_29_Winter": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_29_Winter",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_30_Fall": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_30_Fall",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_30_Spring": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_30_Spring",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_30_Winter": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_30_Winter",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_31_Fall": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_31_Fall",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_31_Spring": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_31_Spring",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_31_Winter": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_31_Winter",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_32_Fall": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_32_Fall",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_32_Spring": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_32_Spring",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_32_Winter": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_32_Winter",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_33_Fall": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_33_Fall",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_33_Spring": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_33_Spring",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_33_Winter": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_33_Winter",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_34_Fall": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_34_Fall",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_34_Spring": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_34_Spring",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_34_Winter": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_34_Winter",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_35_Fall": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_35_Fall",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_35_Spring": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_35_Spring",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_35_Winter": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_35_Winter",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_36_Fall": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_36_Fall",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_36_Spring": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_36_Spring",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_36_Winter": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_36_Winter",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_37_Fall": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_37_Fall",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_37_Spring": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_37_Spring",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "Tree_37_Winter": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "Tree_37_Winter",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "TreeTrunk_01": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "TreeTrunk_01",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "TreeTrunk_02": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "TreeTrunk_02",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "TreeTrunk_03": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "TreeTrunk_03",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "TreeTrunk_04": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "TreeTrunk_04",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "TreeTrunk_05": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "TreeTrunk_05",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "TreeTrunk_06": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "TreeTrunk_06",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "TreeTrunk_07": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "TreeTrunk_07",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "TreeTrunk_08": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "TreeTrunk_08",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "TreeTrunk_09": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "TreeTrunk_09",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "TreeTrunk_10": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "TreeTrunk_10",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "TreeTrunk_11": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "TreeTrunk_11",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "TreeTrunk_12": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "TreeTrunk_12",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "TreeTrunk_13": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "TreeTrunk_13",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "TreeTrunk_14": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "TreeTrunk_14",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "TreeTrunk_15": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "TreeTrunk_15",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "TreeTrunk_16": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "TreeTrunk_16",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "TreeTrunk_17": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "TreeTrunk_17",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "TreeTrunk_18": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "TreeTrunk_18",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "TreeTrunk_19": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "TreeTrunk_19",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "TreeTrunk_20": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "TreeTrunk_20",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "TreeTrunk_21": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "TreeTrunk_21",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "TreeTrunk_22": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "TreeTrunk_22",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "TreeTrunk_23": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "TreeTrunk_23",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "TreeTrunk_24": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "TreeTrunk_24",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "TreeTrunk_25": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "TreeTrunk_25",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "TreeTrunk_26": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "TreeTrunk_26",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "TreeTrunk_27": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "TreeTrunk_27",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "TreeTrunk_28": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "TreeTrunk_28",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "TreeTrunk_29": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "TreeTrunk_29",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "TreeTrunk_30": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "TreeTrunk_30",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "TreeTrunk_31": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "TreeTrunk_31",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "TreeTrunk_32": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "TreeTrunk_32",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "TreeTrunk_33": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "TreeTrunk_33",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "TreeTrunk_34": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "TreeTrunk_34",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "TreeTrunk_35": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "TreeTrunk_35",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "TreeTrunk_36": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "TreeTrunk_36",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "TreeTrunk_37": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "TreeTrunk_37",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "TreeTrunk_38": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "TreeTrunk_38",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "TreeTrunk_39": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "TreeTrunk_39",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "TreeTrunk_40": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "TreeTrunk_40",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "TreeTrunk_41": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "TreeTrunk_41",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "TreeTrunk_42": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "TreeTrunk_42",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "TreeTrunk_43": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "TreeTrunk_43",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "TreeTrunk_44": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "TreeTrunk_44",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "TreeTrunk_45": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "TreeTrunk_45",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "TreeTrunk_46": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "TreeTrunk_46",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "TreeTrunk_47": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "TreeTrunk_47",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "TreeTrunk_48": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "TreeTrunk_48",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "TreeTrunk_49": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "TreeTrunk_49",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "TreeTrunk_50": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "TreeTrunk_50",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "TreeTrunk_51": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "TreeTrunk_51",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "TreeTrunk_52": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "TreeTrunk_52",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "TreeTrunk_53": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "TreeTrunk_53",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "TreeTrunk_54": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "TreeTrunk_54",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "TreeTrunk_55": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "TreeTrunk_55",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    },
+    "TreeTrunk_56": {
+      "GoodsDrop": {
+        "Values": {
+          "Wood": 20
+        }
+      },
+      "MaxHealth": 30,
+      "Radius": 0.5,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.5
+      },
+      "TreeId": "TreeTrunk_56",
+      "ViewToken": {
+        "Value": "tree"
+      }
+    }
+  },
+  "UnitsInfos": {
+    "Sailor": {
+      "RumPrice": 1,
+      "UnitId": "Sailor"
+    },
+    "Rogue": {
+      "RumPrice": 1,
+      "UnitId": "Rogue"
+    },
+    "Pirate": {
+      "RumPrice": 2,
+      "UnitId": "Pirate"
+    },
+    "Skelly": {
+      "RumPrice": 2,
+      "UnitId": "Skelly"
+    },
+    "Militia": {
+      "RumPrice": 3,
+      "UnitId": "Militia"
+    },
+    "Imp": {
+      "RumPrice": 1,
+      "UnitId": "Imp"
+    },
+    "Daemon": {
+      "RumPrice": 2,
+      "UnitId": "Daemon"
+    },
+    "Buccaneer": {
+      "RumPrice": 2,
+      "UnitId": "Buccaneer"
+    },
+    "Bonny": {
+      "RumPrice": 2,
+      "UnitId": "Bonny"
+    }
+  },
+  "UnitsStats": {
+    "Sailor": {
+      "BehaviourConfig": {
+        "Durations": {
+          "PreAttack": 0.5,
+          "PostAttack": 0.3000030517578125,
+          "Reload": 0.1999969482421875,
+          "None": 0
+        },
+        "Scenario": {
+          "PreAttack": "PostAttack",
+          "PostAttack": "Reload",
+          "Reload": "None",
+          "None": "None"
+        }
+      },
+      "Damage": 3,
+      "GoodsCollectorRadius": 2,
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 5,
+          "Rum": 2
+        }
+      },
+      "ImpactDistance": 4,
+      "MaxHealth": 45,
+      "MaxSpeed": 10,
+      "Radius": 0.3000030517578125,
+      "Separation": 1,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.3000030517578125
+      },
+      "TargetSearchDistance": 5,
+      "UnitId": "Sailor",
+      "ViewToken": {
+        "Value": "unit"
+      }
+    },
+    "Rogue": {
+      "BehaviourConfig": {
+        "Durations": {
+          "PreAttack": 0.1999969482421875,
+          "PostAttack": 0.3000030517578125,
+          "Reload": 0.3000030517578125,
+          "None": 0
+        },
+        "Scenario": {
+          "PreAttack": "PostAttack",
+          "PostAttack": "Reload",
+          "Reload": "None",
+          "None": "None"
+        }
+      },
+      "Damage": 4,
+      "GoodsCollectorRadius": 2,
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 5,
+          "Rum": 2
+        }
+      },
+      "ImpactDistance": 2,
+      "MaxHealth": 20,
+      "MaxSpeed": 10,
+      "Radius": 0.3000030517578125,
+      "Separation": 1,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.3000030517578125
+      },
+      "TargetSearchDistance": 5,
+      "UnitId": "Rogue",
+      "ViewToken": {
+        "Value": "unit"
+      }
+    },
+    "Pirate": {
+      "BehaviourConfig": {
+        "Durations": {
+          "PreAttack": 0.350006103515625,
+          "PostAttack": 0.3000030517578125,
+          "Reload": 0.350006103515625,
+          "None": 0
+        },
+        "Scenario": {
+          "PreAttack": "PostAttack",
+          "PostAttack": "Reload",
+          "Reload": "None",
+          "None": "None"
+        }
+      },
+      "Damage": 10,
+      "GoodsCollectorRadius": 2,
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 5,
+          "Rum": 2
+        }
+      },
+      "ImpactDistance": 3,
+      "MaxHealth": 45,
+      "MaxSpeed": 10,
+      "Radius": 0.3000030517578125,
+      "Separation": 1,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.3000030517578125
+      },
+      "TargetSearchDistance": 5,
+      "UnitId": "Pirate",
+      "ViewToken": {
+        "Value": "unit"
+      }
+    },
+    "Skelly": {
+      "BehaviourConfig": {
+        "Durations": {
+          "PreAttack": 0.350006103515625,
+          "PostAttack": 0.3000030517578125,
+          "Reload": 0.350006103515625,
+          "None": 0
+        },
+        "Scenario": {
+          "PreAttack": "PostAttack",
+          "PostAttack": "Reload",
+          "Reload": "None",
+          "None": "None"
+        }
+      },
+      "Damage": 6,
+      "GoodsCollectorRadius": 2,
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 5,
+          "Rum": 2
+        }
+      },
+      "ImpactDistance": 3,
+      "MaxHealth": 45,
+      "MaxSpeed": 10,
+      "Radius": 0.3000030517578125,
+      "Separation": 1,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.3000030517578125
+      },
+      "TargetSearchDistance": 5,
+      "UnitId": "Skelly",
+      "ViewToken": {
+        "Value": "unit"
+      }
+    },
+    "Militia": {
+      "BehaviourConfig": {
+        "Durations": {
+          "PreAttack": 0.5,
+          "PostAttack": 0.3000030517578125,
+          "Reload": 0.5,
+          "None": 0
+        },
+        "Scenario": {
+          "PreAttack": "PostAttack",
+          "PostAttack": "Reload",
+          "Reload": "None",
+          "None": "None"
+        }
+      },
+      "Damage": 15,
+      "GoodsCollectorRadius": 2,
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 5,
+          "Rum": 2
+        }
+      },
+      "ImpactDistance": 2,
+      "MaxHealth": 100,
+      "MaxSpeed": 10,
+      "Radius": 0.3000030517578125,
+      "Separation": 1,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.3000030517578125
+      },
+      "TargetSearchDistance": 5,
+      "UnitId": "Militia",
+      "ViewToken": {
+        "Value": "unit"
+      }
+    },
+    "Imp": {
+      "BehaviourConfig": {
+        "Durations": {
+          "PreAttack": 0.1999969482421875,
+          "PostAttack": 0.1999969482421875,
+          "Reload": 0.100006103515625,
+          "None": 0
+        },
+        "Scenario": {
+          "PreAttack": "PostAttack",
+          "PostAttack": "Reload",
+          "Reload": "None",
+          "None": "None"
+        }
+      },
+      "Damage": 1,
+      "GoodsCollectorRadius": 2,
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 5,
+          "Rum": 2
+        }
+      },
+      "ImpactDistance": 2,
+      "MaxHealth": 50,
+      "MaxSpeed": 10,
+      "Radius": 0.3000030517578125,
+      "Separation": 1,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.3000030517578125
+      },
+      "TargetSearchDistance": 5,
+      "UnitId": "Imp",
+      "ViewToken": {
+        "Value": "unit"
+      }
+    },
+    "Daemon": {
+      "BehaviourConfig": {
+        "Durations": {
+          "PreAttack": 0.6999969482421875,
+          "PostAttack": 0.3000030517578125,
+          "Reload": 0.3000030517578125,
+          "None": 0
+        },
+        "Scenario": {
+          "PreAttack": "PostAttack",
+          "PostAttack": "Reload",
+          "Reload": "None",
+          "None": "None"
+        }
+      },
+      "Damage": 10,
+      "GoodsCollectorRadius": 2,
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 5,
+          "Rum": 2
+        }
+      },
+      "ImpactDistance": 4,
+      "MaxHealth": 65,
+      "MaxSpeed": 10,
+      "Radius": 0.3000030517578125,
+      "Separation": 1,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.3000030517578125
+      },
+      "TargetSearchDistance": 5,
+      "UnitId": "Daemon",
+      "ViewToken": {
+        "Value": "unit"
+      }
+    },
+    "Buccaneer": {
+      "Ranged": {
+        "ProjectileSpeed": 22,
+        "ProjectileViewToken": "projectile"
+      },
+      "BehaviourConfig": {
+        "Durations": {
+          "PreAttack": 0.3000030517578125,
+          "PostAttack": 0.3000030517578125,
+          "Reload": 0.5,
+          "None": 0
+        },
+        "Scenario": {
+          "PreAttack": "PostAttack",
+          "PostAttack": "Reload",
+          "Reload": "None",
+          "None": "None"
+        }
+      },
+      "Damage": 15,
+      "GoodsCollectorRadius": 2,
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 5,
+          "Rum": 2
+        }
+      },
+      "ImpactDistance": 5,
+      "MaxHealth": 10,
+      "MaxSpeed": 10,
+      "Radius": 0.3000030517578125,
+      "Separation": 1,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.3000030517578125
+      },
+      "TargetSearchDistance": 5,
+      "UnitId": "Buccaneer",
+      "ViewToken": {
+        "Value": "unit"
+      }
+    },
+    "Bonny": {
+      "BehaviourConfig": {
+        "Durations": {
+          "PreAttack": 0.5,
+          "PostAttack": 0.3000030517578125,
+          "Reload": 0.3000030517578125,
+          "None": 0
+        },
+        "Scenario": {
+          "PreAttack": "PostAttack",
+          "PostAttack": "Reload",
+          "Reload": "None",
+          "None": "None"
+        }
+      },
+      "Damage": 7,
+      "GoodsCollectorRadius": 2,
+      "GoodsDrop": {
+        "Values": {
+          "Gold": 5,
+          "Rum": 2
+        }
+      },
+      "ImpactDistance": 7,
+      "MaxHealth": 10,
+      "MaxSpeed": 10,
+      "Radius": 0.3000030517578125,
+      "Separation": 1,
+      "Separator": {
+        "Coefficient": 1,
+        "Radius": 0.3000030517578125
+      },
+      "TargetSearchDistance": 5,
+      "UnitId": "Bonny",
+      "ViewToken": {
+        "Value": "unit"
+      }
+    }
+  }
+}

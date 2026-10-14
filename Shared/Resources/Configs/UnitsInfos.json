@@ -1,0 +1,38 @@
+[
+  {
+    "UnitId": "Sailor",
+    "RumPrice": 1
+  },
+  {
+    "UnitId": "Rogue",
+    "RumPrice": 1
+  },
+  {
+    "UnitId": "Pirate",
+    "RumPrice": 2
+  },
+  {
+    "UnitId": "Skelly",
+    "RumPrice": 2
+  },
+  {
+    "UnitId": "Militia",
+    "RumPrice": 3
+  },
+  {
+    "UnitId": "Imp",
+    "RumPrice": 1
+  },
+  {
+    "UnitId": "Daemon",
+    "RumPrice": 2
+  },
+  {
+    "UnitId": "Buccaneer",
+    "RumPrice": 2
+  },
+  {
+    "UnitId": "Bonny",
+    "RumPrice": 2
+  }
+]

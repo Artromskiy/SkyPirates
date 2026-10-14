@@ -1,0 +1,20 @@
+[
+  {
+    "MinXAngle": 55,
+    "MaxXAngle": 55,
+    "MinFov": 30,
+    "MaxFov": 30,
+    "MinDistance": 40,
+    "MaxDistance": 40,
+    "SmoothMoveTime": 0.15
+  },
+  {
+    "MinXAngle": 50,
+    "MaxXAngle": 60,
+    "MinFov": 20,
+    "MaxFov": 10,
+    "MinDistance": 30,
+    "MaxDistance": 150,
+    "SmoothMoveTime": 0.25
+  }
+]
