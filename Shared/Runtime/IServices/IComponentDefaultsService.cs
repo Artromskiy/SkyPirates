@@ -1,7 +1,9 @@
+using Delta.ECS;
+
 namespace SkyPirates.Shared.IServices
 {
     public interface IComponentDefaultsService
     {
-        void ProcessChanges();
+        void Apply(Entity entity);
     }
 }

@@ -55,7 +55,12 @@ namespace SkyPirates.Shared.Systems.Special
             _collectEntitiesOperation.Invoke(ref collectState);
             for (int i = 0; i < _entitiesToRetire.Count; i++)
             {
-                _history.RetireEntityFromSnapshot(_entitiesToRetire[i]);
+                Entity entity = _entitiesToRetire[i];
+                _history.RetireEntityFromSnapshot(entity);
+                if (_world.Has<Alive>(entity))
+                {
+                    _world.Remove<Alive>(entity);
+                }
             }
 
             foreach (var syncId in snapshot.Get<SyncId>().Values)
@@ -82,7 +87,10 @@ namespace SkyPirates.Shared.Systems.Special
             }
 
             _history.ApplySnapshot(snapshot, entitiesBySyncId);
-            _componentDependencies.ProcessChanges();
+            foreach (Entity entity in entitiesBySyncId.Values)
+            {
+                _componentDependencies.Apply(entity);
+            }
         }
 
         private static void CollectEntity(ref CollectState state, EntityRef entity)

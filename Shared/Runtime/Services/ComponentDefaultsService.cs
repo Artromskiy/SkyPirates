@@ -1,7 +1,6 @@
 using Delta.ECS;
 using SkyPirates.Shared.Data;
 using SkyPirates.Shared.IServices;
-using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
 namespace SkyPirates.Shared.Services
@@ -10,41 +9,14 @@ namespace SkyPirates.Shared.Services
     {
         private readonly World _world;
         private readonly ComponentDefaultsConfig _componentDefaultsConfig;
-        private readonly IComponentChangeOperation[] _changeOperations;
-        private readonly HashSet<Entity> _processedEntities = new();
-        private readonly List<Entity> _entitiesToProcess = new();
 
         public ComponentDefaultsService(World world, ComponentDefaultsConfig componentDefaultsConfig)
         {
             _world = world;
             _componentDefaultsConfig = componentDefaultsConfig;
-            _changeOperations = CreateChangeOperations(world, componentDefaultsConfig);
         }
 
-        public void ProcessChanges()
-        {
-            _processedEntities.Clear();
-            _entitiesToProcess.Clear();
-            for (int i = 0; i < _changeOperations.Length; i++)
-            {
-                _changeOperations[i].Invoke();
-            }
-
-            for (int i = 0; i < _entitiesToProcess.Count; i++)
-            {
-                ApplyDefaults(_entitiesToProcess[i]);
-            }
-        }
-
-        private void OnComponentChanged<T>(Entity entity, ChangeKind change, ref T component) where T : struct
-        {
-            if (change != ChangeKind.Added || !_processedEntities.Add(entity))
-            {
-                return;
-            }
-
-            _entitiesToProcess.Add(entity);
-        }
+        public void Apply(Entity entity) => ApplyDefaults(entity);
 
         private void ApplyDefaults(Entity entity)
         {
@@ -63,72 +35,6 @@ namespace SkyPirates.Shared.Services
                     item.CopyFrom.Visit(_world, from, new CopyAction(_world, entity, item.CopyTo));
                 }
             }
-        }
-
-        private IComponentChangeOperation[] CreateChangeOperations(
-            World world,
-            ComponentDefaultsConfig config)
-        {
-            var componentIds = new HashSet<ComponentId>();
-            foreach (var item in config)
-            {
-                foreach (var entry in item.Default)
-                {
-                    componentIds.Add(world.GetAlias(entry.Name));
-                }
-
-                ComponentId[] copyFrom = item.CopyFrom.GetIds(world);
-                for (int i = 0; i < copyFrom.Length; i++)
-                {
-                    componentIds.Add(copyFrom[i]);
-                }
-            }
-
-            var operations = new List<IComponentChangeOperation>(componentIds.Count);
-            var visitor = new CreateChangeOperationVisitor(world, operations, this);
-            foreach (ComponentId componentId in componentIds)
-            {
-                world.Components.Visit(componentId, visitor);
-            }
-
-            return operations.ToArray();
-        }
-
-        private interface IComponentChangeOperation
-        {
-            void Invoke();
-        }
-
-        private sealed class ChangeOperation<T> : IComponentChangeOperation where T : struct
-        {
-            private readonly ComponentChangeOperation<T> _operation;
-
-            public ChangeOperation(World world, ComponentId componentId, ComponentDefaultsService owner)
-            {
-                _operation = world.ForEachChange<T>(componentId, owner.OnComponentChanged);
-            }
-
-            public void Invoke() => _operation.Invoke();
-        }
-
-        private readonly struct CreateChangeOperationVisitor : IStructVisitor
-        {
-            private readonly World _world;
-            private readonly List<IComponentChangeOperation> _operations;
-            private readonly ComponentDefaultsService _owner;
-
-            public CreateChangeOperationVisitor(
-                World world,
-                List<IComponentChangeOperation> operations,
-                ComponentDefaultsService owner)
-            {
-                _world = world;
-                _operations = operations;
-                _owner = owner;
-            }
-
-            public void Visit<T>(ComponentId componentId) where T : struct
-                => _operations.Add(new ChangeOperation<T>(_world, componentId, _owner));
         }
 
         private readonly struct SetDefaultAction : IComponentDataVisitor

@@ -57,8 +57,8 @@ namespace SkyPirates.Shared.Data
         public Dictionary<int, T> Values { get; set; }
         public string Name => ComponentName;
         internal static string NameForType => ComponentName;
-        public Type DataType => typeof(Dictionary<int, T>);
-        public object Data => Values;
+        public Type DataType => typeof(SortedList<int, T>);
+        public object Data => new SortedList<int, T>(Values);
 
         public WorldDataComponent() : this(new Dictionary<int, T>()) { }
 
