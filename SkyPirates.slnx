@@ -12,8 +12,6 @@
     <Project Path="Unity/SkyPirates.Shared.csproj" />
     <Project Path="Unity/SkyPirates.Tooling.csproj" />
     <Project Path="Unity/SkyPirates.Tooling.Testing.Editor.csproj" />
-    <Project Path="Unity/SkyPirates.Tooling.MeshColorFilter.Editor.csproj" />
-    <Project Path="Unity/SkyPirates.Tooling.MeshColorFilter.Editor.Tests.csproj" />
     <Project Path="Unity/SkyPirates.Tooling.TextureToVertexColor.Editor.csproj" />
     <Project Path="Unity/DVG.UniTools.csproj" />
     <Project Path="Unity/NativeShare.Editor.csproj" />
