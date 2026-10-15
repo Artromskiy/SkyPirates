@@ -44,6 +44,7 @@ namespace DVG.SkyPirates.Shared.Data
         public Dictionary<int, GoodsId> GoodsId;
         public Dictionary<int, Health> Health;
         public Dictionary<int, HexMap> HexMap;
+        public Dictionary<int, HexTile> HexTile;
         public Dictionary<int, ImpactDistance> ImpactDistance;
         public Dictionary<int, Level> Level;
         public Dictionary<int, MaxHealth> MaxHealth;
@@ -66,6 +67,7 @@ namespace DVG.SkyPirates.Shared.Data
         public Dictionary<int, Target> Target;
         public Dictionary<int, TargetSearchDistance> TargetSearchDistance;
         public Dictionary<int, TeamId> TeamId;
+        public Dictionary<int, TileId> TileId;
         public Dictionary<int, TreeId> TreeId;
         public Dictionary<int, UnitId> UnitId;
         public Dictionary<int, ViewToken> ViewToken;
@@ -92,6 +94,7 @@ namespace DVG.SkyPirates.Shared.Data
             GoodsId = new();
             Health = new();
             HexMap = new();
+            HexTile = new();
             ImpactDistance = new();
             Level = new();
             MaxHealth = new();
@@ -114,6 +117,7 @@ namespace DVG.SkyPirates.Shared.Data
             Target = new();
             TargetSearchDistance = new();
             TeamId = new();
+            TileId = new();
             TreeId = new();
             UnitId = new();
             ViewToken = new();
@@ -142,6 +146,7 @@ namespace DVG.SkyPirates.Shared.Data
             if (typeof(T) == typeof(GoodsId)) return GoodsId as Dictionary<int, T>;
             if (typeof(T) == typeof(Health)) return Health as Dictionary<int, T>;
             if (typeof(T) == typeof(HexMap)) return HexMap as Dictionary<int, T>;
+            if (typeof(T) == typeof(HexTile)) return HexTile as Dictionary<int, T>;
             if (typeof(T) == typeof(ImpactDistance)) return ImpactDistance as Dictionary<int, T>;
             if (typeof(T) == typeof(Level)) return Level as Dictionary<int, T>;
             if (typeof(T) == typeof(MaxHealth)) return MaxHealth as Dictionary<int, T>;
@@ -164,6 +169,7 @@ namespace DVG.SkyPirates.Shared.Data
             if (typeof(T) == typeof(Target)) return Target as Dictionary<int, T>;
             if (typeof(T) == typeof(TargetSearchDistance)) return TargetSearchDistance as Dictionary<int, T>;
             if (typeof(T) == typeof(TeamId)) return TeamId as Dictionary<int, T>;
+            if (typeof(T) == typeof(TileId)) return TileId as Dictionary<int, T>;
             if (typeof(T) == typeof(TreeId)) return TreeId as Dictionary<int, T>;
             if (typeof(T) == typeof(UnitId)) return UnitId as Dictionary<int, T>;
             if (typeof(T) == typeof(ViewToken)) return ViewToken as Dictionary<int, T>;
@@ -274,6 +280,11 @@ namespace DVG.SkyPirates.Shared.Data
                 HexMap = data as Dictionary<int, HexMap>;
                 return;
             }
+            if (typeof(T) == typeof(HexTile))
+            {
+                HexTile = data as Dictionary<int, HexTile>;
+                return;
+            }
             if (typeof(T) == typeof(ImpactDistance))
             {
                 ImpactDistance = data as Dictionary<int, ImpactDistance>;
@@ -382,6 +393,11 @@ namespace DVG.SkyPirates.Shared.Data
             if (typeof(T) == typeof(TeamId))
             {
                 TeamId = data as Dictionary<int, TeamId>;
+                return;
+            }
+            if (typeof(T) == typeof(TileId))
+            {
+                TileId = data as Dictionary<int, TileId>;
                 return;
             }
             if (typeof(T) == typeof(TreeId))

@@ -1,7 +1,7 @@
 ﻿using Delta.ECS;
 using Delta;
 using DVG.SkyPirates.Shared.Ids;
-using System.Collections.Frozen;
+using System.Collections.Generic;
 using DVG.SkyPirates.Shared.Components;
 
 namespace DVG.SkyPirates.Shared.Components.Config
@@ -11,6 +11,6 @@ namespace DVG.SkyPirates.Shared.Components.Config
     [ComponentGroup(Group.History)]
     public struct HexMap
     {
-        public FrozenDictionary<int3, TileId> Data;
+        public Dictionary<int3, TileId> Data;
     }
 }
