@@ -41,7 +41,7 @@ namespace DVG.SkyPirates.Server
             _container.GetInstance<GameStartController>().Loop();
         }
 
-        private static void ClientConnected(object sender, ServerConnectedEventArgs args)
+        private static void ClientConnected(object? sender, ServerConnectedEventArgs args)
         {
             args.Client.CanQualityDisconnect = false;
             var sessions = _container.GetInstance<SkyPiratesSessionProvider>();
