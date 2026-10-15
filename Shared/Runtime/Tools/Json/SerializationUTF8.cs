@@ -1,6 +1,7 @@
 ﻿using Delta;
 using Delta.ECS;
 using CommunityToolkit.HighPerformance;
+using DVG.SkyPirates.Shared.Data;
 using System;
 using System.Buffers;
 using System.IO.Compression;
@@ -40,6 +41,7 @@ namespace DVG.SkyPirates.Shared.Tools.Json
             Options.Converters.Add(new FrozenDictionaryConverterFactory());
             Options.Converters.Add(new ImmutableSortedDictionaryConverterFactory());
             Options.Converters.Add(new ReadOnlyCollectionConverterFactory());
+            Options.Converters.Add(new WorldDataConverter());
             Options.Converters.Add(new ComponentDataSetConverter());
             Options.Converters.Add(new ComponentIdListConverter());
 
