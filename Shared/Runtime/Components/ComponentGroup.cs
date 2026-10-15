@@ -1,8 +1,12 @@
-﻿namespace DVG.SkyPirates.Shared.Components
+﻿using System;
+
+namespace DVG.SkyPirates.Shared.Components
 {
+    [Flags]
     public enum Group
     {
-        History,
-        Temporary,
+        History = 1 << 0,
+        Temporary = 1 << 1,
+        All = 1 << 2,
     }
 }

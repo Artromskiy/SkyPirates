@@ -5,6 +5,7 @@ using DVG.SkyPirates.Shared.Components;
 namespace DVG.SkyPirates.Shared.Components.Runtime
 {
 	[ComponentSchema]
+	[ComponentAlias("SyncId")]
 	[ComponentGroup(Group.History)]
 	public struct SyncId : INewType<int>
 	{

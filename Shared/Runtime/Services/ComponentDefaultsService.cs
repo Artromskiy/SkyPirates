@@ -131,7 +131,7 @@ namespace DVG.SkyPirates.Shared.Services
                 => _operations.Add(new ChangeOperation<T>(_world, componentId, _owner));
         }
 
-        private readonly struct SetDefaultAction : IComponentDataVisitor
+        private readonly struct SetDefaultAction : IStructDataVisitor
         {
             private readonly World _world;
             private readonly Entity _entity;
@@ -142,11 +142,11 @@ namespace DVG.SkyPirates.Shared.Services
                 _entity = entity;
             }
 
-            public readonly void Visit<T>(string name, in T value) where T : struct
+            public readonly void Visit<T>(ComponentId componentId, in T value) where T : struct
             {
-                if (_world.Has<T>(_entity))
+                if (_world.Has(_entity, componentId))
                 {
-                    _world.GetRef<T>(_entity) = value;
+                    _world.GetRef<T>(_entity, componentId) = value;
                 }
             }
         }

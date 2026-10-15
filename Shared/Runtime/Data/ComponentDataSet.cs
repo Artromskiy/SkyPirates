@@ -36,9 +36,8 @@ namespace DVG.SkyPirates.Shared.Data
         public string Name { get; }
 
         protected ComponentDataEntry(string name) => Name = name;
-        public abstract void Visit(IComponentDataVisitor visitor);
         public abstract void Write(IComponentDataWriter writer);
-        internal abstract void Visit(World world, IComponentDataVisitor visitor);
+        internal abstract void Visit(World world, IStructDataVisitor visitor);
     }
 
     public sealed class ComponentDataEntry<T> : ComponentDataEntry where T : struct
@@ -47,41 +46,27 @@ namespace DVG.SkyPirates.Shared.Data
 
         public ComponentDataEntry(string name, in T value) : base(name) => Value = value;
 
-        public override void Visit(IComponentDataVisitor visitor)
-        {
-            var value = Value;
-            visitor.Visit(Name, in value);
-        }
-
         public override void Write(IComponentDataWriter writer)
         {
             var value = Value;
             writer.Write(Name, in value);
         }
 
-        internal override void Visit(World world, IComponentDataVisitor visitor)
+        internal override void Visit(World world, IStructDataVisitor visitor)
         {
             ComponentId componentId = world.GetAlias(Name);
-            world.Components.Visit(componentId, new ComponentVisit());
-
-            Visit(visitor);
+            var value = Value;
+            visitor.Visit(componentId, in value);
         }
-
-        private readonly struct ComponentVisit : IStructVisitor
-        {
-            public void Visit<TRegistered>(ComponentId componentId) where TRegistered : struct
-            {
-            }
-        }
-    }
-
-    public interface IComponentDataVisitor
-    {
-        void Visit<T>(string name, in T value) where T : struct;
     }
 
     public interface IComponentDataWriter
     {
-        void Write<T>(string name, in T value);
+        void Write<T>(string name, in T value) where T : struct;
+    }
+
+    internal interface IStructDataVisitor
+    {
+        void Visit<T>(ComponentId componentId, in T value) where T : struct;
     }
 }

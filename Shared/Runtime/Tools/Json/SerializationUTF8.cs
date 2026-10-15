@@ -1,8 +1,10 @@
 ﻿using Delta;
+using Delta.ECS;
 using CommunityToolkit.HighPerformance;
 using System;
 using System.Buffers;
 using System.IO.Compression;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -14,6 +16,7 @@ namespace DVG.SkyPirates.Shared.Tools.Json
     public static class SerializationUTF8
     {
         private static readonly ThreadLocal<Writers> _writers = new(() => new());
+        private static readonly ConditionalWeakTable<World, JsonSerializerOptions> _optionsByWorld = new();
         public static readonly JsonSerializerOptions Options;
         public static readonly JsonSerializerOptions OptionsFast;
         static SerializationUTF8()
@@ -85,6 +88,17 @@ namespace DVG.SkyPirates.Shared.Tools.Json
             return Deserialize<T>(buffer.WrittenMemory);
         }
 
+        public static T Deserialize<T>(string json, World world)
+        {
+            var buffer = _writers.Value.Buffer;
+            buffer.Clear();
+            int count = Encoding.UTF8.GetByteCount(json);
+            count = Encoding.UTF8.GetBytes(json, buffer.GetSpan(count));
+            buffer.Advance(count);
+
+            return Deserialize<T>(buffer.WrittenMemory, world);
+        }
+
         public static void Serialize<T>(T data, IBufferWriter<byte> to)
         {
             var writer = _writers.Value.Writer;
@@ -98,12 +112,26 @@ namespace DVG.SkyPirates.Shared.Tools.Json
             return JsonSerializer.Deserialize<T>(ref reader, Options)!;
         }
 
+        public static T Deserialize<T>(ReadOnlyMemory<byte> data, World world)
+        {
+            var reader = new Utf8JsonReader(data.Span);
+            return JsonSerializer.Deserialize<T>(ref reader, GetOptions(world))!;
+        }
+
         public static T DeserializeCompressed<T>(ReadOnlyMemory<byte> data)
         {
             var buffer = _writers.Value.Buffer;
             buffer.Clear();
             Decompress(data, buffer);
             return Deserialize<T>(buffer.WrittenMemory);
+        }
+
+        public static T DeserializeCompressed<T>(ReadOnlyMemory<byte> data, World world)
+        {
+            var buffer = _writers.Value.Buffer;
+            buffer.Clear();
+            Decompress(data, buffer);
+            return Deserialize<T>(buffer.WrittenMemory, world);
         }
 
         public static void SerializeCompressed<T>(T data, IBufferWriter<byte> to)
@@ -161,6 +189,24 @@ namespace DVG.SkyPirates.Shared.Tools.Json
             dstream.CopyTo(output);
         }
 
+        private static JsonSerializerOptions GetOptions(World world)
+            => _optionsByWorld.GetValue(world, CreateOptions);
+
+        private static JsonSerializerOptions CreateOptions(World world)
+        {
+            var options = new JsonSerializerOptions(Options);
+            for (int i = 0; i < options.Converters.Count; i++)
+            {
+                if (options.Converters[i] is not ComponentDataSetConverter)
+                    continue;
+
+                options.Converters.RemoveAt(i);
+                break;
+            }
+
+            options.Converters.Add(new ComponentDataSetConverter(world));
+            return options;
+        }
 
         private class Writers
         {

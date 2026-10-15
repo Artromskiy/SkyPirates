@@ -1,6 +1,5 @@
 ﻿using Delta;
 using Delta.ECS;
-using DVG.SkyPirates.Shared.Ecs;
 using DVG.SkyPirates.Shared.Core.Collections;
 using DVG.SkyPirates.Shared.Components;
 using DVG.SkyPirates.Shared.Components.Runtime;
@@ -21,7 +20,7 @@ namespace DVG.SkyPirates.Shared.Systems
         public FramedComponentsSystem(FramedComponentDependenciesConfig componentDependencies, World world)
         {
             _world = world;
-            _framedComponentIds = WorldComponentIds.For(world).Framed;
+            _framedComponentIds = world.GetGroup(Group.Temporary).ToArray();
             _clearQueries = Array.ConvertAll(_framedComponentIds, id => world.WhereAll(id));
             _dependencies = componentDependencies.ConvertAll(dependency => CreateDependency(world, dependency)).ToArray();
         }

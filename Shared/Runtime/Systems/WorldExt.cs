@@ -14,7 +14,7 @@ namespace DVG.SkyPirates.Shared.Systems
             }
         }
 
-        private readonly struct ApplyEntityData : IComponentDataVisitor
+        private readonly struct ApplyEntityData : IStructDataVisitor
         {
             private readonly Entity _entity;
             private readonly World _world;
@@ -25,8 +25,15 @@ namespace DVG.SkyPirates.Shared.Systems
                 _world = world;
             }
 
-            public void Visit<T>(string name, in T value) where T : struct =>
-                _world.GetOrAdd<T>(_entity) = value;
+            public void Visit<T>(ComponentId componentId, in T value) where T : struct
+            {
+                if (!_world.Has(_entity, componentId))
+                {
+                    _world.Add(_entity, componentId);
+                }
+
+                _world.GetRef<T>(_entity, componentId) = value;
+            }
         }
     }
 }

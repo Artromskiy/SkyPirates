@@ -1,11 +1,6 @@
-using DVG.SkyPirates.Shared.Core;
 using Delta.ECS;
-using DVG.SkyPirates.Shared.Components;
-using DVG.SkyPirates.Shared.Components.Runtime;
 using DVG.SkyPirates.Shared.Data;
-using DVG.SkyPirates.Shared.Components.Framed;
 using System;
-using System.Collections.Generic;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -13,12 +8,19 @@ namespace DVG.SkyPirates.Shared.Tools.Json
 {
     public sealed class ComponentDataSetConverter : JsonConverter<ComponentDataSet>
     {
-        private static readonly ComponentDataTypeRegistry Types = ComponentDataTypeRegistry.Create();
+        private readonly World? _world;
+
+        public ComponentDataSetConverter() { }
+
+        public ComponentDataSetConverter(World world) => _world = world;
 
         public override ComponentDataSet Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
             if (reader.TokenType != JsonTokenType.StartObject)
                 throw new JsonException("Component data must be an object.");
+
+            if (_world == null)
+                throw new JsonException("Deserializing component data requires a registered world.");
 
             var result = new ComponentDataSet();
             while (reader.Read() && reader.TokenType != JsonTokenType.EndObject)
@@ -32,7 +34,11 @@ namespace DVG.SkyPirates.Shared.Tools.Json
                 if (!reader.Read())
                     throw new JsonException($"Missing value for component '{name}'.");
 
-                result.Add(Types.Read(name, ref reader, options));
+                using JsonDocument value = JsonDocument.ParseValue(ref reader);
+                ComponentId componentId = _world.GetAlias(name);
+                var visitor = new ReadComponentData(name, value.RootElement, options);
+                _world.Components.Visit(componentId, visitor);
+                result.Add(visitor.Entry ?? throw new JsonException($"Component alias '{name}' is not a value component."));
             }
 
             return result;
@@ -50,55 +56,25 @@ namespace DVG.SkyPirates.Shared.Tools.Json
             writer.WriteEndObject();
         }
 
-        private sealed class ComponentDataTypeRegistry
+        private sealed class ReadComponentData : IStructVisitor
         {
-            private readonly Dictionary<string, IComponentDataTypeReader> _readers = new(StringComparer.Ordinal);
+            private readonly string _name;
+            private readonly JsonElement _value;
+            private readonly JsonSerializerOptions _options;
 
-            public static ComponentDataTypeRegistry Create()
+            public ComponentDataEntry? Entry { get; private set; }
+
+            public ReadComponentData(string name, JsonElement value, JsonSerializerOptions options)
             {
-                var registry = new ComponentDataTypeRegistry();
-                var action = new RegisterTypes(registry);
-                ComponentsRegistry.ForEachData(ref action);
-                registry.Register<Disabled>();
-                registry.Register<Temp>();
-                return registry;
+                _name = name;
+                _value = value;
+                _options = options;
             }
 
-            public ComponentDataEntry Read(string name, ref Utf8JsonReader reader, JsonSerializerOptions options)
+            public void Visit<T>(ComponentId componentId) where T : struct
             {
-                if (!_readers.TryGetValue(name, out var typeReader))
-                    throw new JsonException($"Unknown component name '{name}'.");
-                return typeReader.Read(name, ref reader, options);
-            }
-
-            private void Register<T>() where T : struct
-            {
-                var name = typeof(T).Name;
-                if (_readers.ContainsKey(name))
-                    throw new InvalidOperationException($"Duplicate component name '{name}'.");
-                _readers.Add(name, new ComponentDataTypeReader<T>());
-            }
-
-            private struct RegisterTypes : IStructGenericAction
-            {
-                private readonly ComponentDataTypeRegistry _registry;
-
-                public RegisterTypes(ComponentDataTypeRegistry registry) => _registry = registry;
-                public void Invoke<T>() where T : struct => _registry.Register<T>();
-            }
-        }
-
-        private interface IComponentDataTypeReader
-        {
-            ComponentDataEntry Read(string name, ref Utf8JsonReader reader, JsonSerializerOptions options);
-        }
-
-        private sealed class ComponentDataTypeReader<T> : IComponentDataTypeReader where T : struct
-        {
-            public ComponentDataEntry Read(string name, ref Utf8JsonReader reader, JsonSerializerOptions options)
-            {
-                var value = JsonSerializer.Deserialize<T>(ref reader, options);
-                return new ComponentDataEntry<T>(name, in value);
+                T value = _value.Deserialize<T>(_options);
+                Entry = new ComponentDataEntry<T>(_name, in value);
             }
         }
 
@@ -113,7 +89,7 @@ namespace DVG.SkyPirates.Shared.Tools.Json
                 _options = options;
             }
 
-            public void Write<T>(string name, in T value)
+            public void Write<T>(string name, in T value) where T : struct
                 => JsonSerializer.Serialize(_writer, value, _options);
         }
     }

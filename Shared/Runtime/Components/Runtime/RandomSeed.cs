@@ -5,6 +5,7 @@ using DVG.SkyPirates.Shared.Components;
 namespace DVG.SkyPirates.Shared.Components.Runtime
 {
 	[ComponentSchema]
+	[ComponentAlias("RandomSeed")]
 	[ComponentGroup(Group.History)]
 	public struct RandomSeed : INewType<int>
 	{

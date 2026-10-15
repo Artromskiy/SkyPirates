@@ -31,14 +31,17 @@ namespace DVG.SkyPirates.Shared.DI
         public SharedContainer(SessionMode sessionMode = SessionMode.Local, bool registerCommandReceiver = true, World world = null)
         {
             Delta.Diagnostics.Trace.Info("[DI] SharedContainer Start");
-            var currentWorld = world ?? new World(initialEntityCapacity: 1024);
-            RegisterAllComponents(currentWorld);
+            var currentWorld = WorldFactory.Create(world ?? new World(initialEntityCapacity: 1024));
             RegisterSingleton(() => currentWorld);
-            RegisterSingleton<IWorldHistory>(() => new ChangeWorldHistory(
-                GetInstance<World>(),
-                WorldComponentIds.For(GetInstance<World>()).History,
-                4,
-                Constants.MaxHistoryTicks));
+            RegisterSingleton<IWorldHistory>(() =>
+            {
+                World historyWorld = GetInstance<World>();
+                return new ChangeWorldHistory(
+                    historyWorld,
+                    historyWorld.GetGroup(Group.History).ToArray(),
+                    4,
+                    Constants.MaxHistoryTicks);
+            });
 
             RegisterSingleton<TimelineWriter>();
 
@@ -58,6 +61,7 @@ namespace DVG.SkyPirates.Shared.DI
 
             RegisterSingleton<IHistorySystem, HistorySystem>();
             RegisterSingleton<IDisposeSystem, DisposeSystem>();
+            RegisterSingleton<ICommandPayloadHandler, SkyPiratesCommandPayloadHandler>();
             if (registerCommandReceiver)
             {
                 RegisterSingleton<ICommandReciever, CommandReceiver>();
@@ -141,7 +145,6 @@ namespace DVG.SkyPirates.Shared.DI
             typeof(LoadWorldCommandExecutor),
             typeof(SpawnSquadCommandExecutor),
             typeof(SpawnUnitCommandExecutor),
-            typeof(SetEntityDataCommandExecutor),
             typeof(JoystickCommandExecutor)
             //typeof(CommandLogger)
         };
@@ -151,7 +154,6 @@ namespace DVG.SkyPirates.Shared.DI
             typeof(FutureCommandValidator<InvalidateCommand>), typeof(LateCommandValidator<InvalidateCommand>), typeof(ZeroTickCommandValidator<InvalidateCommand>),
             typeof(FutureCommandValidator<JoystickCommand>), typeof(LateCommandValidator<JoystickCommand>), typeof(ZeroTickCommandValidator<JoystickCommand>),
             typeof(FutureCommandValidator<LoadWorldCommand>), typeof(LateCommandValidator<LoadWorldCommand>), typeof(ZeroTickCommandValidator<LoadWorldCommand>),
-            typeof(FutureCommandValidator<SetEntityDataCommand>), typeof(LateCommandValidator<SetEntityDataCommand>), typeof(ZeroTickCommandValidator<SetEntityDataCommand>),
             typeof(FutureCommandValidator<SpawnSquadCommand>), typeof(LateCommandValidator<SpawnSquadCommand>), typeof(ZeroTickCommandValidator<SpawnSquadCommand>),
             typeof(FutureCommandValidator<SpawnUnitCommand>), typeof(LateCommandValidator<SpawnUnitCommand>), typeof(ZeroTickCommandValidator<SpawnUnitCommand>),
         };
@@ -160,16 +162,6 @@ namespace DVG.SkyPirates.Shared.DI
         {
             typeof(SpawnCommandMutator),
         };
-
-        private static void RegisterAllComponents(World world)
-        {
-            ComponentRegistry layouts = world.Components;
-            foreach (var registration in GeneratedComponentCatalog.GetRegistrations())
-            {
-                layouts.Register(registration);
-            }
-            _ = WorldComponentIds.For(world);
-        }
 
         private ISessionTransport CreateSessionTransport(SessionMode mode)
         {

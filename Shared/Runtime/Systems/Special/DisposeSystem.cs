@@ -16,7 +16,7 @@ namespace DVG.SkyPirates.Shared.Systems.Special
         private readonly List<Entity> _entitiesCache = new();
         private readonly World _world;
         private readonly IWorldHistory _history;
-        private readonly WorldComponentIds _componentIds;
+        private readonly ComponentId[] _disposableComponents;
         private readonly ComponentId _tempComponentId;
         private readonly ForEachEntityAction _disposeHistoryAction;
 
@@ -24,7 +24,15 @@ namespace DVG.SkyPirates.Shared.Systems.Special
         {
             _world = world;
             _history = history;
-            _componentIds = WorldComponentIds.For(world);
+            var components = new List<ComponentId>();
+            var visitor = new CollectDisposableComponents(components, _queryCache);
+            ReadOnlySpan<ComponentId> allComponents = world.GetGroup(Group.All);
+            for (int i = 0; i < allComponents.Length; i++)
+            {
+                world.Components.Visit(allComponents[i], visitor);
+            }
+
+            _disposableComponents = components.ToArray();
             _tempComponentId = world.Components.GetPrimary<Temp>();
             _disposeHistoryAction = DisposeHistory;
         }
@@ -38,10 +46,9 @@ namespace DVG.SkyPirates.Shared.Systems.Special
                 _world.Add<Temp>(entity);
             }
 
-            var disposableComponents = _componentIds.Disposable;
-            for (int i = 0; i < disposableComponents.Length; i++)
+            for (int i = 0; i < _disposableComponents.Length; i++)
             {
-                DisposeComponents(disposableComponents[i]);
+                DisposeComponents(_disposableComponents[i]);
             }
 
             var toDestroy = _toDestroy;
@@ -49,11 +56,11 @@ namespace DVG.SkyPirates.Shared.Systems.Special
             _world.Destroy(in toDestroy);
         }
 
-        private void DisposeComponents(DisposableComponentIds component)
+        private void DisposeComponents(ComponentId component)
         {
-            var queries = _queryCache.Get(component.Component);
-            var filter = queries.Components ??= CreateComponentQuery(component.Component);
-            component.Dispose(in filter);
+            var queries = _queryCache.Get(component);
+            var filter = queries.Components ??= CreateComponentQuery(component);
+            _world.ForEachEntity(in filter, queries.Dispose!).Invoke();
         }
 
         private void DisposeHistory(EntityRef entity) => _history.DisposeEntity(entity);
@@ -69,6 +76,29 @@ namespace DVG.SkyPirates.Shared.Systems.Special
             public QuerySet() { }
 
             public Query? Components;
+            public ForEachEntityAction? Dispose;
+        }
+
+        private readonly struct CollectDisposableComponents : IStructVisitor<IDisposable>
+        {
+            private readonly List<ComponentId> _components;
+            private readonly ComponentQueryCache<QuerySet> _queryCache;
+
+            public CollectDisposableComponents(
+                List<ComponentId> components,
+                ComponentQueryCache<QuerySet> queryCache)
+            {
+                _components = components;
+                _queryCache = queryCache;
+            }
+
+            public RuntimeTypeHandle ConstraintType => typeof(IDisposable).TypeHandle;
+
+            public void Visit<T>(ComponentId componentId) where T : struct, IDisposable
+            {
+                _components.Add(componentId);
+                _queryCache.Get(componentId).Dispose = entity => entity.GetRef<T>(componentId).Dispose();
+            }
         }
     }
 }

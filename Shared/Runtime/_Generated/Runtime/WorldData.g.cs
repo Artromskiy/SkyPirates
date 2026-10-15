@@ -33,6 +33,7 @@ namespace DVG.SkyPirates.Shared.Data
         public Dictionary<int, ClientId> ClientId;
         public Dictionary<int, Collide> Collide;
         public Dictionary<int, Damage> Damage;
+        public Dictionary<int, Disabled> Disabled;
         public Dictionary<int, DesiredPosition> DesiredPosition;
         public Dictionary<int, DesiredRotation> DesiredRotation;
         public Dictionary<int, Direction> Direction;
@@ -83,6 +84,7 @@ namespace DVG.SkyPirates.Shared.Data
             ClientId = new();
             Collide = new();
             Damage = new();
+            Disabled = new();
             DesiredPosition = new();
             DesiredRotation = new();
             Direction = new();
@@ -135,6 +137,7 @@ namespace DVG.SkyPirates.Shared.Data
             if (typeof(T) == typeof(ClientId)) return ClientId as Dictionary<int, T>;
             if (typeof(T) == typeof(Collide)) return Collide as Dictionary<int, T>;
             if (typeof(T) == typeof(Damage)) return Damage as Dictionary<int, T>;
+            if (typeof(T) == typeof(Disabled)) return Disabled as Dictionary<int, T>;
             if (typeof(T) == typeof(DesiredPosition)) return DesiredPosition as Dictionary<int, T>;
             if (typeof(T) == typeof(DesiredRotation)) return DesiredRotation as Dictionary<int, T>;
             if (typeof(T) == typeof(Direction)) return Direction as Dictionary<int, T>;
@@ -223,6 +226,11 @@ namespace DVG.SkyPirates.Shared.Data
             if (typeof(T) == typeof(Damage))
             {
                 Damage = data as Dictionary<int, Damage>;
+                return;
+            }
+            if (typeof(T) == typeof(Disabled))
+            {
+                Disabled = data as Dictionary<int, Disabled>;
                 return;
             }
             if (typeof(T) == typeof(DesiredPosition))

@@ -1,4 +1,6 @@
 #if UNITY_EDITOR
+using Delta.ECS;
+using DVG.SkyPirates.Shared.Ecs;
 using DVG.SkyPirates.Shared.Core.Sheets;
 using DVG.SkyPirates.Shared.Data;
 using DVG.SkyPirates.Shared.Tools.Json;
@@ -67,7 +69,8 @@ namespace DVG.SkyPirates.Tooling.Editor
                 result.Add(loaded.Name, loaded.Data);
 
             var config = Parse(result);
-            var configObject = SerializationUTF8.Deserialize<GlobalConfig>(config)
+            using World componentWorld = WorldFactory.Create();
+            var configObject = SerializationUTF8.Deserialize<GlobalConfig>(config, componentWorld)
                 ?? throw new InvalidOperationException("Deserializing the combined config returned null.");
             var outputs = new Dictionary<string, string>();
             foreach (var item in result)

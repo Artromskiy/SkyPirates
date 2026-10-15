@@ -15,12 +15,12 @@ namespace DVG.SkyPirates.Shared.Systems.Special
         private readonly StringBuilder _stringBuilder = new StringBuilder();
         private readonly ComponentQueryCache<QuerySet> _queryCache = new();
         private readonly World _world;
-        private readonly WorldComponentIds _componentIds;
+        private readonly ComponentId[] _historyComponentIds;
 
         public LogHashSumSystem(World world)
         {
             _world = world;
-            _componentIds = WorldComponentIds.For(world);
+            _historyComponentIds = world.GetGroup(Group.History).ToArray();
         }
 
         public void Tick(int tick, fix deltaTime)
@@ -32,7 +32,7 @@ namespace DVG.SkyPirates.Shared.Systems.Special
         {
             _stringBuilder.Clear();
             int hash = 0;
-            var historyComponents = _componentIds.History;
+            var historyComponents = _historyComponentIds;
             for (int i = 0; i < historyComponents.Length; i++)
             {
                 var component = historyComponents[i];

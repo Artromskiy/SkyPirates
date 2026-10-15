@@ -1,11 +1,7 @@
-﻿using DVG.SkyPirates.Shared.Core;
-using Delta.ECS;
-using DVG.SkyPirates.Shared.Components;
+﻿using Delta.ECS;
 using DVG.SkyPirates.Shared.Components.Runtime;
 using DVG.SkyPirates.Shared.Components.Framed;
-using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 
 namespace DVG.SkyPirates.Shared.Ecs
 {
@@ -24,143 +20,11 @@ namespace DVG.SkyPirates.Shared.Ecs
 
             return ref world.GetRef<T>(entity);
         }
-
-    }
-
-    internal sealed class WorldComponentIds
-    {
-        private static readonly ConditionalWeakTable<World, WorldComponentIds> Cache = new();
-
-        public readonly ComponentId[] History;
-        public readonly ComponentId[] Framed;
-        public readonly DisposableComponentIds[] Disposable;
-
-        private WorldComponentIds(World world)
-        {
-            var history = new List<ComponentId>();
-            var historyAction = new CollectHistoryIds(world, history);
-            HistoryComponentsRegistry.ForEachData(ref historyAction);
-            AddHistoryComponent(history, world.Components.GetPrimary<SyncId>());
-            History = history.ToArray();
-
-            var framed = new List<ComponentId>();
-            var framedAction = new CollectComponentIds(world, framed);
-            FramedComponentsRegistry.ForEachData(ref framedAction);
-            Framed = framed.ToArray();
-
-            var disposable = new List<DisposableComponentIds>();
-            var disposableAction = new CollectDisposableIds(world, disposable);
-            DisposableComponentsRegistry.ForEachData(ref disposableAction);
-            Disposable = disposable.ToArray();
-        }
-
-        public static WorldComponentIds For(World world)
-            => Cache.GetValue(world, static owner => new WorldComponentIds(owner));
-
-        private static void AddHistoryComponent(List<ComponentId> history, ComponentId component)
-        {
-            if (!history.Contains(component))
-            {
-                history.Add(component);
-            }
-        }
-
-        private readonly struct CollectHistoryIds : IStructGenericAction
-        {
-            private readonly World _world;
-            private readonly List<ComponentId> _entries;
-
-            public CollectHistoryIds(World world, List<ComponentId> entries)
-            {
-                _world = world;
-                _entries = entries;
-            }
-
-            public void Invoke<T>() where T : struct
-                => _entries.Add(_world.Components.GetPrimary<T>());
-        }
-
-        private readonly struct CollectComponentIds : IStructGenericAction
-        {
-            private readonly World _world;
-            private readonly List<ComponentId> _entries;
-
-            public CollectComponentIds(World world, List<ComponentId> entries)
-            {
-                _world = world;
-                _entries = entries;
-            }
-
-            public void Invoke<T>() where T : struct
-                => _entries.Add(_world.Components.GetPrimary<T>());
-        }
-
-        private readonly struct CollectDisposableIds : IStructGenericAction<IDisposable>
-        {
-            private readonly World _world;
-            private readonly List<DisposableComponentIds> _entries;
-
-            public CollectDisposableIds(World world, List<DisposableComponentIds> entries)
-            {
-                _world = world;
-                _entries = entries;
-            }
-
-            public void Invoke<T>() where T : struct, IDisposable
-                => _entries.Add(new DisposableComponentIds(_world.Components.GetPrimary<T>(), new ComponentDisposer<T>(_world)));
-        }
-    }
-
-    internal readonly struct DisposableComponentIds
-    {
-        public readonly ComponentId Component;
-        private readonly IComponentDisposer _disposer;
-
-        public DisposableComponentIds(ComponentId component, IComponentDisposer disposer)
-        {
-            Component = component;
-            _disposer = disposer;
-        }
-
-        public void Dispose(in Query filter) => _disposer.Dispose(in filter);
-    }
-
-    internal interface IComponentDisposer
-    {
-        void Dispose(in Query filter);
-    }
-
-    internal sealed class ComponentDisposer<T> : IComponentDisposer where T : struct, IDisposable
-    {
-        private readonly World _world;
-        private readonly ForEachEntityAction _disposeEntity;
-
-        public ComponentDisposer(World world)
-        {
-            _world = world;
-            _disposeEntity = DisposeEntity;
-        }
-
-        public void Dispose(in Query filter) => _world.ForEachEntity(in filter, _disposeEntity).Invoke();
-
-        private void DisposeEntity(EntityRef entity) => _world.GetRef<T>(entity).Dispose();
     }
 
     internal sealed class ComponentQueryCache<TQueries> where TQueries : class, new()
     {
-        private readonly Dictionary<Type, TQueries> _queries = new();
         private readonly Dictionary<ComponentId, TQueries> _queriesById = new();
-
-        public TQueries Get<T>() where T : struct
-        {
-            var componentType = typeof(T);
-            if (!_queries.TryGetValue(componentType, out var queries))
-            {
-                _queries.Add(componentType, queries = new TQueries());
-            }
-
-            return queries;
-        }
 
         public TQueries Get(ComponentId componentId)
         {

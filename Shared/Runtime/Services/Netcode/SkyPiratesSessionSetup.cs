@@ -10,6 +10,7 @@ namespace DVG.SkyPirates.Shared.Services.Netcode
     public sealed class SkyPiratesSessionSetup
     {
         private readonly IHistorySystem _history;
+        private readonly ICommandPayloadHandler _payloadHandler;
         private readonly IDeltaTickableService<IDeltaTickableExecutor> _systems;
         private readonly ITickableService<IInTickable> _inTickables;
         private readonly IDisposeSystem _disposeSystem;
@@ -21,6 +22,7 @@ namespace DVG.SkyPirates.Shared.Services.Netcode
 
         public SkyPiratesSessionSetup(
             IHistorySystem history,
+            ICommandPayloadHandler payloadHandler,
             IDeltaTickableService<IDeltaTickableExecutor> systems,
             ITickableService<IInTickable> inTickables,
             IDisposeSystem disposeSystem,
@@ -31,6 +33,7 @@ namespace DVG.SkyPirates.Shared.Services.Netcode
             IEnumerable<ICommandMutatorRegistration> mutators)
         {
             _history = history;
+            _payloadHandler = payloadHandler;
             _systems = systems;
             _inTickables = inTickables;
             _disposeSystem = disposeSystem;
@@ -60,7 +63,7 @@ namespace DVG.SkyPirates.Shared.Services.Netcode
             var host = new SessionHost(
                 start,
                 commandRegistry,
-                new SkyPiratesCommandPayloadHandler(),
+                _payloadHandler,
                 model,
                 journal,
                 transport: transport,

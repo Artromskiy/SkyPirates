@@ -25,7 +25,6 @@ namespace DVG.SkyPirates.Shared.Commands
         public Dictionary<int, List<Command<InvalidateCommand>>> InvalidateCommand;
         public Dictionary<int, List<Command<JoystickCommand>>> JoystickCommand;
         public Dictionary<int, List<Command<LoadWorldCommand>>> LoadWorldCommand;
-        public Dictionary<int, List<Command<SetEntityDataCommand>>> SetEntityDataCommand;
         public Dictionary<int, List<Command<SpawnSquadCommand>>> SpawnSquadCommand;
         public Dictionary<int, List<Command<SpawnUnitCommand>>> SpawnUnitCommand;
 
@@ -35,7 +34,6 @@ namespace DVG.SkyPirates.Shared.Commands
             InvalidateCommand = new();
             JoystickCommand = new();
             LoadWorldCommand = new();
-            SetEntityDataCommand = new();
             SpawnSquadCommand = new();
             SpawnUnitCommand = new();
         }
@@ -49,8 +47,6 @@ namespace DVG.SkyPirates.Shared.Commands
                 return JoystickCommand as Dictionary<int, List<Command<T>>>;
             if (typeof(T) == typeof(LoadWorldCommand))
                 return LoadWorldCommand as Dictionary<int, List<Command<T>>>;
-            if (typeof(T) == typeof(SetEntityDataCommand))
-                return SetEntityDataCommand as Dictionary<int, List<Command<T>>>;
             if (typeof(T) == typeof(SpawnSquadCommand))
                 return SpawnSquadCommand as Dictionary<int, List<Command<T>>>;
             if (typeof(T) == typeof(SpawnUnitCommand))
@@ -75,11 +71,6 @@ namespace DVG.SkyPirates.Shared.Commands
             if (typeof(T) == typeof(LoadWorldCommand))
             {
                 LoadWorldCommand = data as Dictionary<int, List<Command<LoadWorldCommand>>>;
-                return;
-            }
-            if (typeof(T) == typeof(SetEntityDataCommand))
-            {
-                SetEntityDataCommand = data as Dictionary<int, List<Command<SetEntityDataCommand>>>;
                 return;
             }
             if (typeof(T) == typeof(SpawnSquadCommand))
