@@ -10,7 +10,7 @@ namespace DVG.SkyPirates.Editor
         private LocalStart? _localStart;
         private long _frame;
 
-        [MenuItem("Sky Pirates/Replay")]
+        [MenuItem("Sky Pirates/Tools/Replay")]
         private static void Open() => GetWindow<SkyPiratesReplayWindow>("Sky Pirates Replay");
 
         private void OnEnable() => EditorApplication.update += Repaint;

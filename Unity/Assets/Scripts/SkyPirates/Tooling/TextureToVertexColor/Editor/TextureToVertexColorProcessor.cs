@@ -159,7 +159,7 @@ namespace DVG.SkyPirates.Tooling.TextureToVertexColor.Editor
             }
         }
 
-        [MenuItem("Tools/Sky Pirates/Convert Nature Obstacle Prefabs To Vertex Color")]
+        [MenuItem("Sky Pirates/Tools/Convert Nature Obstacle Prefabs To Vertex Color")]
         public static void ConvertNatureObstaclePrefabs()
         {
             if (!TryConvertNatureObstaclePrefabs(out string message))
