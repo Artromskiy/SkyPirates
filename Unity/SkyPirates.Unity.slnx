@@ -17,11 +17,9 @@
   <Project Path="UnityEngine.TestRunner.csproj" />
   <Project Path="DVG.SkyPirates.Tooling.csproj" />
   <Project Path="DVG.SkyPirates.Shared.csproj" />
-  <Project Path="DVG.Core.csproj" />
   <Project Path="Unity.PathTracing.Runtime.csproj" />
   <Project Path="Unity.TextMeshPro.Editor.csproj" />
   <Project Path="Unity.RenderPipelines.Core.Runtime.Shared.csproj" />
-  <Project Path="NativeShare.Editor.csproj" />
   <Project Path="Unity.UnifiedRayTracing.Runtime.csproj" />
   <Project Path="Unity.InternalAPIEngineBridge.004.csproj" />
   <Project Path="Unity.RenderPipeline.Universal.ShaderLibrary.csproj" />
@@ -47,7 +45,6 @@
   <Project Path="Unity.ShaderGraph.Utilities.csproj" />
   <Project Path="Unity.Profiling.Core.csproj" />
   <Project Path="Assembly-CSharp.csproj" />
-  <Project Path="NativeShare.Runtime.csproj" />
   <Project Path="Vibration.csproj" />
   <Project Path="DeltaMaths.Unity.csproj" />
   <Project Path="Unity.InternalAPIEngineBridge.RenderPipelines.Core.Runtime.Shared.csproj" />

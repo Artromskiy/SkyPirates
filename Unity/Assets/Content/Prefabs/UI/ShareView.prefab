@@ -115,9 +115,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Share
-
-    log'
+  m_text: 'Copy log'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 77b5e259290faae4db5bcc7505a66e85, type: 2}
   m_sharedMaterial: {fileID: -2389816551723001272, guid: 77b5e259290faae4db5bcc7505a66e85, type: 2}

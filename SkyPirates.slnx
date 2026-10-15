@@ -1,5 +1,4 @@
 <Solution>
-  <Project Path="Shared/DVG.Core.csproj" />
   <Project Path="Shared/SkyPirates.Shared.csproj" />
   <Folder Name="/Unity/">
     <Project Path="Unity/Assembly-CSharp-Editor.csproj" />
@@ -12,12 +11,8 @@
     <Project Path="Unity/DVG.SkyPirates.Rendering.SphereOverlay.csproj" />
     <Project Path="Unity/DVG.SkyPirates.Shared.csproj" />
     <Project Path="Unity/DVG.SkyPirates.Tooling.csproj" />
-    <Project Path="Unity/DVG.SkyPirates.Tooling.MeshColorFilter.Editor.csproj" />
-    <Project Path="Unity/DVG.SkyPirates.Tooling.MeshColorFilter.Editor.Tests.csproj" />
     <Project Path="Unity/DVG.SkyPirates.Tooling.TextureToVertexColor.Editor.csproj" />
     <Project Path="Unity/DVG.UniTools.csproj" />
-    <Project Path="Unity/NativeShare.Editor.csproj" />
-    <Project Path="Unity/NativeShare.Runtime.csproj" />
     <Project Path="Unity/SkyPirates.Meta.csproj" />
     <Project Path="Unity/Vibration.csproj" />
   </Folder>

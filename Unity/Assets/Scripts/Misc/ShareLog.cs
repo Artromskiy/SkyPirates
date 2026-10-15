@@ -12,14 +12,13 @@ namespace DVG.Misc
         private void Awake()
         {
             Logger.Init();
-            _button.onClick.AddListener(Share);
+            _button.onClick.AddListener(Copy);
         }
 
-        private void Share()
+        private void Copy()
         {
-            var writeTo = System.IO.Path.GetTempFileName();
-            System.IO.File.WriteAllText(writeTo, Logger.GetLogs());
-            new NativeShare().AddFile(writeTo).Share();
+            GUIUtility.systemCopyBuffer = Logger.GetLogs();
+            Debug.Log("Logs copied to clipboard.");
         }
 
 
