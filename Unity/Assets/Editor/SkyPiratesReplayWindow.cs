@@ -37,8 +37,8 @@ namespace SkyPirates.Editor
 
             using (new EditorGUI.DisabledScope(string.IsNullOrEmpty(_path) || !File.Exists(_path) || EditorApplication.isPlayingOrWillChangePlaymode))
             {
-                if (GUILayout.Button("Open replay scene and start"))
-                    SkyPiratesReplaySceneLauncher.OpenAndPlay(_path);
+                if (GUILayout.Button("Open replay scene"))
+                    SkyPiratesReplaySceneLauncher.OpenAndLoad(_path);
             }
 
             using (new EditorGUI.DisabledScope(!EditorApplication.isPlaying || string.IsNullOrEmpty(_path)))
@@ -126,6 +126,9 @@ namespace SkyPirates.Editor
                 int framesPerTick = EditorGUILayout.IntField("Transient frames / tick", _localStart.ReplayFramesPerTick);
                 _localStart.SetReplayFramesPerTick(framesPerTick);
             }
+
+            bool loop = EditorGUILayout.Toggle("Loop", _localStart.ReplayLoop);
+            _localStart.SetReplayLoop(loop);
 
             SkyPiratesReplayRunStatistics runStatistics = _localStart.ReplayRunStatistics;
             EditorGUILayout.LabelField(

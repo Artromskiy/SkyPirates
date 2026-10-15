@@ -1,4 +1,5 @@
 using System;
+using System.Buffers;
 using System.Diagnostics;
 using Delta.Netcode;
 using SkyPirates.Shared;
@@ -9,9 +10,9 @@ namespace SkyPirates.Shared.Services.Replay
 {
     public enum SkyPiratesReplayRunMode
     {
-        Fast,
-        RunFixedFps,
         RunRealFps,
+        RunFixedFps,
+        Fast,
     }
 
     public readonly struct SkyPiratesReplayRunStatistics
@@ -36,10 +37,13 @@ namespace SkyPirates.Shared.Services.Replay
     {
         private readonly SkyPiratesReplayPlayback _playback;
         private readonly ITransientSimulation<JoystickCommand> _transientSimulation;
+        private readonly ArrayBufferWriter<byte> _fixedStepState = new();
         private long _ticks;
         private long _transientFrames;
         private int _minimumFramesPerTick;
         private int _maximumFramesPerTick;
+
+        public bool Loop { get; set; }
 
         public long CurrentStep => _playback.CurrentStep;
 
@@ -57,11 +61,14 @@ namespace SkyPirates.Shared.Services.Replay
         {
             _playback = playback ?? throw new ArgumentNullException(nameof(playback));
             _transientSimulation = transientSimulation ?? throw new ArgumentNullException(nameof(transientSimulation));
+            CaptureFixedStepState();
         }
 
         public void Seek(long step)
         {
-            _playback.Seek(step);
+            RestoreFixedStepState();
+            _playback.Seek(step, _transientSimulation);
+            CaptureFixedStepState();
         }
 
         public void ResetStatistics()
@@ -75,8 +82,27 @@ namespace SkyPirates.Shared.Services.Replay
         public bool TryAdvanceOneTick(SkyPiratesReplayRunMode mode, int framesPerTick, out int transientFrames)
         {
             transientFrames = 0;
+            if (mode == SkyPiratesReplayRunMode.RunFixedFps && framesPerTick <= 0)
+                throw new ArgumentOutOfRangeException(nameof(framesPerTick), "Frames per tick must be greater than zero.");
+            if (mode != SkyPiratesReplayRunMode.Fast
+                && mode != SkyPiratesReplayRunMode.RunFixedFps
+                && mode != SkyPiratesReplayRunMode.RunRealFps)
+                throw new ArgumentOutOfRangeException(nameof(mode), mode, "Unknown replay run mode.");
+
             if (_playback.CurrentStep >= _playback.LastStep)
-                return false;
+            {
+                if (!Loop || _playback.FirstStep >= _playback.LastStep)
+                    return false;
+
+                Seek(_playback.FirstStep);
+                return true;
+            }
+
+            // Transient frames are predicted from the last fixed state. Discard any transient
+            // changes left by the previous rendered replay step before applying the next one.
+            RestoreFixedStepState();
+            _playback.Seek(_playback.CurrentStep + 1, _transientSimulation);
+            CaptureFixedStepState();
 
             JoystickCommand noInput = default;
             switch (mode)
@@ -84,18 +110,13 @@ namespace SkyPirates.Shared.Services.Replay
                 case SkyPiratesReplayRunMode.Fast:
                     break;
                 case SkyPiratesReplayRunMode.RunFixedFps:
-                    if (framesPerTick <= 0)
-                        throw new ArgumentOutOfRangeException(nameof(framesPerTick), "Frames per tick must be greater than zero.");
                     transientFrames = RunFixedFrames(in noInput, framesPerTick);
                     break;
                 case SkyPiratesReplayRunMode.RunRealFps:
                     transientFrames = RunRealTimeFrames(in noInput);
                     break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(mode), mode, "Unknown replay run mode.");
             }
 
-            _playback.Seek(_playback.CurrentStep + 1);
             RecordTick(transientFrames);
             return true;
         }
@@ -127,6 +148,17 @@ namespace SkyPirates.Shared.Services.Replay
             while (Stopwatch.GetTimestamp() - tickStart < tickBudget);
 
             return frames;
+        }
+
+        private void CaptureFixedStepState()
+        {
+            _fixedStepState.Clear();
+            _transientSimulation.Save(_fixedStepState);
+        }
+
+        private void RestoreFixedStepState()
+        {
+            _transientSimulation.Load(_fixedStepState.WrittenSpan);
         }
 
         private void RecordTick(int transientFrames)

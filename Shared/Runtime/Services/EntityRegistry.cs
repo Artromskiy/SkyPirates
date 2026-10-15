@@ -30,13 +30,9 @@ namespace SkyPirates.Shared.Services
         public void Reserve(SyncIdReserve syncIdReserve)
         {
             int end = checked(syncIdReserve.First + syncIdReserve.Count);
-            for (int i = syncIdReserve.First; i < end; i++)
-            {
-                if (!_idToEntity.TryGetValue(i, out Entity entity) || entity == default)
-                    _idToEntity[i] = default;
-            }
-
-            _entityIdCounter = Maths.Max(_entityIdCounter, syncIdReserve.First + syncIdReserve.Count);
+            // The high-water mark keeps future ids outside this range. A placeholder
+            // map entry for every reserved child id is unnecessary.
+            _entityIdCounter = Maths.Max(_entityIdCounter, end);
         }
 
         public SyncId Reserve()

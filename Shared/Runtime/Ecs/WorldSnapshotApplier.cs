@@ -18,20 +18,19 @@ namespace SkyPirates.Shared.Ecs
             IEntityFactory entityFactory,
             IEntityRegistry entityRegistry,
             IComponentDependenciesService componentDependencies,
-            WorldData snapshot)
+            WorldData snapshot,
+            List<Entity> entitiesToRetire,
+            Dictionary<int, Entity> entitiesBySyncId)
         {
+            entitiesToRetire.Clear();
+            entitiesBySyncId.Clear();
+
+            Dictionary<int, SyncId> snapshotSyncIds = snapshot.Get<SyncId>();
             ComponentId syncIdId = world.Components.GetPrimary<SyncId>();
             Query syncIdQuery = world.WhereAll(syncIdId);
-            var snapshotSyncIds = new HashSet<int>();
-            var entitiesToRetire = new List<Entity>();
             var initialState = default(CollectState);
             IOperation<CollectState> collectEntitiesOperation =
                 world.ForEachEntity(in syncIdQuery, ref initialState, CollectEntitiesAction);
-
-            foreach (var syncId in snapshot.Get<SyncId>().Values)
-            {
-                snapshotSyncIds.Add(syncId.Value);
-            }
 
             var collectState = new CollectState(world, syncIdId, snapshotSyncIds, entitiesToRetire);
             collectEntitiesOperation.Invoke(ref collectState);
@@ -45,18 +44,12 @@ namespace SkyPirates.Shared.Ecs
                 }
             }
 
-            foreach (var syncId in snapshot.Get<SyncId>().Values)
-            {
-                entityRegistry.Reserve(syncId);
-            }
-
             foreach (var syncIdReserve in snapshot.Get<SyncIdReserve>().Values)
             {
                 entityRegistry.Reserve(syncIdReserve);
             }
 
-            var entitiesBySyncId = new Dictionary<int, Entity>();
-            foreach (var syncId in snapshot.Get<SyncId>().Values)
+            foreach (var syncId in snapshotSyncIds.Values)
             {
                 Entity entity = entityFactory.Create(new()
                 {
@@ -78,7 +71,7 @@ namespace SkyPirates.Shared.Ecs
         private static void CollectEntity(ref CollectState state, EntityRef entity)
         {
             if (state.World.TryGet<SyncId>(entity, state.SyncIdId, out SyncId syncId)
-                && !state.SnapshotSyncIds.Contains(syncId.Value))
+                && !state.SnapshotSyncIds.ContainsKey(syncId.Value))
             {
                 state.EntitiesToRetire.Add(entity);
             }
@@ -88,10 +81,10 @@ namespace SkyPirates.Shared.Ecs
         {
             public readonly World World;
             public readonly ComponentId SyncIdId;
-            public readonly HashSet<int> SnapshotSyncIds;
+            public readonly Dictionary<int, SyncId> SnapshotSyncIds;
             public readonly List<Entity> EntitiesToRetire;
 
-            public CollectState(World world, ComponentId syncIdId, HashSet<int> snapshotSyncIds, List<Entity> entitiesToRetire)
+            public CollectState(World world, ComponentId syncIdId, Dictionary<int, SyncId> snapshotSyncIds, List<Entity> entitiesToRetire)
             {
                 World = world;
                 SyncIdId = syncIdId;

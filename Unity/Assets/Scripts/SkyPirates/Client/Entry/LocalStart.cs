@@ -29,8 +29,9 @@ namespace SkyPirates.Local.Entry
         private SkyPiratesReplayRecorder? _replayRecorder;
         private SkyPiratesReplayPlayback? _replayPlayback;
         private SkyPiratesReplayFrameRunner? _replayFrameRunner;
-        private SkyPiratesReplayRunMode _replayRunMode;
+        private SkyPiratesReplayRunMode _replayRunMode = SkyPiratesReplayRunMode.RunRealFps;
         private int _replayFramesPerTick = 1;
+        private bool _replayLoop;
         private bool _replayMode;
         private bool _replayPlaying;
         private bool _spawnSquadSent;
@@ -82,7 +83,7 @@ namespace SkyPirates.Local.Entry
 
             if (_replayMode)
             {
-                if (_replayPlaying && _replayPlayback != null && _replayPlayback.CurrentStep < _replayPlayback.LastStep)
+                if (_replayPlaying && _replayPlayback != null && (_replayLoop || _replayPlayback.CurrentStep < _replayPlayback.LastStep))
                 {
                     _replayStepAccumulator += _replaySpeed;
                     int stepsToAdvance = (int)_replayStepAccumulator;
@@ -94,13 +95,14 @@ namespace SkyPirates.Local.Entry
                             if (_replayFrameRunner == null
                                 || !_replayFrameRunner.TryAdvanceOneTick(_replayRunMode, _replayFramesPerTick, out _))
                             {
+                                SetReplayPlaying(false);
                                 break;
                             }
 
                             _viewBinding.Tick(checked((int)_replayFrameRunner.CurrentStep));
                         }
 
-                        if (_replayPlayback.CurrentStep >= _replayPlayback.LastStep)
+                        if (!_replayLoop && _replayPlayback.CurrentStep >= _replayPlayback.LastStep)
                             SetReplayPlaying(false);
                     }
                 }
@@ -190,7 +192,10 @@ namespace SkyPirates.Local.Entry
             _replayPlayback.Load(SkyPiratesReplayFile.Load(path));
             _replayFrameRunner = new SkyPiratesReplayFrameRunner(
                 _replayPlayback,
-                _container.GetInstance<ITransientSimulation<JoystickCommand>>());
+                _container.GetInstance<ITransientSimulation<JoystickCommand>>())
+            {
+                Loop = _replayLoop,
+            };
             _replayMode = true;
             _replayPlaying = false;
             _replayStepAccumulator = 0f;
@@ -212,7 +217,7 @@ namespace SkyPirates.Local.Entry
 
         private void SeekReplayInternal(long step)
         {
-            _replayPlayback!.Seek(step);
+            _replayFrameRunner!.Seek(step);
             _viewBinding.Tick(checked((int)step));
         }
 
@@ -221,7 +226,16 @@ namespace SkyPirates.Local.Entry
             _replayStepAccumulator = 0f;
             _replayPlaying = playing
                 && _replayPlayback != null
-                && _replayPlayback.CurrentStep < _replayPlayback.LastStep;
+                && (_replayLoop
+                    ? _replayPlayback.FirstStep < _replayPlayback.LastStep
+                    : _replayPlayback.CurrentStep < _replayPlayback.LastStep);
+        }
+
+        public void SetReplayLoop(bool loop)
+        {
+            _replayLoop = loop;
+            if (_replayFrameRunner != null)
+                _replayFrameRunner.Loop = loop;
         }
 
         public void SetReplaySpeed(float speed)
@@ -258,6 +272,8 @@ namespace SkyPirates.Local.Entry
         public bool IsReplayPlaying => _replayPlaying;
 
         public float ReplaySpeed => _replaySpeed;
+
+        public bool ReplayLoop => _replayLoop;
 
         public SkyPiratesReplayRunMode ReplayRunMode => _replayRunMode;
 

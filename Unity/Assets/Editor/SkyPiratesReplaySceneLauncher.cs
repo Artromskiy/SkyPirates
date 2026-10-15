@@ -19,7 +19,7 @@ namespace SkyPirates.Editor
             EditorApplication.playModeStateChanged += OnPlayModeStateChanged;
         }
 
-        public static void OpenAndPlay(string replayPath)
+        public static void OpenAndLoad(string replayPath)
         {
             if (!File.Exists(replayPath))
             {
@@ -49,27 +49,27 @@ namespace SkyPirates.Editor
             if (state == PlayModeStateChange.EnteredPlayMode)
             {
                 if (!string.IsNullOrEmpty(SessionState.GetString(PendingReplayPathKey, string.Empty)))
-                    EditorApplication.update += StartPendingReplay;
+                    EditorApplication.update += LoadPendingReplay;
             }
             else if (state == PlayModeStateChange.EnteredEditMode)
             {
-                EditorApplication.update -= StartPendingReplay;
+                EditorApplication.update -= LoadPendingReplay;
                 SessionState.EraseString(PendingReplayPathKey);
             }
         }
 
-        private static void StartPendingReplay()
+        private static void LoadPendingReplay()
         {
             string replayPath = SessionState.GetString(PendingReplayPathKey, string.Empty);
             if (string.IsNullOrEmpty(replayPath))
             {
-                EditorApplication.update -= StartPendingReplay;
+                EditorApplication.update -= LoadPendingReplay;
                 return;
             }
 
             if (!EditorApplication.isPlaying)
             {
-                EditorApplication.update -= StartPendingReplay;
+                EditorApplication.update -= LoadPendingReplay;
                 return;
             }
 
@@ -77,12 +77,11 @@ namespace SkyPirates.Editor
             if (localStart == null || !localStart.IsInitialized)
                 return;
 
-            EditorApplication.update -= StartPendingReplay;
+            EditorApplication.update -= LoadPendingReplay;
             SessionState.EraseString(PendingReplayPathKey);
             try
             {
                 localStart.LoadReplayFile(replayPath);
-                localStart.SetReplayPlaying(true);
             }
             catch (Exception exception)
             {

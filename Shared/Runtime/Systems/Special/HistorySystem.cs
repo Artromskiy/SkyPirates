@@ -4,6 +4,7 @@ using SkyPirates.Shared.Ecs;
 using SkyPirates.Shared.IFactories;
 using SkyPirates.Shared.IServices;
 using SkyPirates.Shared.IServices.TickableExecutors;
+using System.Collections.Generic;
 
 namespace SkyPirates.Shared.Systems.Special
 {
@@ -14,6 +15,8 @@ namespace SkyPirates.Shared.Systems.Special
         private readonly IEntityFactory _entityFactory;
         private readonly IEntityRegistry _entityRegistry;
         private readonly IComponentDependenciesService _componentDependencies;
+        private readonly List<Entity> _entitiesToRetire = new();
+        private readonly Dictionary<int, Entity> _entitiesBySyncId = new();
 
         public HistorySystem(
             World world,
@@ -58,7 +61,9 @@ namespace SkyPirates.Shared.Systems.Special
                 _entityFactory,
                 _entityRegistry,
                 _componentDependencies,
-                snapshot);
+                snapshot,
+                _entitiesToRetire,
+                _entitiesBySyncId);
         }
 
         public WorldData GetSnapshot(int tick)
