@@ -19,7 +19,6 @@ namespace DVG.SkyPirates.Shared.Systems
             WhereAll<BehaviourState, ImpactDistance, Position, Target>().Alive().NotDisabled();
 
         private readonly World _world;
-
         public SinglePreAttackSystem(World world)
         {
             _world = world;
@@ -37,12 +36,13 @@ namespace DVG.SkyPirates.Shared.Systems
                     return;
                 }
 
-                if (!target.Entity.HasValue)
+                if (!target.SyncId.HasValue)
                 {
                     return;
                 }
 
-                var targetPos = world.Get<Position>(target.Entity.Value);
+                Entity targetEntity = world.GetEntity(target.SyncId.Value);
+                var targetPos = world.Get<Position>(targetEntity);
                 var sqrDistance = fix3.SqrDistance(targetPos, position);
                 var impactSqrDistance = (fix)impactDistance * impactDistance;
 

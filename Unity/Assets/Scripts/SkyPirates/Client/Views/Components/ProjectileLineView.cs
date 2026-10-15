@@ -14,16 +14,19 @@ namespace DVG.SkyPirates.Client.Views.Components
 
         private EntityContext _context;
         private Vector3 _previousPosition;
-        private Entity _source;
-        private Entity _target;
+        private EntityIdMap _entities;
+        private SyncId _source;
+        private SyncId _target;
         private Vector3 _startPosition;
         private Vector3 _destination;
 
         public void OnBind(EntityContext context)
         {
             _context = context;
+            World world = context.World!;
+            _entities = world.Get<EntityIdMap>(world.WhereAll<EntityIdMap>().First().Invoke());
             Projectile projectile = context.Get<Projectile>();
-            _source = context.Get<Source>().Entity;
+            _source = context.Get<Source>().SyncId;
             _target = projectile.Target;
             _startPosition = (float3)projectile.StartPosition;
             _destination = (float3)context.Get<DesiredPosition>().Value;
@@ -61,15 +64,15 @@ namespace DVG.SkyPirates.Client.Views.Components
             Vector3 start = _startPosition;
             Vector3 destination = _destination;
 
-            if (ProjectileSourceView.TryGetMuzzlePoint(world, _source, out Vector3 muzzlePosition))
+            Entity sourceEntity = _entities.GetEntity(_source);
+            if (ProjectileSourceView.TryGetMuzzlePoint(world, sourceEntity, out Vector3 muzzlePosition))
                 start = muzzlePosition;
-            else if (world.TryGet(_source, out Position sourcePosition))
-                start = (float3)sourcePosition.Value;
-            if (world.TryGet(_target, out Position targetPosition))
-            {
-                Vector3 target = (float3)targetPosition.Value;
-                destination = target + Vector3.up * 0.5f;
-            }
+            else
+                start = (float3)world.Get<Position>(sourceEntity).Value;
+
+            Entity targetEntity = _entities.GetEntity(_target);
+            Vector3 target = (float3)world.Get<Position>(targetEntity).Value;
+            destination = target + Vector3.up * 0.5f;
 
             Vector3 flightStart = _startPosition;
             Vector3 flightEnd = _destination;

@@ -28,11 +28,14 @@ namespace DVG.SkyPirates.Shared.Systems
 
         public void Tick(int tick, fix deltaTime)
         {
-            var targetSearch = _targetSearch;
+            (ITargetSearchSystem TargetSearch, World World) targetSearch = (_targetSearch, _world);
             var desc = _desc;
-            _world.ForEach<ITargetSearchSystem, Position, TargetSearchDistance, TargetSearchPosition, Target, TeamId>(in desc, ref targetSearch,
-                static (ref ITargetSearchSystem targetSearch, in Position position, in TargetSearchDistance searchDistance, in TargetSearchPosition searchPosition, ref Target target, in TeamId team) =>
-                target.Entity = targetSearch.FindTarget(in position, in searchDistance, in searchPosition, in team)).Invoke(ref targetSearch);
+            _world.ForEach<(ITargetSearchSystem TargetSearch, World World), Position, TargetSearchDistance, TargetSearchPosition, Target, TeamId>(in desc, ref targetSearch,
+                static (ref (ITargetSearchSystem TargetSearch, World World) targetSearch, in Position position, in TargetSearchDistance searchDistance, in TargetSearchPosition searchPosition, ref Target target, in TeamId team) =>
+                {
+                    Entity? found = targetSearch.TargetSearch.FindTarget(in position, in searchDistance, in searchPosition, in team);
+                    target.SyncId = found.HasValue ? targetSearch.World.Get<SyncId>(found.Value) : null;
+                }).Invoke(ref targetSearch);
         }
     }
 }

@@ -1,6 +1,7 @@
 using Delta.Netcode;
 using DVG.SkyPirates.Shared.Data;
 using DVG.SkyPirates.Shared.IServices.TickableExecutors;
+using DVG.SkyPirates.Shared.IServices;
 using DVG.SkyPirates.Shared.Tools.Json;
 using System;
 using System.Buffers;
@@ -14,6 +15,7 @@ namespace DVG.SkyPirates.Shared.Services.Netcode
         private readonly IDeltaTickableService<IDeltaTickableExecutor> _systems;
         private readonly ITickableService<IInTickable> _inTickables;
         private readonly IDisposeSystem _disposeSystem;
+        private readonly IEntityRegistry _entityRegistry;
         private readonly Dictionary<long, List<CommandEntry>> _commands = new();
         private readonly Dictionary<CommandKey, long> _commandSteps = new();
         private long _dirtyStep = long.MaxValue;
@@ -23,13 +25,15 @@ namespace DVG.SkyPirates.Shared.Services.Netcode
             IHistorySystem history,
             IDeltaTickableService<IDeltaTickableExecutor> systems,
             ITickableService<IInTickable> inTickables,
-            IDisposeSystem disposeSystem)
+            IDisposeSystem disposeSystem,
+            IEntityRegistry entityRegistry)
         {
             CurrentStep = startStep - 1;
             _history = history;
             _systems = systems;
             _inTickables = inTickables;
             _disposeSystem = disposeSystem;
+            _entityRegistry = entityRegistry;
         }
 
         public long CurrentStep { get; private set; }
@@ -128,6 +132,7 @@ namespace DVG.SkyPirates.Shared.Services.Netcode
 
         private void Simulate(long step)
         {
+            _entityRegistry.Synchronize();
             if (_commands.TryGetValue(step, out var commands))
             {
                 for (int index = 0; index < commands.Count; index++)
@@ -139,6 +144,7 @@ namespace DVG.SkyPirates.Shared.Services.Netcode
             int tick = checked((int)step);
             _systems.Tick(tick, Constants.TickTime);
             _disposeSystem.Tick(tick);
+            _entityRegistry.Synchronize();
             _history.Save(tick);
             _inTickables.Tick(tick);
         }

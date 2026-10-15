@@ -33,6 +33,10 @@ namespace DVG.SkyPirates.Shared.DI
             Delta.Diagnostics.Trace.Info("[DI] SharedContainer Start");
             var currentWorld = WorldFactory.Create(world ?? new World(initialEntityCapacity: 1024));
             RegisterSingleton(() => currentWorld);
+
+            currentWorld.GetOrCreateEntityIdMap(1024);
+
+            RegisterSingleton<EntityCacheSystem>();
             RegisterSingleton<IWorldHistory>(() =>
             {
                 World historyWorld = GetInstance<World>();
@@ -103,6 +107,7 @@ namespace DVG.SkyPirates.Shared.DI
 
         private static Type[] TickableExecutors => new Type[]
         {
+            typeof(EntityCacheSystem),
             typeof(FramedComponentsSystem), // cleanups
             typeof(FlagDisabledSystem),
             typeof(CachePositionSystem),

@@ -34,15 +34,16 @@ namespace DVG.SkyPirates.Shared.Systems
                         return;
                     }
 
-                    if (targets.Entities == null || targets.Entities.Count == 0)
+                    if (targets.SyncIds == null || targets.SyncIds.Count == 0)
                     {
                         return;
                     }
 
                     var impactSqrDistance = (fix)impactDistance * impactDistance;
-                    for (int i = 0; i < targets.Entities.Count; i++)
+                    for (int i = 0; i < targets.SyncIds.Count; i++)
                     {
-                        var targetPos = world.Get<Position>(targets.Entities[i]);
+                        Entity targetEntity = world.GetEntity(targets.SyncIds[i]);
+                        var targetPos = world.Get<Position>(targetEntity);
                         var sqrDistance = fix3.SqrDistance(targetPos, position);
 
                         if (sqrDistance > impactSqrDistance)
@@ -50,7 +51,7 @@ namespace DVG.SkyPirates.Shared.Systems
                             continue;
                         }
 
-                        world.GetRef<RecivedDamage>(targets.Entities[i]) += (fix)damage;
+                        world.GetRef<RecivedDamage>(targetEntity) += (fix)damage;
                     }
                 }).Invoke(ref world);
         }

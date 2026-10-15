@@ -54,9 +54,9 @@ namespace DVG.SkyPirates.Shared.Systems
             _orderedUnitsDesc.ForEach(ref orderState,
                 static (ref SquadMemberOrderState state, in SquadMember member, in SyncId syncId) =>
                 {
-                    if (!state.HasCurrentSquad || state.CurrentSquadId != member.SquadId)
+                    if (!state.HasCurrentSquad || state.CurrentSquadId != member.SquadId.Value)
                     {
-                        state.CurrentSquadId = member.SquadId;
+                        state.CurrentSquadId = member.SquadId.Value;
                         state.CurrentSquadOrder = 0;
                         state.HasCurrentSquad = true;
                     }
@@ -69,7 +69,7 @@ namespace DVG.SkyPirates.Shared.Systems
             _world.ForEach<(Lookup<int> OrderPerUnit, Lookup<SquadData> DataPerSquad, PackedCirclesConfig CirclesConfig), SyncId, SquadMember, DesiredPosition, DesiredRotation>(in unitsDesc, ref applyState,
                 static (ref (Lookup<int> OrderPerUnit, Lookup<SquadData> DataPerSquad, PackedCirclesConfig CirclesConfig) state, in SyncId syncId, in SquadMember member, ref DesiredPosition desiredPosition, ref DesiredRotation desiredRotation) =>
                 {
-                    var squad = state.DataPerSquad[member.SquadId];
+                    var squad = state.DataPerSquad[member.SquadId.Value];
                     var circles = state.CirclesConfig[squad.MemberCount];
                     int order = state.OrderPerUnit[syncId.Value];
                     var local = circles.Points[order];

@@ -59,7 +59,7 @@ namespace DVG.SkyPirates.Shared.Services.Netcode
             }
 
             var journal = new MemoryCommandJournal();
-            var model = new SkyPiratesSessionModel(start.Step, _history, _systems, _inTickables, _disposeSystem);
+            var model = new SkyPiratesSessionModel(start.Step, _history, _systems, _inTickables, _disposeSystem, _entityRegistry);
             var host = new SessionHost(
                 start,
                 commandRegistry,

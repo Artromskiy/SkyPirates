@@ -231,6 +231,7 @@ namespace DVG.SkyPirates.Shared.Services.Netcode
         private readonly SkyPiratesSessionTickLoop _tickLoop;
         private readonly IHistorySystem _history;
         private readonly IDeltaTickableService<ITransientDeltaTickableExecutor> _systems;
+        private readonly IEntityRegistry _entityRegistry;
         private readonly ITransientCommandInput<JoystickCommand> _joystickInput;
         private JoystickCommand _lastInput;
         private bool _hasAppliedInput;
@@ -239,12 +240,14 @@ namespace DVG.SkyPirates.Shared.Services.Netcode
             SkyPiratesSessionProvider session,
             SkyPiratesSessionTickLoop tickLoop,
             IHistorySystem history,
+            IEntityRegistry entityRegistry,
             IDeltaTickableService<ITransientDeltaTickableExecutor> systems,
             IEnumerable<ICommandExecutorRegistration> commandExecutors)
         {
             _session = session;
             _tickLoop = tickLoop;
             _history = history;
+            _entityRegistry = entityRegistry;
             _systems = systems;
             _joystickInput = commandExecutors.OfType<ITransientCommandInput<JoystickCommand>>().Single();
         }
@@ -299,6 +302,7 @@ namespace DVG.SkyPirates.Shared.Services.Netcode
             }
 
             _systems.Tick(GetTransientTick(), (fix)deltaTimeSeconds);
+            _entityRegistry.Synchronize();
         }
 
         private int GetHistoryTick()

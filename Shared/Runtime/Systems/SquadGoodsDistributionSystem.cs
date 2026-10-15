@@ -67,9 +67,9 @@ namespace DVG.SkyPirates.Shared.Systems
                 {
                     if (drop.Values != null)
                     {
-                        if (!state.GoodsPerSquad.TryGetValue(member.SquadId, out var squadGoods))
+                        if (!state.GoodsPerSquad.TryGetValue(member.SquadId.Value, out var squadGoods))
                         {
-                            state.GoodsPerSquad[member.SquadId] = squadGoods = new();
+                            state.GoodsPerSquad[member.SquadId.Value] = squadGoods = new();
                         }
 
                         foreach (var item in drop.Values)
@@ -86,9 +86,9 @@ namespace DVG.SkyPirates.Shared.Systems
                         }
                     }
 
-                    if (!state.UnitsPerSquad.TryGetValue(member.SquadId, out var units))
+                    if (!state.UnitsPerSquad.TryGetValue(member.SquadId.Value, out var units))
                     {
-                        state.UnitsPerSquad[member.SquadId] = units = new();
+                        state.UnitsPerSquad[member.SquadId.Value] = units = new();
                     }
 
                     units.Add(syncId);

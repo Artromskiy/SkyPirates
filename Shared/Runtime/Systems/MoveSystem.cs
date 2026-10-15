@@ -38,7 +38,7 @@ namespace DVG.SkyPirates.Shared.Systems
                     position = new fix3(nextPositionXZ.x, currentPosition.y, nextPositionXZ.y);
 
                     var dir = desiredPosition.Value.xz - ((fix3)position).xz;
-                    var rotateTo = target.Entity.HasValue
+                    var rotateTo = target.SyncId.HasValue
                         ? desiredRotation.Value
                         : fix2.SqrLength(dir) != 0
                         ? Maths.Degrees(MathsExtensions.GetRotation(dir))

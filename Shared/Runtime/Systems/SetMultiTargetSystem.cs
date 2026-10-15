@@ -20,7 +20,7 @@ namespace DVG.SkyPirates.Shared.Systems
         private readonly World _world;
         private readonly ITargetSearchSystem _targetSearch;
 
-        private readonly List<Entity> _targetsCache = new();
+        private readonly List<SyncId> _targetsCache = new();
 
         public SetMultiTargetSystem(World world, ITargetSearchSystem targetSearch)
         {
@@ -30,16 +30,16 @@ namespace DVG.SkyPirates.Shared.Systems
 
         public void Tick(int tick, fix deltaTime)
         {
-            (ITargetSearchSystem TargetSearch, List<Entity> TargetsCache) state = (_targetSearch, _targetsCache);
+            (ITargetSearchSystem TargetSearch, List<SyncId> TargetsCache) state = (_targetSearch, _targetsCache);
             var desc = _desc;
-            _world.ForEach<(ITargetSearchSystem TargetSearch, List<Entity> TargetsCache), TargetSearchDistance, TargetSearchPosition, Targets, TeamId>(in desc, ref state,
-                static (ref (ITargetSearchSystem TargetSearch, List<Entity> TargetsCache) state, in TargetSearchDistance searchDistance, in TargetSearchPosition searchPosition, ref Targets target, in TeamId team) =>
+            _world.ForEach<(ITargetSearchSystem TargetSearch, List<SyncId> TargetsCache), TargetSearchDistance, TargetSearchPosition, Targets, TeamId>(in desc, ref state,
+                static (ref (ITargetSearchSystem TargetSearch, List<SyncId> TargetsCache) state, in TargetSearchDistance searchDistance, in TargetSearchPosition searchPosition, ref Targets target, in TeamId team) =>
                 {
                     state.TargetsCache.Clear();
                     state.TargetSearch.FindTargets(in searchDistance, in searchPosition, in team, state.TargetsCache);
                     if (state.TargetsCache.Count > 0)
                     {
-                        target.Entities = new(state.TargetsCache);
+                        target.SyncIds = new(state.TargetsCache);
                     }
                 }).Invoke(ref state);
         }

@@ -30,13 +30,14 @@ namespace DVG.SkyPirates.Shared.Systems
                 static (ref World world, in BehaviourState behaviour, in Damage damage, in ImpactDistance impactDistance,
                     in Position position, in Target target) =>
                 {
-                    if (behaviour.State != StateId.Constants.PreAttack || behaviour.Percent != 1 || !target.Entity.HasValue)
+                    if (behaviour.State != StateId.Constants.PreAttack || behaviour.Percent != 1 || !target.SyncId.HasValue)
                         return;
 
-                    var targetPosition = world.Get<Position>(target.Entity.Value);
+                    Entity targetEntity = world.GetEntity(target.SyncId.Value);
+                    var targetPosition = world.Get<Position>(targetEntity);
                     fix distance = (fix)impactDistance;
                     if (fix3.SqrDistance(targetPosition, position) <= distance * distance)
-                        world.GetRef<RecivedDamage>(target.Entity.Value) += (fix)damage;
+                        world.GetRef<RecivedDamage>(targetEntity) += (fix)damage;
                 }).Invoke(ref world);
         }
     }

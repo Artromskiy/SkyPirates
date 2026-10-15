@@ -1,6 +1,7 @@
 ﻿using Delta.ECS;
 using System.Collections.Generic;
 using DVG.SkyPirates.Shared.Components;
+using DVG.SkyPirates.Shared.Components.Runtime;
 
 namespace DVG.SkyPirates.Shared.Components.Framed
 {
@@ -9,6 +10,6 @@ namespace DVG.SkyPirates.Shared.Components.Framed
     [ComponentGroup(Group.Temporary)]
     public struct Targets
     {
-        public List<Entity> Entities;
+        public List<SyncId> SyncIds;
     }
 }

@@ -43,7 +43,7 @@ namespace DVG.SkyPirates.Shared.Systems
             in TeamId team)
         {
             _targetsCache.Clear();
-            FindTargets(in searchDistance, in searchPosition, in team, _targetsCache);
+            FindEntityTargets(in searchDistance, in searchPosition, in team, _targetsCache);
 
             var origin = ((fix3)position).xz;
 
@@ -71,6 +71,19 @@ namespace DVG.SkyPirates.Shared.Systems
         }
 
         public void FindTargets(
+            in TargetSearchDistance searchDistance,
+            in TargetSearchPosition searchPosition,
+            in TeamId team,
+            List<SyncId> targets)
+        {
+            _targetsCache.Clear();
+            FindEntityTargets(in searchDistance, in searchPosition, in team, _targetsCache);
+
+            for (int i = 0; i < _targetsCache.Count; i++)
+                targets.Add(_world.Get<SyncId>(_targetsCache[i]));
+        }
+
+        private void FindEntityTargets(
             in TargetSearchDistance searchDistance,
             in TargetSearchPosition searchPosition,
             in TeamId team,

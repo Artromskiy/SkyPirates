@@ -7,7 +7,7 @@ namespace DVG.SkyPirates.Shared.Ecs
     internal struct SquadIdComparer : IComponentComparer
     {
         public int Invoke(in SquadMember left, in SquadMember right) =>
-            left.SquadId.CompareTo(right.SquadId);
+            left.SquadId.Value.CompareTo(right.SquadId.Value);
     }
 
     internal struct SyncIdComparer : IComponentComparer

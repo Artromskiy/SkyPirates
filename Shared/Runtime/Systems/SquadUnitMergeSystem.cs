@@ -52,7 +52,7 @@ namespace DVG.SkyPirates.Shared.Systems
                     var level = state.World.Has<Level>(entity)
                         ? state.World.Get<Level>(entity).Value
                         : 1;
-                    var groupId = (member.SquadId, unitId, level);
+                    var groupId = (member.SquadId.Value, unitId, level);
                     if (!state.UnitsPerGroup.TryGetValue(groupId, out var units))
                     {
                         state.UnitsPerGroup.Add(groupId, units = new List<Unit>());

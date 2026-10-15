@@ -11,6 +11,7 @@ namespace DVG.SkyPirates.Shared.Systems.Special
     {
         private readonly IWorldHistory _history;
         private readonly SnapshotHistorySystem _snapshot;
+        private readonly IEntityRegistry _entityRegistry;
 
         public HistorySystem(
             World world,
@@ -21,16 +22,19 @@ namespace DVG.SkyPirates.Shared.Systems.Special
         {
             _history = history;
             _snapshot = new SnapshotHistorySystem(world, history, entityFactory, entityRegistry, componentDependencies);
+            _entityRegistry = entityRegistry;
         }
 
         public void GoTo(int tick)
         {
             _history.GoTo(tick);
+            _entityRegistry.Synchronize();
         }
 
         public void Rollback(int tick)
         {
             _history.Rollback(tick);
+            _entityRegistry.Synchronize();
         }
 
         public void Save(int tick)
@@ -47,6 +51,7 @@ namespace DVG.SkyPirates.Shared.Systems.Special
         {
             _history.Clear();
             _snapshot.ApplySnapshot(snapshot);
+            _entityRegistry.Rebuild();
         }
 
         public WorldData GetSnapshot(int tick)

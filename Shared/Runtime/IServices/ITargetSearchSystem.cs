@@ -19,6 +19,6 @@ namespace DVG.SkyPirates.Shared.IServices
             in TargetSearchDistance searchDistance,
             in TargetSearchPosition searchPosition,
             in TeamId team,
-            List<Entity> targets);
+            List<SyncId> targets);
     }
 }

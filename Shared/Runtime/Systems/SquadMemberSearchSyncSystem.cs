@@ -48,7 +48,7 @@ namespace DVG.SkyPirates.Shared.Systems
             _world.ForEach<Lookup<TargetSearchData>, SquadMember, TargetSearchPosition, TargetSearchDistance>(in unitsDesc, ref searchData,
                 static (ref Lookup<TargetSearchData> dataPerSquad, in SquadMember squadMember, ref TargetSearchPosition searchPosition, ref TargetSearchDistance searchDistance) =>
                 {
-                    dataPerSquad.TryGetValue(squadMember.SquadId, out var data);
+                    dataPerSquad.TryGetValue(squadMember.SquadId.Value, out var data);
                     searchPosition = data.TargetSearchPosition;
                     searchDistance = data.TargetSearchDistance;
                 }).Invoke(ref searchData);

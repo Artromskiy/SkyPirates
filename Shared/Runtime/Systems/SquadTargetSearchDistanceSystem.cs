@@ -42,8 +42,8 @@ namespace DVG.SkyPirates.Shared.Systems
             _world.ForEach<Dictionary<int, fix>, SquadMember, ImpactDistance>(in members, ref maxDistances,
                 static (ref Dictionary<int, fix> distances, in SquadMember member, in ImpactDistance impactDistance) =>
                 {
-                    var currentImpactDistance = distances.GetValueOrDefault(member.SquadId);
-                    distances[member.SquadId] = Maths.Max(currentImpactDistance, impactDistance);
+                    var currentImpactDistance = distances.GetValueOrDefault(member.SquadId.Value);
+                    distances[member.SquadId.Value] = Maths.Max(currentImpactDistance, impactDistance);
                 }).Invoke(ref maxDistances);
 
             (PackedCirclesConfig Config, Dictionary<int, fix> MaxImpactDistancePerSquad) applyState = (_circlesConfig, _maxImpactDistancePerSquad);

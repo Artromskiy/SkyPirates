@@ -8,6 +8,6 @@ namespace DVG.SkyPirates.Shared.Components.Runtime
     [ComponentGroup(Group.History)]
     public struct SquadMember
     {
-        public int SquadId;
+        public SyncId SquadId;
     }
 }

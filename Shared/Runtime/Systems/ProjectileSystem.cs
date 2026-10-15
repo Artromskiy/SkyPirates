@@ -45,20 +45,17 @@ namespace DVG.SkyPirates.Shared.Systems
                     bool reached = fix3.SqrDistance(current, destination) <= step * step;
                     position.Value = reached ? destination : fix3.MoveTowards(current, destination, step);
 
-                    Entity targetEntity = projectile.Target;
-                    state.Impacts.Add(new Impact((Entity)entity, targetEntity, position, damage,
-                        targetEntity.IsValid, reached));
+                    state.Impacts.Add(new Impact((Entity)entity, projectile.Target, position, damage, reached));
                 }).Invoke(ref state);
 
             for (int i = 0; i < _impacts.Count; i++)
             {
                 var impact = _impacts[i];
-                bool hit = impact.HasTarget
-                    && _world.IsAlive(impact.Target)
-                    && _world.TryGet(impact.Target, out Position targetPosition)
-                    && fix3.SqrDistance(targetPosition, impact.Position) <= HitRadius * HitRadius;
+                Entity targetEntity = _world.GetEntity(impact.Target);
+                Position targetPosition = _world.Get<Position>(targetEntity);
+                bool hit = fix3.SqrDistance(targetPosition, impact.Position) <= HitRadius * HitRadius;
                 if (hit)
-                    _world.GetOrAdd<RecivedDamage>(impact.Target) += (fix)impact.Damage;
+                    _world.GetOrAdd<RecivedDamage>(targetEntity) += (fix)impact.Damage;
 
                 if (hit || impact.ReachedDestination)
                 {
@@ -71,20 +68,17 @@ namespace DVG.SkyPirates.Shared.Systems
         private readonly struct Impact
         {
             public readonly Entity Projectile;
-            public readonly Entity Target;
+            public readonly SyncId Target;
             public readonly fix3 Position;
             public readonly Damage Damage;
-            public readonly bool HasTarget;
             public readonly bool ReachedDestination;
 
-            public Impact(Entity projectile, Entity target, fix3 position, Damage damage, bool hasTarget,
-                bool reachedDestination)
+            public Impact(Entity projectile, SyncId target, fix3 position, Damage damage, bool reachedDestination)
             {
                 Projectile = projectile;
                 Target = target;
                 Position = position;
                 Damage = damage;
-                HasTarget = hasTarget;
                 ReachedDestination = reachedDestination;
             }
         }

@@ -9,7 +9,7 @@ namespace DVG.SkyPirates.Shared.Components.Runtime
     [ComponentGroup(Group.History)]
     public struct Projectile
     {
-        public Entity Target;
+        public SyncId Target;
         public fix3 StartPosition;
     }
 }

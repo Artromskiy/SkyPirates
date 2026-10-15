@@ -33,29 +33,30 @@ namespace DVG.SkyPirates.Shared.Systems
             _world.ForEach<World, Position, Rotation, DesiredPosition, DesiredRotation, ImpactDistance, Target>(in desc, ref world,
                 static (ref World world, in Position position, in Rotation rotation, ref DesiredPosition desiredPosition, ref DesiredRotation desiredRotation, in ImpactDistance impactDistance, in Target target) =>
                 {
-                if (!target.Entity.HasValue)
+                if (!target.SyncId.HasValue)
                 {
-                    return;
+                        return;
                 }
 
-                desiredPosition.Value = position;
-                desiredRotation.Value = rotation;
+                    desiredPosition.Value = position;
+                    desiredRotation.Value = rotation;
 
-                fix3 targetPos = world.Get<Position>(target.Entity.Value);
-                var impactReduced = impactDistance - _reduceImpactDistance;
-                var impactSqrDistance = impactReduced * impactReduced;
+                    Entity targetEntity = world.GetEntity(target.SyncId.Value);
+                    fix3 targetPos = world.Get<Position>(targetEntity);
+                    var impactReduced = impactDistance - _reduceImpactDistance;
+                    var impactSqrDistance = impactReduced * impactReduced;
 
-                var sqrDistance = fix3.SqrDistance(targetPos, position);
+                    var sqrDistance = fix3.SqrDistance(targetPos, position);
 
-                if (sqrDistance != 0)
+                    if (sqrDistance != 0)
+                    {
+                        var direction = targetPos - position;
+                        desiredRotation.Value = Maths.Degrees(MathsExtensions.GetRotation(direction.xz));
+                    }
+
+                    if (sqrDistance > impactSqrDistance)
                 {
-                    var direction = targetPos - position;
-                    desiredRotation.Value = Maths.Degrees(MathsExtensions.GetRotation(direction.xz));
-                }
-
-                if (sqrDistance > impactSqrDistance)
-                {
-                    desiredPosition.Value = fix3.MoveTowards(targetPos, position, impactReduced);
+                        desiredPosition.Value = fix3.MoveTowards(targetPos, position, impactReduced);
                 }
                 }).Invoke(ref world);
         }

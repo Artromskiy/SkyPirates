@@ -8,6 +8,6 @@ namespace DVG.SkyPirates.Shared.Components.Runtime
     [ComponentGroup(Group.History)]
     public struct Source
     {
-        public Entity Entity;
+        public SyncId SyncId;
     }
 }

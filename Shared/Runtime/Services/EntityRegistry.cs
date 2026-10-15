@@ -1,63 +1,71 @@
-﻿using Delta;
+using Delta;
 using Delta.ECS;
-using DVG.SkyPirates.Shared.Components;
 using DVG.SkyPirates.Shared.Components.Runtime;
-using DVG.SkyPirates.Shared.Core.Collections;
+using DVG.SkyPirates.Shared.Ecs;
 using DVG.SkyPirates.Shared.IServices;
+using DVG.SkyPirates.Shared.Systems;
 
 namespace DVG.SkyPirates.Shared.Services
 {
-    public class EntityRegistry : IEntityRegistry
+    public sealed class EntityRegistry : IEntityRegistry
     {
-        private readonly Lookup<Entity> _idToEntity = new();
+        private readonly World _world;
+        private readonly EntityIdMap _ids;
+        private readonly EntityCacheSystem _cache;
         private int _entityIdCounter = 1;
 
+        public EntityRegistry(World world, EntityCacheSystem cache)
+        {
+            _world = world;
+            _ids = world.GetEntityIdMap();
+            _cache = cache;
+            Rebuild();
+        }
+
         public int NextId => _entityIdCounter;
+
+        public void Synchronize() => _cache.Synchronize();
+
+        public void Rebuild()
+        {
+            _ids.Clear();
+            _entityIdCounter = 1;
+
+            var entities = _world.WhereAll<SyncId>();
+            _world.ForEachEntity(in entities, (EntityRef entity, in SyncId syncId) => Register(entity, syncId)).Invoke();
+
+            var reserves = _world.WhereAll<SyncIdReserve>();
+            _world.ForEach(in reserves, (in SyncIdReserve reserve) => Reserve(reserve)).Invoke();
+            _cache.Synchronize();
+        }
 
         public void Register(Entity entity, SyncId syncId)
         {
             _entityIdCounter = Maths.Max(_entityIdCounter, syncId.Value + 1);
-            _idToEntity[syncId.Value] = entity;
+            _ids.Register(entity, syncId);
         }
 
         public void Reserve(SyncId syncId)
         {
             _entityIdCounter = Maths.Max(_entityIdCounter, syncId.Value + 1);
-            _idToEntity[syncId.Value] = default;
         }
 
         public void Reserve(SyncIdReserve syncIdReserve)
         {
             int end = checked(syncIdReserve.First + syncIdReserve.Count);
-            for (int i = syncIdReserve.First; i < end; i++)
-            {
-                _idToEntity[i] = default;
-            }
-
-            _entityIdCounter = Maths.Max(_entityIdCounter, syncIdReserve.First + syncIdReserve.Count);
+            _entityIdCounter = Maths.Max(_entityIdCounter, end);
         }
 
-        public SyncId Reserve()
-        {
-            _idToEntity[_entityIdCounter] = default;
-            return new() { Value = _entityIdCounter++ };
-        }
+        public SyncId Reserve() => new() { Value = _entityIdCounter++ };
 
         public SyncIdReserve Reserve(int count)
         {
             int first = _entityIdCounter;
-            _entityIdCounter += count;
-            for (int i = first; i < count; i++)
-            {
-                _idToEntity[i] = default;
-            }
-
-            return new() { First = first, Count = count, Current = first };
+            _entityIdCounter = checked(_entityIdCounter + count);
+            return new SyncIdReserve { First = first, Count = count, Current = first };
         }
 
         public bool TryGet(SyncId syncId, out Entity entity)
-        {
-            return _idToEntity.TryGetValue(syncId.Value, out entity);
-        }
+            => _ids.TryGetEntity(syncId, out entity);
     }
 }

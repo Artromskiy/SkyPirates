@@ -37,12 +37,12 @@ namespace DVG.SkyPirates.Shared.Systems
             _world.ForEach<Lookup<int>, SquadMember>(in unitsDesc, ref unitCounts,
                 static (ref Lookup<int> counts, in SquadMember member) =>
                 {
-                    if (!counts.ContainsKey(member.SquadId))
+                    if (!counts.ContainsKey(member.SquadId.Value))
                     {
-                        counts[member.SquadId] = 0;
+                        counts[member.SquadId.Value] = 0;
                     }
 
-                    counts[member.SquadId]++;
+                    counts[member.SquadId.Value]++;
                 }).Invoke(ref unitCounts);
 
             var counts = _unitCountPerSquad;
