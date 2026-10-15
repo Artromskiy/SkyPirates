@@ -1,9 +1,11 @@
 ﻿using Delta.ECS;
 using DVG.SkyPirates.Shared.Core.NewType;
+using DVG.SkyPirates.Shared.Components;
 
 namespace DVG.SkyPirates.Shared.Components.Runtime
 {
 	[ComponentSchema]
+	[ComponentGroup(Group.History)]
 	public struct RandomSeed : INewType<int>
 	{
 		public int Value;
