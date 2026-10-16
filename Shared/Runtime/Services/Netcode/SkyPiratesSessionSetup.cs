@@ -67,7 +67,7 @@ namespace SlyPirates.Shared.Services.Netcode
         public SessionHost Create(SessionStart start, SessionMode mode, ISessionTransport transport)
         {
             var commandRegistry = new CommandRegistry();
-            foreach (ICommandRegistration registration in GeneratedCommands.Registrations)
+            foreach (ICommandRegistration registration in GeneratedCommandCatalog.Registrations)
             {
                 commandRegistry.Register(registration);
             }

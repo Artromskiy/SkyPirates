@@ -62,7 +62,7 @@ namespace SlyPirates.Shared.Systems
             (HashSet<int> Written, Lookup2D<List<SeparatorEntry>> Grid) state = (_syncIdCache, _partitioning);
             var separationDesc = _separationDesc;
             _world.ForEach<(HashSet<int> Written, Lookup2D<List<SeparatorEntry>> Grid), Position, Separation>(in separationDesc, ref state,
-                static (ref (HashSet<int> Written, Lookup2D<List<SeparatorEntry>> Grid) state, ref Position position, ref Separation separation) =>
+                static (ref (HashSet<int> Written, Lookup2D<List<SeparatorEntry>> Grid) state, ref Position position, in Separation separation) =>
                 {
                     state.Written.Clear();
                     var pos = ((fix3)position).xz;

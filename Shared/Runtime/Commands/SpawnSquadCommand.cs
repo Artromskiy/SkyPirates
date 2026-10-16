@@ -3,7 +3,7 @@ using SlyPirates.Shared.Data;
 
 namespace SlyPirates.Shared.Commands
 {
-    [NetCommand(Id = 5, Predicted = false)]
+    [CommandSchema(5, Predicted = false)]
     public struct SpawnSquadCommand
     {
         public EntityParameters CreationData;

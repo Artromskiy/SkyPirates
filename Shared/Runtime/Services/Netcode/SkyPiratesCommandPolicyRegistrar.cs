@@ -33,7 +33,7 @@ namespace SlyPirates.Shared.Services.Netcode
         public void Register()
         {
             var visitor = new RegisterPolicies(this);
-            foreach (ICommandRegistration registration in GeneratedCommands.Registrations)
+            foreach (ICommandRegistration registration in GeneratedCommandCatalog.Registrations)
             {
                 registration.Visit(ref visitor);
             }
@@ -61,7 +61,7 @@ namespace SlyPirates.Shared.Services.Netcode
             }
         }
 
-        private readonly struct RegisterPolicies : ICommandVisitor
+        private readonly struct RegisterPolicies : IUnconstrainedCommandVisitor
         {
             private readonly SkyPiratesCommandPolicyRegistrar _registrar;
 
@@ -70,7 +70,7 @@ namespace SlyPirates.Shared.Services.Netcode
                 _registrar = registrar;
             }
 
-            public void Visit<T>() => _registrar.Register<T>();
+            public void Visit<T>(ulong _) => _registrar.Register<T>();
         }
 
         private sealed class CompositeValidator<T> : ICommandValidator<T>

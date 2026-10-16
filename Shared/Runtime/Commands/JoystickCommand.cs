@@ -4,7 +4,7 @@ using SlyPirates.Shared.Components.Runtime;
 
 namespace SlyPirates.Shared.Commands
 {
-    [NetCommand(Id = 2, Predicted = true)]
+    [CommandSchema(2, Predicted = true)]
     public struct JoystickCommand
     {
         public SyncId Target;
