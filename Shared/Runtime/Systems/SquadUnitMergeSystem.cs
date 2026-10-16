@@ -12,7 +12,7 @@ namespace SlyPirates.Shared.Systems
 {
     public sealed class SquadUnitMergeSystem : IDeltaTickableExecutor
     {
-        private static readonly fix Two = fix.One + fix.One;
+        private static readonly fix Three = fix.One + fix.One + fix.One;
 
         private readonly World _world;
         private readonly Dictionary<(int SquadId, UnitId UnitId, int Level), List<Unit>> _unitsPerGroup = new();
@@ -93,11 +93,11 @@ namespace SlyPirates.Shared.Systems
             level.Value = strongest.Level + 1;
 
             ref var health = ref _world.GetRef<Health>(strongest.Entity);
-            health.Value = DoubleStat(health.Value);
+            health.Value = TripleStat(health.Value);
             ref var maxHealth = ref _world.GetRef<MaxHealth>(strongest.Entity);
-            maxHealth.Value = DoubleStat(maxHealth.Value);
+            maxHealth.Value = TripleStat(maxHealth.Value);
             ref var damage = ref _world.GetRef<Damage>(strongest.Entity);
-            damage.Value = DoubleStat(damage.Value);
+            damage.Value = TripleStat(damage.Value);
 
             var merged = new Unit(
                 strongest.Entity,
@@ -142,19 +142,19 @@ namespace SlyPirates.Shared.Systems
             return candidate.SyncId < current.SyncId;
         }
 
-        private static fix DoubleStat(fix value)
+        private static fix TripleStat(fix value)
         {
-            if (value.raw > fix.MaxValue.raw / 2)
+            if (value.raw > fix.MaxValue.raw / 3)
             {
                 return fix.MaxValue;
             }
 
-            if (value.raw < fix.MinValue.raw / 2)
+            if (value.raw < fix.MinValue.raw / 3)
             {
                 return fix.MinValue;
             }
 
-            return value * Two;
+            return value * Three;
         }
 
         private readonly struct Unit
