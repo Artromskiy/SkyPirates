@@ -67,10 +67,21 @@ namespace SlyPirates.Client.Systems
                     continue;
                 }
 
-                if (_world.Has<PendingDestroy>(entity) || !_world.Has<ConfigViewToken>(entity))
+                bool hasViewToken = _world.Has<ConfigViewToken>(entity);
+                if (_world.Has<PendingDestroy>(entity) || !hasViewToken)
                 {
                     if (_world.Has<BindingViewToken>(entity)) _tokens.Add(entity);
-                    // Views finish their own death animation while history retains the entity.
+                    if (hasViewToken)
+                    {
+                        // A gameplay destroy keeps its bound view alive for its death animation.
+                        continue;
+                    }
+
+                    // A history restore can remove the view's source components. Suspend the
+                    // existing view until those components return, then bind it again in place.
+                    if (_world.Has<ViewBound>(entity)) _unbind.Add(entity);
+                    if (_scene.TryGetView(entity, out GameObject staleView))
+                        staleView.SetActive(false);
                     continue;
                 }
 
