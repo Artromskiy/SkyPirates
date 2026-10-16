@@ -56,7 +56,7 @@ namespace DVG.SkyPirates.Shared.Tools.Json
             writer.WriteEndObject();
         }
 
-        private sealed class ReadComponentData : IStructVisitor
+        private sealed class ReadComponentData : IStructComponentVisitor
         {
             private readonly string _name;
             private readonly JsonElement _value;

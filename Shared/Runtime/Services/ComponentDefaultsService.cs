@@ -111,7 +111,7 @@ namespace DVG.SkyPirates.Shared.Services
             public void Invoke() => _operation.Invoke();
         }
 
-        private readonly struct CreateChangeOperationVisitor : IStructVisitor
+        private readonly struct CreateChangeOperationVisitor : IStructComponentVisitor
         {
             private readonly World _world;
             private readonly List<IComponentChangeOperation> _operations;
@@ -151,7 +151,7 @@ namespace DVG.SkyPirates.Shared.Services
             }
         }
 
-        private readonly struct CopyAction : IStructVisitor
+        private readonly struct CopyAction : IStructComponentVisitor
         {
             private readonly World _world;
             private readonly Entity _entity;
@@ -175,7 +175,7 @@ namespace DVG.SkyPirates.Shared.Services
                 }
             }
 
-            private readonly struct SetAction<From> : IStructVisitor
+            private readonly struct SetAction<From> : IStructComponentVisitor
             {
                 private readonly World _world;
                 private readonly Entity _entity;

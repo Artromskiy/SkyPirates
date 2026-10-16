@@ -249,8 +249,6 @@ MonoBehaviour:
   _start: {fileID: 565479543}
   _end: {fileID: 1335015948}
   _segments: {fileID: 161249862}
-  _iterations: 3
-  _skin: 1024
 --- !u!4 &16596767
 Transform:
   m_ObjectHideFlags: 0
@@ -1108,8 +1106,6 @@ MonoBehaviour:
   _start: {fileID: 882132012}
   _end: {fileID: 1646094337}
   _segments: {fileID: 173980518}
-  _iterations: 100
-  _skin: 1024
 --- !u!4 &387722689
 Transform:
   m_ObjectHideFlags: 0
@@ -1162,8 +1158,6 @@ MonoBehaviour:
   _start: {fileID: 1830032217}
   _end: {fileID: 1681300136}
   _segments: {fileID: 1310319179}
-  _iterations: 1
-  _skin: 1024
 --- !u!4 &388473948
 Transform:
   m_ObjectHideFlags: 0
@@ -1813,8 +1807,6 @@ MonoBehaviour:
   _start: {fileID: 2043315908}
   _end: {fileID: 1806813568}
   _segments: {fileID: 1085636539}
-  _iterations: 100
-  _skin: 1024
 --- !u!4 &656511444
 Transform:
   m_ObjectHideFlags: 0
@@ -1962,8 +1954,6 @@ MonoBehaviour:
   _start: {fileID: 1190653064}
   _end: {fileID: 1688895994}
   _segments: {fileID: 16215611}
-  _iterations: 100
-  _skin: 1024
 --- !u!4 &700862520
 Transform:
   m_ObjectHideFlags: 0
@@ -2447,8 +2437,6 @@ MonoBehaviour:
   _start: {fileID: 45507935}
   _end: {fileID: 1363382024}
   _segments: {fileID: 1299715027}
-  _iterations: 1
-  _skin: 1024
 --- !u!4 &926249546
 Transform:
   m_ObjectHideFlags: 0
@@ -3978,8 +3966,6 @@ MonoBehaviour:
   _start: {fileID: 1902455647}
   _end: {fileID: 1350005541}
   _segments: {fileID: 656725329}
-  _iterations: 100
-  _skin: 1024
 --- !u!4 &1452553752
 Transform:
   m_ObjectHideFlags: 0
@@ -4081,8 +4067,6 @@ MonoBehaviour:
   _start: {fileID: 1034322656}
   _end: {fileID: 1325853055}
   _segments: {fileID: 812955026}
-  _iterations: 100
-  _skin: 1024
 --- !u!1 &1481637946
 GameObject:
   m_ObjectHideFlags: 0
@@ -5093,8 +5077,6 @@ MonoBehaviour:
   _start: {fileID: 1509316090}
   _end: {fileID: 99199569}
   _segments: {fileID: 2081887319}
-  _iterations: 5
-  _skin: 1024
 --- !u!4 &1748121252
 Transform:
   m_ObjectHideFlags: 0
@@ -5147,8 +5129,6 @@ MonoBehaviour:
   _start: {fileID: 1961280101}
   _end: {fileID: 1196261562}
   _segments: {fileID: 869864665}
-  _iterations: 100
-  _skin: 1024
 --- !u!4 &1777574522
 Transform:
   m_ObjectHideFlags: 0

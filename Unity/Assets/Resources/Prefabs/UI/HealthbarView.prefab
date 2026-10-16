@@ -510,7 +510,6 @@ MonoBehaviour:
   _fillImage: {fileID: 8701260454915454467}
   _canvasGroup: {fileID: 6285870986199768764}
   _level: {fileID: 1797148560047452693}
-  _verticalOffset: 1.5
   _debugRecolorId: 0
 --- !u!114 &-3252275758275310920
 MonoBehaviour:

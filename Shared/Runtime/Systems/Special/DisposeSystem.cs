@@ -79,7 +79,7 @@ namespace DVG.SkyPirates.Shared.Systems.Special
             public ForEachEntityAction? Dispose;
         }
 
-        private readonly struct CollectDisposableComponents : IStructVisitor<IDisposable>
+        private readonly struct CollectDisposableComponents : IStructComponentVisitor<IDisposable>
         {
             private readonly List<ComponentId> _components;
             private readonly ComponentQueryCache<QuerySet> _queryCache;
@@ -91,8 +91,6 @@ namespace DVG.SkyPirates.Shared.Systems.Special
                 _components = components;
                 _queryCache = queryCache;
             }
-
-            public RuntimeTypeHandle ConstraintType => typeof(IDisposable).TypeHandle;
 
             public void Visit<T>(ComponentId componentId) where T : struct, IDisposable
             {

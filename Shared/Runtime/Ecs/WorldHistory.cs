@@ -185,7 +185,7 @@ namespace DVG.SkyPirates.Shared.Ecs
             return history;
         }
 
-        private sealed class CreateHistoryVisitor : IStructVisitor
+        private sealed class CreateHistoryVisitor : IStructComponentVisitor
         {
             private readonly World _world;
             private readonly EntityPresenceHistory _entityPresence;

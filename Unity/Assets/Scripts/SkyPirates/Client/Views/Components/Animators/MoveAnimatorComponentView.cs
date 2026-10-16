@@ -1,6 +1,5 @@
 ﻿using Delta;
 using Delta.ECS.Unity;
-using DVG.SkyPirates.Client.Views.Components;
 using DVG.SkyPirates.Shared.Components.Config;
 using UnityEngine;
 

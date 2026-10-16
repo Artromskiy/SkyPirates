@@ -12,7 +12,7 @@ namespace DVG.SkyPirates.Shared.Data
         public IEnumerator<string> GetEnumerator() => _items.GetEnumerator();
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
         internal void Add(string name) => _items.Add(name);
-        internal void Visit(World world, string name, IStructVisitor visitor)
+        internal void Visit(World world, string name, IStructComponentVisitor visitor)
         {
             ComponentId componentId = world.GetAlias(name);
             world.Components.Visit(componentId, visitor);

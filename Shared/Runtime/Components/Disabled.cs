@@ -1,5 +1,4 @@
 ﻿using Delta.ECS;
-using DVG.SkyPirates.Shared.Components;
 
 namespace DVG.SkyPirates.Shared.Components.Framed
 {
@@ -8,6 +7,5 @@ namespace DVG.SkyPirates.Shared.Components.Framed
     [ComponentGroup(Group.History)]
     public struct Disabled
     {
-        private bool _hidden;
     }
 }

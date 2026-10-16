@@ -1,5 +1,4 @@
 using Delta.ECS.Unity;
-using DVG.SkyPirates.Shared.Components;
 using DVG.SkyPirates.Shared.Components.Runtime;
 using DVG.SkyPirates.Client.Views.Components;
 using UnityEngine;

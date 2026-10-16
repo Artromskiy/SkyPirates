@@ -318,7 +318,7 @@ namespace DVG.SkyPirates.Shared.Ecs
         private static bool SameEntity(Entity left, Entity right)
             => left.Index == right.Index && left.Generation == right.Generation;
 
-        private sealed class CreateHistoryVisitor : IStructVisitor
+        private sealed class CreateHistoryVisitor : IStructComponentVisitor
         {
             private readonly ChangeWorldHistory _owner;
             private readonly List<ComponentHistory> _histories;

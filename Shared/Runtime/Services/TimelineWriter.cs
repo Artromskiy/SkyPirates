@@ -1,5 +1,4 @@
 using DVG.SkyPirates.Shared.Core.Collections;
-using DVG.SkyPirates.Shared.Core;
 using DVG.SkyPirates.Shared.Data;
 using DVG.SkyPirates.Shared.IServices.TickableExecutors;
 using System.Collections.Generic;

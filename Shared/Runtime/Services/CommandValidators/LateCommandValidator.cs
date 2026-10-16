@@ -1,5 +1,4 @@
 using Delta.Netcode;
-using DVG.SkyPirates.Shared.Core;
 using DVG.SkyPirates.Shared;
 using DVG.SkyPirates.Shared.IServices;
 

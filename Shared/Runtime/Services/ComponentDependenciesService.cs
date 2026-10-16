@@ -136,7 +136,7 @@ namespace DVG.SkyPirates.Shared.Services
             public void Invoke() => _operation.Invoke();
         }
 
-        private readonly struct CreateChangeOperationVisitor : IStructVisitor
+        private readonly struct CreateChangeOperationVisitor : IStructComponentVisitor
         {
             private readonly World _world;
             private readonly List<IComponentChangeOperation> _operations;

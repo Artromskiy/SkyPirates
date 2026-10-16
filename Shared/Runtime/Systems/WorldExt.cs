@@ -1,6 +1,5 @@
 ﻿using Delta.ECS;
 using DVG.SkyPirates.Shared.Data;
-using DVG.SkyPirates.Shared.Ecs;
 
 namespace DVG.SkyPirates.Shared.Systems
 {

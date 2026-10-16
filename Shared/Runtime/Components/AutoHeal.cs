@@ -1,6 +1,5 @@
 ﻿using Delta.ECS;
 using Delta;
-using DVG.SkyPirates.Shared.Components;
 
 namespace DVG.SkyPirates.Shared.Components.Runtime
 {

@@ -1,5 +1,4 @@
 ﻿using Delta;
-using Delta.Netcode;
 using DVG.SkyPirates.Client.IServices;
 using DVG.SkyPirates.Client.IViewModels;
 using DVG.SkyPirates.Shared.Commands;

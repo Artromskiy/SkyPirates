@@ -14,10 +14,6 @@ namespace DVG.SkyPirates.Tooling.Testing
         private Transform _end;
         [SerializeField]
         private Transform _segments;
-        [SerializeField]
-        private int _iterations;
-        [SerializeField]
-        private int _skin = 128;
 
         private void OnDrawGizmos()
         {
@@ -59,9 +55,6 @@ namespace DVG.SkyPirates.Tooling.Testing
             Gizmos.DrawWireSphere((float3)start.x_y, (float)_radius);
             Gizmos.DrawWireSphere((float3)end.x_y, (float)_radius);
 
-
-            //Solvers.MaxIterations = _iterations;
-            //Solvers.Skin = new(_skin);
             var finalPos = Solvers.CircleSlide(start, velocity, _radius);
 
             Gizmos.color = Color.cyan;

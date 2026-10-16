@@ -1,6 +1,5 @@
 ﻿using Delta.ECS.Unity;
 using DG.Tweening;
-using DVG.SkyPirates.Shared.Components;
 using DVG.SkyPirates.Shared.Components.Runtime;
 using DVG.SkyPirates.Shared.Components.Framed;
 using DVG.SkyPirates.Shared.Components.Config;
@@ -19,8 +18,6 @@ namespace DVG.SkyPirates.Client.Views.Components
         private CanvasGroup _canvasGroup = null!;
         [SerializeField]
         private TMP_Text _level = null!;
-        [SerializeField]
-        private float _verticalOffset;
         [SerializeField]
         private int _debugRecolorId;
 
