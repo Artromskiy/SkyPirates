@@ -43,24 +43,23 @@ namespace DVG.SkyPirates.Shared.Ecs
         }
 
         public void Set(Entity entity, in T value)
+            => GetValueRefOrAddDefault(entity, out _) = value;
+
+        public ref T GetValueRefOrAddDefault(Entity entity, out bool exists)
         {
             Page page = GetPage(entity.Index, true)!;
             int slot = entity.Index & PageMask;
-            if (page.DenseIndices[slot] != 0)
+            exists = page.DenseIndices[slot] != 0 && page.Entities[slot] == entity;
+            if (!exists)
             {
-                if (page.Entities[slot] == entity)
-                {
-                    page.Values[slot] = value;
-                    return;
-                }
+                if (page.DenseIndices[slot] != 0) RemoveAt(page, slot);
 
-                RemoveAt(page, slot);
+                page.Entities[slot] = entity;
+                page.DenseIndices[slot] = _entities.Count + 1;
+                _entities.Add(entity);
             }
 
-            page.Entities[slot] = entity;
-            page.Values[slot] = value;
-            page.DenseIndices[slot] = _entities.Count + 1;
-            _entities.Add(entity);
+            return ref page.Values[slot];
         }
 
         public bool Remove(Entity entity)

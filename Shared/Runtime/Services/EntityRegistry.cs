@@ -14,6 +14,7 @@ namespace DVG.SkyPirates.Shared.Services
         private readonly IOperation _scanIds;
         private readonly IOperation _scanReserves;
         private int _entityIdCounter = 1;
+        private bool _counterNeedsRebuild;
 
         public EntityRegistry(World world, EntityCacheSystem cache)
         {
@@ -21,12 +22,24 @@ namespace DVG.SkyPirates.Shared.Services
             _cache = cache;
             Query ids = world.WhereAll<SyncId>().WhereNone<PendingDestroy>();
             Query reserves = world.WhereAll<SyncIdReserve>().WhereNone<PendingDestroy>();
-            _scanIds = world.ForEachEntity(in ids, (EntityRef entity, in SyncId id) => Register(entity, id));
+            _scanIds = world.ForEach(in ids, (in SyncId id) => Reserve(id));
             _scanReserves = world.ForEach(in reserves, (in SyncIdReserve reserve) => Reserve(reserve));
             Rebuild();
         }
 
-        public int NextId => _entityIdCounter;
+        public int NextId
+        {
+            get
+            {
+                if (_counterNeedsRebuild)
+                {
+                    _scanIds.Invoke();
+                    _scanReserves.Invoke();
+                    _counterNeedsRebuild = false;
+                }
+                return _entityIdCounter;
+            }
+        }
 
         public void Synchronize() => _cache.Synchronize();
 
@@ -34,9 +47,7 @@ namespace DVG.SkyPirates.Shared.Services
         {
             _cache.Synchronize();
             _entityIdCounter = 1;
-
-            _scanIds.Invoke();
-            _scanReserves.Invoke();
+            _counterNeedsRebuild = true;
         }
 
         public void Register(Entity entity, SyncId syncId)

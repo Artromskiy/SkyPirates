@@ -19,19 +19,21 @@ namespace DVG.SkyPirates.Shared.Ecs
         private readonly EntityValueMap<int> _references = new();
         private readonly EntityValueMap<int> _owned = new();
         private readonly EntityValueMap<bool> _present = new();
+        private readonly EntityValueMap<bool> _baselinePresence = new();
+        private readonly EntityValueMap<bool> _presenceChanged = new();
+        private readonly List<Entity> _appeared = new();
         private readonly List<Entity> _disappeared = new();
         private readonly List<Entity> _release = new();
         private readonly List<Entity> _transitions = new();
+        private readonly List<Entity> _restored = new();
         private readonly Stack<PresenceFrame> _recycled = new();
-        private readonly IOperation _collectOwned;
+        private readonly IOperation _ownershipChanges;
+        private readonly IOperation _pendingChanges;
         private readonly IOperation _collectPresent;
-        private readonly IOperation _collectPending;
-        private readonly IOperation _collectAbsent;
-        private readonly IOperation _collectRestored;
         private readonly HistoryResource[] _resources;
         private readonly int _capacity;
         private Entity[] _batch = Array.Empty<Entity>();
-        private PresenceFrame _capture = null!;
+        private int _presenceTick;
         private bool _disposed;
 
         public WorldHistory(World world, ReadOnlySpan<ComponentId> componentIds, int initialCapacity, int maxCapacity)
@@ -60,32 +62,11 @@ namespace DVG.SkyPirates.Shared.Ecs
             _columns = columns.ToArray();
             _componentIds = ids.ToArray();
             _syncIds = (HistoryColumn<SyncId>)columns.Find(c => c.Id == syncId)!;
-            Query query = world.WhereAll<SyncId>();
-            _collectOwned = world.ForEachEntity(in query, (EntityRef entity, in SyncId id) =>
-                _owned.Set(entity, id.Value));
-            Query present = query.WhereNone<PendingDestroy>();
-            _collectPresent = world.ForEachEntity(in present, (EntityRef entity, in SyncId id) =>
-            {
-                Entity handle = entity;
-                _owned.Set(handle, id.Value);
-                _capture.Entities.Add(handle);
-                _present.Set(handle, true);
-            });
-            Query pending = query.WhereAll<PendingDestroy>();
-            _collectPending = world.ForEachEntity(in pending, (EntityRef entity, in SyncId id) =>
-                _owned.Set(entity, id.Value));
-            Query active = world.WhereNone<PendingDestroy>();
-            _collectAbsent = world.ForEachEntity(in active, (EntityRef entity) =>
-            {
-                Entity handle = entity;
-                if (Owns(handle) && !IsPresent(handle)) _transitions.Add(handle);
-            });
-            Query hidden = world.WhereAll<PendingDestroy>();
-            _collectRestored = world.ForEachEntity(in hidden, (EntityRef entity) =>
-            {
-                Entity handle = entity;
-                if (IsPresent(handle)) _transitions.Add(handle);
-            });
+            _ownershipChanges = world.ForEachChange<SyncId>(syncId, OnOwnershipChanged);
+            _pendingChanges = world.ForEachChange<PendingDestroy>(pendingId, OnPendingChanged);
+            Query present = world.WhereAll<SyncId>().WhereNone<PendingDestroy>();
+            _collectPresent = world.ForEachEntity(in present, (EntityRef entity) =>
+                _present.Set(entity, true));
             var resources = new List<HistoryResource>();
             var disposeVisitor = new CreateResources(world, this, resources);
             foreach (ComponentId id in world.GetGroup(Group.All))
@@ -103,54 +84,162 @@ namespace DVG.SkyPirates.Shared.Ecs
                 throw new InvalidOperationException("Rollback before replacing the future of history.");
             bool replace = _frames.Count != 0 && tick == NewestTick;
             PresenceFrame? previous = _frames.Count == 0 ? null : _frames.Last;
-            _capture = _recycled.Count != 0 ? _recycled.Pop() : new PresenceFrame(previous?.Entities.Count ?? _world.AliveEntityCount);
-            _capture.Tick = tick;
-            _present.Clear();
-            _collectPresent.Invoke();
-            _collectPending.Invoke();
+            var capture = _recycled.Count != 0 ? _recycled.Pop() : new PresenceFrame();
+            capture.Tick = tick;
+            _ownershipChanges.Invoke();
+            _pendingChanges.Invoke();
+            if (previous == null)
+            {
+                _present.Clear();
+                _collectPresent.Invoke();
+                for (int i = 0; i < _present.Count; i++)
+                {
+                    Entity entity = _present.GetEntityAt(i);
+                    _baselinePresence.Set(entity, true);
+                    AddReference(entity);
+                }
+            }
+            else
+            {
+                PresenceFrame before = replace && _frames.Count > 1 ? _frames.At(_frames.Count - 2) : previous;
+                MovePresence(before.Tick);
+                for (int i = 0; i < _presenceChanged.Count; i++)
+                {
+                    Entity entity = _presenceChanged.GetEntityAt(i);
+                    bool present = _world.IsAlive(entity) && _world.Has<SyncId>(entity) && !_world.Has<PendingDestroy>(entity);
+                    if (present)
+                    {
+                        if (IsPresent(entity)) continue;
+                        _present.Set(entity, true);
+                        capture.Added.Add(entity);
+                    }
+                    else if (_present.Remove(entity)) capture.Removed.Add(entity);
+                }
+            }
+            _presenceTick = tick;
             CaptureResources();
+            _appeared.Clear();
+            _appeared.AddRange(capture.Added);
             _disappeared.Clear();
-            if (previous != null)
-                foreach (Entity entity in previous.Entities)
+            _disappeared.AddRange(capture.Removed);
+            if (replace)
+            {
+                foreach (Entity entity in previous!.Added)
                     if (!_present.TryGetValue(entity, out _)) _disappeared.Add(entity);
+                foreach (Entity entity in previous.Removed)
+                    if (IsPresent(entity)) _appeared.Add(entity);
+            }
 
             for (int i = 0; i < _columns.Length; i++)
-                _columns[i].Capture(tick, replace, _disappeared);
-            if (replace) Recycle(_frames.RemoveLast());
-            _frames.Add(_capture);
-            foreach (Entity entity in _capture.Entities)
+                _columns[i].Capture(tick, replace, _appeared, _disappeared);
+            if (replace)
             {
-                _references.TryGetValue(entity, out int count);
-                _references.Set(entity, count + 1);
+                _frames.RemoveLast();
+                if (_frames.Count == 0)
+                {
+                    foreach (Entity entity in capture.Removed)
+                        if (_baselinePresence.Remove(entity)) RemoveReference(entity);
+                    foreach (Entity entity in capture.Added)
+                    {
+                        _baselinePresence.Set(entity, true);
+                        AddReference(entity);
+                    }
+                    capture.Added.Clear();
+                    capture.Removed.Clear();
+                }
+                else
+                {
+                    foreach (Entity entity in previous!.Added) RemoveReference(entity);
+                    foreach (Entity entity in capture.Added) AddReference(entity);
+                }
+                Recycle(previous!);
             }
+            else foreach (Entity entity in capture.Added) AddReference(entity);
+            _frames.Add(capture);
             while (_frames.Count > _capacity) DropFirst();
-            _capture = null!;
             ReleaseUnreferenced();
+            _ownershipChanges.Invoke();
+            _pendingChanges.Invoke();
+            _presenceChanged.Clear();
         }
 
         public void GoTo(int tick)
         {
             ThrowIfDisposed();
-            PresenceFrame frame = _frames.Find(tick);
-            _present.Clear();
-            foreach (Entity entity in frame.Entities) _present.Set(entity, true);
+            _frames.Find(tick);
             // Remember unsaved transient entities too; their resources have the same owner.
-            _collectOwned.Invoke();
+            _ownershipChanges.Invoke();
+            _pendingChanges.Invoke();
+            MovePresence(tick);
             CaptureResources();
             _transitions.Clear();
-            _collectAbsent.Invoke();
-            _world.Add<PendingDestroy>(Batch(_transitions));
-            _transitions.Clear();
-            _collectRestored.Invoke();
-            _world.Remove<PendingDestroy>(Batch(_transitions));
+            _restored.Clear();
+            for (int i = 0; i < _presenceChanged.Count; i++)
+            {
+                Entity entity = _presenceChanged.GetEntityAt(i);
+                if (!Owns(entity) || !_world.IsAlive(entity)) continue;
+                bool pending = _world.Has<PendingDestroy>(entity);
+                if (IsPresent(entity))
+                {
+                    if (pending) _restored.Add(entity);
+                }
+                else if (!pending) _transitions.Add(entity);
+            }
+            if (_transitions.Count != 0) _world.Add<PendingDestroy>(Batch(_transitions));
+            if (_restored.Count != 0) _world.Remove<PendingDestroy>(Batch(_restored));
             for (int i = 0; i < _columns.Length; i++) _columns[i].Restore(tick);
             ReleaseUnreferenced();
+            // Consume this restore's writes without hiding them from other observers.
+            _ownershipChanges.Invoke();
+            _pendingChanges.Invoke();
+            _presenceChanged.Clear();
+        }
+
+        private void OnOwnershipChanged(Entity entity, ChangeKind change, ref SyncId id)
+        {
+            if (change != ChangeKind.Removed) _owned.Set(entity, id.Value);
+            if (Owns(entity)) _presenceChanged.Set(entity, true);
+        }
+
+        private void OnPendingChanged(Entity entity, ChangeKind change, ref PendingDestroy pending)
+        {
+            if (Owns(entity)) _presenceChanged.Set(entity, true);
+        }
+
+        private void MovePresence(int tick)
+        {
+            int from = _presenceTick;
+            if (from == tick) return;
+            bool forward = from < tick;
+            int direction = forward ? 1 : -1;
+            int first = _frames.IndexAfter(Math.Min(from, tick));
+            int last = _frames.IndexAfter(Math.Max(from, tick));
+            for (int i = forward ? first : last - 1; i >= first && i < last; i += direction)
+            {
+                PresenceFrame frame = _frames.At(i);
+                foreach (Entity entity in frame.Added)
+                {
+                    if (forward) _present.Set(entity, true); else _present.Remove(entity);
+                    _presenceChanged.Set(entity, true);
+                }
+                foreach (Entity entity in frame.Removed)
+                {
+                    if (forward) _present.Remove(entity); else _present.Set(entity, true);
+                    _presenceChanged.Set(entity, true);
+                }
+            }
+            _presenceTick = tick;
         }
 
         public void Rollback(int tick)
         {
             GoTo(tick);
-            while (_frames.Last.Tick > tick) Recycle(_frames.RemoveLast());
+            while (_frames.Last.Tick > tick)
+            {
+                PresenceFrame frame = _frames.RemoveLast();
+                foreach (Entity entity in frame.Added) RemoveReference(entity);
+                Recycle(frame);
+            }
             for (int i = 0; i < _columns.Length; i++) _columns[i].Rollback(tick);
             ReleaseUnreferenced();
         }
@@ -158,10 +247,19 @@ namespace DVG.SkyPirates.Shared.Ecs
         public WorldData GetSnapshot(int tick)
         {
             ThrowIfDisposed();
-            PresenceFrame frame = _frames.Find(tick);
+            _frames.Find(tick);
+            var present = new HashSet<Entity>();
+            for (int i = 0; i < _baselinePresence.Count; i++) present.Add(_baselinePresence.GetEntityAt(i));
+            for (int i = 1; i < _frames.Count; i++)
+            {
+                PresenceFrame frame = _frames.At(i);
+                if (frame.Tick > tick) break;
+                foreach (Entity entity in frame.Added) present.Add(entity);
+                foreach (Entity entity in frame.Removed) present.Remove(entity);
+            }
             var ids = _syncIds.StateAt(tick);
-            var syncIds = new Dictionary<Entity, int>(frame.Entities.Count);
-            foreach (Entity entity in frame.Entities)
+            var syncIds = new Dictionary<Entity, int>(present.Count);
+            foreach (Entity entity in present)
                 if (ids.TryGetValue(entity, out SyncId id)) syncIds.Add(entity, id.Value);
             var snapshot = new WorldData();
             for (int i = 0; i < _columns.Length; i++) _columns[i].Export(snapshot, tick, syncIds);
@@ -177,13 +275,8 @@ namespace DVG.SkyPirates.Shared.Ecs
                 if (pair.Key != pair.Value.Value)
                     throw new ArgumentException("Snapshot SyncId keys must match their component values.", nameof(snapshot));
             var retained = new Dictionary<int, Entity>();
+            _ownershipChanges.Invoke();
             for (int i = 0; i < _owned.Count; i++) retained[_owned.GetValueAt(i)] = _owned.GetEntityAt(i);
-            Query query = _world.WhereAll<SyncId>();
-            _world.ForEachEntity(in query, (EntityRef entity, in SyncId id) =>
-            {
-                retained[id.Value] = entity;
-                _owned.Set(entity, id.Value);
-            }).Invoke();
             CaptureResources();
             ResetFrames();
             var entities = new Dictionary<int, Entity>(sourceIds.Count);
@@ -221,9 +314,12 @@ namespace DVG.SkyPirates.Shared.Ecs
         public void Clear()
         {
             ThrowIfDisposed();
-            _collectOwned.Invoke();
+            _ownershipChanges.Invoke();
             CaptureResources();
             ResetFrames();
+            // Clearing all references can release any owned descriptor. Ordinary saves
+            // and restores only revisit changed presence or expired references.
+            for (int i = 0; i < _owned.Count; i++) _presenceChanged.Set(_owned.GetEntityAt(i), true);
             ReleaseUnreferenced();
             for (int i = 0; i < _resources.Length; i++) _resources[i].Prune();
         }
@@ -233,13 +329,16 @@ namespace DVG.SkyPirates.Shared.Ecs
             while (_frames.Count > 0) Recycle(_frames.RemoveLast());
             _references.Clear();
             _present.Clear();
+            _baselinePresence.Clear();
+            _presenceChanged.Clear();
+            _presenceTick = 0;
             for (int i = 0; i < _columns.Length; i++) _columns[i].Clear();
         }
 
         public void Dispose()
         {
             if (_disposed) return;
-            _collectOwned.Invoke();
+            _ownershipChanges.Invoke();
             ResetFrames();
             _release.Clear();
             for (int i = 0; i < _owned.Count; i++) _release.Add(_owned.GetEntityAt(i));
@@ -250,18 +349,37 @@ namespace DVG.SkyPirates.Shared.Ecs
         private void DropFirst()
         {
             Recycle(_frames.RemoveFirst());
+            PresenceFrame first = _frames.First;
+            foreach (Entity entity in first.Added) _baselinePresence.Set(entity, true);
+            foreach (Entity entity in first.Removed)
+                if (_baselinePresence.Remove(entity)) RemoveReference(entity);
+            first.Added.Clear();
+            first.Removed.Clear();
             for (int i = 0; i < _columns.Length; i++) _columns[i].DropFirst();
+        }
+
+        // Count presence intervals intersecting the retained range, not every frame in them.
+        private void AddReference(Entity entity)
+        {
+            ref int count = ref _references.GetValueRefOrAddDefault(entity, out _);
+            count++;
+        }
+
+        private void RemoveReference(Entity entity)
+        {
+            if (!_references.TryGetValue(entity, out int count)) return;
+            if (count == 1)
+            {
+                _references.Remove(entity);
+                _presenceChanged.Set(entity, true);
+            }
+            else _references.Set(entity, count - 1);
         }
 
         private void Recycle(PresenceFrame frame)
         {
-            foreach (Entity entity in frame.Entities)
-                if (_references.TryGetValue(entity, out int count))
-                {
-                    if (count == 1) _references.Remove(entity);
-                    else _references.Set(entity, count - 1);
-                }
-            frame.Entities.Clear();
+            frame.Added.Clear();
+            frame.Removed.Clear();
             _recycled.Push(frame);
         }
 
@@ -275,10 +393,10 @@ namespace DVG.SkyPirates.Shared.Ecs
         private void ReleaseUnreferenced()
         {
             _release.Clear();
-            for (int i = 0; i < _owned.Count; i++)
+            for (int i = 0; i < _presenceChanged.Count; i++)
             {
-                Entity entity = _owned.GetEntityAt(i);
-                if (!_references.TryGetValue(entity, out _) &&
+                Entity entity = _presenceChanged.GetEntityAt(i);
+                if (Owns(entity) && !_references.TryGetValue(entity, out _) &&
                     (!_world.IsAlive(entity) || _world.Has<PendingDestroy>(entity))) _release.Add(entity);
             }
             ReleaseQueued();
@@ -297,7 +415,7 @@ namespace DVG.SkyPirates.Shared.Ecs
             }
             ReadOnlySpan<Entity> batch = _batch.AsSpan(0, count);
             for (int i = 0; i < _resources.Length; i++) _resources[i].Release(_release, batch);
-            _world.Destroy(batch);
+            if (count != 0) _world.Destroy(batch);
             _release.Clear();
         }
 
@@ -336,9 +454,8 @@ namespace DVG.SkyPirates.Shared.Ecs
 
         private sealed class PresenceFrame : IHistoryFrame
         {
-            public readonly List<Entity> Entities;
-
-            public PresenceFrame(int capacity) => Entities = new List<Entity>(capacity);
+            public readonly List<Entity> Added = new();
+            public readonly List<Entity> Removed = new();
 
             public int Tick { get; set; }
         }
@@ -471,18 +588,25 @@ namespace DVG.SkyPirates.Shared.Ecs
             _items[(_head + --Count) % _items.Length] = null;
             return value;
         }
-        public T Find(int tick)
+        public int IndexAfter(int tick)
+        {
+            if (Count == 0 || tick < First.Tick) return 0;
+            if (tick >= Last.Tick) return Count;
+            int low = 0, high = Count;
+            while (low < high)
+            {
+                int middle = (low + high) >> 1;
+                if (At(middle).Tick <= tick) low = middle + 1; else high = middle;
+            }
+            return low;
+        }
+        public T Find(int tick) => At(FindIndex(tick));
+        public int FindIndex(int tick)
         {
             if (Count == 0 || tick < First.Tick || tick > Last.Tick)
                 throw new ArgumentOutOfRangeException(nameof(tick), $"Tick {tick} is outside the retained history.");
-            int low = 0, high = Count - 1;
-            while (low <= high)
-            {
-                int middle = (low + high) >> 1;
-                int candidate = At(middle).Tick;
-                if (candidate == tick) return At(middle);
-                if (candidate < tick) low = middle + 1; else high = middle - 1;
-            }
+            int index = IndexAfter(tick) - 1;
+            if (At(index).Tick == tick) return index;
             throw new ArgumentOutOfRangeException(nameof(tick), $"Tick {tick} was not saved.");
         }
     }
@@ -491,7 +615,7 @@ namespace DVG.SkyPirates.Shared.Ecs
     {
         public ComponentId Id { get; }
         protected HistoryColumn(ComponentId id) => Id = id;
-        public abstract void Capture(int tick, bool replace, List<Entity> disappeared);
+        public abstract void Capture(int tick, bool replace, List<Entity> appeared, List<Entity> disappeared);
         public abstract void Restore(int tick);
         public abstract void Rollback(int tick);
         public abstract void DropFirst();
@@ -514,6 +638,7 @@ namespace DVG.SkyPirates.Shared.Ecs
         private readonly EntityValueMap<bool> _changed = new();
         private readonly ComponentChangeOperation<T> _changeOperation;
         private readonly IOperation _captureOperation;
+        private readonly Query _query;
         private readonly List<Entity> _remove = new();
         private Entity[] _batch = Array.Empty<Entity>();
         private ComponentHistoryFrame<T> _capture = null!;
@@ -524,13 +649,13 @@ namespace DVG.SkyPirates.Shared.Ecs
         {
             _world = world;
             _owner = owner;
-            Query query = world.WhereAll(id);
+            _query = world.WhereAll(id);
             var context = this;
-            _captureOperation = world.ForEachEntity(in query, ref context, id, typeof(HistoryCaptureComponent<>));
+            _captureOperation = world.ForEachEntity(in _query, ref context, id, typeof(HistoryCaptureComponent<>));
             _changeOperation = world.ForEachChange<T>(id, OnChanged);
         }
 
-        public override void Capture(int tick, bool replace, List<Entity> disappeared)
+        public override void Capture(int tick, bool replace, List<Entity> appeared, List<Entity> disappeared)
         {
             // Keep the state before this frame for reversible change rows. Restoring a
             // nearby tick then touches only the intervening changes in either direction.
@@ -546,7 +671,7 @@ namespace DVG.SkyPirates.Shared.Ecs
             if (replace)
             {
                 _capture = _frames.Last;
-                for (int i = 0; i < _capture.Rows.Count; i++) _indices.Set(_capture.Rows[i].Entity, i);
+                for (int i = 0; i < _capture.Changes.Count; i++) _indices.Set(_capture.Changes[i].Entity, i);
             }
             else
             {
@@ -557,6 +682,15 @@ namespace DVG.SkyPirates.Shared.Ecs
             if (_stateTick >= tick) _stateTick = null;
             _changeOperation.Invoke();
             if (_frames.Count == 1) _captureOperation.Invoke();
+            else if (appeared.Count != 0)
+            {
+                // Logical revival must seed even values that were not written through ref.
+                foreach (Entity entity in appeared)
+                    if (_indices.TryGetValue(entity, out _) || _state.TryGetValue(entity, out _))
+                        Record(entity, false, default);
+                var context = this;
+                _world.ForEachEntity(Batch(appeared), in _query, ref context, Id, typeof(HistoryCaptureComponent<>)).Invoke();
+            }
             // A tag removes the entire logical entity once, including unchanged columns.
             foreach (Entity entity in disappeared) Record(entity, false, default);
             _capture = null!;
@@ -583,45 +717,35 @@ namespace DVG.SkyPirates.Shared.Ecs
 
         private void Record(Entity entity, bool hasValue, in T value)
         {
-            if (_indices.TryGetValue(entity, out int index))
+            ref int index = ref _indices.GetValueRefOrAddDefault(entity, out bool exists);
+            if (exists)
             {
-                _capture.Rows[index] = new HistoryRow<T>(entity, hasValue, value);
+                var change = _capture.Changes[index];
+                change.HasValue = hasValue;
+                change.Current = value;
+                _capture.Changes[index] = change;
             }
             else
             {
                 bool hadValue = _state.TryGetValue(entity, out T previous);
-                _indices.Set(entity, _capture.Rows.Count);
-                _capture.Rows.Add(new HistoryRow<T>(entity, hasValue, value));
-                _capture.Previous.Add(new HistoryRow<T>(entity, hadValue, previous));
+                index = _capture.Changes.Count;
+                _capture.Changes.Add(new HistoryChange<T>(entity, hadValue, previous, hasValue, value));
             }
         }
 
         public EntityValueMap<T> StateAt(int tick)
         {
-            _frames.Find(tick);
+            int target = _frames.FindIndex(tick);
             if (_stateTick == tick) return _state;
-            if (_stateTick.HasValue && _stateTick.Value > tick && _stateTick.Value >= _frames.First.Tick)
-            {
-                for (int i = _frames.Count - 1; i >= 0; i--)
-                {
-                    ComponentHistoryFrame<T> current = _frames.At(i);
-                    if (current.Tick <= tick) break;
-                    if (current.Tick <= _stateTick.Value) Undo(current, _state);
-                }
-                _stateTick = tick;
-            }
             if (!_stateTick.HasValue || _stateTick.Value < _frames.First.Tick)
             {
                 _state.Clear();
                 for (int i = 0; i < _baseline.Count; i++) _state.Set(_baseline.GetEntityAt(i), _baseline.GetValueAt(i));
                 _stateTick = null;
             }
-            for (int i = 0; i < _frames.Count; i++)
-            {
-                ComponentHistoryFrame<T> current = _frames.At(i);
-                if (current.Tick > tick) break;
-                if (!_stateTick.HasValue || current.Tick > _stateTick.Value) Apply(current, _state);
-            }
+            int from = _stateTick.HasValue ? _frames.IndexAfter(_stateTick.Value) : 0;
+            for (int i = from - 1; i > target; i--) Undo(_frames.At(i), _state);
+            for (int i = from; i <= target; i++) Apply(_frames.At(i), _state);
             _stateTick = tick;
             return _state;
         }
@@ -631,14 +755,12 @@ namespace DVG.SkyPirates.Shared.Ecs
             StateAt(tick);
             _changed.Clear();
             _changeOperation.Invoke();
-            int first = Math.Min(_worldTick, tick);
-            int last = Math.Max(_worldTick, tick);
-            for (int i = _frames.Count - 1; i >= 0; i--)
+            int first = _frames.IndexAfter(Math.Min(_worldTick, tick));
+            int last = _frames.IndexAfter(Math.Max(_worldTick, tick));
+            for (int i = last - 1; i >= first; i--)
             {
                 ComponentHistoryFrame<T> frame = _frames.At(i);
-                if (frame.Tick <= first) break;
-                if (frame.Tick > last) continue;
-                foreach (HistoryRow<T> row in frame.Rows) _changed.Set(row.Entity, true);
+                foreach (HistoryChange<T> change in frame.Changes) _changed.Set(change.Entity, true);
             }
 
             _add.Clear();
@@ -654,8 +776,8 @@ namespace DVG.SkyPirates.Shared.Ecs
                 }
                 else if (exists) _remove.Add(entity);
             }
-            _world.Remove(Batch(_remove), Id);
-            _world.Add(Batch(_add), Id);
+            if (_remove.Count != 0) _world.Remove(Batch(_remove), Id);
+            if (_add.Count != 0) _world.Add(Batch(_add), Id);
             foreach (Entity entity in _add)
             {
                 _state.TryGetValue(entity, out T value);
@@ -676,8 +798,7 @@ namespace DVG.SkyPirates.Shared.Ecs
 
         private void Recycle(ComponentHistoryFrame<T> frame)
         {
-            frame.Rows.Clear();
-            frame.Previous.Clear();
+            frame.Changes.Clear();
             _recycled.Push(frame);
         }
 
@@ -694,15 +815,15 @@ namespace DVG.SkyPirates.Shared.Ecs
         }
         private static void Apply(ComponentHistoryFrame<T> frame, EntityValueMap<T> state)
         {
-            foreach (HistoryRow<T> row in frame.Rows)
-                if (row.HasValue) state.Set(row.Entity, row.Value); else state.Remove(row.Entity);
+            foreach (HistoryChange<T> change in frame.Changes)
+                if (change.HasValue) state.Set(change.Entity, change.Current); else state.Remove(change.Entity);
         }
         private static void Undo(ComponentHistoryFrame<T> frame, EntityValueMap<T> state)
         {
-            for (int i = frame.Rows.Count - 1; i >= 0; i--)
+            for (int i = frame.Changes.Count - 1; i >= 0; i--)
             {
-                HistoryRow<T> row = frame.Previous[i];
-                if (row.HasValue) state.Set(row.Entity, row.Value); else state.Remove(row.Entity);
+                HistoryChange<T> change = frame.Changes[i];
+                if (change.HadValue) state.Set(change.Entity, change.Previous); else state.Remove(change.Entity);
             }
         }
         public override void Export(WorldData snapshot, int tick, Dictionary<Entity, int> syncIds)
@@ -735,16 +856,25 @@ namespace DVG.SkyPirates.Shared.Ecs
     }
     internal sealed class ComponentHistoryFrame<T> : IHistoryFrame where T : struct
     {
-        public readonly List<HistoryRow<T>> Rows = new();
-        public readonly List<HistoryRow<T>> Previous = new();
+        public readonly List<HistoryChange<T>> Changes = new();
 
         public int Tick { get; set; }
     }
-    internal readonly struct HistoryRow<T> where T : struct
+    internal struct HistoryChange<T> where T : struct
     {
         public readonly Entity Entity;
-        public readonly bool HasValue;
-        public readonly T Value;
-        public HistoryRow(Entity entity, bool hasValue, in T value) { Entity = entity; HasValue = hasValue; Value = value; }
+        public readonly bool HadValue;
+        public bool HasValue;
+        public readonly T Previous;
+        public T Current;
+
+        public HistoryChange(Entity entity, bool hadValue, in T previous, bool hasValue, in T current)
+        {
+            Entity = entity;
+            HadValue = hadValue;
+            HasValue = hasValue;
+            Previous = previous;
+            Current = current;
+        }
     }
 }
