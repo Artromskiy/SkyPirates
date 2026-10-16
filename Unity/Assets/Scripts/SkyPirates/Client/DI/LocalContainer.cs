@@ -32,6 +32,8 @@ namespace SlyPirates.Client.DI
             RegisterSingleton<IPlayer, Player>();
             RegisterSingleton<ICommandSendScheduler, CommandSendScheduler>();
 
+            RegisterSingleton<LocalGameLoop>();
+
             RegisterSingleton(typeof(IPathFactory<>), typeof(ResourcesFactory<>));
 
             RegisterSingleton<IHealthbarCanvasVM, HealthbarCanvasVM>();
