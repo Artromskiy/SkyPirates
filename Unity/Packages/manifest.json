@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "com.artromskiy.deltaecs.unity": "https://github.com/Artromskiy/DeltaECS.git?path=/src/DeltaECS.Unity#d12d89982348ec8449c9e82810efff748cd00fb4",
+    "com.artromskiy.deltaecs.unity": "0.0.59",
     "com.artromskiy.skypirates.shared": "file:../../Shared",
     "com.github-glitchenzo.nugetforunity": "https://github.com/GlitchEnzo/NuGetForUnity.git?path=/src/NuGetForUnity",
     "com.unity.2d.sprite": "1.0.0",
@@ -32,5 +32,14 @@
     "com.unity.modules.uielements": "1.0.0",
     "com.unity.modules.umbra": "1.0.0",
     "com.unity.modules.vectorgraphics": "1.0.0"
-  }
+  },
+  "scopedRegistries": [
+    {
+      "name": "Artromskiy",
+      "url": "https://registry.npmjs.org",
+      "scopes": [
+        "com.artromskiy"
+      ]
+    }
+  ]
 }

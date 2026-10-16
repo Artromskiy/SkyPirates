@@ -657,10 +657,10 @@
         <member name="T:Delta.ECS.ComponentRegistry">
             <summary>Registers component CLR types and their stable schema identities.</summary>
         </member>
-        <member name="M:Delta.ECS.ComponentRegistry.Visit(Delta.ECS.ComponentId,Delta.ECS.IVisitor)">
+        <member name="M:Delta.ECS.ComponentRegistry.Visit(Delta.ECS.ComponentId,Delta.ECS.IComponentVisitor)">
             <summary>Visits a compatible registered component type and does nothing for an invalid ID or unsupported visitor.</summary>
         </member>
-        <member name="M:Delta.ECS.ComponentRegistry.TryVisit(Delta.ECS.ComponentId,Delta.ECS.IVisitor)">
+        <member name="M:Delta.ECS.ComponentRegistry.TryVisit(Delta.ECS.ComponentId,Delta.ECS.IComponentVisitor)">
             <summary>Visits a compatible component type; returns false for an invalid ID, null visitor, or unsupported route.</summary>
         </member>
         <member name="M:Delta.ECS.ComponentRegistry.Register(Delta.ECS.IGeneratedComponentRegistration)">
@@ -885,20 +885,8 @@
         <member name="T:Delta.ECS.NativeComponentMaskStorage">
             <summary>Immutable native word storage owned by a component mask.</summary>
         </member>
-        <member name="T:Delta.ECS.IVisitor">
-            <summary>Marker for visitors that receive a registered component type.</summary>
-        </member>
-        <member name="T:Delta.ECS.IUnconstrainedVisitor">
-            <summary>Visits a component type without a built-in type constraint.</summary>
-        </member>
-        <member name="M:Delta.ECS.IUnconstrainedVisitor.Visit``1(Delta.ECS.ComponentId)">
-            <summary>Receives the registered component CLR type and ID.</summary>
-        </member>
         <member name="T:Delta.ECS.IComponentVisitor">
-            <summary>Marks a visitor whose type constraint is selected at runtime.</summary>
-        </member>
-        <member name="P:Delta.ECS.IComponentVisitor.ConstraintType">
-            <summary>Gets the CLR type of the explicitly registered interface route.</summary>
+            <summary>Marker for visitors that receive a registered component type.</summary>
         </member>
         <member name="T:Delta.ECS.IComponentVisitor`1">
             <summary>Visits a registered component that implements <typeparamref name="TConstraint"/>.</summary>
@@ -909,79 +897,94 @@
         <member name="M:Delta.ECS.IComponentVisitor`1.TryVisit``1(Delta.ECS.ComponentId)">
             <summary>Visits the component when this visitor selects the matching interface constraint.</summary>
         </member>
-        <member name="T:Delta.ECS.IStructVisitor">
+        <member name="T:Delta.ECS.IUnconstrainedComponentVisitor">
+            <summary>Visits a component type without a built-in type constraint.</summary>
+        </member>
+        <member name="M:Delta.ECS.IUnconstrainedComponentVisitor.Visit``1(Delta.ECS.ComponentId)">
+            <summary>Receives the registered component CLR type and ID.</summary>
+        </member>
+        <member name="T:Delta.ECS.IConstrainedComponentVisitor">
+            <summary>Marks a visitor whose type constraint is selected at runtime.</summary>
+        </member>
+        <member name="P:Delta.ECS.IConstrainedComponentVisitor.ConstraintType">
+            <summary>Gets the CLR type of the explicitly registered interface route.</summary>
+        </member>
+        <member name="T:Delta.ECS.IConstrainedComponentVisitor`1">
+            <summary>Provides the runtime constraint identity for a typed component visitor.</summary>
+        </member>
+        <member name="T:Delta.ECS.IStructComponentVisitor">
             <summary>Visits a component type registered as a value type.</summary>
         </member>
-        <member name="M:Delta.ECS.IStructVisitor.Visit``1(Delta.ECS.ComponentId)">
+        <member name="M:Delta.ECS.IStructComponentVisitor.Visit``1(Delta.ECS.ComponentId)">
             <summary>Receives a registered value type.</summary>
         </member>
-        <member name="T:Delta.ECS.IClassVisitor">
+        <member name="T:Delta.ECS.IClassComponentVisitor">
             <summary>Visits a component type registered as a reference type.</summary>
         </member>
-        <member name="M:Delta.ECS.IClassVisitor.Visit``1(Delta.ECS.ComponentId)">
+        <member name="M:Delta.ECS.IClassComponentVisitor.Visit``1(Delta.ECS.ComponentId)">
             <summary>Receives a registered reference type.</summary>
         </member>
-        <member name="T:Delta.ECS.IUnmanagedVisitor">
+        <member name="T:Delta.ECS.IUnmanagedComponentVisitor">
             <summary>Visits a component type registered as unmanaged.</summary>
         </member>
-        <member name="M:Delta.ECS.IUnmanagedVisitor.Visit``1(Delta.ECS.ComponentId)">
+        <member name="M:Delta.ECS.IUnmanagedComponentVisitor.Visit``1(Delta.ECS.ComponentId)">
             <summary>Receives a registered unmanaged type.</summary>
         </member>
-        <member name="T:Delta.ECS.INewVisitor">
+        <member name="T:Delta.ECS.INewComponentVisitor">
             <summary>Visits a component type with a public parameterless constructor.</summary>
         </member>
-        <member name="M:Delta.ECS.INewVisitor.Visit``1(Delta.ECS.ComponentId)">
+        <member name="M:Delta.ECS.INewComponentVisitor.Visit``1(Delta.ECS.ComponentId)">
             <summary>Receives a constructible registered type.</summary>
         </member>
-        <member name="T:Delta.ECS.IClassNewVisitor">
+        <member name="T:Delta.ECS.IClassNewComponentVisitor">
             <summary>Visits a component type registered as a constructible reference type.</summary>
         </member>
-        <member name="M:Delta.ECS.IClassNewVisitor.Visit``1(Delta.ECS.ComponentId)">
+        <member name="M:Delta.ECS.IClassNewComponentVisitor.Visit``1(Delta.ECS.ComponentId)">
             <summary>Receives a constructible registered reference type.</summary>
         </member>
-        <member name="T:Delta.ECS.IStructVisitor`1">
+        <member name="T:Delta.ECS.IStructComponentVisitor`1">
             <summary>Visits a component type satisfying a value-type and interface constraint.</summary>
         </member>
-        <member name="M:Delta.ECS.IStructVisitor`1.Visit``1(Delta.ECS.ComponentId)">
+        <member name="M:Delta.ECS.IStructComponentVisitor`1.Visit``1(Delta.ECS.ComponentId)">
             <summary>Receives a constrained value type.</summary>
         </member>
-        <member name="M:Delta.ECS.IStructVisitor`1.TryVisit``1(Delta.ECS.ComponentId)">
+        <member name="M:Delta.ECS.IStructComponentVisitor`1.TryVisit``1(Delta.ECS.ComponentId)">
             <summary>Visits the component when this visitor selects the matching interface constraint.</summary>
         </member>
-        <member name="T:Delta.ECS.IClassVisitor`1">
+        <member name="T:Delta.ECS.IClassComponentVisitor`1">
             <summary>Visits a component type satisfying a reference-type and interface constraint.</summary>
         </member>
-        <member name="M:Delta.ECS.IClassVisitor`1.Visit``1(Delta.ECS.ComponentId)">
+        <member name="M:Delta.ECS.IClassComponentVisitor`1.Visit``1(Delta.ECS.ComponentId)">
             <summary>Receives a constrained reference type.</summary>
         </member>
-        <member name="M:Delta.ECS.IClassVisitor`1.TryVisit``1(Delta.ECS.ComponentId)">
+        <member name="M:Delta.ECS.IClassComponentVisitor`1.TryVisit``1(Delta.ECS.ComponentId)">
             <summary>Visits the component when this visitor selects the matching interface constraint.</summary>
         </member>
-        <member name="T:Delta.ECS.IUnmanagedVisitor`1">
+        <member name="T:Delta.ECS.IUnmanagedComponentVisitor`1">
             <summary>Visits an unmanaged component type satisfying an interface constraint.</summary>
         </member>
-        <member name="M:Delta.ECS.IUnmanagedVisitor`1.Visit``1(Delta.ECS.ComponentId)">
+        <member name="M:Delta.ECS.IUnmanagedComponentVisitor`1.Visit``1(Delta.ECS.ComponentId)">
             <summary>Receives a constrained unmanaged type.</summary>
         </member>
-        <member name="M:Delta.ECS.IUnmanagedVisitor`1.TryVisit``1(Delta.ECS.ComponentId)">
+        <member name="M:Delta.ECS.IUnmanagedComponentVisitor`1.TryVisit``1(Delta.ECS.ComponentId)">
             <summary>Visits the component when this visitor selects the matching interface constraint.</summary>
         </member>
-        <member name="T:Delta.ECS.INewVisitor`1">
+        <member name="T:Delta.ECS.INewComponentVisitor`1">
             <summary>Visits a component type satisfying an interface and constructor constraint.</summary>
         </member>
-        <member name="M:Delta.ECS.INewVisitor`1.Visit``1(Delta.ECS.ComponentId)">
+        <member name="M:Delta.ECS.INewComponentVisitor`1.Visit``1(Delta.ECS.ComponentId)">
             <summary>Receives a constrained constructible type.</summary>
         </member>
-        <member name="M:Delta.ECS.INewVisitor`1.TryVisit``1(Delta.ECS.ComponentId)">
+        <member name="M:Delta.ECS.INewComponentVisitor`1.TryVisit``1(Delta.ECS.ComponentId)">
             <summary>Visits the component when this visitor selects the matching interface constraint.</summary>
         </member>
-        <member name="T:Delta.ECS.IClassNewVisitor`1">
+        <member name="T:Delta.ECS.IClassNewComponentVisitor`1">
             <summary>Visits a component type satisfying reference, interface, and constructor constraints.</summary>
         </member>
-        <member name="M:Delta.ECS.IClassNewVisitor`1.Visit``1(Delta.ECS.ComponentId)">
+        <member name="M:Delta.ECS.IClassNewComponentVisitor`1.Visit``1(Delta.ECS.ComponentId)">
             <summary>Receives a constrained constructible reference type.</summary>
         </member>
-        <member name="M:Delta.ECS.IClassNewVisitor`1.TryVisit``1(Delta.ECS.ComponentId)">
+        <member name="M:Delta.ECS.IClassNewComponentVisitor`1.TryVisit``1(Delta.ECS.ComponentId)">
             <summary>Visits the component when this visitor selects the matching interface constraint.</summary>
         </member>
         <member name="T:Delta.ECS.GeneralComponentTypeVisitor`1">
