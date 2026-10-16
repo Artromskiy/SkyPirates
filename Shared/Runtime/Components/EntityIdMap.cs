@@ -36,7 +36,7 @@ namespace DVG.SkyPirates.Shared.Components.Runtime
             return false;
         }
 
-        internal bool TryGetRetainedEntity(SyncId id, out Entity entity)
+        public bool TryGetRetainedEntity(SyncId id, out Entity entity)
         {
             if (_entities.TryGetValue(id.Value, out var cached))
             {
