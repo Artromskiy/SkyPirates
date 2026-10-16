@@ -1,12 +1,10 @@
 ﻿using Delta;
 using Delta.ECS;
-using DVG.SkyPirates.Shared.Core.Collections;
 using DVG.SkyPirates.Shared.Components;
 using DVG.SkyPirates.Shared.Components.Runtime;
 using DVG.SkyPirates.Shared.Data;
 using DVG.SkyPirates.Shared.IServices.TickableExecutors;
 using System;
-using System.Collections.Generic;
 
 namespace DVG.SkyPirates.Shared.Systems
 {

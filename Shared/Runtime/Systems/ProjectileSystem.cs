@@ -19,13 +19,11 @@ namespace DVG.SkyPirates.Shared.Systems
             WhereAll<Projectile, Position, DesiredPosition, Speed, Damage>().Alive().NotDisabled();
 
         private readonly World _world;
-        private readonly IWorldHistory _history;
         private readonly List<Impact> _impacts = new();
 
-        public ProjectileSystem(World world, IWorldHistory history)
+        public ProjectileSystem(World world)
         {
             _world = world;
-            _history = history;
         }
 
         public void Tick(int tick, fix deltaTime)
@@ -51,15 +49,16 @@ namespace DVG.SkyPirates.Shared.Systems
             for (int i = 0; i < _impacts.Count; i++)
             {
                 var impact = _impacts[i];
-                Entity targetEntity = _world.GetEntity(impact.Target);
-                Position targetPosition = _world.Get<Position>(targetEntity);
-                bool hit = fix3.SqrDistance(targetPosition, impact.Position) <= HitRadius * HitRadius;
+                // A projectile may outlive its target. The last destination still completes its flight.
+                bool hit = _world.GetEntityIdMap().TryGetEntity(impact.Target, out Entity targetEntity)
+                    && _world.TryGet(targetEntity, out Position targetPosition)
+                    && fix3.SqrDistance(targetPosition, impact.Position) <= HitRadius * HitRadius;
                 if (hit)
                     _world.GetOrAdd<RecivedDamage>(targetEntity) += (fix)impact.Damage;
 
                 if (hit || impact.ReachedDestination)
                 {
-                    _history.MarkForDisposal(impact.Projectile, tick);
+                    _world.Add<PendingDestroy>(impact.Projectile);
                     _world.Remove<Alive>(impact.Projectile);
                 }
             }

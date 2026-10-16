@@ -12,7 +12,6 @@ using DVG.SkyPirates.Local.Services;
 using DVG.SkyPirates.Shared.DI;
 using DVG.SkyPirates.Shared.IServices;
 using DVG.SkyPirates.Shared.IServices.TickableExecutors;
-using DVG.SkyPirates.Shared.Services;
 using Delta.ECS.Unity;
 using UnityEngine;
 using SimpleInjector;
@@ -22,8 +21,8 @@ namespace DVG.SkyPirates.Client.DI
 {
     public class LocalContainer : SharedContainer
     {
-        public LocalContainer(SceneWorld sceneWorld)
-            : base(Delta.Netcode.SessionMode.Local, true, sceneWorld.World)
+        public LocalContainer(SceneWorld sceneWorld, int historyCapacity = Constants.MaxHistoryTicks)
+            : base(Delta.Netcode.SessionMode.Local, true, sceneWorld.World, historyCapacity)
         {
             RegisterInstance(sceneWorld);
             RegisterSingleton(() => Resources.Load<ViewPrefabCatalog>("ViewPrefabCatalog"));
@@ -42,7 +41,6 @@ namespace DVG.SkyPirates.Client.DI
             RegisterSingleton<IGoodsVM, GoodsVM>();
 
             RegisterSingleton<GameStartController>();
-            RegisterSingleton<IHashSumService, HashSumService>();
 
             Delta.Diagnostics.Trace.Info("[DI] Collections registration");
 
@@ -60,7 +58,6 @@ namespace DVG.SkyPirates.Client.DI
         {
             typeof(ViewBindingTickSystem),
             //typeof(TimelineWriter),
-            //typeof(IHashSumService),
         };
 
         private static readonly Type[] InTickables = new Type[]

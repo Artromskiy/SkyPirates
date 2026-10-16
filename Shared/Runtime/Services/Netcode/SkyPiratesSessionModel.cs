@@ -1,4 +1,5 @@
 using Delta.Netcode;
+using DVG.SkyPirates.Shared.Ecs;
 using DVG.SkyPirates.Shared.Data;
 using DVG.SkyPirates.Shared.IServices.TickableExecutors;
 using DVG.SkyPirates.Shared.IServices;
@@ -11,10 +12,9 @@ namespace DVG.SkyPirates.Shared.Services.Netcode
 {
     public sealed class SkyPiratesSessionModel : ISessionModel
     {
-        private readonly IHistorySystem _history;
+        private readonly IWorldHistory _history;
         private readonly IDeltaTickableService<IDeltaTickableExecutor> _systems;
         private readonly ITickableService<IInTickable> _inTickables;
-        private readonly IDisposeSystem _disposeSystem;
         private readonly IEntityRegistry _entityRegistry;
         private readonly Dictionary<long, List<CommandEntry>> _commands = new();
         private readonly Dictionary<CommandKey, long> _commandSteps = new();
@@ -22,33 +22,44 @@ namespace DVG.SkyPirates.Shared.Services.Netcode
 
         public SkyPiratesSessionModel(
             long startStep,
-            IHistorySystem history,
+            IWorldHistory history,
             IDeltaTickableService<IDeltaTickableExecutor> systems,
             ITickableService<IInTickable> inTickables,
-            IDisposeSystem disposeSystem,
             IEntityRegistry entityRegistry)
         {
             CurrentStep = startStep - 1;
+            ComputedStep = CurrentStep;
             _history = history;
             _systems = systems;
             _inTickables = inTickables;
-            _disposeSystem = disposeSystem;
             _entityRegistry = entityRegistry;
         }
 
+        public event Action? StateRestored;
         public long CurrentStep { get; private set; }
+        public long ComputedStep { get; private set; }
+        public bool HasDirtyCommands => _dirtyStep <= ComputedStep;
+        public bool CommandsLocked { get; private set; }
+        public void LockCommands() => CommandsLocked = true;
+        private void EnsureMutableCommands()
+        {
+            if (CommandsLocked) throw new InvalidOperationException("Recorded replay commands are immutable.");
+        }
 
         public bool TrySchedule(ref long simulationStep)
         {
-            long oldestStep = Math.Max(0, CurrentStep - Constants.MaxHistoryTicks + 1);
-            return simulationStep >= oldestStep;
+            long oldestStep = Math.Max(0, (long)_history.OldestTick + 1);
+            return !CommandsLocked && simulationStep >= oldestStep;
         }
 
         public bool CanCancel(in CommandHeader header)
-            => header.Step > CurrentStep - Constants.MaxHistoryTicks;
+            => !CommandsLocked && header.Step > _history.OldestTick;
 
         public void SetCommand(CommandEntry command)
         {
+            EnsureMutableCommands();
+            if (command.Header.Step <= _history.OldestTick)
+                throw new InvalidOperationException("The command is older than the available rollback range.");
             RemoveExisting(command.Header.Key);
 
             if (!_commands.TryGetValue(command.Header.Step, out var commands))
@@ -67,7 +78,7 @@ namespace DVG.SkyPirates.Shared.Services.Netcode
             }
 
             _commandSteps[command.Header.Key] = command.Header.Step;
-            if (command.Header.Step <= CurrentStep)
+            if (command.Header.Step <= ComputedStep)
             {
                 _dirtyStep = Math.Min(_dirtyStep, command.Header.Step);
             }
@@ -75,12 +86,15 @@ namespace DVG.SkyPirates.Shared.Services.Netcode
 
         public void Remove(CommandKey key)
         {
+            EnsureMutableCommands();
+            if (_commandSteps.TryGetValue(key, out long scheduled) && scheduled <= _history.OldestTick)
+                throw new InvalidOperationException("The command is older than the available rollback range.");
             if (!RemoveScheduledCommand(key, out long step))
             {
                 return;
             }
 
-            if (step <= CurrentStep)
+            if (step <= ComputedStep)
             {
                 _dirtyStep = Math.Min(_dirtyStep, step);
             }
@@ -88,18 +102,47 @@ namespace DVG.SkyPirates.Shared.Services.Netcode
 
         public void Tick(long simulationStep)
         {
-            if (_dirtyStep <= CurrentStep)
+            if (simulationStep < _history.OldestTick)
+                throw new ArgumentOutOfRangeException(nameof(simulationStep));
+            if (_dirtyStep <= ComputedStep)
             {
                 long restoreStep = _dirtyStep - 1;
-                _history.Rollback(restoreStep < 0 ? int.MinValue : checked((int)restoreStep));
-                CurrentStep = restoreStep;
+                _history.Rollback(checked((int)restoreStep));
+                CurrentStep = ComputedStep = restoreStep;
+                _entityRegistry.Rebuild();
+                StateRestored?.Invoke();
                 _dirtyStep = long.MaxValue;
             }
-
+            if (simulationStep <= ComputedStep)
+            {
+                RestoreFixedState(simulationStep);
+                return;
+            }
+            if (CurrentStep != ComputedStep) RestoreFixedState(ComputedStep);
             while (CurrentStep < simulationStep)
             {
-                Simulate(++CurrentStep);
+                long step = CurrentStep + 1;
+                Simulate(step);
+                CurrentStep = ComputedStep = step;
             }
+        }
+
+        public void RestoreFixedState(long step)
+        {
+            bool moved = step != CurrentStep;
+            _history.GoTo(checked((int)step));
+            CurrentStep = step;
+            _entityRegistry.Rebuild();
+            if (moved) StateRestored?.Invoke();
+        }
+
+        public void ApplySnapshot(WorldData snapshot, int tick)
+        {
+            _history.ApplySnapshot(snapshot, tick);
+            _entityRegistry.Rebuild();
+            CurrentStep = ComputedStep = tick;
+            _dirtyStep = long.MaxValue;
+            StateRestored?.Invoke();
         }
 
         public void Save(IBufferWriter<byte> output)
@@ -108,7 +151,7 @@ namespace DVG.SkyPirates.Shared.Services.Netcode
             var state = new SnapshotState
             {
                 Step = snapshotStep,
-                World = _history.GetSnapshot(snapshotStep < 0 ? int.MinValue : checked((int)snapshotStep)),
+                World = _history.GetSnapshot(checked((int)snapshotStep)),
             };
             SerializationUTF8.SerializeCompressed(state, output);
         }
@@ -122,28 +165,24 @@ namespace DVG.SkyPirates.Shared.Services.Netcode
         public void Load(ReadOnlySpan<byte> state)
         {
             var snapshot = SerializationUTF8.DeserializeCompressed<SnapshotState>(state.ToArray());
-            _history.ApplySnapshot(snapshot.World);
-            _history.SaveBaseline();
-            CurrentStep = snapshot.Step;
-            _dirtyStep = long.MaxValue;
+            ApplySnapshot(snapshot.World, checked((int)snapshot.Step));
             _commands.Clear();
             _commandSteps.Clear();
         }
 
         private void Simulate(long step)
         {
-            _entityRegistry.Synchronize();
             if (_commands.TryGetValue(step, out var commands))
             {
                 for (int index = 0; index < commands.Count; index++)
                 {
+                    _entityRegistry.Synchronize();
                     commands[index].Execute();
                 }
             }
 
             int tick = checked((int)step);
             _systems.Tick(tick, Constants.TickTime);
-            _disposeSystem.Tick(tick);
             _entityRegistry.Synchronize();
             _history.Save(tick);
             _inTickables.Tick(tick);
@@ -156,7 +195,7 @@ namespace DVG.SkyPirates.Shared.Services.Netcode
                 return;
             }
 
-            if (oldStep <= CurrentStep)
+            if (oldStep <= ComputedStep)
             {
                 _dirtyStep = Math.Min(_dirtyStep, oldStep);
             }

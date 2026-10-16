@@ -47,9 +47,6 @@ namespace DVG.SkyPirates.Client.Views.Components
 
         private void Update()
         {
-            if (!EntityViewLifetime.TryEnterUpdate(this, _context))
-                return;
-
             Vector3 currentPosition = GetVisualPosition();
             transform.position = currentPosition;
             _lineRenderer.SetPosition(0, _previousPosition);
@@ -61,18 +58,14 @@ namespace DVG.SkyPirates.Client.Views.Components
         {
             World world = _context.World!;
             Vector3 position = (float3)_context.Get<Position>().Value;
-            Vector3 start = _startPosition;
-            Vector3 destination = _destination;
-
             Entity sourceEntity = _entities.GetEntity(_source);
-            if (ProjectileSourceView.TryGetMuzzlePoint(world, sourceEntity, out Vector3 muzzlePosition))
-                start = muzzlePosition;
-            else
-                start = (float3)world.Get<Position>(sourceEntity).Value;
+            Vector3 start = ProjectileSourceView.TryGetMuzzlePoint(world, sourceEntity, out Vector3 muzzlePosition)
+                ? muzzlePosition
+                : (float3)world.Get<Position>(sourceEntity).Value;
 
             Entity targetEntity = _entities.GetEntity(_target);
             Vector3 target = (float3)world.Get<Position>(targetEntity).Value;
-            destination = target + Vector3.up * 0.5f;
+            Vector3 destination = target + Vector3.up * 0.5f;
 
             Vector3 flightStart = _startPosition;
             Vector3 flightEnd = _destination;

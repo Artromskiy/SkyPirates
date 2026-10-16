@@ -27,9 +27,6 @@ namespace DVG.SkyPirates.Client.Views.Components
 
         private void Update()
         {
-            if (!EntityViewLifetime.TryEnterUpdate(this, _context))
-                return;
-
             float health = Health;
             if (health >= _health)
             {

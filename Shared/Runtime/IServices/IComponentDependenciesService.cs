@@ -1,7 +1,9 @@
+using Delta.ECS;
+
 namespace DVG.SkyPirates.Shared.IServices
 {
     public interface IComponentDependenciesService
     {
-        void ProcessChanges();
+        void Apply(Entity entity);
     }
 }

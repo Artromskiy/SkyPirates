@@ -1,5 +1,6 @@
 ﻿using Delta.ECS;
 using DVG.SkyPirates.Shared.Ecs;
+using DVG.SkyPirates.Shared.Components;
 using DVG.SkyPirates.Shared.Components.Runtime;
 using DVG.SkyPirates.Shared.Data;
 using DVG.SkyPirates.Shared.IFactories;
@@ -28,6 +29,7 @@ namespace DVG.SkyPirates.Shared.Factories
 			{
 				entity = _world.Create<Alive>();
 			}
+			_world.Remove<PendingDestroy>(entity);
 			_world.Add(entity, parameters.SyncId, parameters.SyncIdReserve, parameters.RandomSeed, new Alive());
 			_entityRegistryService.Register(entity, parameters.SyncId);
 			return entity;

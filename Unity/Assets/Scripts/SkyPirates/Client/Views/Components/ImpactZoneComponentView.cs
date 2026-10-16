@@ -26,9 +26,6 @@ namespace SkyPirates.Client.Views.Components
 
         private void Update()
         {
-            if (!EntityViewLifetime.TryEnterUpdate(this, _context))
-                return;
-
             _radius = Maths.SmoothDamp(_radius, Radius, ref _radiusVel, LerpConstants.SmoothMoveTime, Time.deltaTime);
             UpdateVolume();
         }

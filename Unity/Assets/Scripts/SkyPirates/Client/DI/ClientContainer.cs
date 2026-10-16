@@ -11,7 +11,6 @@ using DVG.SkyPirates.Client.ViewModels.UI;
 using DVG.SkyPirates.Shared.DI;
 using DVG.SkyPirates.Shared.IServices;
 using DVG.SkyPirates.Shared.IServices.TickableExecutors;
-using DVG.SkyPirates.Shared.Services;
 using Riptide.Transports.Udp;
 using SimpleInjector;
 using System;
@@ -47,7 +46,6 @@ namespace DVG.SkyPirates.Client.DI
             RegisterSingleton<IGoodsVM, GoodsVM>();
 
             RegisterSingleton<GameStartController>();
-            RegisterSingleton<IHashSumService, HashSumService>();
 
             Collection.Register<IPreTickable>(PreTickableExecutors, Lifestyle.Singleton);
             Collection.Register<IPostTickable>(PostTickableExecutors, Lifestyle.Singleton);
@@ -68,7 +66,6 @@ namespace DVG.SkyPirates.Client.DI
 
         private static readonly Type[] InTickables = new Type[]
         {
-            //typeof(IHashSumService)
         };
 
     }

@@ -1,7 +1,6 @@
 using Delta.Netcode;
 using DVG.SkyPirates.Shared.Data;
-using DVG.SkyPirates.Shared.IServices.TickableExecutors;
-using DVG.SkyPirates.Shared.Services.Netcode;
+using DVG.SkyPirates.Shared.Ecs;
 using DVG.SkyPirates.Shared.Tools.Json;
 using System;
 using System.Linq;
@@ -11,11 +10,11 @@ namespace DVG.SkyPirates.Shared.Services.Replay
     public sealed class SkyPiratesReplayRecorder
     {
         private readonly SessionHost _session;
-        private readonly IHistorySystem _history;
+        private readonly IWorldHistory _history;
         private readonly CommandCursor _commandCursor;
         private readonly SkyPiratesReplayData _replay;
 
-        public SkyPiratesReplayRecorder(SessionHost session, IHistorySystem history, WorldData initialWorld, long initialStep)
+        public SkyPiratesReplayRecorder(SessionHost session, IWorldHistory history, WorldData initialWorld, long initialStep)
         {
             _session = session ?? throw new ArgumentNullException(nameof(session));
             _history = history ?? throw new ArgumentNullException(nameof(history));

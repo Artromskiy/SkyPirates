@@ -1,4 +1,7 @@
 using Delta.Netcode;
+using System;
+using DVG.SkyPirates.Shared.Ecs;
+using DVG.SkyPirates.Shared.Data;
 using DVG.SkyPirates.Shared.Commands;
 using DVG.SkyPirates.Shared.IServices;
 using DVG.SkyPirates.Shared.IServices.TickableExecutors;
@@ -9,11 +12,10 @@ namespace DVG.SkyPirates.Shared.Services.Netcode
 {
     public sealed class SkyPiratesSessionSetup
     {
-        private readonly IHistorySystem _history;
+        private readonly IWorldHistory _history;
         private readonly ICommandPayloadHandler _payloadHandler;
         private readonly IDeltaTickableService<IDeltaTickableExecutor> _systems;
         private readonly ITickableService<IInTickable> _inTickables;
-        private readonly IDisposeSystem _disposeSystem;
         private readonly IEntityRegistry _entityRegistry;
         private readonly ICommandReciever _commandReciever;
         private readonly ICommandExecutorRegistration[] _executors;
@@ -21,11 +23,10 @@ namespace DVG.SkyPirates.Shared.Services.Netcode
         private readonly ICommandMutatorRegistration[] _mutators;
 
         public SkyPiratesSessionSetup(
-            IHistorySystem history,
+            IWorldHistory history,
             ICommandPayloadHandler payloadHandler,
             IDeltaTickableService<IDeltaTickableExecutor> systems,
             ITickableService<IInTickable> inTickables,
-            IDisposeSystem disposeSystem,
             IEntityRegistry entityRegistry,
             ICommandReciever commandReciever,
             IEnumerable<ICommandExecutorRegistration> executors,
@@ -36,12 +37,25 @@ namespace DVG.SkyPirates.Shared.Services.Netcode
             _payloadHandler = payloadHandler;
             _systems = systems;
             _inTickables = inTickables;
-            _disposeSystem = disposeSystem;
             _entityRegistry = entityRegistry;
             _commandReciever = commandReciever;
             _executors = executors.ToArray();
             _validators = validators.ToArray();
             _mutators = mutators.ToArray();
+        }
+
+        public event Action? StateRestored;
+        public SkyPiratesSessionModel Model { get; private set; } = null!;
+        public WorldData GetSnapshot(int tick) => _history.GetSnapshot(tick);
+        public void ApplySnapshot(WorldData snapshot, int tick)
+        {
+            if (Model != null) Model.ApplySnapshot(snapshot, tick);
+            else
+            {
+                _history.ApplySnapshot(snapshot, tick);
+                _entityRegistry.Rebuild();
+                StateRestored?.Invoke();
+            }
         }
 
         public SessionHost Create(SessionMode mode, AuthorId authorId, ISessionTransport transport, long startStep = 0)
@@ -59,7 +73,9 @@ namespace DVG.SkyPirates.Shared.Services.Netcode
             }
 
             var journal = new MemoryCommandJournal();
-            var model = new SkyPiratesSessionModel(start.Step, _history, _systems, _inTickables, _disposeSystem, _entityRegistry);
+            var model = new SkyPiratesSessionModel(start.Step, _history, _systems, _inTickables, _entityRegistry);
+            Model = model;
+            model.StateRestored += () => StateRestored?.Invoke();
             var host = new SessionHost(
                 start,
                 commandRegistry,

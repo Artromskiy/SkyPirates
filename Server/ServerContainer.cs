@@ -31,7 +31,6 @@ namespace DVG.SkyPirates.Server
             RegisterSingleton(typeof(IPathFactory<>), typeof(ResourcesFactory<>));
 
             RegisterSingleton<GameStartController>();
-            RegisterSingleton<IHashSumService, HashSumService>();
 
             Collection.Register<IPreTickable>(PreTickables, Lifestyle.Singleton);
             Collection.Register<IPostTickable>(PostTickables, Lifestyle.Singleton);
@@ -58,7 +57,6 @@ namespace DVG.SkyPirates.Server
 
         private readonly Type[] InTickables = new Type[]
         {
-            //typeof(IHashSumService)
         };
     }
 }

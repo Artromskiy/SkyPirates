@@ -1,4 +1,4 @@
-﻿using Delta;
+using Delta;
 using Delta.ECS;
 using DVG.SkyPirates.Shared.Ecs;
 using DVG.SkyPirates.Shared.Components;
@@ -19,12 +19,10 @@ namespace DVG.SkyPirates.Shared.Systems
         private readonly List<Entity> _dead = new();
 
         private readonly World _world;
-        private readonly IWorldHistory _history;
 
-        public MarkDeadSystem(World world, IWorldHistory history)
+        public MarkDeadSystem(World world)
         {
             _world = world;
-            _history = history;
         }
 
         public void Tick(int tick, fix deltaTime)
@@ -42,7 +40,7 @@ namespace DVG.SkyPirates.Shared.Systems
                 }).Invoke(ref dead);
             foreach (var item in _dead)
             {
-                _history.MarkForDisposal(item, tick);
+                _world.Add<PendingDestroy>(item);
                 _world.Remove<Alive>(item);
             }
         }

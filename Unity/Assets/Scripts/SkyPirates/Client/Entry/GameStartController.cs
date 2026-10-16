@@ -1,11 +1,8 @@
-using Delta.Netcode;
 using DVG.SkyPirates.Client.IServices;
 using DVG.SkyPirates.Shared.Commands;
-using DVG.SkyPirates.Shared.IServices;
 using DVG.SkyPirates.Shared.Services.Netcode;
 using DVG.SkyPirates.Shared;
 using System;
-using System.Buffers;
 using System.Diagnostics;
 
 namespace DVG.SkyPirates.Client.Entry
@@ -14,18 +11,16 @@ namespace DVG.SkyPirates.Client.Entry
     {
         private readonly SkyPiratesSessionProvider _session;
         private readonly IClientService _client;
-        private readonly ITransientSimulation<JoystickCommand> _simulation;
+        private readonly SkyPiratesTransientSimulation _simulation;
         private readonly ICommandSendScheduler _commandSendScheduler;
         private readonly Stopwatch _clock = new();
-        private ArrayBufferWriter<byte> _checkpoint = new();
         private long _startStep;
         private long _targetStep;
-        private double _lastTransientElapsedSeconds;
 
         public GameStartController(
             SkyPiratesSessionProvider session,
             IClientService client,
-            ITransientSimulation<JoystickCommand> simulation,
+            SkyPiratesTransientSimulation simulation,
             ICommandSendScheduler commandSendScheduler)
         {
             _session = session;
@@ -53,24 +48,10 @@ namespace DVG.SkyPirates.Client.Entry
             long elapsedSteps = elapsed.Ticks * Constants.TicksPerSecond / TimeSpan.TicksPerSecond;
             long targetStep = _startStep + elapsedSteps;
             double elapsedSeconds = elapsed.TotalSeconds;
-            if (_session.CurrentStep != targetStep)
-            {
-                if (_checkpoint.WrittenCount == 0)
-                    CaptureCheckpoint();
-
-                _simulation.Load(_checkpoint.WrittenSpan);
-                _simulation.Tick(targetStep);
-                _targetStep = targetStep;
-                CaptureCheckpoint();
-                _lastTransientElapsedSeconds = elapsedSteps / (double)Constants.TicksPerSecond;
-            }
-
-            double transientDelta = elapsedSeconds - _lastTransientElapsedSeconds;
-            if (transientDelta < 0)
-                transientDelta = 0;
-            _lastTransientElapsedSeconds = elapsedSeconds;
+            _targetStep = targetStep;
             _commandSendScheduler.TryGetTransientInput(out JoystickCommand input);
-            _simulation.TickTransient(in input, transientDelta);
+            double fraction = elapsedSeconds - elapsedSteps / (double)Constants.TicksPerSecond;
+            _simulation.AdvanceFrame(targetStep, fraction, in input);
         }
 
         private void OnSyncTick(long serverStep)
@@ -81,8 +62,6 @@ namespace DVG.SkyPirates.Client.Entry
             _startStep = serverStep;
             _targetStep = serverStep;
             _clock.Restart();
-            _lastTransientElapsedSeconds = 0;
-            CaptureCheckpoint();
         }
 
         private void ResetClock()
@@ -90,14 +69,7 @@ namespace DVG.SkyPirates.Client.Entry
             _startStep = System.Math.Max(0, _session.CurrentStep);
             _targetStep = _session.CurrentStep;
             _clock.Restart();
-            _lastTransientElapsedSeconds = 0;
-            CaptureCheckpoint();
         }
 
-        private void CaptureCheckpoint()
-        {
-            _checkpoint = new ArrayBufferWriter<byte>();
-            _simulation.Save(_checkpoint);
-        }
     }
 }

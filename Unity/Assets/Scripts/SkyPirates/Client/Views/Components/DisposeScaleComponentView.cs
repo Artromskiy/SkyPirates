@@ -21,6 +21,7 @@ namespace DVG.SkyPirates.Client.Views.Components
 
         public void OnBind(EntityContext context)
         {
+            _tween?.Kill();
             _context = context;
             _alive = _context.Has<Alive>();
             transform.localScale = new float3(_alive ? 1 : 0);
@@ -28,9 +29,6 @@ namespace DVG.SkyPirates.Client.Views.Components
 
         private void Update()
         {
-            if (!EntityViewLifetime.TryEnterUpdate(this, _context))
-                return;
-
             bool alive = _context.Has<Alive>();
             if (_alive == alive)
                 return;

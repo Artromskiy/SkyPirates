@@ -1,4 +1,4 @@
-﻿using Delta.ECS;
+using Delta.ECS;
 using DVG.SkyPirates.Shared;
 using DVG.SkyPirates.Shared.Components;
 using DVG.SkyPirates.Shared.Components.Runtime;
@@ -28,7 +28,8 @@ namespace DVG.SkyPirates.Shared.DI
 {
     public class SharedContainer : Container
     {
-        public SharedContainer(SessionMode sessionMode = SessionMode.Local, bool registerCommandReceiver = true, World world = null)
+        public SharedContainer(SessionMode sessionMode = SessionMode.Local, bool registerCommandReceiver = true, World world = null,
+            int historyCapacity = Constants.MaxHistoryTicks)
         {
             Delta.Diagnostics.Trace.Info("[DI] SharedContainer Start");
             var currentWorld = WorldFactory.Create(world ?? new World(initialEntityCapacity: 1024));
@@ -40,11 +41,11 @@ namespace DVG.SkyPirates.Shared.DI
             RegisterSingleton<IWorldHistory>(() =>
             {
                 World historyWorld = GetInstance<World>();
-                return new ChangeWorldHistory(
+                return new WorldHistory(
                     historyWorld,
                     historyWorld.GetGroup(Group.History).ToArray(),
-                    4,
-                    Constants.MaxHistoryTicks);
+                    Math.Min(4, historyCapacity),
+                    historyCapacity);
             });
 
             RegisterSingleton<TimelineWriter>();
@@ -63,8 +64,6 @@ namespace DVG.SkyPirates.Shared.DI
             RegisterSingleton<IPooledItemsProvider, PooledItemsProvider>();
             RegisterSingleton<ITargetSearchSystem, TargetSearchSystem>();
 
-            RegisterSingleton<IHistorySystem, HistorySystem>();
-            RegisterSingleton<IDisposeSystem, DisposeSystem>();
             RegisterSingleton<ICommandPayloadHandler, SkyPiratesCommandPayloadHandler>();
             if (registerCommandReceiver)
             {
@@ -81,7 +80,8 @@ namespace DVG.SkyPirates.Shared.DI
 
             RegisterSingleton(typeof(IDeltaTickableService<>), typeof(DeltaTickableService<>));
             RegisterSingleton(typeof(ITickableService<>), typeof(TickableService<>));
-            RegisterSingleton<Delta.Netcode.ITransientSimulation<JoystickCommand>, SkyPiratesTransientSimulation>();
+            RegisterSingleton<SkyPiratesTransientSimulation>();
+            RegisterSingleton<ITransientSimulation<JoystickCommand>>(() => GetInstance<SkyPiratesTransientSimulation>());
 
             Collection.Register<IDeltaTickableExecutor>(TickableExecutors, Lifestyle.Singleton);
             Collection.Register<ITransientDeltaTickableExecutor>(new[]
@@ -108,6 +108,7 @@ namespace DVG.SkyPirates.Shared.DI
         private static Type[] TickableExecutors => new Type[]
         {
             typeof(EntityCacheSystem),
+            typeof(HexMapUpdateSystem),
             typeof(FramedComponentsSystem), // cleanups
             typeof(FlagDisabledSystem),
             typeof(CachePositionSystem),
@@ -126,7 +127,6 @@ namespace DVG.SkyPirates.Shared.DI
             typeof(SetTargetDestinationSystem), // sets destination to target or skips
             typeof(MoveSystem),
             typeof(SeparationSystem),
-            typeof(HexMapUpdateSystem),
             typeof(HexMapCollisionSystem),
             typeof(SimpleHeightSystem),
             typeof(SimpleBehaviourSystem),

@@ -27,13 +27,13 @@ namespace DVG.SkyPirates.Client.Views.Components.Animators
         {
             _context = context;
             CacheComponents();
+            _statePercentVelocity = 0;
             Animate(false);
         }
 
         private void Update()
         {
-            if (EntityViewLifetime.TryEnterUpdate(this, _context))
-                Animate(_animate);
+            Animate(_animate);
         }
 
         private void Animate(bool animate)

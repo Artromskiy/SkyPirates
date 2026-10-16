@@ -24,9 +24,6 @@ namespace DVG.SkyPirates.Client.Views.Components.Animators
 
         private void Update()
         {
-            if (!EntityViewLifetime.TryEnterUpdate(this, _context))
-                return;
-
             bool dead = !_context.Has<Alive>();
 
             if (_animView == null || !_animView.IsReady)

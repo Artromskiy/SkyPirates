@@ -31,11 +31,8 @@ namespace DVG.SkyPirates.Server
             Console.WriteLine("Started");
 
             var worldData = _container.GetInstance<IPathFactory<WorldData>>().Create("Configs/Maps/Map1");
-            var history = _container.GetInstance<IHistorySystem>();
-            history.ApplySnapshot(worldData);
-            history.SaveBaseline();
-
             var sessions = _container.GetInstance<SkyPiratesSessionProvider>();
+            sessions.ApplySnapshot(worldData, -1);
             sessions.Start(new Delta.Netcode.AuthorId(0));
             server.ClientConnected += ClientConnected;
             _container.GetInstance<GameStartController>().Loop();

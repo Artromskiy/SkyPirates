@@ -1,4 +1,5 @@
 using Delta;
+using DVG.SkyPirates.Shared.Data;
 using Delta.Netcode;
 using DVG.SkyPirates.Shared.Commands;
 using DVG.SkyPirates.Shared.IServices;
@@ -25,11 +26,13 @@ namespace DVG.SkyPirates.Shared.Services.Netcode
             ISessionTransport transport)
         {
             _setup = setup;
+            _setup.StateRestored += () => StateRestored?.Invoke();
             _mode = mode;
             _transport = transport;
         }
 
         public event Action Ready;
+        public event Action? StateRestored;
 
         public event Action<long>? ServerStepReceived;
 
@@ -37,7 +40,20 @@ namespace DVG.SkyPirates.Shared.Services.Netcode
 
         public bool IsReady { get; private set; }
 
-        public long CurrentStep => Session == null ? -1 : Session.CurrentStep;
+        public long CurrentStep => _started ? _setup.Model.CurrentStep : -1;
+        public bool HasDirtyCommands => _started && _setup.Model.HasDirtyCommands;
+        public long ComputedStep => _started ? _setup.Model.ComputedStep : -1;
+        public bool IsReplay => _started && _setup.Model.CommandsLocked;
+        public WorldData GetSnapshot(int tick) => _setup.GetSnapshot(tick);
+        public void ApplySnapshot(WorldData snapshot, int tick)
+        {
+            _setup.ApplySnapshot(snapshot, tick);
+        }
+        public void RestoreFixedState(long step)
+        {
+            _setup.Model.RestoreFixedState(step);
+        }
+        public void LockReplayCommands() => _setup.Model.LockCommands();
 
         public void Start(AuthorId authorId)
         {
@@ -75,6 +91,7 @@ namespace DVG.SkyPirates.Shared.Services.Netcode
                 throw new InvalidOperationException("Replay commands require a started local session.");
             }
 
+            if (IsReplay) throw new InvalidOperationException("Replay commands have already been sealed.");
             var outcome = new CommandOutcome(CommandResult.Accepted, header);
             CommandOutcome applied = Session.ApplyOutcome(outcome, finalPayload);
             if (applied.Result != CommandResult.Accepted)
@@ -150,6 +167,7 @@ namespace DVG.SkyPirates.Shared.Services.Netcode
 
         public CommandKey Send<T>(in T payload, long simulationStep)
         {
+            if (IsReplay) throw new InvalidOperationException("Replay commands cannot be changed.");
             if (!IsReady || Session == null)
             {
                 throw new InvalidOperationException("The session is not ready to send commands.");
@@ -162,7 +180,10 @@ namespace DVG.SkyPirates.Shared.Services.Netcode
         {
             if (IsReady)
             {
-                Session.Tick(simulationStep);
+                // Delta.Netcode keeps its transport clock monotonic. The same model has a
+                // separate display cursor and can restore previously computed fixed states.
+                if (simulationStep >= Session.CurrentStep) Session.Tick(simulationStep);
+                else _setup.Model.Tick(simulationStep);
             }
         }
 
@@ -212,7 +233,7 @@ namespace DVG.SkyPirates.Shared.Services.Netcode
 
         public bool Tick(long targetStep)
         {
-            if (!_session.IsReady || _session.CurrentStep == targetStep)
+            if (!_session.IsReady)
             {
                 return false;
             }
@@ -229,31 +250,49 @@ namespace DVG.SkyPirates.Shared.Services.Netcode
     {
         private readonly SkyPiratesSessionProvider _session;
         private readonly SkyPiratesSessionTickLoop _tickLoop;
-        private readonly IHistorySystem _history;
         private readonly IDeltaTickableService<ITransientDeltaTickableExecutor> _systems;
         private readonly IEntityRegistry _entityRegistry;
         private readonly ITransientCommandInput<JoystickCommand> _joystickInput;
         private JoystickCommand _lastInput;
         private bool _hasAppliedInput;
+        private bool _transientDirty;
+        private double _fractionalSeconds;
 
         public SkyPiratesTransientSimulation(
             SkyPiratesSessionProvider session,
             SkyPiratesSessionTickLoop tickLoop,
-            IHistorySystem history,
             IEntityRegistry entityRegistry,
             IDeltaTickableService<ITransientDeltaTickableExecutor> systems,
             IEnumerable<ICommandExecutorRegistration> commandExecutors)
         {
             _session = session;
             _tickLoop = tickLoop;
-            _history = history;
             _entityRegistry = entityRegistry;
             _systems = systems;
             _joystickInput = commandExecutors.OfType<ITransientCommandInput<JoystickCommand>>().Single();
         }
 
+        // The live client and replay runner use this same fixed-state/microstep driver.
+        public void AdvanceFrame(long step, double fractionalSeconds, in JoystickCommand input)
+        {
+            if (fractionalSeconds < 0 || double.IsNaN(fractionalSeconds) || double.IsInfinity(fractionalSeconds))
+                throw new ArgumentOutOfRangeException(nameof(fractionalSeconds));
+            if (step != _session.CurrentStep || _session.HasDirtyCommands)
+                Tick(step);
+            else if (fractionalSeconds < _fractionalSeconds)
+            {
+                _session.RestoreFixedState(step);
+                _fractionalSeconds = 0;
+                _transientDirty = false;
+            }
+            TickTransient(in input, Math.Max(0, fractionalSeconds - _fractionalSeconds));
+        }
+
         public void Tick(long simulationStep)
         {
+            if (_transientDirty) _session.RestoreFixedState(_session.CurrentStep);
+            _fractionalSeconds = 0;
+            _transientDirty = false;
             if (_tickLoop.Tick(simulationStep))
             {
                 _hasAppliedInput = false;
@@ -263,9 +302,8 @@ namespace DVG.SkyPirates.Shared.Services.Netcode
         public void Save(IBufferWriter<byte> output)
         {
             // WorldHistory already owns the complete fixed-step state; keep a cursor instead of copying it.
-            int historyTick = GetHistoryTick();
             Span<byte> destination = output.GetSpan(sizeof(int));
-            BinaryPrimitives.WriteInt32LittleEndian(destination, historyTick);
+            BinaryPrimitives.WriteInt32LittleEndian(destination, checked((int)_session.CurrentStep));
             output.Advance(sizeof(int));
         }
 
@@ -278,7 +316,9 @@ namespace DVG.SkyPirates.Shared.Services.Netcode
 
             int historyTick = BinaryPrimitives.ReadInt32LittleEndian(state);
             // GoTo restores values without trimming the history needed by the next fixed tick or a rollback.
-            _history.GoTo(historyTick);
+            _session.RestoreFixedState(historyTick);
+            _fractionalSeconds = 0;
+            _transientDirty = false;
             _hasAppliedInput = false;
         }
 
@@ -294,6 +334,7 @@ namespace DVG.SkyPirates.Shared.Services.Netcode
                 _joystickInput.ApplyTransient(in input);
                 _lastInput = input;
                 _hasAppliedInput = true;
+                _transientDirty = true;
             }
 
             if (deltaTimeSeconds == 0)
@@ -302,29 +343,20 @@ namespace DVG.SkyPirates.Shared.Services.Netcode
             }
 
             _systems.Tick(GetTransientTick(), (fix)deltaTimeSeconds);
+            _fractionalSeconds += deltaTimeSeconds;
+            _transientDirty = true;
             _entityRegistry.Synchronize();
-        }
-
-        private int GetHistoryTick()
-        {
-            SessionHost session = _session.Session;
-            if (session == null || session.CurrentStep < session.Start.Step)
-            {
-                return int.MinValue;
-            }
-
-            return checked((int)session.CurrentStep);
         }
 
         private int GetTransientTick()
         {
             SessionHost session = _session.Session;
-            if (session.CurrentStep < session.Start.Step)
+            if (_session.CurrentStep < session.Start.Step)
             {
                 return checked((int)session.Start.Step);
             }
 
-            return checked((int)(session.CurrentStep + 1));
+            return checked((int)(_session.CurrentStep + 1));
         }
 
         private static bool SameInput(JoystickCommand left, JoystickCommand right) =>

@@ -1,4 +1,4 @@
-﻿using Delta;
+using Delta;
 using Delta.ECS;
 using DVG.SkyPirates.Shared.Ecs;
 using DVG.SkyPirates.Shared.Components.Runtime;
@@ -21,7 +21,6 @@ namespace DVG.SkyPirates.Shared.Systems
         private readonly Lookup<List<GoodsData>> _collectorsDrops = new();
 
         private readonly List<Entity> _removeDrops = new();
-        private readonly IWorldHistory _history;
 
         private Query? _dropsDescCache;
 
@@ -37,10 +36,9 @@ namespace DVG.SkyPirates.Shared.Systems
 
         private readonly World _world;
 
-        public GoodsCollectorSystem(World world, IWorldHistory history)
+        public GoodsCollectorSystem(World world)
         {
             _world = world;
-            _history = history;
         }
 
         public void Tick(int tick, fix deltaTime)
@@ -169,7 +167,7 @@ namespace DVG.SkyPirates.Shared.Systems
 
             foreach (var item in _removeDrops)
             {
-                _history.MarkForDisposal(item, tick);
+                _world.Add<PendingDestroy>(item);
                 _world.Remove<Alive>(item);
             }
         }

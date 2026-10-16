@@ -86,3 +86,6 @@ crashlytics-build.properties
 # .NET build output
 **/bin/
 **/obj/
+
+# Maintained validation projects
+!Tests/**/*.csproj

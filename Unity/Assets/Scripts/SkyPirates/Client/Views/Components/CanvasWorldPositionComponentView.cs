@@ -26,9 +26,6 @@ namespace DVG.SkyPirates.Client.Views.Components
 
         private void Update()
         {
-            if (!EntityViewLifetime.TryEnterUpdate(this, _context))
-                return;
-
             float3 targetPos = Position + _worldOffset;
             _position = float3.SmoothDamp(_position, targetPos, ref _velocity, LerpConstants.SmoothMoveTime, Time.deltaTime);
             transform.position = Camera.WorldToScreenPoint(_position);

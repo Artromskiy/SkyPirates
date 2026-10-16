@@ -31,8 +31,8 @@ namespace DVG.SkyPirates.Shared.Factories
             var config = _entityConfigFactory.Create(parameters.Id);
             var entity = _entityFactory.Create(parameters.parameters);
             _world.SetEntityData(entity, config);
-            _entityDependencyService.ProcessChanges();
-            _componentDefaultsService.ProcessChanges();
+            _entityDependencyService.Apply(entity);
+            _componentDefaultsService.Apply(entity);
             return entity;
         }
     }

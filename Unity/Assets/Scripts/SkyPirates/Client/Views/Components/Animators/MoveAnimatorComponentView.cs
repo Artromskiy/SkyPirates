@@ -30,9 +30,6 @@ namespace DVG.SkyPirates.Client.Views.Components.Animators
 
         private void Update()
         {
-            if (!EntityViewLifetime.TryEnterUpdate(this, _context))
-                return;
-
             Transform cachedTransform = _cachedTransform;
             float3 currentPosition = cachedTransform.position;
             var worldVelocity = (currentPosition - _prevPosition) / Time.deltaTime;

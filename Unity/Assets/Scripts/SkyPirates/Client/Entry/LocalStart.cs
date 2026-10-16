@@ -7,6 +7,7 @@ using DVG.SkyPirates.Client.Entry;
 using DVG.SkyPirates.Client.IServices;
 using DVG.SkyPirates.Shared.Commands;
 using DVG.SkyPirates.Shared.Data;
+using DVG.SkyPirates.Shared.Ecs;
 using DVG.SkyPirates.Shared.IServices;
 using DVG.SkyPirates.Shared.IServices.TickableExecutors;
 using DVG.SkyPirates.Shared.Services.Netcode;
@@ -22,14 +23,16 @@ namespace DVG.SkyPirates.Local.Entry
 {
     public class LocalStart : MonoBehaviour
     {
+        [SerializeField, Min(1)]
+        [Tooltip("Number of retained fixed states. For a replay, include every tick and its initial state.")]
+        private int _historyCapacity = Constants.MaxHistoryTicks;
+
         private Container _container = null!;
         private SkyPiratesSessionProvider _session = null!;
-        private IHistorySystem _history = null!;
         private ViewBindingTickSystem _viewBinding = null!;
         private SkyPiratesReplayRecorder? _replayRecorder;
         private SkyPiratesReplayPlayback? _replayPlayback;
         private bool _replayMode;
-        private bool _replayPlaying;
         private bool _spawnSquadSent;
 
         private void Start()
@@ -38,7 +41,7 @@ namespace DVG.SkyPirates.Local.Entry
             {
                 Delta.Diagnostics.Trace.Info("[LocalStart] Container creation");
                 var sceneWorld = SceneWorld.GetForScene(gameObject.scene);
-                _container = new LocalContainer(sceneWorld);
+                _container = new LocalContainer(sceneWorld, _historyCapacity);
                 Delta.Diagnostics.Trace.Info("[LocalStart] Container register and inject ViewModels");
                 _container.RegisterAndInjectViewModels();
                 _viewBinding = _container.GetAllInstances<IPostTickable>().OfType<ViewBindingTickSystem>().Single();
@@ -47,11 +50,9 @@ namespace DVG.SkyPirates.Local.Entry
                 var client = _container.GetInstance<IClientService>();
                 var worldData = _container.GetInstance<IPathFactory<WorldData>>().Create("Configs/Maps/Map1");
                 Delta.Diagnostics.Trace.Info("[LocalStart] Load map");
-                _history = _container.GetInstance<IHistorySystem>();
-                _history.ApplySnapshot(worldData);
-                _viewBinding.Tick(0);
-                _history.SaveBaseline();
                 _session = _container.GetInstance<SkyPiratesSessionProvider>();
+                _session.ApplySnapshot(worldData, -1);
+                _viewBinding.Tick(0);
                 _session.Start(new Delta.Netcode.AuthorId((uint)client.Id));
             }
             catch (Exception e)
@@ -72,8 +73,8 @@ namespace DVG.SkyPirates.Local.Entry
 
             if (_replayMode)
             {
-                if (_replayPlaying && _replayPlayback != null && _replayPlayback.CurrentStep < _replayPlayback.LastStep)
-                    SeekReplay(_replayPlayback.CurrentStep + 1);
+                _replayPlayback?.Update(Time.unscaledDeltaTime);
+                _viewBinding.Tick(checked((int)_session.CurrentStep));
                 return;
             }
 
@@ -94,11 +95,12 @@ namespace DVG.SkyPirates.Local.Entry
                 return;
 
             long initialStep = _session.CurrentStep;
-            int snapshotStep = initialStep < 0 ? int.MinValue : checked((int)initialStep);
-            WorldData initialWorld = _history.GetSnapshot(snapshotStep);
+            int snapshotStep = checked((int)initialStep);
+            var history = _container.GetInstance<IWorldHistory>();
+            WorldData initialWorld = history.GetSnapshot(snapshotStep);
             _replayRecorder = new SkyPiratesReplayRecorder(
                 _session.Session,
-                _history,
+                history,
                 initialWorld,
                 initialStep);
             Delta.Diagnostics.Trace.Info($"[LocalStart] Replay recording started from saved step {initialStep}. Press F10 to save.");
@@ -129,10 +131,9 @@ namespace DVG.SkyPirates.Local.Entry
             if (_container == null)
                 throw new InvalidOperationException("The local game container has not started.");
 
-            _replayPlayback ??= new SkyPiratesReplayPlayback(_history, _session);
+            _replayPlayback ??= new SkyPiratesReplayPlayback(_session, _container.GetInstance<SkyPiratesTransientSimulation>());
             _replayPlayback.Load(SkyPiratesReplayFile.Load(path));
             _replayMode = true;
-            _replayPlaying = false;
             _viewBinding.Tick(checked((int)_replayPlayback.CurrentStep));
             Delta.Diagnostics.Trace.Info($"[LocalStart] Replay loaded from {path}, frame={_replayPlayback.CurrentStep}..{_replayPlayback.LastStep}.");
         }
@@ -146,9 +147,11 @@ namespace DVG.SkyPirates.Local.Entry
             _viewBinding.Tick(checked((int)step));
         }
 
-        public void SetReplayPlaying(bool playing) => _replayPlaying = playing;
+        public void SetReplayPlaying(bool playing) { if (_replayPlayback != null) _replayPlayback.Playing = playing; }
 
-        public bool IsReplayPlaying => _replayPlaying;
+        public bool IsReplayPlaying => _replayPlayback?.Playing ?? false;
+
+        public SkyPiratesReplayPlayback? Replay => _replayPlayback;
 
         public long ReplayFrame => _replayPlayback?.CurrentStep ?? 0;
 

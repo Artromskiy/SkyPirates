@@ -15,17 +15,15 @@ namespace DVG.SkyPirates.Shared.Systems
         private static readonly fix Two = fix.One + fix.One;
 
         private readonly World _world;
-        private readonly IWorldHistory _history;
         private readonly Dictionary<(int SquadId, UnitId UnitId, int Level), List<Unit>> _unitsPerGroup = new();
 
         private Query? _unitsQueryCache;
         private Query _unitsQuery => _unitsQueryCache ??= _world.
             WhereAll<SquadMember, UnitId, SyncId, Health, MaxHealth, Damage>().Alive();
 
-        public SquadUnitMergeSystem(World world, IWorldHistory history)
+        public SquadUnitMergeSystem(World world)
         {
             _world = world;
-            _history = history;
         }
 
         public void Tick(int tick, fix deltaTime)
@@ -110,17 +108,17 @@ namespace DVG.SkyPirates.Shared.Systems
 
             if (first.SyncId != strongest.SyncId)
             {
-                _history.MarkForDisposal(first.Entity, tick);
+                _world.Add<PendingDestroy>(first.Entity);
                 _world.Remove<Alive>(first.Entity);
             }
             if (second.SyncId != strongest.SyncId)
             {
-                _history.MarkForDisposal(second.Entity, tick);
+                _world.Add<PendingDestroy>(second.Entity);
                 _world.Remove<Alive>(second.Entity);
             }
             if (third.SyncId != strongest.SyncId)
             {
-                _history.MarkForDisposal(third.Entity, tick);
+                _world.Add<PendingDestroy>(third.Entity);
                 _world.Remove<Alive>(third.Entity);
             }
 

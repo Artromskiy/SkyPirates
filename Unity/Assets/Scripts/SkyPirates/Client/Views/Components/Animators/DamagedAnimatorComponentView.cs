@@ -22,9 +22,6 @@ namespace DVG.SkyPirates.Client.Views.Components.Animators
 
         private void Update()
         {
-            if (!EntityViewLifetime.TryEnterUpdate(this, _context))
-                return;
-
             float health = (float)_context.Get<Health>().Value;
             bool healthChanged = health < _prevHealth;
             _prevHealth = health;

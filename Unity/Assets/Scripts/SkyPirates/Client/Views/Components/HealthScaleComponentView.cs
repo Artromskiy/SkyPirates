@@ -20,13 +20,16 @@ namespace DVG.SkyPirates.Client.Views.Components
         private float _health;
         private Tween _tween;
 
-        public void OnBind(EntityContext context) => _context = context;
+        public void OnBind(EntityContext context)
+        {
+            _tween?.Kill();
+            _context = context;
+            _health = Health;
+            _scaleRoot.localScale = Vector3.one * Maths.Max(MinScale, HealthPercent);
+        }
 
         private void Update()
         {
-            if (!EntityViewLifetime.TryEnterUpdate(this, _context))
-                return;
-
             if (Health == _health)
                 return;
 

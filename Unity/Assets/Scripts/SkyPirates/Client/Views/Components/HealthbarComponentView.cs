@@ -31,6 +31,8 @@ namespace DVG.SkyPirates.Client.Views.Components
 
         public void OnBind(EntityContext context)
         {
+            _amountTween?.Kill();
+            _fadeTween?.Kill();
             _context = context;
             float health = Health;
             float maxHealth = MaxHealth;
@@ -45,9 +47,6 @@ namespace DVG.SkyPirates.Client.Views.Components
 
         private void Update()
         {
-            if (!EntityViewLifetime.TryEnterUpdate(this, _context))
-                return;
-
             float health = Health;
             float maxHealth = MaxHealth;
             float percent = health / maxHealth;

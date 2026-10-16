@@ -19,9 +19,6 @@ namespace DVG.SkyPirates.Client.Views.Components
 
         private void Update()
         {
-            if (!EntityViewLifetime.TryEnterUpdate(this, _context))
-                return;
-
             float moveTo = State == StateId.None ? 0 : StatePercent;
             _statePercent = Maths.SmoothDamp(_statePercent, moveTo, ref _statePercentVelocity, LerpConstants.AnimationTime, Time.deltaTime);
             _scaleRoot.localScale = new float3(1f - 0.5f * _statePercent);

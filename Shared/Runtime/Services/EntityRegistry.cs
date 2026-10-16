@@ -9,16 +9,20 @@ namespace DVG.SkyPirates.Shared.Services
 {
     public sealed class EntityRegistry : IEntityRegistry
     {
-        private readonly World _world;
         private readonly EntityIdMap _ids;
         private readonly EntityCacheSystem _cache;
+        private readonly IOperation _scanIds;
+        private readonly IOperation _scanReserves;
         private int _entityIdCounter = 1;
 
         public EntityRegistry(World world, EntityCacheSystem cache)
         {
-            _world = world;
             _ids = world.GetEntityIdMap();
             _cache = cache;
+            Query ids = world.WhereAll<SyncId>().WhereNone<PendingDestroy>();
+            Query reserves = world.WhereAll<SyncIdReserve>().WhereNone<PendingDestroy>();
+            _scanIds = world.ForEachEntity(in ids, (EntityRef entity, in SyncId id) => Register(entity, id));
+            _scanReserves = world.ForEach(in reserves, (in SyncIdReserve reserve) => Reserve(reserve));
             Rebuild();
         }
 
@@ -28,15 +32,11 @@ namespace DVG.SkyPirates.Shared.Services
 
         public void Rebuild()
         {
-            _ids.Clear();
+            _cache.Synchronize();
             _entityIdCounter = 1;
 
-            var entities = _world.WhereAll<SyncId>();
-            _world.ForEachEntity(in entities, (EntityRef entity, in SyncId syncId) => Register(entity, syncId)).Invoke();
-
-            var reserves = _world.WhereAll<SyncIdReserve>();
-            _world.ForEach(in reserves, (in SyncIdReserve reserve) => Reserve(reserve)).Invoke();
-            _cache.Synchronize();
+            _scanIds.Invoke();
+            _scanReserves.Invoke();
         }
 
         public void Register(Entity entity, SyncId syncId)
@@ -54,15 +54,6 @@ namespace DVG.SkyPirates.Shared.Services
         {
             int end = checked(syncIdReserve.First + syncIdReserve.Count);
             _entityIdCounter = Maths.Max(_entityIdCounter, end);
-        }
-
-        public SyncId Reserve() => new() { Value = _entityIdCounter++ };
-
-        public SyncIdReserve Reserve(int count)
-        {
-            int first = _entityIdCounter;
-            _entityIdCounter = checked(_entityIdCounter + count);
-            return new SyncIdReserve { First = first, Count = count, Current = first };
         }
 
         public bool TryGet(SyncId syncId, out Entity entity)

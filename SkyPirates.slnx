@@ -1,5 +1,8 @@
 <Solution>
   <Project Path="Shared/SkyPirates.Shared.csproj" />
+  <Folder Name="/Tests/">
+    <Project Path="Tests/SkyPirates.History.Tests/SkyPirates.History.Tests.csproj" />
+  </Folder>
   <Folder Name="/Unity/">
     <Project Path="Unity/Assembly-CSharp-Editor.csproj" />
     <Project Path="Unity/Assembly-CSharp-firstpass.csproj" />

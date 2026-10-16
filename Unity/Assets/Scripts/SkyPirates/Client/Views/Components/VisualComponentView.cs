@@ -25,14 +25,11 @@ namespace DVG.SkyPirates.Client.Views.Components
         public virtual void OnBind(EntityContext context)
         {
             _context = context;
-            UpdateVisual();
+            if (_visual == null || !_id.Equals(Id)) UpdateVisual();
         }
 
         private void Update()
         {
-            if (!EntityViewLifetime.TryEnterUpdate(this, _context))
-                return;
-
             if (!_id.Equals(Id))
                 UpdateVisual();
         }

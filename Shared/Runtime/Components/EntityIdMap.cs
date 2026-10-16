@@ -7,26 +7,26 @@ namespace DVG.SkyPirates.Shared.Components.Runtime
     [ComponentAlias("EntityIdMap")]
     public readonly struct EntityIdMap
     {
-        private readonly Dictionary<int, CachedEntity> _entities;
-        private readonly Dictionary<int, Entry> _ids;
+        private readonly Dictionary<int, (Entity Entity, bool Present)> _entities;
+        private readonly Dictionary<int, (Entity Entity, SyncId Id, bool Present)> _ids;
 
         public EntityIdMap(int initialCapacity)
         {
-            _entities = new Dictionary<int, CachedEntity>(initialCapacity);
-            _ids = new Dictionary<int, Entry>(initialCapacity);
+            _entities = new Dictionary<int, (Entity, bool)>(initialCapacity);
+            _ids = new Dictionary<int, (Entity, SyncId, bool)>(initialCapacity);
         }
 
         public Entity GetEntity(SyncId id)
         {
-            CachedEntity cached = _entities[id.Value];
+            var cached = _entities[id.Value];
             if (!cached.Present)
                 throw new KeyNotFoundException($"SyncId {id.Value} has no active cached entity.");
             return cached.Entity;
         }
 
-        internal bool TryGetEntity(SyncId id, out Entity entity)
+        public bool TryGetEntity(SyncId id, out Entity entity)
         {
-            if (_entities.TryGetValue(id.Value, out CachedEntity cached) && cached.Present)
+            if (_entities.TryGetValue(id.Value, out var cached) && cached.Present)
             {
                 entity = cached.Entity;
                 return true;
@@ -38,7 +38,7 @@ namespace DVG.SkyPirates.Shared.Components.Runtime
 
         internal bool TryGetRetainedEntity(SyncId id, out Entity entity)
         {
-            if (_entities.TryGetValue(id.Value, out CachedEntity cached))
+            if (_entities.TryGetValue(id.Value, out var cached))
             {
                 entity = cached.Entity;
                 return true;
@@ -50,7 +50,7 @@ namespace DVG.SkyPirates.Shared.Components.Runtime
 
         internal void Register(Entity entity, SyncId id)
         {
-            if (_ids.TryGetValue(entity.Index, out Entry previousEntry))
+            if (_ids.TryGetValue(entity.Index, out var previousEntry))
             {
                 if (previousEntry.Present && previousEntry.Id.Value == id.Value && previousEntry.Entity == entity)
                     return;
@@ -58,62 +58,29 @@ namespace DVG.SkyPirates.Shared.Components.Runtime
                 Remove(previousEntry.Entity);
             }
 
-            if (_entities.TryGetValue(id.Value, out CachedEntity previous))
+            if (_entities.TryGetValue(id.Value, out var previous))
                 Remove(previous.Entity);
 
-            _entities[id.Value] = new CachedEntity(entity, true);
-            _ids[entity.Index] = new Entry(entity, id, true);
+            _entities[id.Value] = (entity, true);
+            _ids[entity.Index] = (entity, id, true);
         }
 
         internal void Deactivate(Entity entity)
         {
-            if (!_ids.TryGetValue(entity.Index, out Entry entry) || !entry.Present || entry.Entity != entity)
+            if (!_ids.TryGetValue(entity.Index, out var entry) || !entry.Present || entry.Entity != entity)
                 return;
 
-            _entities[entry.Id.Value] = new CachedEntity(entity, false);
-            _ids[entity.Index] = new Entry(entity, entry.Id, false);
+            _entities[entry.Id.Value] = (entity, false);
+            _ids[entity.Index] = (entity, entry.Id, false);
         }
 
         internal void Remove(Entity entity)
         {
-            if (!_ids.TryGetValue(entity.Index, out Entry entry) || entry.Entity != entity)
+            if (!_ids.TryGetValue(entity.Index, out var entry) || entry.Entity != entity)
                 return;
 
             _entities.Remove(entry.Id.Value);
             _ids.Remove(entity.Index);
-        }
-
-        internal void Clear()
-        {
-            _entities.Clear();
-            _ids.Clear();
-        }
-
-
-        private readonly struct CachedEntity
-        {
-            public readonly Entity Entity;
-            public readonly bool Present;
-
-            public CachedEntity(Entity entity, bool present)
-            {
-                Entity = entity;
-                Present = present;
-            }
-        }
-
-        private readonly struct Entry
-        {
-            public readonly Entity Entity;
-            public readonly SyncId Id;
-            public readonly bool Present;
-
-            public Entry(Entity entity, SyncId id, bool present)
-            {
-                Entity = entity;
-                Id = id;
-                Present = present;
-            }
         }
     }
 }

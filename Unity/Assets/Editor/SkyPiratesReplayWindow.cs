@@ -1,4 +1,5 @@
 using DVG.SkyPirates.Local.Entry;
+using DVG.SkyPirates.Shared.Services.Replay;
 using UnityEditor;
 using UnityEngine;
 
@@ -51,6 +52,15 @@ namespace DVG.SkyPirates.Editor
                 return;
 
             EditorGUILayout.Space();
+            SkyPiratesReplayPlayback replay = _localStart.Replay!;
+            replay.Mode = (ReplayRunMode)EditorGUILayout.EnumPopup("Run mode", replay.Mode);
+            if (replay.Mode == ReplayRunMode.RunFixedFps)
+                replay.FramesPerTick = System.Math.Max(1, EditorGUILayout.IntField("Frames per tick", replay.FramesPerTick));
+            replay.Speed = EditorGUILayout.Slider("Speed", (float)replay.Speed, 0.05f, 4f);
+            replay.Loop = EditorGUILayout.Toggle("Loop", replay.Loop);
+            EditorGUI.BeginChangeCheck();
+            float frame = EditorGUILayout.Slider("Frame", _localStart.ReplayFrame, _localStart.ReplayFirstFrame, _localStart.ReplayLastFrame);
+            if (EditorGUI.EndChangeCheck()) _localStart.SeekReplay((long)frame);
             EditorGUILayout.LabelField($"Frame {_localStart.ReplayFrame} / {_localStart.ReplayLastFrame}");
             using (new EditorGUILayout.HorizontalScope())
             {

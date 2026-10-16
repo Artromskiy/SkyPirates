@@ -22,7 +22,7 @@ namespace DVG.SkyPirates.Client.Services
 
         public void SendCommand<T>(T payload)
         {
-            if (!_client.IsConnected || !_player.CurrentEntityId.HasValue || !_session.IsReady)
+            if (_session.IsReplay || !_client.IsConnected || !_player.CurrentEntityId.HasValue || !_session.IsReady)
                 return;
             _scheduled.Enqueue(new ScheduledCommand<T>(payload));
         }
@@ -39,6 +39,7 @@ namespace DVG.SkyPirates.Client.Services
 
         public void Tick(int tick)
         {
+            if (_session.IsReplay) { _scheduled.Clear(); return; }
             while (_scheduled.Count > 0)
             {
                 var command = _scheduled.Peek();

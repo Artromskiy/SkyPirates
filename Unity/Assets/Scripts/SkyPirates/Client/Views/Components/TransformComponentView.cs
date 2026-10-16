@@ -21,13 +21,14 @@ namespace DVG.SkyPirates.Client.Views.Components
         public void OnBind(EntityContext context)
         {
             _context = context;
+            _velocity = default;
+            _angularVelocity = 0;
             Animate(InterpolationMode.Instant);
         }
 
         private void Update()
         {
-            if (EntityViewLifetime.TryEnterUpdate(this, _context))
-                Animate(_mode);
+            Animate(_mode);
         }
 
         private void Animate(InterpolationMode mode)
