@@ -6,7 +6,7 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="../../Shared/SkyPirates.Shared.csproj" />
-    <PackageReference Include="DeltaECS.Generators" Version="0.0.59" PrivateAssets="all" />
+    <PackageReference Include="DeltaECS.Generators" Version="0.0.60" PrivateAssets="all" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="../../Shared/Resources/**/*">

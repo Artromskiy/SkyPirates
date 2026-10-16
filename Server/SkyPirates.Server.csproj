@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DeltaNetcode" Version="0.0.7" />
+    <PackageReference Include="DeltaNetcode" Version="0.0.8" />
     <PackageReference Include="NetCoreServer" Version="8.0.7" />
     <PackageReference Include="RiptideNetworking.Riptide" Version="2.2.1" />
   </ItemGroup>
