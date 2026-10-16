@@ -1,7 +1,7 @@
 ﻿using Delta;
 using System;
 
-namespace DVG.SkyPirates.Shared.Core.Physics
+namespace SlyPirates.Shared.Core.Physics
 {
 	public static class Solvers
 	{

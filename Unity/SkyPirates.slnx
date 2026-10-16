@@ -1,8 +1,8 @@
 ﻿<Solution>
-  <Project Path="DVG.SkyPirates.Client.csproj" />
+  <Project Path="SlyPirates.Client.csproj" />
   <Project Path="DOTween.Modules.csproj" />
-  <Project Path="DVG.SkyPirates.Tooling.csproj" />
-  <Project Path="DVG.SkyPirates.Shared.csproj" />
+  <Project Path="SlyPirates.Tooling.csproj" />
+  <Project Path="SlyPirates.Shared.csproj" />
   <Project Path="Assembly-CSharp-firstpass.csproj" />
   <Project Path="DVG.UniTools.csproj" />
   <Project Path="SkyPirates.Meta.csproj" />

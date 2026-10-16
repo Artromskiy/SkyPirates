@@ -1,9 +1,9 @@
 ﻿using Delta.Netcode;
-using DVG.SkyPirates.Client.IServices;
-using DVG.SkyPirates.Shared.Commands;
-using DVG.SkyPirates.Shared.IServices;
+using SlyPirates.Client.IServices;
+using SlyPirates.Shared.Commands;
+using SlyPirates.Shared.IServices;
 
-namespace DVG.SkyPirates.Client.Services
+namespace SlyPirates.Client.Services
 {
     public class Player : IPlayer
     {

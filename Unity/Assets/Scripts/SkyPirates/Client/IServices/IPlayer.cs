@@ -1,4 +1,4 @@
-﻿namespace DVG.SkyPirates.Client.IServices
+﻿namespace SlyPirates.Client.IServices
 {
     public interface IPlayer
     {

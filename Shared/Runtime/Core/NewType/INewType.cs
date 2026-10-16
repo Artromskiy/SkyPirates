@@ -1,4 +1,4 @@
-﻿namespace DVG.SkyPirates.Shared.Core.NewType
+﻿namespace SlyPirates.Shared.Core.NewType
 {
 	public interface INewType { }
 

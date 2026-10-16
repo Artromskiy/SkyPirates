@@ -1,7 +1,7 @@
 ﻿using Delta.ECS;
 using Delta;
 
-namespace DVG.SkyPirates.Shared.Components.Config
+namespace SlyPirates.Shared.Components.Config
 {
     [ComponentSchema(0x00AB8D1A9CB1C8D5UL)]
     [ComponentAlias("Separator")]

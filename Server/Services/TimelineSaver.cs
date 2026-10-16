@@ -1,13 +1,13 @@
-﻿using DVG.SkyPirates.Shared.IServices;
-using DVG.SkyPirates.Shared.IServices.TickableExecutors;
-using DVG.SkyPirates.Shared.Services;
-using DVG.SkyPirates.Shared.Tools.Json;
-using DVG.SkyPirates.Shared.Services.Netcode;
+﻿using SlyPirates.Shared.IServices;
+using SlyPirates.Shared.IServices.TickableExecutors;
+using SlyPirates.Shared.Services;
+using SlyPirates.Shared.Tools.Json;
+using SlyPirates.Shared.Services.Netcode;
 using System;
 using System.Buffers;
 using System.IO;
 
-namespace DVG.SkyPirates.Server.Services
+namespace SlyPirates.Server.Services
 {
     public class TimelineSaver : ITickableExecutor
     {

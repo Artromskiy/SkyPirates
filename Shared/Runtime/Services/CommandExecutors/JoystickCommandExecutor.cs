@@ -1,18 +1,18 @@
 using Delta;
 using Delta.ECS;
-using DVG.SkyPirates.Shared.Ecs;
+using SlyPirates.Shared.Ecs;
 using Delta.Netcode;
-using DVG.SkyPirates.Shared.Components;
-using DVG.SkyPirates.Shared.Components.Runtime;
-using DVG.SkyPirates.Shared.Commands;
-using DVG.SkyPirates.Shared.IServices;
-using DVG.SkyPirates.Shared.Systems;
-using DVG.SkyPirates.Shared.Tools.Extensions;
-using DVG.SkyPirates.Shared.Tools.TraceHelpers;
+using SlyPirates.Shared.Components;
+using SlyPirates.Shared.Components.Runtime;
+using SlyPirates.Shared.Commands;
+using SlyPirates.Shared.IServices;
+using SlyPirates.Shared.Systems;
+using SlyPirates.Shared.Tools.Extensions;
+using SlyPirates.Shared.Tools.TraceHelpers;
 using System.Diagnostics;
 using System;
 
-namespace DVG.SkyPirates.Shared.Services.CommandExecutors
+namespace SlyPirates.Shared.Services.CommandExecutors
 {
     public class JoystickCommandExecutor : ICommandExecutorRegistration, ICommandExecutor<JoystickCommand>, ITransientCommandInput<JoystickCommand>
     {

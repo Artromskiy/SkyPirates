@@ -1,13 +1,13 @@
 ﻿using Delta;
 using Delta.ECS.Unity;
-using DVG.SkyPirates.Shared;
-using DVG.SkyPirates.Client.Views;
-using DVG.SkyPirates.Client.Views.Components;
-using DVG.SkyPirates.Rendering.SphereOverlay.View;
-using DVG.SkyPirates.Shared.Components.Config;
+using SlyPirates.Shared;
+using SlyPirates.Client.Views;
+using SlyPirates.Client.Views.Components;
+using SlyPirates.Rendering.SphereOverlay.View;
+using SlyPirates.Shared.Components.Config;
 using UnityEngine;
 
-namespace SkyPirates.Client.Views.Components
+namespace SlyPirates.Client.Views.Components
 {
     public class ImpactZoneComponentView : MonoBehaviour, IEntityView
     {

@@ -1,9 +1,9 @@
-using DVG.SkyPirates.Local.Entry;
-using DVG.SkyPirates.Shared.Services.Replay;
+using SlyPirates.Local.Entry;
+using SlyPirates.Shared.Services.Replay;
 using UnityEditor;
 using UnityEngine;
 
-namespace DVG.SkyPirates.Editor
+namespace SlyPirates.Editor
 {
     public sealed class SkyPiratesReplayWindow : EditorWindow
     {

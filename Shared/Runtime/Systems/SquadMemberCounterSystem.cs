@@ -1,13 +1,13 @@
 ﻿using Delta;
 using Delta.ECS;
-using DVG.SkyPirates.Shared.Components;
-using DVG.SkyPirates.Shared.Ecs;
-using DVG.SkyPirates.Shared.Components.Runtime;
-using DVG.SkyPirates.Shared.Core.Collections;
-using DVG.SkyPirates.Shared.Components.Framed;
-using DVG.SkyPirates.Shared.IServices.TickableExecutors;
+using SlyPirates.Shared.Components;
+using SlyPirates.Shared.Ecs;
+using SlyPirates.Shared.Components.Runtime;
+using SlyPirates.Shared.Core.Collections;
+using SlyPirates.Shared.Components.Framed;
+using SlyPirates.Shared.IServices.TickableExecutors;
 
-namespace DVG.SkyPirates.Shared.Systems
+namespace SlyPirates.Shared.Systems
 {
     public class SquadMemberCounterSystem : IDeltaTickableExecutor
     {

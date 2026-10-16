@@ -1,7 +1,7 @@
 using Delta.ECS;
-using DVG.SkyPirates.Shared.Components;
+using SlyPirates.Shared.Components;
 
-namespace DVG.SkyPirates.Shared.Ecs
+namespace SlyPirates.Shared.Ecs
 {
     public static class WorldFactory
     {

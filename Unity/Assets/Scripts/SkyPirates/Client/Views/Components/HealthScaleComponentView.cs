@@ -1,11 +1,11 @@
 ﻿using Delta;
 using Delta.ECS.Unity;
 using DG.Tweening;
-using DVG.SkyPirates.Shared.Components.Config;
-using DVG.SkyPirates.Shared.Components.Runtime;
+using SlyPirates.Shared.Components.Config;
+using SlyPirates.Shared.Components.Runtime;
 using UnityEngine;
 
-namespace DVG.SkyPirates.Client.Views.Components
+namespace SlyPirates.Client.Views.Components
 {
     public class HealthScaleComponentView : MonoBehaviour, IEntityView
     {

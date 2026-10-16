@@ -1,10 +1,10 @@
 using Delta.Netcode;
-using DVG.SkyPirates.Shared.Commands;
-using DVG.SkyPirates.Shared.Components.Runtime;
-using DVG.SkyPirates.Shared.IFactories;
-using DVG.SkyPirates.Shared.IServices;
+using SlyPirates.Shared.Commands;
+using SlyPirates.Shared.Components.Runtime;
+using SlyPirates.Shared.IFactories;
+using SlyPirates.Shared.IServices;
 
-namespace DVG.SkyPirates.Shared.Services.CommandExecutors
+namespace SlyPirates.Shared.Services.CommandExecutors
 {
     public class SpawnSquadCommandExecutor : ICommandExecutorRegistration, ICommandExecutor<SpawnSquadCommand>
     {

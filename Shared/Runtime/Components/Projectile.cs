@@ -1,7 +1,7 @@
 ﻿using Delta.ECS;
 using Delta;
 
-namespace DVG.SkyPirates.Shared.Components.Runtime
+namespace SlyPirates.Shared.Components.Runtime
 {
     [ComponentSchema(0xFD545D4B7B5D50FFUL)]
     [ComponentAlias("Projectile")]

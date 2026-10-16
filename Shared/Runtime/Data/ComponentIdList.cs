@@ -2,7 +2,7 @@ using Delta.ECS;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace DVG.SkyPirates.Shared.Data
+namespace SlyPirates.Shared.Data
 {
     public sealed class ComponentIdList : IReadOnlyList<string>
     {

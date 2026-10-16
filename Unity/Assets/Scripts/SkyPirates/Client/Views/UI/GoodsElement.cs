@@ -1,10 +1,10 @@
-﻿using DVG.SkyPirates.Client.Databases;
-using DVG.SkyPirates.Shared.Ids;
+﻿using SlyPirates.Client.Databases;
+using SlyPirates.Shared.Ids;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace DVG.SkyPirates.Client.Views.UI
+namespace SlyPirates.Client.Views.UI
 {
     public class GoodsElement : MonoBehaviour
     {

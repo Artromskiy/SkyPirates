@@ -1,4 +1,4 @@
-﻿namespace DVG.SkyPirates.Shared.IServices
+﻿namespace SlyPirates.Shared.IServices
 {
     public interface IPooledItemsProvider
     {

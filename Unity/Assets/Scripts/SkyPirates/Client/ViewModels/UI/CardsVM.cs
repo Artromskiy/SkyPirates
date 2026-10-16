@@ -1,12 +1,12 @@
 ﻿using Delta.Netcode;
-using DVG.SkyPirates.Client.IServices;
-using DVG.SkyPirates.Client.IViewModels;
-using DVG.SkyPirates.Shared.Commands;
-using DVG.SkyPirates.Shared.Data;
-using DVG.SkyPirates.Shared.Ids;
+using SlyPirates.Client.IServices;
+using SlyPirates.Client.IViewModels;
+using SlyPirates.Shared.Commands;
+using SlyPirates.Shared.Data;
+using SlyPirates.Shared.Ids;
 using System;
 
-namespace DVG.SkyPirates.Client.ViewModels.UI
+namespace SlyPirates.Client.ViewModels.UI
 {
     public class CardsVM : ICardsVM
     {

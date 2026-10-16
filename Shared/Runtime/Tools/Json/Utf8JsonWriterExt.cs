@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text.Json;
 
-namespace DVG.SkyPirates.Shared.Tools.Json
+namespace SlyPirates.Shared.Tools.Json
 {
     public static class Utf8JsonWriterExt
     {

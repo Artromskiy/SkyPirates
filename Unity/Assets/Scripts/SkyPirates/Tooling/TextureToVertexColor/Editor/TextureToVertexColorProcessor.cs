@@ -5,7 +5,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
-namespace DVG.SkyPirates.Tooling.TextureToVertexColor.Editor
+namespace SlyPirates.Tooling.TextureToVertexColor.Editor
 {
     public static class TextureToVertexColorProcessor
     {

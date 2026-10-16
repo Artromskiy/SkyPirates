@@ -1,7 +1,7 @@
 using Delta.ECS;
-using DVG.SkyPirates.Shared.Components.Runtime;
+using SlyPirates.Shared.Components.Runtime;
 
-namespace DVG.SkyPirates.Shared.Ecs
+namespace SlyPirates.Shared.Ecs
 {
     internal struct SquadIdComparer : IComponentComparer
     {

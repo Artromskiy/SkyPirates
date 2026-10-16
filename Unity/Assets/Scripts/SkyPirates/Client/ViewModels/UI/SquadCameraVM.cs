@@ -1,15 +1,15 @@
 #nullable enable
 using Delta;
 using Delta.ECS;
-using DVG.SkyPirates.Shared.Components;
-using DVG.SkyPirates.Shared.Components.Runtime;
-using DVG.SkyPirates.Client.IServices;
-using DVG.SkyPirates.Client.IViewModels;
-using DVG.SkyPirates.Shared.Components.Config;
-using DVG.SkyPirates.Shared.Data;
-using DVG.SkyPirates.Shared.IServices;
+using SlyPirates.Shared.Components;
+using SlyPirates.Shared.Components.Runtime;
+using SlyPirates.Client.IServices;
+using SlyPirates.Client.IViewModels;
+using SlyPirates.Shared.Components.Config;
+using SlyPirates.Shared.Data;
+using SlyPirates.Shared.IServices;
 
-namespace DVG.SkyPirates.Client.ViewModels.UI
+namespace SlyPirates.Client.ViewModels.UI
 {
     public class SquadCameraVM : ICameraVM
     {

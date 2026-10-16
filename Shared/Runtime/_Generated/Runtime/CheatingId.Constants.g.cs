@@ -12,7 +12,7 @@
 
 using System;
 
-namespace DVG.SkyPirates.Shared.Ids
+namespace SlyPirates.Shared.Ids
 {
     partial struct CheatingId
     {

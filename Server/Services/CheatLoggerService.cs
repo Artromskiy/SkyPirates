@@ -1,7 +1,7 @@
-﻿using DVG.SkyPirates.Server.IServices;
-using DVG.SkyPirates.Shared.Ids;
+﻿using SlyPirates.Server.IServices;
+using SlyPirates.Shared.Ids;
 
-namespace DVG.SkyPirates.Server.Services
+namespace SlyPirates.Server.Services
 {
     internal class CheatLoggerService : ICheatLoggerService
     {

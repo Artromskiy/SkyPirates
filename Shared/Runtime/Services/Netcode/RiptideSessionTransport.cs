@@ -2,7 +2,7 @@ using Riptide;
 using System;
 using System.Collections.Generic;
 
-namespace DVG.SkyPirates.Shared.Services.Netcode
+namespace SlyPirates.Shared.Services.Netcode
 {
     internal static class RiptideSessionMessages
     {

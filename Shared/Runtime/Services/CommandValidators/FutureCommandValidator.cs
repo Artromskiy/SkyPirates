@@ -1,7 +1,7 @@
 using Delta.Netcode;
-using DVG.SkyPirates.Shared.IServices;
+using SlyPirates.Shared.IServices;
 
-namespace DVG.SkyPirates.Shared.Services.CommandValidators
+namespace SlyPirates.Shared.Services.CommandValidators
 {
     public sealed class FutureCommandValidator<T> : ICommandValidator<T>, ICommandValidatorRegistration
     {

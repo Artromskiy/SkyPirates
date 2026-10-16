@@ -4,7 +4,7 @@ using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace DVG.SkyPirates.Tooling.TextureToVertexColor.Editor
+namespace SlyPirates.Tooling.TextureToVertexColor.Editor
 {
     public sealed class TextureToVertexColorWindow : EditorWindow
     {

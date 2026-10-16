@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEditor;
 #endif
 
-namespace DVG.SkyPirates.Client.Views.Components
+namespace SlyPirates.Client.Views.Components
 {
     internal static class EditorChanges
     {

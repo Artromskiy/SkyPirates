@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace DVG.SkyPirates.Meta
+namespace SlyPirates.Meta
 {
     public class GameModeEnabler : MonoBehaviour
     {

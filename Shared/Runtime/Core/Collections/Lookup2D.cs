@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
-namespace DVG.SkyPirates.Shared.Core.Collections
+namespace SlyPirates.Shared.Core.Collections
 {
 	public sealed class Lookup2D<T>
 	{

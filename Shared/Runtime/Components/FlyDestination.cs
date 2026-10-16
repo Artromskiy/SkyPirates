@@ -1,7 +1,7 @@
 ﻿using Delta.ECS;
 using Delta;
 
-namespace DVG.SkyPirates.Shared.Components.Runtime
+namespace SlyPirates.Shared.Components.Runtime
 {
     [ComponentSchema(0x6A3B5C9A7DA0F83BUL)]
     [ComponentAlias("FlyDestination")]

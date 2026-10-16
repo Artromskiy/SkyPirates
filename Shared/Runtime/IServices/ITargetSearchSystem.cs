@@ -1,11 +1,11 @@
 ﻿using Delta.ECS;
-using DVG.SkyPirates.Shared.Components.Config;
-using DVG.SkyPirates.Shared.Components.Framed;
-using DVG.SkyPirates.Shared.Components.Runtime;
-using DVG.SkyPirates.Shared.IServices.TickableExecutors;
+using SlyPirates.Shared.Components.Config;
+using SlyPirates.Shared.Components.Framed;
+using SlyPirates.Shared.Components.Runtime;
+using SlyPirates.Shared.IServices.TickableExecutors;
 using System.Collections.Generic;
 
-namespace DVG.SkyPirates.Shared.IServices
+namespace SlyPirates.Shared.IServices
 {
     public interface ITargetSearchSystem : IDeltaTickableExecutor
     {

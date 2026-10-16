@@ -2,7 +2,7 @@
 using System.Text;
 using System.Text.Json;
 
-namespace DVG.SkyPirates.Shared.Tools.Json
+namespace SlyPirates.Shared.Tools.Json
 {
     public static class JsonHash
     {

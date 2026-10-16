@@ -1,6 +1,6 @@
 using System;
 
-namespace DVG.SkyPirates.Shared.Core.Ids.Attributes
+namespace SlyPirates.Shared.Core.Ids.Attributes
 {
 	[AttributeUsage(AttributeTargets.Struct, AllowMultiple = false, Inherited = false)]
 	public class IdAttribute : Attribute

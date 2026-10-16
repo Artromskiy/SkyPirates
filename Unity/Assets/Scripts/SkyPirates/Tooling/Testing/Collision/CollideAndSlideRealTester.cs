@@ -1,11 +1,11 @@
 ﻿using Delta;
-using DVG.SkyPirates.Shared.Core.Physics;
-using DVG.SkyPirates.Shared.Systems;
+using SlyPirates.Shared.Core.Physics;
+using SlyPirates.Shared.Systems;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace DVG.SkyPirates.Tooling.Testing
+namespace SlyPirates.Tooling.Testing
 {
     public class CollideAndSlideRealTester : MonoBehaviour
     {

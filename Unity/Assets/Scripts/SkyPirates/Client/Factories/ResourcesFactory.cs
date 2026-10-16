@@ -1,11 +1,11 @@
 #nullable enable
-using DVG.SkyPirates.Shared.Core;
-using DVG.SkyPirates.Shared;
-using DVG.SkyPirates.Shared.Tools.Json;
+using SlyPirates.Shared.Core;
+using SlyPirates.Shared;
+using SlyPirates.Shared.Tools.Json;
 using Delta.ECS;
 using UnityEngine;
 
-namespace DVG.SkyPirates.Client.Factories
+namespace SlyPirates.Client.Factories
 {
     public class ResourcesFactory<T> : IPathFactory<T>
     {

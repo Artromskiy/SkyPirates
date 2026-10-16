@@ -1,11 +1,11 @@
 ﻿using Delta;
 using Delta.ECS;
-using DVG.SkyPirates.Shared.Ecs;
-using DVG.SkyPirates.Shared.Components.Framed;
-using DVG.SkyPirates.Shared.Components.Runtime;
-using DVG.SkyPirates.Shared.IServices.TickableExecutors;
+using SlyPirates.Shared.Ecs;
+using SlyPirates.Shared.Components.Framed;
+using SlyPirates.Shared.Components.Runtime;
+using SlyPirates.Shared.IServices.TickableExecutors;
 
-namespace DVG.SkyPirates.Shared.Systems
+namespace SlyPirates.Shared.Systems
 {
     public class SearchPositionSyncSystem : IDeltaTickableExecutor
     {

@@ -1,23 +1,23 @@
-using DVG.SkyPirates.Shared.Core;
-using DVG.SkyPirates.Shared;
-using DVG.SkyPirates.Client.Entry;
-using DVG.SkyPirates.Client.IFactories;
-using DVG.SkyPirates.Client.IServices;
-using DVG.SkyPirates.Client.Factories;
-using DVG.SkyPirates.Client.IViewModels;
-using DVG.SkyPirates.Client.Services;
-using DVG.SkyPirates.Client.Systems;
-using DVG.SkyPirates.Client.ViewModels.UI;
-using DVG.SkyPirates.Shared.DI;
-using DVG.SkyPirates.Shared.IServices;
-using DVG.SkyPirates.Shared.IServices.TickableExecutors;
+using SlyPirates.Shared.Core;
+using SlyPirates.Shared;
+using SlyPirates.Client.Entry;
+using SlyPirates.Client.IFactories;
+using SlyPirates.Client.IServices;
+using SlyPirates.Client.Factories;
+using SlyPirates.Client.IViewModels;
+using SlyPirates.Client.Services;
+using SlyPirates.Client.Systems;
+using SlyPirates.Client.ViewModels.UI;
+using SlyPirates.Shared.DI;
+using SlyPirates.Shared.IServices;
+using SlyPirates.Shared.IServices.TickableExecutors;
 using Riptide.Transports.Udp;
 using SimpleInjector;
 using System;
 using Delta.ECS.Unity;
 using UnityEngine;
 
-namespace DVG.SkyPirates.Client.DI
+namespace SlyPirates.Client.DI
 {
     public class ClientContainer : SharedContainer
     {

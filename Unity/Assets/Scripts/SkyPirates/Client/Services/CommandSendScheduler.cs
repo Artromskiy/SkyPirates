@@ -1,9 +1,9 @@
-using DVG.SkyPirates.Shared.Core.Collections;
-using DVG.SkyPirates.Client.IServices;
-using DVG.SkyPirates.Shared.Services.Netcode;
+using SlyPirates.Shared.Core.Collections;
+using SlyPirates.Client.IServices;
+using SlyPirates.Shared.Services.Netcode;
 using System.Collections.Generic;
 
-namespace DVG.SkyPirates.Client.Services
+namespace SlyPirates.Client.Services
 {
     public sealed class CommandSendScheduler : ICommandSendScheduler
     {

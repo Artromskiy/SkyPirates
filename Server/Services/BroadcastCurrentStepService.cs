@@ -1,8 +1,8 @@
-﻿using DVG.SkyPirates.Server.IServices;
-using DVG.SkyPirates.Shared.IServices.TickableExecutors;
-using DVG.SkyPirates.Shared.Services.Netcode;
+﻿using SlyPirates.Server.IServices;
+using SlyPirates.Shared.IServices.TickableExecutors;
+using SlyPirates.Shared.Services.Netcode;
 
-namespace DVG.SkyPirates.Server.Services
+namespace SlyPirates.Server.Services
 {
     public class BroadcastCurrentStepService : ITickableExecutor
     {

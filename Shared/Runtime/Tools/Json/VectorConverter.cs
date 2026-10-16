@@ -7,7 +7,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading;
 
-namespace DVG.SkyPirates.Shared.Tools.Json
+namespace SlyPirates.Shared.Tools.Json
 {
     public class VectorConverter<T, V> : JsonConverter<V>
         where V : unmanaged

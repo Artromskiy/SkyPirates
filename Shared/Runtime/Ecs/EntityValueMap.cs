@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Delta.ECS;
 
-namespace DVG.SkyPirates.Shared.Ecs
+namespace SlyPirates.Shared.Ecs
 {
     internal sealed class EntityValueMap<T>
     {

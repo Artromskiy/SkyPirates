@@ -1,30 +1,30 @@
 using Delta.ECS;
-using DVG.SkyPirates.Shared;
-using DVG.SkyPirates.Shared.Components;
-using DVG.SkyPirates.Shared.Components.Runtime;
-using DVG.SkyPirates.Shared.Core;
-using DVG.SkyPirates.Shared.Components.Config;
-using DVG.SkyPirates.Shared.Components.Framed;
-using DVG.SkyPirates.Shared.Commands;
-using DVG.SkyPirates.Shared.Data;
-using DVG.SkyPirates.Shared.Ecs;
-using DVG.SkyPirates.Shared.Factories;
-using DVG.SkyPirates.Shared.IFactories;
-using DVG.SkyPirates.Shared.IServices;
-using DVG.SkyPirates.Shared.IServices.TickableExecutors;
-using DVG.SkyPirates.Shared.Ids;
-using DVG.SkyPirates.Shared.Services;
-using DVG.SkyPirates.Shared.Services.CommandExecutors;
-using DVG.SkyPirates.Shared.Services.CommandMutators;
-using DVG.SkyPirates.Shared.Services.CommandValidators;
-using DVG.SkyPirates.Shared.Services.Netcode;
-using DVG.SkyPirates.Shared.Systems;
-using DVG.SkyPirates.Shared.Systems.Special;
+using SlyPirates.Shared;
+using SlyPirates.Shared.Components;
+using SlyPirates.Shared.Components.Runtime;
+using SlyPirates.Shared.Core;
+using SlyPirates.Shared.Components.Config;
+using SlyPirates.Shared.Components.Framed;
+using SlyPirates.Shared.Commands;
+using SlyPirates.Shared.Data;
+using SlyPirates.Shared.Ecs;
+using SlyPirates.Shared.Factories;
+using SlyPirates.Shared.IFactories;
+using SlyPirates.Shared.IServices;
+using SlyPirates.Shared.IServices.TickableExecutors;
+using SlyPirates.Shared.Ids;
+using SlyPirates.Shared.Services;
+using SlyPirates.Shared.Services.CommandExecutors;
+using SlyPirates.Shared.Services.CommandMutators;
+using SlyPirates.Shared.Services.CommandValidators;
+using SlyPirates.Shared.Services.Netcode;
+using SlyPirates.Shared.Systems;
+using SlyPirates.Shared.Systems.Special;
 using SimpleInjector;
 using System;
 using Delta.Netcode;
 
-namespace DVG.SkyPirates.Shared.DI
+namespace SlyPirates.Shared.DI
 {
     public class SharedContainer : Container
     {

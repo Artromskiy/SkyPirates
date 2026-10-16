@@ -1,17 +1,17 @@
 ﻿using Delta;
 using Delta.ECS;
-using DVG.SkyPirates.Shared.Ecs;
-using DVG.SkyPirates.Shared.Core;
-using DVG.SkyPirates.Shared.Core.Physics;
-using DVG.SkyPirates.Shared.Components.Config;
-using DVG.SkyPirates.Shared.Components.Framed;
-using DVG.SkyPirates.Shared.Components.Runtime;
-using DVG.SkyPirates.Shared.IServices.TickableExecutors;
+using SlyPirates.Shared.Ecs;
+using SlyPirates.Shared.Core;
+using SlyPirates.Shared.Core.Physics;
+using SlyPirates.Shared.Components.Config;
+using SlyPirates.Shared.Components.Framed;
+using SlyPirates.Shared.Components.Runtime;
+using SlyPirates.Shared.IServices.TickableExecutors;
 using System;
 using System.Collections.Generic;
 using System.Threading;
 
-namespace DVG.SkyPirates.Shared.Systems
+namespace SlyPirates.Shared.Systems
 {
     public sealed class HexMapCollisionSystem : IDeltaTickableExecutor
     {

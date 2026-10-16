@@ -1,8 +1,8 @@
 ﻿using Delta;
 using Delta.Netcode;
-using DVG.SkyPirates.Shared.Commands;
-using DVG.SkyPirates.Shared.Data;
-using DVG.SkyPirates.Shared.Tools.Json;
+using SlyPirates.Shared.Commands;
+using SlyPirates.Shared.Data;
+using SlyPirates.Shared.Tools.Json;
 using System;
 using System.Buffers;
 using System.Collections.Generic;
@@ -10,7 +10,7 @@ using System.IO;
 using System.IO.Hashing;
 using System.Threading.Tasks;
 using UnityEngine;
-namespace DVG.SkyPirates.Tooling
+namespace SlyPirates.Tooling
 {
     public class HashedTimelineComparer : MonoBehaviour
     {

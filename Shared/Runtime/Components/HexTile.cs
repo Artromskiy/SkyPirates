@@ -1,7 +1,7 @@
 ﻿using Delta;
 using Delta.ECS;
 
-namespace DVG.SkyPirates.Shared.Components.Config
+namespace SlyPirates.Shared.Components.Config
 {
     [ComponentSchema(0x160D07E33764473FUL)]
     [ComponentAlias("HexTile")]

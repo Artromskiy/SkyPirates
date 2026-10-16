@@ -1,9 +1,9 @@
 using Delta.Netcode;
-using DVG.SkyPirates.Shared.Commands;
-using DVG.SkyPirates.Shared.IServices;
+using SlyPirates.Shared.Commands;
+using SlyPirates.Shared.IServices;
 using System.Linq;
 
-namespace DVG.SkyPirates.Shared.Services.Netcode
+namespace SlyPirates.Shared.Services.Netcode
 {
     internal sealed class SkyPiratesCommandPolicyRegistrar
     {

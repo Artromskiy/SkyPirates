@@ -1,10 +1,10 @@
 ﻿using Delta.ECS.Unity;
 using DG.Tweening;
-using DVG.SkyPirates.Shared.Components.Runtime;
+using SlyPirates.Shared.Components.Runtime;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace DVG.SkyPirates.Client.Views.Components
+namespace SlyPirates.Client.Views.Components
 {
     public class DamageBlinkComponentView : MonoBehaviour, IEntityView
     {

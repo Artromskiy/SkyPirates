@@ -1,6 +1,6 @@
-﻿using DVG.SkyPirates.Shared.Core.Ids.Attributes;
+﻿using SlyPirates.Shared.Core.Ids.Attributes;
 
-namespace DVG.SkyPirates.Shared.Ids
+namespace SlyPirates.Shared.Ids
 {
     [Id(false)]
     internal partial struct InternalId { }

@@ -1,14 +1,14 @@
 using Delta.Netcode;
-using DVG.SkyPirates.Shared.Ecs;
-using DVG.SkyPirates.Shared.Data;
-using DVG.SkyPirates.Shared.IServices.TickableExecutors;
-using DVG.SkyPirates.Shared.IServices;
-using DVG.SkyPirates.Shared.Tools.Json;
+using SlyPirates.Shared.Ecs;
+using SlyPirates.Shared.Data;
+using SlyPirates.Shared.IServices.TickableExecutors;
+using SlyPirates.Shared.IServices;
+using SlyPirates.Shared.Tools.Json;
 using System;
 using System.Buffers;
 using System.Collections.Generic;
 
-namespace DVG.SkyPirates.Shared.Services.Netcode
+namespace SlyPirates.Shared.Services.Netcode
 {
     public sealed class SkyPiratesSessionModel : ISessionModel
     {

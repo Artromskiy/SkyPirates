@@ -1,8 +1,8 @@
 using Delta;
 using Delta.Netcode;
-using DVG.SkyPirates.Shared.Components.Runtime;
+using SlyPirates.Shared.Components.Runtime;
 
-namespace DVG.SkyPirates.Shared.Commands
+namespace SlyPirates.Shared.Commands
 {
     [NetCommand(Id = 2, Predicted = true)]
     public struct JoystickCommand

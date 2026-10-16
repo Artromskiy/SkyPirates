@@ -155,5 +155,5 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b632d7794e3544ff8daf61b70ba4b687, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: SkyPirates.Client::DVG.SkyPirates.Client.Views.Components.ProjectileLineView
+  m_EditorClassIdentifier: SlyPirates.Client::SlyPirates.Client.Views.Components.ProjectileLineView
   _lineRenderer: {fileID: 12000000}

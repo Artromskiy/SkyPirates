@@ -1,20 +1,20 @@
 ﻿using Delta;
 using Delta.ECS;
-using DVG.SkyPirates.Shared.Ecs;
-using DVG.SkyPirates.Shared.Components;
-using DVG.SkyPirates.Shared.Components.Runtime;
-using DVG.SkyPirates.Shared.Core.Collections;
-using DVG.SkyPirates.Shared.Components.Config;
-using DVG.SkyPirates.Shared.Components.Framed;
-using DVG.SkyPirates.Shared.Ids;
-using DVG.SkyPirates.Shared.IServices.TickableExecutors;
+using SlyPirates.Shared.Ecs;
+using SlyPirates.Shared.Components;
+using SlyPirates.Shared.Components.Runtime;
+using SlyPirates.Shared.Core.Collections;
+using SlyPirates.Shared.Components.Config;
+using SlyPirates.Shared.Components.Framed;
+using SlyPirates.Shared.Ids;
+using SlyPirates.Shared.IServices.TickableExecutors;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 
-namespace DVG.SkyPirates.Shared.Systems
+namespace SlyPirates.Shared.Systems
 {
     // another heat death of universe system
     public class SquadGoodsDistributionSystem : IDeltaTickableExecutor

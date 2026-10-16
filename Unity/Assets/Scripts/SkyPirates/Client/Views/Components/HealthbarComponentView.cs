@@ -1,13 +1,13 @@
 ﻿using Delta.ECS.Unity;
 using DG.Tweening;
-using DVG.SkyPirates.Shared.Components.Runtime;
-using DVG.SkyPirates.Shared.Components.Framed;
-using DVG.SkyPirates.Shared.Components.Config;
+using SlyPirates.Shared.Components.Runtime;
+using SlyPirates.Shared.Components.Framed;
+using SlyPirates.Shared.Components.Config;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace DVG.SkyPirates.Client.Views.Components
+namespace SlyPirates.Client.Views.Components
 {
     public class HealthbarComponentView : MonoBehaviour, IEntityView
     {

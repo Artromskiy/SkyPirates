@@ -1,8 +1,8 @@
-﻿using DVG.SkyPirates.Shared.Core;
+﻿using SlyPirates.Shared.Core;
 using System;
 using UnityEngine;
 
-namespace DVG.SkyPirates.Client.IViewModels
+namespace SlyPirates.Client.IViewModels
 {
     public interface IHealthbarCanvasVM : IViewModel
     {

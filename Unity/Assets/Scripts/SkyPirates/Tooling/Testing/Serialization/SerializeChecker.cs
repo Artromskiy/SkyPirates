@@ -1,11 +1,11 @@
-using DVG.SkyPirates.Shared.Commands;
-using DVG.SkyPirates.Shared.Data;
-using DVG.SkyPirates.Shared.Tools.Json;
+using SlyPirates.Shared.Commands;
+using SlyPirates.Shared.Data;
+using SlyPirates.Shared.Tools.Json;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-namespace DVG.SkyPirates.Tooling.Testing
+namespace SlyPirates.Tooling.Testing
 {
     public class SerializeChecker : MonoBehaviour
     {

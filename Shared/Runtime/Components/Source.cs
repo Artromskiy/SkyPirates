@@ -1,6 +1,6 @@
 ﻿using Delta.ECS;
 
-namespace DVG.SkyPirates.Shared.Components.Runtime
+namespace SlyPirates.Shared.Components.Runtime
 {
     [ComponentSchema(0x8D01E83A9E7CDD6DUL)]
     [ComponentAlias("Source")]

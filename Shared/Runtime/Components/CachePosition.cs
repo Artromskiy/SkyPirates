@@ -1,9 +1,9 @@
 ﻿using Delta.ECS;
 using Delta;
-using DVG.SkyPirates.Shared.Core.NewType;
-using DVG.SkyPirates.Shared.Components;
+using SlyPirates.Shared.Core.NewType;
+using SlyPirates.Shared.Components;
 
-namespace DVG.SkyPirates.Shared.Components.Framed
+namespace SlyPirates.Shared.Components.Framed
 {
     [ComponentSchema(0x620B9E215CE58422UL)]
     [ComponentAlias("CachePosition")]

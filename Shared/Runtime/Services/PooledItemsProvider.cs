@@ -1,9 +1,9 @@
-﻿using DVG.SkyPirates.Shared.Core.Collections;
-using DVG.SkyPirates.Shared.IServices;
+﻿using SlyPirates.Shared.Core.Collections;
+using SlyPirates.Shared.IServices;
 using System;
 using System.Collections.Generic;
 
-namespace DVG.SkyPirates.Shared.Services
+namespace SlyPirates.Shared.Services
 {
     public class PooledItemsProvider : IPooledItemsProvider, IDisposable
     {

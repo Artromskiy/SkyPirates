@@ -1,7 +1,7 @@
-﻿using DVG.SkyPirates.Shared.Core.Collections;
+﻿using SlyPirates.Shared.Core.Collections;
 using System;
 
-namespace DVG.SkyPirates.Shared.Core.Collections
+namespace SlyPirates.Shared.Core.Collections
 {
 	public sealed class GenericCollection : IDisposable
 	{

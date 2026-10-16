@@ -1,9 +1,9 @@
 ﻿using Delta;
-using DVG.SkyPirates.Shared.IServices.TickableExecutors;
+using SlyPirates.Shared.IServices.TickableExecutors;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace DVG.SkyPirates.Shared.Services
+namespace SlyPirates.Shared.Services
 {
     public class DeltaTickableService<T> : IDeltaTickableService<T>
         where T : IDeltaTickable

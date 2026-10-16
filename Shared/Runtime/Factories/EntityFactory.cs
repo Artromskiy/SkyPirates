@@ -1,13 +1,13 @@
 ﻿using Delta.ECS;
-using DVG.SkyPirates.Shared.Ecs;
-using DVG.SkyPirates.Shared.Components;
-using DVG.SkyPirates.Shared.Components.Runtime;
-using DVG.SkyPirates.Shared.Data;
-using DVG.SkyPirates.Shared.IFactories;
-using DVG.SkyPirates.Shared.IServices;
+using SlyPirates.Shared.Ecs;
+using SlyPirates.Shared.Components;
+using SlyPirates.Shared.Components.Runtime;
+using SlyPirates.Shared.Data;
+using SlyPirates.Shared.IFactories;
+using SlyPirates.Shared.IServices;
 using System;
 
-namespace DVG.SkyPirates.Shared.Factories
+namespace SlyPirates.Shared.Factories
 {
 	public class EntityFactory : IEntityFactory
 	{

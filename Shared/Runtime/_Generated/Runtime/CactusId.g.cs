@@ -10,11 +10,11 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using DVG.SkyPirates.Shared.Core.Ids;
+using SlyPirates.Shared.Core.Ids;
 using System;
 using System.Runtime.Serialization;
 
-namespace DVG.SkyPirates.Shared.Ids
+namespace SlyPirates.Shared.Ids
 {
     [Serializable]
     partial struct CactusId : IId, IEquatable<CactusId>, IComparable<CactusId>

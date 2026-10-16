@@ -1,8 +1,8 @@
 ﻿using Delta.ECS;
 using Delta;
-using DVG.SkyPirates.Shared.Core.NewType;
+using SlyPirates.Shared.Core.NewType;
 
-namespace DVG.SkyPirates.Shared.Components.Config
+namespace SlyPirates.Shared.Components.Config
 {
     [ComponentSchema(0xF58475C35B5A76E4UL)]
     [ComponentAlias("ActivityRange")]

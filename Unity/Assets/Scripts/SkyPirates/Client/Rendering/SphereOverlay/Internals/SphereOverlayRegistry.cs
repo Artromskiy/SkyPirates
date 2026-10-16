@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace DVG.SkyPirates.Rendering.SphereOverlay.Internals
+namespace SlyPirates.Rendering.SphereOverlay.Internals
 {
     internal static class SphereOverlayRegistry
     {

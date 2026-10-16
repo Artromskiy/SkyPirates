@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DVG.SkyPirates.Shared.Components
+namespace SlyPirates.Shared.Components
 {
     [Flags]
     public enum Group

@@ -102,4 +102,4 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f64dc5e1a5e0463c9af9fef3e462497a, type: 3}
   m_Name:
-  m_EditorClassIdentifier: DVG.SkyPirates.Rendering.SphereOverlay::DVG.SkyPirates.Rendering.SphereOverlay.View.SphereOverlayReceiverView
+  m_EditorClassIdentifier: SlyPirates.Rendering.SphereOverlay::SlyPirates.Rendering.SphereOverlay.View.SphereOverlayReceiverView

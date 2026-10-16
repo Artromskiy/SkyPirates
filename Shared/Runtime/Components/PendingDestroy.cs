@@ -1,6 +1,6 @@
 using Delta.ECS;
 
-namespace DVG.SkyPirates.Shared.Components.Runtime
+namespace SlyPirates.Shared.Components.Runtime
 {
     [ComponentSchema(0x4726E4B65FE73D9BUL)]
     [ComponentAlias("PendingDestroy")]

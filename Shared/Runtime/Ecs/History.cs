@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
 
-namespace DVG.SkyPirates.Shared.Ecs
+namespace SlyPirates.Shared.Ecs
 {
     internal struct History<T> : IDisposable where T : struct
     {

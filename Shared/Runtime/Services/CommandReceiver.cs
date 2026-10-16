@@ -1,9 +1,9 @@
-using DVG.SkyPirates.Shared.Core.Collections;
+using SlyPirates.Shared.Core.Collections;
 using Delta.Netcode;
-using DVG.SkyPirates.Shared.IServices;
+using SlyPirates.Shared.IServices;
 using System;
 
-namespace DVG.SkyPirates.Shared.Services
+namespace SlyPirates.Shared.Services
 {
     internal sealed class CommandReceiver : ICommandReciever
     {

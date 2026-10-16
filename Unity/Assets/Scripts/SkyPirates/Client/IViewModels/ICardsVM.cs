@@ -1,10 +1,10 @@
-﻿using DVG.SkyPirates.Shared.Core;
-using DVG.SkyPirates.Shared;
-using DVG.SkyPirates.Shared.Data;
-using DVG.SkyPirates.Shared.Ids;
+﻿using SlyPirates.Shared.Core;
+using SlyPirates.Shared;
+using SlyPirates.Shared.Data;
+using SlyPirates.Shared.Ids;
 using System;
 
-namespace DVG.SkyPirates.Client.IViewModels
+namespace SlyPirates.Client.IViewModels
 {
     public interface ICardsVM : IViewModel
     {

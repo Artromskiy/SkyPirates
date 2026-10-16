@@ -1,10 +1,10 @@
-﻿using DVG.SkyPirates.Shared.Core;
-using DVG.SkyPirates.Shared;
-using DVG.SkyPirates.Shared.Tools.Json;
+﻿using SlyPirates.Shared.Core;
+using SlyPirates.Shared;
+using SlyPirates.Shared.Tools.Json;
 using Delta.ECS;
 using System.IO;
 
-namespace DVG.SkyPirates.Server.Factories
+namespace SlyPirates.Server.Factories
 {
     public class ResourcesFactory<T> : IPathFactory<T>
     {

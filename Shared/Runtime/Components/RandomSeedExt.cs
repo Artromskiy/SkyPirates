@@ -1,5 +1,5 @@
 ﻿using Delta;
-namespace DVG.SkyPirates.Shared.Components.Runtime
+namespace SlyPirates.Shared.Components.Runtime
 {
 	public static class RandomSeedExt
 	{

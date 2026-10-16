@@ -1,8 +1,8 @@
 {
-    "name": "DVG.SkyPirates.Shared",
-    "rootNamespace": "DVG.SkyPirates.Shared",
+    "name": "SlyPirates.Tooling.TextureToVertexColor.Editor",
+    "rootNamespace": "SlyPirates.Tooling.TextureToVertexColor.Editor",
     "references": [],
-    "includePlatforms": [],
+    "includePlatforms": ["Editor"],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,

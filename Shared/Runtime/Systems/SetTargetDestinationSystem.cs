@@ -1,13 +1,13 @@
 ﻿using Delta;
 using Delta.ECS;
-using DVG.SkyPirates.Shared.Ecs;
-using DVG.SkyPirates.Shared.Components.Config;
-using DVG.SkyPirates.Shared.Components.Framed;
-using DVG.SkyPirates.Shared.Components.Runtime;
-using DVG.SkyPirates.Shared.IServices.TickableExecutors;
-using DVG.SkyPirates.Shared.Tools.Extensions;
+using SlyPirates.Shared.Ecs;
+using SlyPirates.Shared.Components.Config;
+using SlyPirates.Shared.Components.Framed;
+using SlyPirates.Shared.Components.Runtime;
+using SlyPirates.Shared.IServices.TickableExecutors;
+using SlyPirates.Shared.Tools.Extensions;
 
-namespace DVG.SkyPirates.Shared.Systems
+namespace SlyPirates.Shared.Systems
 {
     /// <summary>
     /// If <see href="Target"/> is set, sets desired movement and rotation to approach it.

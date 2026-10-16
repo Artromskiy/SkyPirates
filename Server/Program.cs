@@ -1,11 +1,11 @@
-using DVG.SkyPirates.Server.Factories;
-using DVG.SkyPirates.Shared.Core;
-using DVG.SkyPirates.Shared;
-using DVG.SkyPirates.Shared.Data;
-using DVG.SkyPirates.Shared.IFactories;
-using DVG.SkyPirates.Shared.IServices;
-using DVG.SkyPirates.Shared.IServices.TickableExecutors;
-using DVG.SkyPirates.Shared.Services.Netcode;
+using SlyPirates.Server.Factories;
+using SlyPirates.Shared.Core;
+using SlyPirates.Shared;
+using SlyPirates.Shared.Data;
+using SlyPirates.Shared.IFactories;
+using SlyPirates.Shared.IServices;
+using SlyPirates.Shared.IServices.TickableExecutors;
+using SlyPirates.Shared.Services.Netcode;
 using Riptide;
 using Riptide.Utils;
 using SimpleInjector;
@@ -13,7 +13,7 @@ using System;
 using System.Net;
 using System.Net.Sockets;
 
-namespace DVG.SkyPirates.Server
+namespace SlyPirates.Server
 {
     internal static class Program
     {

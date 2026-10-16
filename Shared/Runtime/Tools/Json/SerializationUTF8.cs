@@ -1,7 +1,7 @@
 ﻿using Delta;
 using Delta.ECS;
 using CommunityToolkit.HighPerformance;
-using DVG.SkyPirates.Shared.Data;
+using SlyPirates.Shared.Data;
 using System;
 using System.Buffers;
 using System.IO.Compression;
@@ -12,7 +12,7 @@ using System.Text.Json.Serialization;
 using System.Text.Json.Serialization.Metadata;
 using System.Threading;
 
-namespace DVG.SkyPirates.Shared.Tools.Json
+namespace SlyPirates.Shared.Tools.Json
 {
     public static class SerializationUTF8
     {

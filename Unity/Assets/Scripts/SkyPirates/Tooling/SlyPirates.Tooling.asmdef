@@ -1,9 +1,9 @@
 {
-    "name": "DVG.SkyPirates.Tooling",
+    "name": "SlyPirates.Tooling",
     "rootNamespace": "",
     "references": [
-        "DVG.SkyPirates.Shared",
-        "DVG.SkyPirates.Client",
+        "SlyPirates.Shared",
+        "SlyPirates.Client",
         "Unity.RenderPipelines.Universal.Runtime"
     ],
     "includePlatforms": [],

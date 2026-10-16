@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
-namespace DVG.SkyPirates.Shared.Data
+namespace SlyPirates.Shared.Data
 {
     public sealed class ComponentDataSet : IReadOnlyList<ComponentDataEntry>
     {

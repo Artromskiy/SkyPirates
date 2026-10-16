@@ -1,9 +1,9 @@
 using Delta.ECS.Unity;
-using DVG.SkyPirates.Shared.Components.Runtime;
-using DVG.SkyPirates.Client.Views.Components;
+using SlyPirates.Shared.Components.Runtime;
+using SlyPirates.Client.Views.Components;
 using UnityEngine;
 
-namespace DVG.SkyPirates.Client.Views.Components.Animators
+namespace SlyPirates.Client.Views.Components.Animators
 {
     public class DeadAnimatorComponentView : MonoBehaviour, IEntityView
     {

@@ -1,11 +1,11 @@
 using Delta.Netcode;
-using DVG.SkyPirates.Shared.Commands;
-using DVG.SkyPirates.Shared.Data;
-using DVG.SkyPirates.Shared.Services.Netcode;
-using DVG.SkyPirates.Shared.Tools.Json;
+using SlyPirates.Shared.Commands;
+using SlyPirates.Shared.Data;
+using SlyPirates.Shared.Services.Netcode;
+using SlyPirates.Shared.Tools.Json;
 using System;
 
-namespace DVG.SkyPirates.Shared.Services.Replay
+namespace SlyPirates.Shared.Services.Replay
 {
     public enum ReplayRunMode { RunRealFps, RunFixedFps, Fast }
 

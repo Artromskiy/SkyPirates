@@ -1,8 +1,8 @@
-﻿using DVG.SkyPirates.Shared.Core.Tools;
-using DVG.SkyPirates.Shared.Ids;
+﻿using SlyPirates.Shared.Core.Tools;
+using SlyPirates.Shared.Ids;
 using System.Collections.Generic;
 
-namespace DVG.SkyPirates.Shared.Tools.IdProviders
+namespace SlyPirates.Shared.Tools.IdProviders
 {
     public class TileIdProvider : StringIdProvider<TileIdProvider, TileId>
     {

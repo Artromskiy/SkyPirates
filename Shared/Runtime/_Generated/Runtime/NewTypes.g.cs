@@ -11,9 +11,9 @@
 //------------------------------------------------------------------------------
 
 using System;
-using DVG.SkyPirates.Shared.Core.NewType;
+using SlyPirates.Shared.Core.NewType;
 
-namespace DVG.SkyPirates.Shared.Components.Config
+namespace SlyPirates.Shared.Components.Config
 {
     partial struct ActivityRange : INewType<Delta.fix>
     {
@@ -29,7 +29,7 @@ namespace DVG.SkyPirates.Shared.Components.Config
 }
 
 
-namespace DVG.SkyPirates.Shared.Components.Framed
+namespace SlyPirates.Shared.Components.Framed
 {
     partial struct CachePosition : INewType<Delta.fix3>
     {
@@ -45,7 +45,7 @@ namespace DVG.SkyPirates.Shared.Components.Framed
 }
 
 
-namespace DVG.SkyPirates.Shared.Components.Config
+namespace SlyPirates.Shared.Components.Config
 {
     partial struct Damage : INewType<Delta.fix>
     {
@@ -61,7 +61,7 @@ namespace DVG.SkyPirates.Shared.Components.Config
 }
 
 
-namespace DVG.SkyPirates.Shared.Components.Runtime
+namespace SlyPirates.Shared.Components.Runtime
 {
     partial struct Direction : INewType<Delta.fix2>
     {
@@ -77,7 +77,7 @@ namespace DVG.SkyPirates.Shared.Components.Runtime
 }
 
 
-namespace DVG.SkyPirates.Shared.Components.Runtime
+namespace SlyPirates.Shared.Components.Runtime
 {
     partial struct Fixation : INewType<System.Boolean>
     {
@@ -93,7 +93,7 @@ namespace DVG.SkyPirates.Shared.Components.Runtime
 }
 
 
-namespace DVG.SkyPirates.Shared.Components.Config
+namespace SlyPirates.Shared.Components.Config
 {
     partial struct GoodsAmount : INewType<System.Int32>
     {
@@ -109,7 +109,7 @@ namespace DVG.SkyPirates.Shared.Components.Config
 }
 
 
-namespace DVG.SkyPirates.Shared.Components.Runtime
+namespace SlyPirates.Shared.Components.Runtime
 {
     partial struct GoodsCollectorRadius : INewType<Delta.fix>
     {
@@ -125,7 +125,7 @@ namespace DVG.SkyPirates.Shared.Components.Runtime
 }
 
 
-namespace DVG.SkyPirates.Shared.Components.Runtime
+namespace SlyPirates.Shared.Components.Runtime
 {
     partial struct Health : INewType<Delta.fix>
     {
@@ -141,7 +141,7 @@ namespace DVG.SkyPirates.Shared.Components.Runtime
 }
 
 
-namespace DVG.SkyPirates.Shared.Components.Config
+namespace SlyPirates.Shared.Components.Config
 {
     partial struct ImpactDistance : INewType<Delta.fix>
     {
@@ -157,7 +157,7 @@ namespace DVG.SkyPirates.Shared.Components.Config
 }
 
 
-namespace DVG.SkyPirates.Shared.Components.Config
+namespace SlyPirates.Shared.Components.Config
 {
     partial struct Level : INewType<System.Int32>
     {
@@ -173,7 +173,7 @@ namespace DVG.SkyPirates.Shared.Components.Config
 }
 
 
-namespace DVG.SkyPirates.Shared.Components.Config
+namespace SlyPirates.Shared.Components.Config
 {
     partial struct MaxHealth : INewType<Delta.fix>
     {
@@ -189,7 +189,7 @@ namespace DVG.SkyPirates.Shared.Components.Config
 }
 
 
-namespace DVG.SkyPirates.Shared.Components.Config
+namespace SlyPirates.Shared.Components.Config
 {
     partial struct MaxSpeed : INewType<Delta.fix>
     {
@@ -205,7 +205,7 @@ namespace DVG.SkyPirates.Shared.Components.Config
 }
 
 
-namespace DVG.SkyPirates.Shared.Components.Runtime
+namespace SlyPirates.Shared.Components.Runtime
 {
     partial struct Position : INewType<Delta.fix3>
     {
@@ -221,7 +221,7 @@ namespace DVG.SkyPirates.Shared.Components.Runtime
 }
 
 
-namespace DVG.SkyPirates.Shared.Components.Config
+namespace SlyPirates.Shared.Components.Config
 {
     partial struct Radius : INewType<Delta.fix>
     {
@@ -237,7 +237,7 @@ namespace DVG.SkyPirates.Shared.Components.Config
 }
 
 
-namespace DVG.SkyPirates.Shared.Components.Framed
+namespace SlyPirates.Shared.Components.Framed
 {
     partial struct RecivedDamage : INewType<Delta.fix>
     {
@@ -253,7 +253,7 @@ namespace DVG.SkyPirates.Shared.Components.Framed
 }
 
 
-namespace DVG.SkyPirates.Shared.Components.Runtime
+namespace SlyPirates.Shared.Components.Runtime
 {
     partial struct Rotation : INewType<Delta.fix>
     {
@@ -269,7 +269,7 @@ namespace DVG.SkyPirates.Shared.Components.Runtime
 }
 
 
-namespace DVG.SkyPirates.Shared.Components.Config
+namespace SlyPirates.Shared.Components.Config
 {
     partial struct Separation : INewType<Delta.fix>
     {
@@ -285,7 +285,7 @@ namespace DVG.SkyPirates.Shared.Components.Config
 }
 
 
-namespace DVG.SkyPirates.Shared.Components.Framed
+namespace SlyPirates.Shared.Components.Framed
 {
     partial struct SquadMemberCount : INewType<System.Int32>
     {
@@ -301,7 +301,7 @@ namespace DVG.SkyPirates.Shared.Components.Framed
 }
 
 
-namespace DVG.SkyPirates.Shared.Components.Config
+namespace SlyPirates.Shared.Components.Config
 {
     partial struct TargetSearchDistance : INewType<Delta.fix>
     {
@@ -317,7 +317,7 @@ namespace DVG.SkyPirates.Shared.Components.Config
 }
 
 
-namespace DVG.SkyPirates.Shared.Components.Framed
+namespace SlyPirates.Shared.Components.Framed
 {
     partial struct TargetSearchPosition : INewType<Delta.fix3>
     {
@@ -333,7 +333,7 @@ namespace DVG.SkyPirates.Shared.Components.Framed
 }
 
 
-namespace DVG.SkyPirates.Shared.Components.Runtime
+namespace SlyPirates.Shared.Components.Runtime
 {
     partial struct TeamId : INewType<System.Int32>
     {

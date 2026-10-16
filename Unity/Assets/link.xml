@@ -5,8 +5,8 @@
 
   <assembly fullname="DeltaMaths" preserve="all"/>
   <assembly fullname="DVG.UniTools" preserve="all"/>
-  <assembly fullname="DVG.SkyPirates.Meta" preserve="all"/>
-  <assembly fullname="DVG.SkyPirates.Shared" preserve="all"/>
-  <assembly fullname="DVG.SkyPirates.Shared" preserve="all"/>
-  <assembly fullname="DVG.SkyPirates.Tooling" preserve="all"/>
+  <assembly fullname="SlyPirates.Meta" preserve="all"/>
+  <assembly fullname="SlyPirates.Shared" preserve="all"/>
+  <assembly fullname="SlyPirates.Shared" preserve="all"/>
+  <assembly fullname="SlyPirates.Tooling" preserve="all"/>
 </linker>

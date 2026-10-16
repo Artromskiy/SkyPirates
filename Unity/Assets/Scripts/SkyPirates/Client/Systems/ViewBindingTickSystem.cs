@@ -1,16 +1,16 @@
 using Delta.ECS;
 using Delta.ECS.Unity;
-using DVG.SkyPirates.Shared.Components.Runtime;
-using DVG.SkyPirates.Shared.IServices.TickableExecutors;
-using DVG.SkyPirates.Shared.Services.Netcode;
+using SlyPirates.Shared.Components.Runtime;
+using SlyPirates.Shared.IServices.TickableExecutors;
+using SlyPirates.Shared.Services.Netcode;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Object = UnityEngine.Object;
-using ConfigViewToken = DVG.SkyPirates.Shared.Components.Config.ViewToken;
+using ConfigViewToken = SlyPirates.Shared.Components.Config.ViewToken;
 using BindingViewToken = Delta.ECS.Unity.ViewToken;
 
-namespace DVG.SkyPirates.Client.Systems
+namespace SlyPirates.Client.Systems
 {
     public sealed class ViewBindingTickSystem : ITickableExecutor
     {

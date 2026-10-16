@@ -1,10 +1,10 @@
 using Delta.ECS;
-using DVG.SkyPirates.Shared.Data;
+using SlyPirates.Shared.Data;
 using System;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace DVG.SkyPirates.Shared.Tools.Json
+namespace SlyPirates.Shared.Tools.Json
 {
     public sealed class ComponentDataSetConverter : JsonConverter<ComponentDataSet>
     {

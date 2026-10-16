@@ -1,7 +1,7 @@
 using System;
-using DVG.SkyPirates.Shared.Data;
+using SlyPirates.Shared.Data;
 
-namespace DVG.SkyPirates.Shared.Ecs
+namespace SlyPirates.Shared.Ecs
 {
     public interface IWorldHistory : IDisposable
     {

@@ -1,6 +1,6 @@
-﻿using DVG.SkyPirates.Shared.IServices.TickableExecutors;
+﻿using SlyPirates.Shared.IServices.TickableExecutors;
 
-namespace DVG.SkyPirates.Client.IServices
+namespace SlyPirates.Client.IServices
 {
     public interface IClientService : ITickableExecutor
     {

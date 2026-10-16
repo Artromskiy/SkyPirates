@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace DVG.SkyPirates.Client.Init
+namespace SlyPirates.Client.Init
 {
     public class FrameRateInit
     {

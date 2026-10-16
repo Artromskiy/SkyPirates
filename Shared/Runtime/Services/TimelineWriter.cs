@@ -1,9 +1,9 @@
-using DVG.SkyPirates.Shared.Data;
-using DVG.SkyPirates.Shared.Ecs;
-using DVG.SkyPirates.Shared.IServices.TickableExecutors;
+using SlyPirates.Shared.Data;
+using SlyPirates.Shared.Ecs;
+using SlyPirates.Shared.IServices.TickableExecutors;
 using System.Collections.Generic;
 
-namespace DVG.SkyPirates.Shared.Services
+namespace SlyPirates.Shared.Services
 {
     public class TimelineWriter : ITickableExecutor
     {

@@ -1,6 +1,6 @@
 using Delta.ECS;
 
-namespace DVG.SkyPirates.Shared.IServices
+namespace SlyPirates.Shared.IServices
 {
     public interface IComponentDefaultsService
     {

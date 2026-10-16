@@ -5,7 +5,7 @@
     <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>disabled</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <RootNamespace>DVG.SkyPirates.Server</RootNamespace>
+    <RootNamespace>SlyPirates.Server</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

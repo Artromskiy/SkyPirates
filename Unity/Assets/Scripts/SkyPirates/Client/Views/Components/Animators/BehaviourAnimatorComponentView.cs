@@ -1,11 +1,11 @@
 ﻿using Delta;
 using Delta.ECS.Unity;
-using DVG.SkyPirates.Shared;
-using DVG.SkyPirates.Shared.Components.Runtime;
-using DVG.SkyPirates.Shared.Ids;
+using SlyPirates.Shared;
+using SlyPirates.Shared.Components.Runtime;
+using SlyPirates.Shared.Ids;
 using UnityEngine;
 
-namespace DVG.SkyPirates.Client.Views.Components.Animators
+namespace SlyPirates.Client.Views.Components.Animators
 {
     public class BehaviourAnimatorComponentView : MonoBehaviour, IEntityView
     {

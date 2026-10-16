@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-namespace DVG.SkyPirates.Client.Views.Components.Animators.Editor
+namespace SlyPirates.Client.Views.Components.Animators.Editor
 {
     [CustomEditor(typeof(AnimSet))]
     public sealed class AnimSetEditor : UnityEditor.Editor

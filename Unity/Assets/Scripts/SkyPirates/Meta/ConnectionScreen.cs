@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-namespace DVG.SkyPirates.Meta
+namespace SlyPirates.Meta
 {
     public class ConnectionScreen : MonoBehaviour
     {

@@ -1,6 +1,6 @@
-﻿using DVG.SkyPirates.Shared.Components.Runtime;
+﻿using SlyPirates.Shared.Components.Runtime;
 
-namespace DVG.SkyPirates.Shared.Data
+namespace SlyPirates.Shared.Data
 {
     public struct EntityParameters
     {

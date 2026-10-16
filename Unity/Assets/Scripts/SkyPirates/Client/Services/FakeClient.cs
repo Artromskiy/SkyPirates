@@ -1,6 +1,6 @@
-using DVG.SkyPirates.Client.IServices;
+using SlyPirates.Client.IServices;
 
-namespace DVG.SkyPirates.Local.Services
+namespace SlyPirates.Local.Services
 {
     public class FakeClient : IClientService
     {

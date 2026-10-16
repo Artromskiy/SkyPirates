@@ -1,5 +1,5 @@
 ﻿using Delta;
-namespace DVG.SkyPirates.Shared.Tools.Extensions
+namespace SlyPirates.Shared.Tools.Extensions
 {
     public static class MathsExtensions
     {

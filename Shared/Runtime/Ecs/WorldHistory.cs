@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using Delta.ECS;
-using DVG.SkyPirates.Shared.Components;
-using DVG.SkyPirates.Shared.Components.Runtime;
-using DVG.SkyPirates.Shared.Data;
+using SlyPirates.Shared.Components;
+using SlyPirates.Shared.Components.Runtime;
+using SlyPirates.Shared.Data;
 
-namespace DVG.SkyPirates.Shared.Ecs
+namespace SlyPirates.Shared.Ecs
 {
     // Owns history resources, never gameplay services. Presence is counted across all retained
     // frames, including the future retained by GoTo. PendingDestroy itself is not a presence.

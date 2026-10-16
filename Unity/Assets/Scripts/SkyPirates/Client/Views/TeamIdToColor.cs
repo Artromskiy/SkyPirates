@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace DVG.SkyPirates.Client.Views
+namespace SlyPirates.Client.Views
 {
     [Obsolete]
     public static class TeamIdToColor

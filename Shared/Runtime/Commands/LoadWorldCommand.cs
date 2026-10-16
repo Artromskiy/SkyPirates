@@ -1,7 +1,7 @@
 using Delta.Netcode;
-using DVG.SkyPirates.Shared.Data;
+using SlyPirates.Shared.Data;
 
-namespace DVG.SkyPirates.Shared.Commands
+namespace SlyPirates.Shared.Commands
 {
     [NetCommand(Id = 3, Predicted = false)]
     public struct LoadWorldCommand

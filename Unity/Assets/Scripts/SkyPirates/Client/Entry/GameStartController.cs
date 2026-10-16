@@ -1,11 +1,11 @@
-using DVG.SkyPirates.Client.IServices;
-using DVG.SkyPirates.Shared.Commands;
-using DVG.SkyPirates.Shared.Services.Netcode;
-using DVG.SkyPirates.Shared;
+using SlyPirates.Client.IServices;
+using SlyPirates.Shared.Commands;
+using SlyPirates.Shared.Services.Netcode;
+using SlyPirates.Shared;
 using System;
 using System.Diagnostics;
 
-namespace DVG.SkyPirates.Client.Entry
+namespace SlyPirates.Client.Entry
 {
     public sealed class GameStartController
     {

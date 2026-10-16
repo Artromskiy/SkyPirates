@@ -1,10 +1,10 @@
 ﻿using Delta;
-using DVG.SkyPirates.Client.IServices;
-using DVG.SkyPirates.Client.IViewModels;
-using DVG.SkyPirates.Shared.Commands;
+using SlyPirates.Client.IServices;
+using SlyPirates.Client.IViewModels;
+using SlyPirates.Shared.Commands;
 using UnityEngine;
 
-namespace DVG.SkyPirates.Client.ViewModels.UI
+namespace SlyPirates.Client.ViewModels.UI
 {
     public class JoystickVM : IJoystickVM
     {

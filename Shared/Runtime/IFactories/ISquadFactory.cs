@@ -1,10 +1,10 @@
 ﻿using Delta.ECS;
-using DVG.SkyPirates.Shared.Core;
-using DVG.SkyPirates.Shared;
-using DVG.SkyPirates.Shared.Components.Runtime;
-using DVG.SkyPirates.Shared.Data;
+using SlyPirates.Shared.Core;
+using SlyPirates.Shared;
+using SlyPirates.Shared.Components.Runtime;
+using SlyPirates.Shared.Data;
 
-namespace DVG.SkyPirates.Shared.IFactories
+namespace SlyPirates.Shared.IFactories
 {
     public interface ISquadFactory : IFactory<Entity, (EntityParameters entityParameters, TeamId team)> { }
 }

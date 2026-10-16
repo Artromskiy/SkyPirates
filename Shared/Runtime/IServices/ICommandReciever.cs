@@ -1,7 +1,7 @@
 using Delta.Netcode;
 using System;
 
-namespace DVG.SkyPirates.Shared.IServices
+namespace SlyPirates.Shared.IServices
 {
     public interface ICommandReciever
     {

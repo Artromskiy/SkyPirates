@@ -1,5 +1,5 @@
 ﻿using Delta;
-namespace DVG.SkyPirates.Shared
+namespace SlyPirates.Shared
 {
 	public static class Constants
 	{

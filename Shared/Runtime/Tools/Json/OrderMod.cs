@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Text.Json.Serialization.Metadata;
 
-namespace DVG.SkyPirates.Shared.Tools.Json
+namespace SlyPirates.Shared.Tools.Json
 {
     public static class OrderMod
     {

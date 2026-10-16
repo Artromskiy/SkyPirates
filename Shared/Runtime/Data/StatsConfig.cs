@@ -1,7 +1,7 @@
-﻿using DVG.SkyPirates.Shared.Ids;
+﻿using SlyPirates.Shared.Ids;
 using System.Collections.Generic;
 
-namespace DVG.SkyPirates.Shared.Data
+namespace SlyPirates.Shared.Data
 {
     public sealed class UnitsStatsConfig : Dictionary<UnitId, ComponentDataSet> { }
     public sealed class RocksStatsConfig : Dictionary<RockId, ComponentDataSet> { }

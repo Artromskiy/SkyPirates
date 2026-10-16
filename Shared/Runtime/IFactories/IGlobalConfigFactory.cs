@@ -1,8 +1,8 @@
-﻿using DVG.SkyPirates.Shared.Core;
-using DVG.SkyPirates.Shared;
-using DVG.SkyPirates.Shared.Data;
+﻿using SlyPirates.Shared.Core;
+using SlyPirates.Shared;
+using SlyPirates.Shared.Data;
 
-namespace DVG.SkyPirates.Shared.IFactories
+namespace SlyPirates.Shared.IFactories
 {
     public interface IGlobalConfigFactory : IFactory<GlobalConfig> { }
 }

@@ -1,7 +1,7 @@
 ﻿using Delta.ECS;
 using Delta;
 
-namespace DVG.SkyPirates.Shared.Components.Runtime
+namespace SlyPirates.Shared.Components.Runtime
 {
     [ComponentSchema(0x4CD0683D2A0B1ECDUL)]
     [ComponentAlias("AutoHeal")]

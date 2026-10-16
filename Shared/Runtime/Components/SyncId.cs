@@ -1,7 +1,7 @@
 ﻿using Delta.ECS;
-using DVG.SkyPirates.Shared.Core.NewType;
+using SlyPirates.Shared.Core.NewType;
 
-namespace DVG.SkyPirates.Shared.Components.Runtime
+namespace SlyPirates.Shared.Components.Runtime
 {
 	[ComponentSchema(0x5DDC86C85A5348FEUL)]
 	[ComponentAlias("SyncId")]

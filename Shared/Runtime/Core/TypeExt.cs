@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace DVG.SkyPirates.Shared.Core
+namespace SlyPirates.Shared.Core
 {
 	public static class TypeExt
 	{

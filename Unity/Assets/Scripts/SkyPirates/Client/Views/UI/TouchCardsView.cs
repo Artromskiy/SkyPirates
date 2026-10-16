@@ -1,8 +1,8 @@
-using DVG.SkyPirates.Client.IViewModels;
-using DVG.SkyPirates.Client.IViews;
+using SlyPirates.Client.IViewModels;
+using SlyPirates.Client.IViews;
 using UnityEngine;
 
-namespace DVG.SkyPirates.Client.Views
+namespace SlyPirates.Client.Views
 {
     public class TouchCardsView : View<ICardsVM>
     {

@@ -1,12 +1,12 @@
 ﻿using Delta;
 using Delta.ECS;
-using DVG.SkyPirates.Shared.Components;
-using DVG.SkyPirates.Shared.Components.Runtime;
-using DVG.SkyPirates.Shared.Data;
-using DVG.SkyPirates.Shared.IServices.TickableExecutors;
+using SlyPirates.Shared.Components;
+using SlyPirates.Shared.Components.Runtime;
+using SlyPirates.Shared.Data;
+using SlyPirates.Shared.IServices.TickableExecutors;
 using System;
 
-namespace DVG.SkyPirates.Shared.Systems
+namespace SlyPirates.Shared.Systems
 {
     public class FramedComponentsSystem : IDeltaTickableExecutor
     {

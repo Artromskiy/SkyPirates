@@ -1,8 +1,8 @@
 using System.Collections.Generic;
-using DVG.SkyPirates.Rendering.SphereOverlay.Internals;
+using SlyPirates.Rendering.SphereOverlay.Internals;
 using UnityEngine;
 
-namespace DVG.SkyPirates.Rendering.SphereOverlay.View
+namespace SlyPirates.Rendering.SphereOverlay.View
 {
     [DisallowMultipleComponent]
     [AddComponentMenu("Sky Pirates/Rendering/Sphere Overlay Receiver")]

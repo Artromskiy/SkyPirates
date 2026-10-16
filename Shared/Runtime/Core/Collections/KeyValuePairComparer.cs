@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace DVG.SkyPirates.Shared.Core.Collections
+namespace SlyPirates.Shared.Core.Collections
 {
     public sealed class KeyValuePairComparer<K, V> : EqualityComparer<KeyValuePair<K, V>>
         where K : IEquatable<K>

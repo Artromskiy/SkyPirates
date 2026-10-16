@@ -15,9 +15,9 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Delta.Netcode;
 
-using DVG.SkyPirates.Shared.Commands;
+using SlyPirates.Shared.Commands;
 
-namespace DVG.SkyPirates.Shared.Commands
+namespace SlyPirates.Shared.Commands
 {
     public sealed class CommandsData
     {

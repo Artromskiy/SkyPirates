@@ -506,7 +506,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 03c039dadb748e943a4051662e0ffa36, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: SkyPirates.Client::DVG.SkyPirates.Client.Views.Components.HealthbarViewComponent
+  m_EditorClassIdentifier: SlyPirates.Client::SlyPirates.Client.Views.Components.HealthbarViewComponent
   _fillImage: {fileID: 8701260454915454467}
   _canvasGroup: {fileID: 6285870986199768764}
   _level: {fileID: 1797148560047452693}
@@ -522,7 +522,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 15f1b31f7fa2d124e8f861030691b79e, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: SkyPirates.Client::DVG.SkyPirates.Client.Views.Components.CanvasWorldPositionComponentView
+  m_EditorClassIdentifier: SlyPirates.Client::SlyPirates.Client.Views.Components.CanvasWorldPositionComponentView
   _worldOffset:
     x: 0
     y: 1.5

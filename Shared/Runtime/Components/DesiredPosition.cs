@@ -1,7 +1,7 @@
 ﻿using Delta.ECS;
 using Delta;
 
-namespace DVG.SkyPirates.Shared.Components.Framed
+namespace SlyPirates.Shared.Components.Framed
 {
     [ComponentSchema(0xC097C7A537A8EEB2UL)]
     [ComponentAlias("DesiredPosition")]

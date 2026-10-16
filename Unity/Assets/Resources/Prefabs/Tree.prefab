@@ -43,7 +43,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f64dc5e1a5e0463c9af9fef3e462497a, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: DVG.SkyPirates.Rendering.SphereOverlay::DVG.SkyPirates.Rendering.SphereOverlay.View.SphereOverlayReceiverView
+  m_EditorClassIdentifier: SlyPirates.Rendering.SphereOverlay::SlyPirates.Rendering.SphereOverlay.View.SphereOverlayReceiverView
 --- !u!1 &8787534822810273180
 GameObject:
   m_ObjectHideFlags: 0
@@ -93,7 +93,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d6d599fa8256b1e48a519ddb53e83c46, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: SkyPirates.Client::DVG.SkyPirates.Client.Views.Components.TransformComponentView
+  m_EditorClassIdentifier: SlyPirates.Client::SlyPirates.Client.Views.Components.TransformComponentView
   _mode: 0
   _sharpness: 0
   _realPosition:
@@ -111,7 +111,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 32dd65d61c2de934bbc5472029af55a2, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: SkyPirates.Client::DVG.SkyPirates.Client.Views.Components.HitComponentView
+  m_EditorClassIdentifier: SlyPirates.Client::SlyPirates.Client.Views.Components.HitComponentView
   _scaleRoot: {fileID: 8508215043685426886}
 --- !u!114 &4369306948256152663
 MonoBehaviour:
@@ -124,7 +124,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 13583415f8a296e458cdfe3168de3a55, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: SkyPirates.Client::DVG.SkyPirates.Client.Views.Components.TreeComponentView
+  m_EditorClassIdentifier: SlyPirates.Client::SlyPirates.Client.Views.Components.TreeComponentView
   _visualRoot: {fileID: 8508215043685426886}
   _randomizeScale: 1
   _id:
@@ -140,7 +140,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3417a5ab8fbe1ec4fbcab3d77ca9d5a4, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: SkyPirates.Client::DVG.SkyPirates.Client.Views.Components.DisposeScaleComponentView
+  m_EditorClassIdentifier: SlyPirates.Client::SlyPirates.Client.Views.Components.DisposeScaleComponentView
   _delay: 0.1
 --- !u!114 &6077628859669681227
 MonoBehaviour:
@@ -153,7 +153,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dc4408ce575c5274c8c077ce40e310ad, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: SkyPirates.Client::DVG.SkyPirates.Client.Views.Components.DamageBlinkComponentView
+  m_EditorClassIdentifier: SlyPirates.Client::SlyPirates.Client.Views.Components.DamageBlinkComponentView
   _blinkColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
 --- !u!114 &-657073493737256635
 MonoBehaviour:
@@ -166,4 +166,4 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4fa7e934cf1094947a9315f3a95ce155, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: DVG.SkyPirates.Client::DVG.SkyPirates.Client.Views.Components.DamageVibrationComponentView
+  m_EditorClassIdentifier: SlyPirates.Client::SlyPirates.Client.Views.Components.DamageVibrationComponentView

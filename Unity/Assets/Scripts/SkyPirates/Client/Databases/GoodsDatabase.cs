@@ -1,9 +1,9 @@
-using DVG.SkyPirates.Shared.Ids;
+using SlyPirates.Shared.Ids;
 using DVG.UniTools;
 using System;
 using UnityEngine;
 
-namespace DVG.SkyPirates.Client.Databases
+namespace SlyPirates.Client.Databases
 {
     [CreateAssetMenu(
         fileName = nameof(GoodsDatabase),

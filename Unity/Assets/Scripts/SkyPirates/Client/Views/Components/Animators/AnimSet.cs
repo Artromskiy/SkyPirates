@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace DVG.SkyPirates.Client.Views.Components.Animators
+namespace SlyPirates.Client.Views.Components.Animators
 {
     [Serializable]
     public sealed class AnimClipDefinition

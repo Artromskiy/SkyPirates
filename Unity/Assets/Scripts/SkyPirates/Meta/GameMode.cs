@@ -1,4 +1,4 @@
-namespace DVG.SkyPirates.Meta
+namespace SlyPirates.Meta
 {
     public enum GameMode
     {

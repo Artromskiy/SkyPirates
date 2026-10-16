@@ -1,10 +1,10 @@
 ﻿using Delta.ECS.Unity;
-using DVG.SkyPirates.Shared.Components.Runtime;
-using DVG.SkyPirates.Shared.Ids;
+using SlyPirates.Shared.Components.Runtime;
+using SlyPirates.Shared.Ids;
 using System;
 using UnityEngine;
 
-namespace DVG.SkyPirates.Client.Views.Components
+namespace SlyPirates.Client.Views.Components
 {
     public class UnitComponentView : VisualComponentView<UnitId>
     {

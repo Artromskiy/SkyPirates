@@ -1,9 +1,9 @@
 using Delta.Netcode;
-using DVG.SkyPirates.Shared.Commands;
-using DVG.SkyPirates.Shared.Ecs;
-using DVG.SkyPirates.Shared.IServices;
+using SlyPirates.Shared.Commands;
+using SlyPirates.Shared.Ecs;
+using SlyPirates.Shared.IServices;
 
-namespace DVG.SkyPirates.Shared.Services.CommandExecutors
+namespace SlyPirates.Shared.Services.CommandExecutors
 {
     public class LoadWorldCommandExecutor : ICommandExecutorRegistration, ICommandExecutor<LoadWorldCommand>
     {

@@ -1,9 +1,9 @@
 ﻿using Delta;
 using Delta.ECS.Unity;
-using DVG.SkyPirates.Shared.Components.Config;
+using SlyPirates.Shared.Components.Config;
 using UnityEngine;
 
-namespace DVG.SkyPirates.Client.Views.Components.Animators
+namespace SlyPirates.Client.Views.Components.Animators
 {
     public class MoveAnimatorComponentView : MonoBehaviour, IEntityView
     {

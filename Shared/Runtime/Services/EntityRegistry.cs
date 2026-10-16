@@ -1,11 +1,11 @@
 using Delta;
 using Delta.ECS;
-using DVG.SkyPirates.Shared.Components.Runtime;
-using DVG.SkyPirates.Shared.Ecs;
-using DVG.SkyPirates.Shared.IServices;
-using DVG.SkyPirates.Shared.Systems;
+using SlyPirates.Shared.Components.Runtime;
+using SlyPirates.Shared.Ecs;
+using SlyPirates.Shared.IServices;
+using SlyPirates.Shared.Systems;
 
-namespace DVG.SkyPirates.Shared.Services
+namespace SlyPirates.Shared.Services
 {
     public sealed class EntityRegistry : IEntityRegistry
     {

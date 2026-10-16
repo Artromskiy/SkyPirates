@@ -1,9 +1,9 @@
 ﻿using Delta.ECS;
-using DVG.SkyPirates.Shared.Ids;
+using SlyPirates.Shared.Ids;
 using System.Collections.Immutable;
-using DVG.SkyPirates.Shared.Components;
+using SlyPirates.Shared.Components;
 
-namespace DVG.SkyPirates.Shared.Components.Config
+namespace SlyPirates.Shared.Components.Config
 {
     [ComponentSchema(0xEE93E6A7A51DB035UL)]
     [ComponentAlias("GoodsDrop")]

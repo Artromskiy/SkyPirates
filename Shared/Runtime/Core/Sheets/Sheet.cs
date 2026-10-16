@@ -1,4 +1,4 @@
-namespace DVG.SkyPirates.Shared.Core.Sheets
+namespace SlyPirates.Shared.Core.Sheets
 {
     public readonly struct Sheet
     {

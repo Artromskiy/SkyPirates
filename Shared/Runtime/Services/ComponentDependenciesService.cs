@@ -1,8 +1,8 @@
 using Delta.ECS;
-using DVG.SkyPirates.Shared.Data;
-using DVG.SkyPirates.Shared.IServices;
+using SlyPirates.Shared.Data;
+using SlyPirates.Shared.IServices;
 
-namespace DVG.SkyPirates.Shared.Services
+namespace SlyPirates.Shared.Services
 {
     public class ComponentDependenciesService : IComponentDependenciesService
     {

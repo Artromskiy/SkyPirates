@@ -1,12 +1,12 @@
-using DVG.SkyPirates.Client.IViewModels;
-using DVG.SkyPirates.Client.IViews;
-using DVG.SkyPirates.Client.Views.UI;
-using DVG.SkyPirates.Shared.Ids;
+using SlyPirates.Client.IViewModels;
+using SlyPirates.Client.IViews;
+using SlyPirates.Client.Views.UI;
+using SlyPirates.Shared.Ids;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace DVG.SkyPirates.Client.Views
+namespace SlyPirates.Client.Views
 {
     public class GoodsView : View<IGoodsVM>
     {

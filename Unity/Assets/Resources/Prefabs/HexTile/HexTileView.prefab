@@ -43,4 +43,4 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3b681769c49a497993e1afe94f909816, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: DVG.SkyPirates.Client::DVG.SkyPirates.Client.Views.Components.HexTileComponentView
+  m_EditorClassIdentifier: SlyPirates.Client::SlyPirates.Client.Views.Components.HexTileComponentView

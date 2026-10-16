@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace DVG.SkyPirates.Shared.Data
+namespace SlyPirates.Shared.Data
 {
     public sealed class ComponentDependenciesConfig : List<ComponentDependenciesData> { }
     public class FramedComponentDependenciesConfig : List<ComponentDependenciesData> { }

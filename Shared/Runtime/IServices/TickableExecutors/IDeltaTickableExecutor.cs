@@ -1,5 +1,5 @@
 ﻿using Delta;
-namespace DVG.SkyPirates.Shared.IServices.TickableExecutors
+namespace SlyPirates.Shared.IServices.TickableExecutors
 {
     public interface IDeltaTickable
     {

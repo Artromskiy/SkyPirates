@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace DVG.SkyPirates.Tooling
+namespace SlyPirates.Tooling
 {
     public class PlatformViewEnabler : MonoBehaviour
     {

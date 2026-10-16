@@ -1,17 +1,17 @@
 using Delta;
 using Delta.ECS;
-using DVG.SkyPirates.Shared.Components;
-using DVG.SkyPirates.Shared.Components.Runtime;
-using DVG.SkyPirates.Shared.Components.Config;
-using DVG.SkyPirates.Shared.Components.Framed;
-using DVG.SkyPirates.Shared.Data;
-using DVG.SkyPirates.Shared.Ecs;
-using DVG.SkyPirates.Shared.IFactories;
-using DVG.SkyPirates.Shared.Ids;
-using DVG.SkyPirates.Shared.IServices.TickableExecutors;
+using SlyPirates.Shared.Components;
+using SlyPirates.Shared.Components.Runtime;
+using SlyPirates.Shared.Components.Config;
+using SlyPirates.Shared.Components.Framed;
+using SlyPirates.Shared.Data;
+using SlyPirates.Shared.Ecs;
+using SlyPirates.Shared.IFactories;
+using SlyPirates.Shared.Ids;
+using SlyPirates.Shared.IServices.TickableExecutors;
 using System.Collections.Generic;
 
-namespace DVG.SkyPirates.Shared.Systems
+namespace SlyPirates.Shared.Systems
 {
     public sealed class RangedImpactSystem : IDeltaTickableExecutor
     {

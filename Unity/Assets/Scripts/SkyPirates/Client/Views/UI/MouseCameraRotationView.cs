@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace DVG.SkyPirates.Client.Views
+namespace SlyPirates.Client.Views
 {
     public sealed class MouseCameraRotationView : MonoBehaviour
     {

@@ -1,9 +1,9 @@
 ﻿using Delta.ECS;
-using DVG.SkyPirates.Shared.Components.Runtime;
-using DVG.SkyPirates.Shared.Components.Framed;
-using DVG.SkyPirates.Shared.Data;
+using SlyPirates.Shared.Components.Runtime;
+using SlyPirates.Shared.Components.Framed;
+using SlyPirates.Shared.Data;
 
-namespace DVG.SkyPirates.Shared.Ecs
+namespace SlyPirates.Shared.Ecs
 {
     public static class WorldExtensions
     {
