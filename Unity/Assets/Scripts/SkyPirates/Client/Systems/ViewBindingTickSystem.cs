@@ -69,10 +69,8 @@ namespace DVG.SkyPirates.Client.Systems
 
                 if (_world.Has<PendingDestroy>(entity) || !_world.Has<ConfigViewToken>(entity))
                 {
-                    if (_scene.TryGetView(entity, out GameObject view) && view.activeSelf)
-                        view.SetActive(false);
                     if (_world.Has<BindingViewToken>(entity)) _tokens.Add(entity);
-                    // Keep ViewBound while the retained GameObject exists, including until physical destruction.
+                    // Views finish their own death animation while history retains the entity.
                     continue;
                 }
 
