@@ -1,0 +1,17 @@
+{
+    "name": "SlyPirates.Tooling.HeightmapToHex.Editor",
+    "rootNamespace": "SlyPirates.Tooling.HeightmapToHex.Editor",
+    "references": [
+        "GUID:3b983cebf3ddf84489d0cf6ad4177cc7",
+        "GUID:2c3ba37b8d5fd3d469f30b77ce22226e"
+    ],
+    "includePlatforms": ["Editor"],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

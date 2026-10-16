@@ -10,5 +10,6 @@ namespace SlyPirates.Shared.Components.Config
     {
         public int2 Coordinates;
         public int Elevation;
+        public fix4 Color;
     }
 }
