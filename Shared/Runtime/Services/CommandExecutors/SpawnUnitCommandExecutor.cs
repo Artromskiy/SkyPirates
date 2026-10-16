@@ -85,8 +85,7 @@ namespace DVG.SkyPirates.Shared.Services.CommandExecutors
                 return false;
             }
 
-            // TEMP: free summons while collecting history benchmark data.
-            int price = 0;
+            int price = info.RumPrice;
             if (price == 0)
             {
                 return true;

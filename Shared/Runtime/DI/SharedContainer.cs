@@ -142,6 +142,7 @@ namespace DVG.SkyPirates.Shared.DI
             typeof(GoodsCollectorSystem),
             typeof(SquadGoodsDistributionSystem), // distributes goods across squad members
             typeof(MarkDeadSystem),
+            typeof(SquadUnitMergeSystem),
             //typeof(LogHashSumSystem),
         };
 
