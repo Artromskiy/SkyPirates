@@ -38,7 +38,10 @@ namespace DVG.SkyPirates.Shared.Tools.Json
                 ComponentId componentId = _world.GetAlias(name);
                 var visitor = new ReadComponentData(name, value.RootElement, options);
                 _world.Components.Visit(componentId, visitor);
-                result.Add(visitor.Entry ?? throw new JsonException($"Component alias '{name}' is not a value component."));
+                result.Add(
+                    _world,
+                    componentId,
+                    visitor.Entry ?? throw new JsonException($"Component alias '{name}' is not a value component."));
             }
 
             return result;

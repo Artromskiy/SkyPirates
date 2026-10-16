@@ -10,31 +10,29 @@ namespace DVG.SkyPirates.Shared.Systems.Special
 {
     internal class DisposeSystem : IDisposeSystem
     {
-        private readonly ComponentQueryCache<QuerySet> _queryCache = new();
-        private Query? _toDestroyCache;
-        private Query _toDestroy => _toDestroyCache ??= _world.WhereAll<Temp>();
         private readonly List<Entity> _entitiesCache = new();
         private readonly World _world;
         private readonly IWorldHistory _history;
-        private readonly ComponentId[] _disposableComponents;
-        private readonly ComponentId _tempComponentId;
-        private readonly ForEachEntityAction _disposeHistoryAction;
+        private readonly IOperation[] _disposeOperations;
+        private readonly Query _temporaryEntitiesQuery;
+        private readonly IOperation _disposeHistoryOperation;
 
         public DisposeSystem(World world, IWorldHistory history)
         {
             _world = world;
             _history = history;
-            var components = new List<ComponentId>();
-            var visitor = new CollectDisposableComponents(components, _queryCache);
+            ComponentId tempComponentId = world.Components.GetPrimary<Temp>();
+            var disposeOperations = new List<IOperation>();
+            var visitor = new CollectDisposableComponents(world, tempComponentId, disposeOperations);
             ReadOnlySpan<ComponentId> allComponents = world.GetGroup(Group.All);
             for (int i = 0; i < allComponents.Length; i++)
             {
                 world.Components.Visit(allComponents[i], visitor);
             }
 
-            _disposableComponents = components.ToArray();
-            _tempComponentId = world.Components.GetPrimary<Temp>();
-            _disposeHistoryAction = DisposeHistory;
+            _disposeOperations = disposeOperations.ToArray();
+            _temporaryEntitiesQuery = world.WhereAll<Temp>();
+            _disposeHistoryOperation = world.ForEachEntity(in _temporaryEntitiesQuery, DisposeHistory);
         }
 
         public void Tick(int tick)
@@ -46,56 +44,40 @@ namespace DVG.SkyPirates.Shared.Systems.Special
                 _world.Add<Temp>(entity);
             }
 
-            for (int i = 0; i < _disposableComponents.Length; i++)
+            for (int i = 0; i < _disposeOperations.Length; i++)
             {
-                DisposeComponents(_disposableComponents[i]);
+                _disposeOperations[i].Invoke();
             }
 
-            var toDestroy = _toDestroy;
-            _world.ForEachEntity(in toDestroy, _disposeHistoryAction).Invoke();
-            _world.Destroy(in toDestroy);
-        }
-
-        private void DisposeComponents(ComponentId component)
-        {
-            var queries = _queryCache.Get(component);
-            var filter = queries.Components ??= CreateComponentQuery(component);
-            _world.ForEachEntity(in filter, queries.Dispose!).Invoke();
+            _disposeHistoryOperation.Invoke();
+            _world.Destroy(in _temporaryEntitiesQuery);
         }
 
         private void DisposeHistory(EntityRef entity) => _history.DisposeEntity(entity);
 
-        private Query CreateComponentQuery(ComponentId componentId)
-        {
-            Span<ComponentId> all = stackalloc ComponentId[2] { componentId, _tempComponentId };
-            return _world.WhereAll(all);
-        }
-
-        internal sealed class QuerySet
-        {
-            public QuerySet() { }
-
-            public Query? Components;
-            public ForEachEntityAction? Dispose;
-        }
-
         private readonly struct CollectDisposableComponents : IStructComponentVisitor<IDisposable>
         {
-            private readonly List<ComponentId> _components;
-            private readonly ComponentQueryCache<QuerySet> _queryCache;
+            private readonly World _world;
+            private readonly ComponentId _tempComponentId;
+            private readonly List<IOperation> _disposeOperations;
 
             public CollectDisposableComponents(
-                List<ComponentId> components,
-                ComponentQueryCache<QuerySet> queryCache)
+                World world,
+                ComponentId tempComponentId,
+                List<IOperation> disposeOperations)
             {
-                _components = components;
-                _queryCache = queryCache;
+                _world = world;
+                _tempComponentId = tempComponentId;
+                _disposeOperations = disposeOperations;
             }
 
             public void Visit<T>(ComponentId componentId) where T : struct, IDisposable
             {
-                _components.Add(componentId);
-                _queryCache.Get(componentId).Dispose = entity => entity.GetRef<T>(componentId).Dispose();
+                World world = _world;
+                ComponentId tempComponentId = _tempComponentId;
+                Query query = world.WhereAll(componentId, tempComponentId);
+                _disposeOperations.Add(world.ForEachEntity(in query, (entity) =>
+                    entity.GetRef<T>(componentId).Dispose()));
             }
         }
     }

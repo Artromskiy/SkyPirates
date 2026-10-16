@@ -810,7 +810,9 @@ namespace DVG.SkyPirates.Shared.Ecs
 
         private sealed class ChangeFrame<T> where T : struct
         {
+            private const int ForgetIndexThreshold = 64;
             private readonly List<Change<T>> _changes = new();
+            private Dictionary<ulong, int>? _forgetIndices;
 
             public int Tick { get; private set; }
             public int Count => _changes.Count;
@@ -823,6 +825,7 @@ namespace DVG.SkyPirates.Shared.Ecs
             public void Reset(int tick)
             {
                 _changes.Clear();
+                _forgetIndices?.Clear();
                 Tick = tick;
             }
 
@@ -841,6 +844,19 @@ namespace DVG.SkyPirates.Shared.Ecs
                 int nextIndex = _changes.Count;
                 indices.Set(entity, in nextIndex);
                 _changes.Add(new Change<T>(entity, hasNewValue, in newValue));
+
+                if (_forgetIndices != null)
+                {
+                    _forgetIndices.Add(GetEntityKey(entity), nextIndex);
+                }
+                else if (_changes.Count >= ForgetIndexThreshold)
+                {
+                    _forgetIndices = new Dictionary<ulong, int>(_changes.Count);
+                    for (int i = 0; i < _changes.Count; i++)
+                    {
+                        _forgetIndices.Add(GetEntityKey(_changes[i].Entity), i);
+                    }
+                }
             }
 
             public Entity GetEntity(int index) => _changes[index].Entity;
@@ -863,20 +879,55 @@ namespace DVG.SkyPirates.Shared.Ecs
 
             public bool Forget(Entity entity)
             {
-                bool removed = false;
+                if (_forgetIndices != null)
+                {
+                    ulong key = GetEntityKey(entity);
+                    if (!_forgetIndices.TryGetValue(key, out int index))
+                    {
+                        return false;
+                    }
+
+                    RemoveAt(index, key);
+                    return true;
+                }
+
                 for (int i = _changes.Count - 1; i >= 0; i--)
                 {
                     if (SameEntity(_changes[i].Entity, entity))
                     {
-                        _changes.RemoveAt(i);
-                        removed = true;
+                        RemoveAt(i, GetEntityKey(entity));
+                        return true;
                     }
                 }
 
-                return removed;
+                return false;
             }
 
-            public void Clear() => _changes.Clear();
+            public void Clear()
+            {
+                _changes.Clear();
+                _forgetIndices?.Clear();
+            }
+
+            private void RemoveAt(int index, ulong entityKey)
+            {
+                int lastIndex = _changes.Count - 1;
+                if (index != lastIndex)
+                {
+                    Change<T> moved = _changes[lastIndex];
+                    _changes[index] = moved;
+                    if (_forgetIndices != null)
+                    {
+                        _forgetIndices[GetEntityKey(moved.Entity)] = index;
+                    }
+                }
+
+                _changes.RemoveAt(lastIndex);
+                _forgetIndices?.Remove(entityKey);
+            }
+
+            private static ulong GetEntityKey(Entity entity)
+                => ((ulong)(uint)entity.Index << 32) | (uint)entity.Generation;
         }
 
         private sealed class EntityValueMap<T>

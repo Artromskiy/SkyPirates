@@ -4,7 +4,6 @@ using DVG.SkyPirates.Shared.Components.Runtime;
 using DVG.SkyPirates.Shared.Data;
 using DVG.SkyPirates.Shared.IFactories;
 using DVG.SkyPirates.Shared.IServices;
-using DVG.SkyPirates.Shared.Systems;
 
 namespace DVG.SkyPirates.Shared.Factories
 {

@@ -1,6 +1,7 @@
 ﻿using DVG.SkyPirates.Shared.Core.Ids;
 using DVG.SkyPirates.Shared.Data;
 using DVG.SkyPirates.Shared.IFactories;
+using Delta.ECS;
 using System;
 using System.Collections.Generic;
 
@@ -9,38 +10,41 @@ namespace DVG.SkyPirates.Shared.Factories
     public class EntityConfigFactory<T> : IEntityConfigFactory<T> where T : struct, IId, IEquatable<T>
     {
         private readonly Dictionary<T, ComponentDataSet> _entities = new();
+        private readonly ComponentId _keyComponentId;
 
-        public EntityConfigFactory(GlobalConfig config)
+        public EntityConfigFactory(GlobalConfig config, World world)
         {
+            _keyComponentId = world.Components.GetPrimary<T>();
+
             foreach (var item in config.UnitsStats)
             {
-                TryAdd(item.Value);
+                TryAdd(item.Value, world);
             }
 
             foreach (var item in config.CactusesStats)
             {
-                TryAdd(item.Value);
+                TryAdd(item.Value, world);
             }
 
             foreach (var item in config.TreesStats)
             {
-                TryAdd(item.Value);
+                TryAdd(item.Value, world);
             }
 
             foreach (var item in config.RocksStats)
             {
-                TryAdd(item.Value);
+                TryAdd(item.Value, world);
             }
 
             foreach (var item in config.GoodsStats)
             {
-                TryAdd(item.Value);
+                TryAdd(item.Value, world);
             }
         }
 
-        private void TryAdd(ComponentDataSet data)
+        private void TryAdd(ComponentDataSet data, World world)
         {
-            if (data.TryGet<T>(out var key))
+            if (data.TryGet(world, _keyComponentId, out T key))
             {
                 _entities.Add(key, data);
             }

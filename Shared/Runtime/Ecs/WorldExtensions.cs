@@ -1,17 +1,17 @@
 ﻿using Delta.ECS;
 using DVG.SkyPirates.Shared.Components.Runtime;
 using DVG.SkyPirates.Shared.Components.Framed;
-using System.Collections.Generic;
+using DVG.SkyPirates.Shared.Data;
 
 namespace DVG.SkyPirates.Shared.Ecs
 {
-    internal static class WorldExtensions
+    public static class WorldExtensions
     {
-        public static Query Alive(this Query query) => query.WhereAll<Alive>();
+        internal static Query Alive(this Query query) => query.WhereAll<Alive>();
 
-        public static Query NotDisabled(this Query query) => query.WhereNone<Disabled>();
+        internal static Query NotDisabled(this Query query) => query.WhereNone<Disabled>();
 
-        public static ref T GetOrAdd<T>(this World world, Entity entity) where T : struct
+        internal static ref T GetOrAdd<T>(this World world, Entity entity) where T : struct
         {
             if (!world.Has<T>(entity))
             {
@@ -20,20 +20,35 @@ namespace DVG.SkyPirates.Shared.Ecs
 
             return ref world.GetRef<T>(entity);
         }
-    }
 
-    internal sealed class ComponentQueryCache<TQueries> where TQueries : class, new()
-    {
-        private readonly Dictionary<ComponentId, TQueries> _queriesById = new();
-
-        public TQueries Get(ComponentId componentId)
+        public static void SetEntityData(this World world, Entity entity, ComponentDataSet components)
         {
-            if (!_queriesById.TryGetValue(componentId, out var queries))
+            foreach (var entry in components)
             {
-                _queriesById.Add(componentId, queries = new TQueries());
+                entry.Visit(world, new ApplyEntityData(world, entity));
+            }
+        }
+
+        private readonly struct ApplyEntityData : IStructDataVisitor
+        {
+            private readonly Entity _entity;
+            private readonly World _world;
+
+            public ApplyEntityData(World world, Entity entity)
+            {
+                _entity = entity;
+                _world = world;
             }
 
-            return queries;
+            public void Visit<T>(ComponentId componentId, in T value) where T : struct
+            {
+                if (!_world.Has(_entity, componentId))
+                {
+                    _world.Add(_entity, componentId);
+                }
+
+                _world.GetRef<T>(_entity, componentId) = value;
+            }
         }
     }
 }

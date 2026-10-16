@@ -1,9 +1,9 @@
 ﻿using Delta.ECS;
 using DVG.SkyPirates.Shared.Core.Ids;
 using DVG.SkyPirates.Shared.Data;
+using DVG.SkyPirates.Shared.Ecs;
 using DVG.SkyPirates.Shared.IFactories;
 using DVG.SkyPirates.Shared.IServices;
-using DVG.SkyPirates.Shared.Systems;
 using System;
 
 namespace DVG.SkyPirates.Shared.Factories
