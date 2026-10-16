@@ -9,7 +9,7 @@ using DVG.SkyPirates.Shared.IServices.TickableExecutors;
 
 namespace DVG.SkyPirates.Shared.Systems
 {
-    public class SimpleHeightSystem : ITransientDeltaTickableExecutor
+    public class SimpleHeightSystem : IDeltaTickableExecutor
     {
         private Query? _descCache;
         private Query _desc => _descCache ??= _world.

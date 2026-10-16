@@ -10,7 +10,7 @@ using DVG.SkyPirates.Shared.IServices.TickableExecutors;
 
 namespace DVG.SkyPirates.Shared.Systems
 {
-    public class SquadMemberDestinationSystem : ITransientDeltaTickableExecutor
+    public class SquadMemberDestinationSystem : IDeltaTickableExecutor
     {
         private Query? _unitsDescCache;
         private Query _unitsDesc => _unitsDescCache ??= _world.

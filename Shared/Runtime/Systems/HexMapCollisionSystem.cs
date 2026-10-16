@@ -13,7 +13,7 @@ using System.Threading;
 
 namespace DVG.SkyPirates.Shared.Systems
 {
-    public sealed class HexMapCollisionSystem : ITransientDeltaTickableExecutor
+    public sealed class HexMapCollisionSystem : IDeltaTickableExecutor
     {
         private Query? _descCache;
         private Query _desc => _descCache ??= _world.

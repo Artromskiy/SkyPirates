@@ -9,7 +9,7 @@ using System.Collections.Generic;
 
 namespace DVG.SkyPirates.Shared.Systems
 {
-    public sealed class SeparationSystem : ITransientDeltaTickableExecutor
+    public sealed class SeparationSystem : IDeltaTickableExecutor
     {
         public static int SquareSize = 4;
 

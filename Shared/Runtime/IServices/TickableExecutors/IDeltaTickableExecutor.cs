@@ -7,6 +7,4 @@ namespace DVG.SkyPirates.Shared.IServices.TickableExecutors
     }
 
     public interface IDeltaTickableExecutor : IDeltaTickable { }
-
-    public interface ITransientDeltaTickableExecutor : IDeltaTickableExecutor { }
 }

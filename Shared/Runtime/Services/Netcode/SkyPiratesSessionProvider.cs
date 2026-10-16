@@ -250,7 +250,7 @@ namespace DVG.SkyPirates.Shared.Services.Netcode
     {
         private readonly SkyPiratesSessionProvider _session;
         private readonly SkyPiratesSessionTickLoop _tickLoop;
-        private readonly IDeltaTickableService<ITransientDeltaTickableExecutor> _systems;
+        private readonly IDeltaTickableService<IDeltaTickableExecutor> _systems;
         private readonly IEntityRegistry _entityRegistry;
         private readonly ITransientCommandInput<JoystickCommand> _joystickInput;
         private JoystickCommand _lastInput;
@@ -262,7 +262,7 @@ namespace DVG.SkyPirates.Shared.Services.Netcode
             SkyPiratesSessionProvider session,
             SkyPiratesSessionTickLoop tickLoop,
             IEntityRegistry entityRegistry,
-            IDeltaTickableService<ITransientDeltaTickableExecutor> systems,
+            IDeltaTickableService<IDeltaTickableExecutor> systems,
             IEnumerable<ICommandExecutorRegistration> commandExecutors)
         {
             _session = session;
