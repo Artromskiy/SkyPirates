@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace SlyPirates.Client.Views.Components.Animators
 {
-    public class DamagedAnimatorComponentView : MonoBehaviour, IEntityView
+    public class DamagedAnimatorComponentView : MonoBehaviour, IEntityView, IVisualInstanceLoaded
     {
         private float _prevHealth;
         private EntityContext _context;
@@ -16,6 +16,12 @@ namespace SlyPirates.Client.Views.Components.Animators
         public void OnBind(EntityContext context)
         {
             _context = context;
+            CacheComponents();
+            _prevHealth = (float)_context.Get<Health>().Value;
+        }
+
+        public void OnVisualInstanceLoaded()
+        {
             CacheComponents();
             _prevHealth = (float)_context.Get<Health>().Value;
         }

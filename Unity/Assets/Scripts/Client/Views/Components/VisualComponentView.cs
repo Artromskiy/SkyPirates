@@ -9,12 +9,18 @@ using UnityEngine;
 
 namespace SlyPirates.Client.Views.Components
 {
+    public interface IVisualInstanceLoaded
+    {
+        void OnVisualInstanceLoaded();
+    }
+
     public abstract class VisualComponentView<T> : MonoBehaviour, IEntityView
         where T : struct, IId, IEquatable<T>
     {
         private EntityContext _context;
         private GameObject _visual;
         private CancellationTokenSource _visualLoadCancellation;
+        private MonoBehaviour[] _components = Array.Empty<MonoBehaviour>();
 
         [SerializeField]
         private Transform _visualRoot;
@@ -25,6 +31,8 @@ namespace SlyPirates.Client.Views.Components
 
         protected EntityContext Context => _context;
 
+        private void Awake() => _components = GetComponents<MonoBehaviour>();
+
         public virtual void OnBind(EntityContext context)
         {
             _context = context;
@@ -32,7 +40,14 @@ namespace SlyPirates.Client.Views.Components
             {
                 UpdateVisual();
             }
+            else
+            {
+                OnVisualLoaded(_visual);
+                NotifyVisualInstanceLoaded();
+            }
         }
+
+        protected virtual void OnVisualLoaded(GameObject visual) { }
 
         private void Update()
         {
@@ -69,6 +84,19 @@ namespace SlyPirates.Client.Views.Components
             _visual.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
             float scale = _randomizeScale ? UnityEngine.Random.Range(0.9f, 1.1f) : 1;
             _visual.transform.localScale = new float3(scale);
+            OnVisualLoaded(visual);
+            NotifyVisualInstanceLoaded();
+        }
+
+        private void NotifyVisualInstanceLoaded()
+        {
+            foreach (MonoBehaviour component in _components)
+            {
+                if (component is IVisualInstanceLoaded listener)
+                {
+                    listener.OnVisualInstanceLoaded();
+                }
+            }
         }
 
         private T Id => _context.Get<T>();

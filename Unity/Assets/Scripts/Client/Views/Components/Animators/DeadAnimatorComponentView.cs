@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace SlyPirates.Client.Views.Components.Animators
 {
-    public class DeadAnimatorComponentView : MonoBehaviour, IEntityView
+    public class DeadAnimatorComponentView : MonoBehaviour, IEntityView, IVisualInstanceLoaded
     {
         private bool _animViewState;
         private bool _hasAnimViewState;
@@ -20,6 +20,12 @@ namespace SlyPirates.Client.Views.Components.Animators
         {
             _context = context;
             CacheComponents();
+        }
+
+        public void OnVisualInstanceLoaded()
+        {
+            CacheComponents();
+            _hasAnimViewState = false;
         }
 
         private void Update()

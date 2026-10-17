@@ -12,8 +12,6 @@ namespace SlyPirates.Client.Views.UI
         [SerializeField]
         private TMP_Text _count;
 
-        private Sprite _iconSprite;
-
         public async void Setup(string iconAddressableKey)
         {
             Sprite iconSprite = await AddressableLoader.Load<Sprite>(iconAddressableKey, this);
@@ -22,18 +20,12 @@ namespace SlyPirates.Client.Views.UI
                 return;
             }
 
-            _iconSprite = iconSprite;
             _icon.sprite = iconSprite;
         }
 
         public void SetCount(int count)
         {
             _count.text = count.ToString();
-        }
-
-        private void OnDestroy()
-        {
-            AddressableLoader.Release(_iconSprite);
         }
     }
 }

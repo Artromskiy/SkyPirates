@@ -25,8 +25,8 @@ namespace SlyPirates.Client.Views.Components
         private int _displayedLevel = int.MinValue;
         private bool _hidden;
 
-        private Tween _amountTween;
-        private Tween _fadeTween;
+        private Tween? _amountTween;
+        private Tween? _fadeTween;
 
 
         public void OnBind(EntityContext context)
@@ -62,19 +62,18 @@ namespace SlyPirates.Client.Views.Components
                 _fadeTween = _canvasGroup.DOFade(alpha, LerpConstants.SmoothMoveTime);
             }
 
-            if (_healthPercent != percent)
+            if (_healthPercent == percent)
             {
-                _amountTween?.Kill();
-                _healthPercent = percent;
-                _amountTween = _fillImage.DOFillAmount(_healthPercent, LerpConstants.SmoothMoveTime);
+                return;
             }
+
+            _amountTween?.Kill();
+            _healthPercent = percent;
+            _amountTween = _fillImage.DOFillAmount(_healthPercent, LerpConstants.SmoothMoveTime);
         }
 
         [ContextMenu("Debug/Recolor")]
-        private void DebugRecolor()
-        {
-            Recolor(_debugRecolorId);
-        }
+        private void DebugRecolor() => Recolor(_debugRecolorId);
 
         private void Recolor(int teamId)
         {

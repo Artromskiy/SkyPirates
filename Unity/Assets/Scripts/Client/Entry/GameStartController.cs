@@ -72,7 +72,7 @@ namespace SlyPirates.Client.Entry
 
         private void ResetClock()
         {
-            _startStep = System.Math.Max(0, _session.CurrentStep);
+            _startStep = Math.Max(0, _session.CurrentStep);
             _targetStep = _session.CurrentStep;
             _clock.Restart();
         }

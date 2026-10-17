@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -11,10 +12,6 @@ namespace Common.UI
 		[SerializeField] private Color _normalColor = Color.white;
 		[SerializeField] private Color _pressedColor = new(0.8f, 0.8f, 0.8f);
 		[SerializeField] private Color _disabledColor = new(0.5f, 0.5f, 0.5f);
-		[SerializeField] private Sprite? _disabledSprite;
-
-		private Image? _targetImage;
-		private Sprite? _normalSprite;
 
 		public override bool IsInteractable
 		{
@@ -26,7 +23,15 @@ namespace Common.UI
 			}
 		}
 
-		public override void OnEnable()
+        private void OnValidate()
+        {
+            if(_targetGraphic == null)
+            {
+                TryGetComponent(out _targetGraphic);
+            }
+        }
+
+        public override void OnEnable()
 		{
 			base.OnEnable();
 			RefreshVisuals();
@@ -56,20 +61,10 @@ namespace Common.UI
 			RefreshVisuals();
 		}
 
-		private void Awake()
-		{
-			_targetImage = _targetGraphic as Image;
-			_normalSprite = _targetImage != null ? _targetImage.overrideSprite : null;
-			RefreshVisuals();
-		}
+		private void Awake() => RefreshVisuals();
 
-		private void RefreshVisuals()
+        private void RefreshVisuals()
 		{
-			if (_targetImage != null && _disabledSprite != null)
-			{
-				_targetImage.overrideSprite = IsInteractable ? _normalSprite : _disabledSprite;
-			}
-
 			if (_targetGraphic == null)
 			{
 				return;

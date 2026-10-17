@@ -15,11 +15,6 @@ MonoBehaviour:
   m_GroupName: Unit Prefabs
   m_GUID: d572bcd33d0ec4b21ba8bfc4d39fa892
   m_SerializeEntries:
-  - m_GUID: 1946b070f76434c45a5ad459e5967669
-    m_Address: unit
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 2872eb5546b6b014fbda96e71dbb0879
     m_Address: Prefabs/Visual/Unit/None
     m_ReadOnly: 0

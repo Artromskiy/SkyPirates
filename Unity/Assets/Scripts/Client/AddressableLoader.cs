@@ -1,13 +1,19 @@
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.SceneManagement;
 
 namespace SlyPirates.Client
 {
     public static class AddressableLoader
     {
+        private static readonly Dictionary<Scene, GameObject> StagingRoots = new();
+
+        static AddressableLoader() => SceneManager.sceneUnloaded += RemoveStagingRoot;
+
         private static async Task<T> Load<T>(object key, CancellationToken cancellationToken)
             where T : UnityEngine.Object
         {
@@ -52,7 +58,11 @@ namespace SlyPirates.Client
                 return asset;
             }
 
-            Release(asset);
+            if (!cancellationToken.IsCancellationRequested)
+            {
+                Release(asset);
+            }
+
             return null!;
         }
 
@@ -72,6 +82,66 @@ namespace SlyPirates.Client
                 return null!;
             }
         }
+
+        public static async Task<GameObject> InstantiateStaged(
+            object key,
+            UnityEngine.Object owner,
+            CancellationToken cancellationToken = default)
+        {
+            if (owner == null)
+            {
+                return null!;
+            }
+
+            if (!cancellationToken.CanBeCanceled && owner is MonoBehaviour behaviour)
+            {
+                cancellationToken = behaviour.destroyCancellationToken;
+            }
+
+            if (cancellationToken.IsCancellationRequested)
+            {
+                return null!;
+            }
+
+            GameObject instance = await Instantiate(key, GetStagingRoot(owner), cancellationToken);
+
+            if (instance == null)
+            {
+                return null!;
+            }
+
+            if (cancellationToken.IsCancellationRequested || owner == null)
+            {
+                ReleaseInstance(instance);
+                return null!;
+            }
+
+            return instance;
+        }
+
+        private static Transform GetStagingRoot(UnityEngine.Object owner)
+        {
+            Scene scene = owner is Component component
+                ? component.gameObject.scene
+                : SceneManager.GetActiveScene();
+
+            if (StagingRoots.TryGetValue(scene, out GameObject stagingRoot) && stagingRoot != null)
+            {
+                return stagingRoot.transform;
+            }
+
+            stagingRoot = new GameObject("AddressableViewStaging");
+            stagingRoot.SetActive(false);
+            if (scene.IsValid() && scene.isLoaded && stagingRoot.scene != scene)
+            {
+                SceneManager.MoveGameObjectToScene(stagingRoot, scene);
+            }
+
+            StagingRoots[scene] = stagingRoot;
+            return stagingRoot.transform;
+        }
+
+        private static void RemoveStagingRoot(Scene scene) => StagingRoots.Remove(scene);
 
         public static async Task<GameObject> Instantiate(
             object key,

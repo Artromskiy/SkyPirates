@@ -435,11 +435,6 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: f6abff48e862b8e4c9356a2665d215d7
-    m_Address: rock
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: f799d2c976fb44049b8d21a46e655bbe
     m_Address: Prefabs/Visual/Rock/SoftRock_16
     m_ReadOnly: 0

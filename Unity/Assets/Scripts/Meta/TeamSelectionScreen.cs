@@ -11,8 +11,6 @@ namespace SlyPirates.Meta
     public sealed class TeamSelectionScreen : MonoBehaviour
     {
         [SerializeField]
-        private Canvas _screenCanvas;
-        [SerializeField]
         private Transform _teamCardsRoot;
         [SerializeField]
         private Transform _collectionCardsRoot;
@@ -25,37 +23,21 @@ namespace SlyPirates.Meta
         [SerializeField]
         private UnitCardView _cardPrefab;
 
-        private static TeamSelectionScreen _instance;
-
         private void Awake()
         {
-            _instance = this;
             TouchCardsView[] embeddedGameplayCards = GetComponentsInChildren<TouchCardsView>(true);
             for (int index = 0; index < embeddedGameplayCards.Length; index++)
             {
                 embeddedGameplayCards[index].gameObject.SetActive(false);
             }
 
-            _screenCanvas.enabled = false;
             if (_doneButton != null)
             {
                 _doneButton.OnClick += OnDoneClicked;
             }
         }
 
-        private void OnDestroy()
-        {
-            if (_instance == this)
-            {
-                _instance = null;
-            }
-        }
-
-        public static void Open()
-        {
-            _instance._screenCanvas.enabled = true;
-            _instance.Refresh();
-        }
+        private void OnEnable() => Refresh();
 
         private void Refresh()
         {
@@ -71,7 +53,7 @@ namespace SlyPirates.Meta
             UnitId[] team = ClientSetupData.TeamCards;
             UnitId[] collection = ClientSetupData.CollectionCards;
             _teamCount.text = $"{team.Length}/{UnitDeck.Capacity}";
-            _hint.text = team.Length == UnitDeck.Capacity ? string.Empty : "Добавьте карты из коллекции, чтобы продолжить.";
+            _hint.text = team.Length == UnitDeck.Capacity ? string.Empty : "Add cards to continue";
             _doneButton.IsInteractable = ClientSetupData.HasFullTeam;
 
             for (int index = 0; index < team.Length; index++)
@@ -106,7 +88,7 @@ namespace SlyPirates.Meta
         {
             if (ClientSetupData.HasFullTeam)
             {
-                _screenCanvas.enabled = false;
+                gameObject.SetActive(false);
             }
         }
 

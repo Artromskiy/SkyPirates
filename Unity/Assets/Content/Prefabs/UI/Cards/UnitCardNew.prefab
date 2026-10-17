@@ -218,9 +218,8 @@ MonoBehaviour:
   <IsInteractable>k__BackingField: 1
   _targetGraphic: {fileID: 2271449278249447238}
   _normalColor: {r: 1, g: 1, b: 1, a: 1}
-  _pressedColor: {r: 1, g: 1, b: 1, a: 1}
-  _disabledColor: {r: 1, g: 1, b: 1, a: 1}
-  _disabledSprite: {fileID: 0}
+  _pressedColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
+  _disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
 --- !u!1 &828183083422644806
 GameObject:
   m_ObjectHideFlags: 0
@@ -256,9 +255,9 @@ RectTransform:
   m_Father: {fileID: 1724808335243832001}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 44.185425, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5957757910705456024
 CanvasRenderer:
@@ -305,7 +304,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 828183083422644806}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3c1981fed8ab4836bffbb840e95207c5, type: 3}
   m_Name: 

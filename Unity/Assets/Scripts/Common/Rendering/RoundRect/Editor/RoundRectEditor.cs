@@ -80,20 +80,18 @@ namespace Common.UI.Internals.Editor
 		public override void OnInspectorGUI()
 		{
 			serializedObject.Update();
-			var originalLabelWidth = EditorGUIUtility.labelWidth;
-			var availableLabelWidth = EditorGUIUtility.currentViewWidth
-				- InspectorHorizontalPadding
-				- _cornerRadii.Length * (MinFloatFieldWidth + MinFieldLabelWidth + FieldSpacing);
-			EditorGUIUtility.labelWidth = Mathf.Min(
-				originalLabelWidth,
-				Mathf.Min(
-					Mathf.Clamp(EditorGUIUtility.currentViewWidth * 0.28f, 40f, 150f),
-					Mathf.Max(40f, availableLabelWidth)));
+			float originalLabelWidth = EditorGUIUtility.labelWidth;
 
-			using (new EditorGUI.DisabledScope(true))
-			{
-				EditorGUILayout.PropertyField(_script);
-			}
+            float availableLabelWidth =
+                EditorGUIUtility.currentViewWidth - InspectorHorizontalPadding -
+                _cornerRadii.Length * (MinFloatFieldWidth + MinFieldLabelWidth + FieldSpacing);
+
+            EditorGUIUtility.labelWidth = Mathf.Min(originalLabelWidth, Mathf.Min(
+                Mathf.Clamp(EditorGUIUtility.currentViewWidth * 0.28f, 40f, 150f),
+                Mathf.Max(40f, availableLabelWidth)));
+
+            EditorGUILayout.PropertyField(_raycastTarget, new GUIContent("Raycast Target"));
+            EditorGUILayout.PropertyField(_maskable, new GUIContent("Maskable"));
 
 			EditorGUILayout.PropertyField(_sprite, new GUIContent("Sprite"));
 			if (_sprite.objectReferenceValue != null)
@@ -120,8 +118,6 @@ namespace Common.UI.Internals.Editor
 			{
 				EditorGUILayout.PropertyField(_color, new GUIContent("Sprite Tint"));
 			}
-			EditorGUILayout.PropertyField(_raycastTarget, new GUIContent("Raycast Target"));
-			EditorGUILayout.PropertyField(_maskable, new GUIContent("Maskable"));
 
 			DrawSeparator();
 			DrawValues("Corners", _individualCorners, _cornerRadii, _cornerLabels);

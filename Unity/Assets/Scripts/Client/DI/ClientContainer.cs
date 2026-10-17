@@ -16,16 +16,16 @@ using SimpleInjector;
 using System;
 using Delta.ECS.Unity;
 using UnityEngine;
-using SlyPirates.Client;
 
 namespace SlyPirates.Client.DI
 {
     public class ClientContainer : SharedContainer
     {
-        public ClientContainer(SceneWorld sceneWorld, UnityEngine.Object owner) : base(Delta.Netcode.SessionMode.Client, true, sceneWorld.World)
+        public ClientContainer(SceneWorld sceneWorld) : base(Delta.Netcode.SessionMode.Client, true, sceneWorld.World)
         {
             RegisterInstance(sceneWorld);
-            RegisterSingleton(() => new AddressableViewBindingSystem(sceneWorld, owner));
+            RegisterSingleton(() => Resources.Load<ViewPrefabCatalog>("ViewPrefabCatalog"));
+            RegisterSingleton(() => new ViewBindingSystem(sceneWorld, GetInstance<ViewPrefabCatalog>()));
             RegisterSingleton(() =>
             {
                 var client = new Riptide.Client(new UdpClient());

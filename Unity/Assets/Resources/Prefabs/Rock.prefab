@@ -111,7 +111,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 32dd65d61c2de934bbc5472029af55a2, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: SlyPirates.Client::SlyPirates.Client.Views.Components.HitComponentView
+  m_EditorClassIdentifier: SlyPirates.Client::SlyPirates.Client.Views.Components.HealthScaleComponentView
   _scaleRoot: {fileID: 3610274697702755647}
 --- !u!114 &926899969993364084
 MonoBehaviour:

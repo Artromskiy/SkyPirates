@@ -9,21 +9,20 @@ namespace SlyPirates.Client.Views.Components
     public class UnitComponentView : VisualComponentView<UnitId>
     {
         private const string MaterialName = "VC_Unit_B";
-        public override void OnBind(EntityContext context)
+        protected override void OnVisualLoaded(GameObject visual)
         {
-            base.OnBind(context);
-            ReplaceMaterial(context.Get<TeamId>().Value);
+            ReplaceMaterial(visual, Context.Get<TeamId>().Value);
         }
 
-        private void ReplaceMaterial(int teamId)
+        private static void ReplaceMaterial(GameObject visual, int teamId)
         {
-            var _meshRenderer = GetComponentInChildren<SkinnedMeshRenderer>(false);
-            var materials = _meshRenderer.sharedMaterials;
+            var meshRenderer = visual.GetComponentInChildren<SkinnedMeshRenderer>(true);
+            var materials = meshRenderer.sharedMaterials;
             int replaceIndex = Array.FindIndex(materials, m => m.name.Contains(MaterialName));
             var replaceMaterial = materials[replaceIndex];
             replaceMaterial = TeamIdToColor.GetReplacementMaterial(replaceMaterial, teamId);
             materials[replaceIndex] = replaceMaterial;
-            _meshRenderer.sharedMaterials = materials;
+            meshRenderer.sharedMaterials = materials;
         }
     }
 }

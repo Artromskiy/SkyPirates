@@ -32,7 +32,7 @@ namespace SlyPirates.Local.Entry
             {
                 Delta.Diagnostics.Trace.Info("[LocalStart] Container creation");
                 var sceneWorld = SceneWorld.GetForScene(gameObject.scene);
-                _container = new LocalContainer(sceneWorld, this, _historyCapacity);
+                _container = new LocalContainer(sceneWorld, _historyCapacity);
                 Delta.Diagnostics.Trace.Info("[LocalStart] Container register and inject ViewModels");
                 _container.RegisterAndInjectViewModels();
                 _gameLoop = _container.GetInstance<LocalGameLoop>();
@@ -44,7 +44,7 @@ namespace SlyPirates.Local.Entry
                 var session = _container.GetInstance<SkyPiratesSessionProvider>();
                 session.ApplySnapshot(worldData, -1);
                 _container.GetAllInstances<IPostTickable>().OfType<ViewBindingTickSystem>().Single().Tick(0);
-                session.Start(new Delta.Netcode.AuthorId((uint)client.Id));
+                session.Start(new AuthorId((uint)client.Id));
             }
             catch (Exception e)
             {

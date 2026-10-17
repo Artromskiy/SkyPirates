@@ -15,11 +15,6 @@ MonoBehaviour:
   m_GroupName: Tile Prefabs
   m_GUID: 477f4503e10fb483caf4bd9da740c06c
   m_SerializeEntries:
-  - m_GUID: 442561bf0ce11ad4bb3c95bd04a5666f
-    m_Address: hex-tile
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: d7225c1a4f5ff4e0cbab29797df1688f, type: 2}
   m_SchemaSet:

@@ -25,7 +25,7 @@ namespace SlyPirates.Client.Entry
             RiptideLogger.EnableLoggingFor(LogType.Error, LogRiptideError);
 
             var sceneWorld = SceneWorld.GetForScene(gameObject.scene);
-            _container = new ClientContainer(sceneWorld, this);
+            _container = new ClientContainer(sceneWorld);
 
             _container.RegisterAndInjectViewModels();
 
@@ -65,7 +65,7 @@ namespace SlyPirates.Client.Entry
             Delta.Diagnostics.Trace.Info("Connected");
         }
 
-        private void OnDisconnected(object sender, Riptide.DisconnectedEventArgs e)
+        private void OnDisconnected(object sender, DisconnectedEventArgs e)
         {
             if (_sessions != null)
             {
@@ -84,7 +84,7 @@ namespace SlyPirates.Client.Entry
             }
 
             _sessions.Send(new SpawnSquadCommand { Deck = ClientSetupData.StartingDeck },
-                System.Math.Max(1, _sessions.CurrentStep + 1));
+                Math.Max(1, _sessions.CurrentStep + 1));
             _spawnSquadSent = true;
         }
 

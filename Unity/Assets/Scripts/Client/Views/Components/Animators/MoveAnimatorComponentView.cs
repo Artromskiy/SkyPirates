@@ -1,11 +1,12 @@
 ﻿using Delta;
 using Delta.ECS.Unity;
+using SlyPirates.Client.Views.Components;
 using SlyPirates.Shared.Components.Config;
 using UnityEngine;
 
 namespace SlyPirates.Client.Views.Components.Animators
 {
-    public class MoveAnimatorComponentView : MonoBehaviour, IEntityView
+    public class MoveAnimatorComponentView : MonoBehaviour, IEntityView, IVisualInstanceLoaded
     {
         private const string LocomotionBlendGroup = "Locomotion";
 
@@ -26,6 +27,12 @@ namespace SlyPirates.Client.Views.Components.Animators
             CacheComponents();
             _prevPosition = _cachedTransform.position;
             _maxSpeed = (float)context.Get<MaxSpeed>().Value;
+        }
+
+        public void OnVisualInstanceLoaded()
+        {
+            CacheComponents();
+            _prevPosition = _cachedTransform.position;
         }
 
         private void Update()

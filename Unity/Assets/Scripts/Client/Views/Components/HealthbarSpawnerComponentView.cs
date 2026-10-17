@@ -15,7 +15,7 @@ namespace SlyPirates.Client.Views.Components
         {
             if (_healthbar == null)
             {
-                GameObject healthbar = await AddressableLoader.Instantiate(HealthbarPrefabPath, null, this);
+                GameObject healthbar = await AddressableLoader.InstantiateStaged(HealthbarPrefabPath, this);
                 if (healthbar == null)
                 {
                     return;

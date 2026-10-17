@@ -15,11 +15,6 @@ MonoBehaviour:
   m_GroupName: Squad Prefabs
   m_GUID: 1afb4107ad5a54a03908916eff73be7c
   m_SerializeEntries:
-  - m_GUID: 792d12099816d404799cc4dcb105e6dd
-    m_Address: squad
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: d7225c1a4f5ff4e0cbab29797df1688f, type: 2}
   m_SchemaSet:

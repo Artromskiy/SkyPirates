@@ -12,6 +12,8 @@ namespace SlyPirates.Meta
         [SerializeField]
         private TMP_InputField _portField;
         [SerializeField]
+        private GameObject _connectionScreen;
+        [SerializeField]
         private EventButton _connectButton;
         [SerializeField]
         private EventButton _playOfflineButton;
@@ -24,14 +26,14 @@ namespace SlyPirates.Meta
             _portField.text = ClientSetupData.Port;
             _connectButton.OnClick += PlayOnline;
             _playOfflineButton.OnClick += PlayOffline;
-            _crewButton.OnClick += TeamSelectionScreen.Open;
+            _crewButton.OnClick += ()=>_connectionScreen.SetActive(true);
         }
 
         private void PlayOnline()
         {
             if (!ClientSetupData.HasFullTeam)
             {
-                TeamSelectionScreen.Open();
+                _connectionScreen.SetActive(true);
                 return;
             }
 
@@ -43,7 +45,7 @@ namespace SlyPirates.Meta
         {
             if (!ClientSetupData.HasFullTeam)
             {
-                TeamSelectionScreen.Open();
+                _connectionScreen.SetActive(true);
                 return;
             }
 

@@ -3,11 +3,12 @@ using Delta.ECS.Unity;
 using SlyPirates.Shared;
 using SlyPirates.Shared.Components.Runtime;
 using SlyPirates.Shared.Ids;
+using SlyPirates.Client.Views.Components;
 using UnityEngine;
 
 namespace SlyPirates.Client.Views.Components.Animators
 {
-    public class BehaviourAnimatorComponentView : MonoBehaviour, IEntityView
+    public class BehaviourAnimatorComponentView : MonoBehaviour, IEntityView, IVisualInstanceLoaded
     {
         private const string BehaviourLayerName = "BehaviourLayer";
 
@@ -27,6 +28,14 @@ namespace SlyPirates.Client.Views.Components.Animators
         {
             _context = context;
             CacheComponents();
+            _statePercentVelocity = 0;
+            Animate(false);
+        }
+
+        public void OnVisualInstanceLoaded()
+        {
+            CacheComponents();
+            _hasAnimViewState = false;
             _statePercentVelocity = 0;
             Animate(false);
         }

@@ -160,11 +160,6 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 473686d25b2e5af4db2baff2915fa75f
-    m_Address: cactus
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 4ff6abda421608d4d80e6487540ee407
     m_Address: Prefabs/Visual/Cactus/Cactus_09_A
     m_ReadOnly: 0
