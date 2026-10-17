@@ -51,14 +51,19 @@ namespace SlyPirates.Shared.Services.CommandExecutors
                 return;
             }
 
-            if (!CanMove(squad))
+            Entity controlledEntity = squad;
+            if (_world.Has<OnShip>(squad))
+            {
+                controlledEntity = _world.GetEntity(_world.Get<OnShip>(squad).ShipId);
+            }
+            else if (!CanMove(squad))
             {
                 return;
             }
 
-            ref var dir = ref _world.GetRef<Direction>(squad);
-            ref var rot = ref _world.GetRef<Rotation>(squad);
-            ref var fix = ref _world.GetRef<Fixation>(squad);
+            ref var dir = ref _world.GetRef<Direction>(controlledEntity);
+            ref var rot = ref _world.GetRef<Rotation>(controlledEntity);
+            ref var fix = ref _world.GetRef<Fixation>(controlledEntity);
             dir = input.Direction;
             fix = input.Fixation;
 

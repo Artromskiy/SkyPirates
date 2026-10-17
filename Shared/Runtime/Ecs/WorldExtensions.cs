@@ -2,6 +2,7 @@
 using SlyPirates.Shared.Components.Runtime;
 using SlyPirates.Shared.Components.Framed;
 using SlyPirates.Shared.Data;
+using System;
 
 namespace SlyPirates.Shared.Ecs
 {
@@ -23,6 +24,18 @@ namespace SlyPirates.Shared.Ecs
 
         public static void SetEntityData(this World world, Entity entity, ComponentDataSet components)
         {
+            ComponentId[] componentIds = components.GetComponentIds(world);
+            var missing = new ComponentId[componentIds.Length];
+            int missingCount = 0;
+            for (int i = 0; i < componentIds.Length; i++)
+            {
+                if (!world.Has(entity, componentIds[i]))
+                    missing[missingCount++] = componentIds[i];
+            }
+
+            if (missingCount != 0)
+                world.Add(entity, missing.AsSpan(0, missingCount));
+
             foreach (var entry in components)
             {
                 entry.Visit(world, new ApplyEntityData(world, entity));
@@ -42,11 +55,6 @@ namespace SlyPirates.Shared.Ecs
 
             public void Visit<T>(ComponentId componentId, in T value) where T : struct
             {
-                if (!_world.Has(_entity, componentId))
-                {
-                    _world.Add(_entity, componentId);
-                }
-
                 _world.GetRef<T>(_entity, componentId) = value;
             }
         }

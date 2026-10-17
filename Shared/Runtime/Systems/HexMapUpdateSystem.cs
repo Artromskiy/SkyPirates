@@ -10,29 +10,22 @@ namespace SlyPirates.Shared.Systems
 {
     public sealed class HexMapUpdateSystem : IDeltaTickableExecutor
     {
+        private readonly World _world;
         private readonly Dictionary<Entity, int3> _coordinatesByEntity = new();
         private readonly Dictionary<int3, TileId> _tiles;
         private readonly ComponentChangeOperation<HexTile> _hexTileChanges;
         private readonly ComponentChangeOperation<TileId> _tileIdChanges;
         private readonly ComponentChangeOperation<PendingDestroy> _lifetime;
-        private readonly IOperation _updateTiles;
-        private readonly IOperation _updateTilesWithoutId;
-        private bool _dirty;
 
         public HexMapUpdateSystem(World world)
         {
+            _world = world;
             Entity mapEntity = world.Create<HexMap>();
             _tiles = new Dictionary<int3, TileId>();
             world.GetRef<HexMap>(mapEntity).Data = _tiles;
             _hexTileChanges = world.ForEachChange<HexTile>(world.Components.GetPrimary<HexTile>(), OnHexTileChanged);
             _tileIdChanges = world.ForEachChange<TileId>(world.Components.GetPrimary<TileId>(), OnTileIdChanged);
             _lifetime = world.ForEachChange<PendingDestroy>(world.Components.GetPrimary<PendingDestroy>(), OnLifetimeChanged);
-            Query tiles = world.WhereAll<HexTile, TileId>().WhereNone<PendingDestroy>();
-            _updateTiles = world.ForEachEntity(in tiles, (EntityRef entity, in HexTile tile, in TileId tileId) =>
-                SetTile(entity, ToCoordinate(in tile), tileId));
-            Query tilesWithoutId = world.WhereAll<HexTile>().WhereNone<TileId, PendingDestroy>();
-            _updateTilesWithoutId = world.ForEachEntity(in tilesWithoutId, (EntityRef entity, in HexTile tile) =>
-                SetTile(entity, ToCoordinate(in tile), TileId.None));
         }
 
         public void Tick(int tick, fix deltaTime)
@@ -40,28 +33,45 @@ namespace SlyPirates.Shared.Systems
             _hexTileChanges.Invoke();
             _tileIdChanges.Invoke();
             _lifetime.Invoke();
-            if (!_dirty) return;
-            _updateTiles.Invoke();
-            _updateTilesWithoutId.Invoke();
-            _dirty = false;
         }
 
         private void OnHexTileChanged(Entity entity, ChangeKind change, ref HexTile tile)
         {
             if (change == ChangeKind.Removed) RemoveTile(entity);
-            else _dirty = true;
+            else if (_world.Has<PendingDestroy>(entity)) RemoveTile(entity);
+            else SetTile(entity, ToCoordinate(in tile), GetTileId(entity));
         }
 
         private void OnTileIdChanged(Entity entity, ChangeKind change, ref TileId tileId)
         {
-            _dirty = true;
+            if (_world.Has<PendingDestroy>(entity) || !_world.TryGet(entity, out HexTile tile))
+            {
+                RemoveTile(entity);
+                return;
+            }
+
+            SetTile(entity, ToCoordinate(in tile), change == ChangeKind.Removed ? TileId.None : tileId);
         }
 
         private void OnLifetimeChanged(Entity entity, ChangeKind change, ref PendingDestroy pending)
         {
-            if (change == ChangeKind.Removed) _dirty = true;
+            if (change == ChangeKind.Removed) RefreshTile(entity);
             else RemoveTile(entity);
         }
+
+        private void RefreshTile(Entity entity)
+        {
+            if (_world.Has<PendingDestroy>(entity) || !_world.TryGet(entity, out HexTile tile))
+            {
+                RemoveTile(entity);
+                return;
+            }
+
+            SetTile(entity, ToCoordinate(in tile), GetTileId(entity));
+        }
+
+        private TileId GetTileId(Entity entity)
+            => _world.TryGet(entity, out TileId tileId) ? tileId : TileId.None;
 
         private void SetTile(Entity entity, int3 coordinate, TileId tileId)
         {

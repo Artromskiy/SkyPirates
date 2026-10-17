@@ -11,8 +11,8 @@ using System.Collections.Generic;
 namespace SlyPirates.Shared.Systems
 {
     /// <summary>
-    /// Caches Entities with their position quantized by <see cref="SquareSize"/>.
-    /// Use for fast nearest search
+    /// Caches target entities and their positions quantized by <see cref="SquareSize"/>.
+    /// Use for fast nearest search.
     /// </summary>
     public sealed class
         TargetSearchSystem : ITargetSearchSystem // Should be used before any Position/Team writes for accurate search
@@ -24,9 +24,9 @@ namespace SlyPirates.Shared.Systems
 
         private readonly World _world;
 
-        // teamId -> quad -> entities
-        private readonly Dictionary<int, Lookup2D<List<Entity>>> _targets = new();
-        private readonly List<Entity> _targetsCache = new();
+        // teamId -> quad -> cached target position and entity
+        private readonly Dictionary<int, Lookup2D<List<TargetEntry>>> _targets = new();
+        private readonly List<TargetEntry> _targetsCache = new();
 
         private readonly Lookup _entitiesLookup = new();
 
@@ -50,19 +50,25 @@ namespace SlyPirates.Shared.Systems
             fix bestDist = fix.MaxValue;
             int bestSyncId = int.MaxValue;
 
-            foreach (var entity in _targetsCache)
+            foreach (var target in _targetsCache)
             {
-                var targetPosXZ = ((fix3)_world.Get<Position>(entity)).xz;
-                int syncId = _world.Get<SyncId>(entity).Value;
+                var targetPosXZ = target.Position.xz;
                 var dist = fix2.SqrDistance(targetPosXZ, origin);
 
-                if (best == null ||
-                    dist < bestDist ||
-                    (dist == bestDist && syncId < bestSyncId))
+                if (best == null || dist < bestDist)
                 {
-                    best = entity;
+                    best = target.Entity;
                     bestDist = dist;
-                    bestSyncId = syncId;
+                    bestSyncId = _world.Get<SyncId>(target.Entity).Value;
+                }
+                else if (dist == bestDist)
+                {
+                    int syncId = _world.Get<SyncId>(target.Entity).Value;
+                    if (syncId < bestSyncId)
+                    {
+                        best = target.Entity;
+                        bestSyncId = syncId;
+                    }
                 }
             }
 
@@ -79,14 +85,14 @@ namespace SlyPirates.Shared.Systems
             FindEntityTargets(in searchDistance, in searchPosition, in team, _targetsCache);
 
             for (int i = 0; i < _targetsCache.Count; i++)
-                targets.Add(_world.Get<SyncId>(_targetsCache[i]));
+                targets.Add(_world.Get<SyncId>(_targetsCache[i].Entity));
         }
 
         private void FindEntityTargets(
             in TargetSearchDistance searchDistance,
             in TargetSearchPosition searchPosition,
             in TeamId team,
-            List<Entity> targets)
+            List<TargetEntry> targets)
         {
             _entitiesLookup.Clear();
             var center = ((fix3)searchPosition).xz;
@@ -118,16 +124,17 @@ namespace SlyPirates.Shared.Systems
 
                         for (int i = 0; i < list.Count; i++)
                         {
-                            if (_entitiesLookup.Has(list[i].Index))
+                            var target = list[i];
+                            if (_entitiesLookup.Has(target.Entity.Index))
                             {
                                 continue;
                             }
 
-                            if (fix2.SqrDistance(((fix3)_world.Get<Position>(list[i])).xz, searchPositionXZ) <
+                            if (fix2.SqrDistance(target.Position.xz, searchPositionXZ) <
                                 sqrSearchDistance)
                             {
-                                targets.Add(list[i]);
-                                _entitiesLookup.Add(list[i].Index);
+                                targets.Add(target);
+                                _entitiesLookup.Add(target.Entity.Index);
                             }
                         }
                     }
@@ -144,8 +151,8 @@ namespace SlyPirates.Shared.Systems
 
             var targets = _targets;
             var desc = _desc;
-            _world.ForEachEntity<Dictionary<int, Lookup2D<List<Entity>>>, Position, TeamId>(in desc, ref targets,
-                static (ref Dictionary<int, Lookup2D<List<Entity>>> targets, EntityRef entity, in Position position,
+            _world.ForEachEntity<Dictionary<int, Lookup2D<List<TargetEntry>>>, Position, TeamId>(in desc, ref targets,
+                static (ref Dictionary<int, Lookup2D<List<TargetEntry>>> targets, EntityRef entity, in Position position,
                     in TeamId teamId) =>
                 {
                     var quad = GetQuantizedSquare(position.Value.xz);
@@ -157,11 +164,23 @@ namespace SlyPirates.Shared.Systems
 
                     if (!team.TryGetValue(quad.x, quad.y, out var list))
                     {
-                        team[quad.x, quad.y] = list = new List<Entity>(8);
+                        team[quad.x, quad.y] = list = new List<TargetEntry>(8);
                     }
 
-                    list.Add(entity);
+                    list.Add(new TargetEntry(entity, position.Value));
                 }).Invoke(ref targets);
+        }
+
+        private readonly struct TargetEntry
+        {
+            public readonly Entity Entity;
+            public readonly fix3 Position;
+
+            public TargetEntry(Entity entity, fix3 position)
+            {
+                Entity = entity;
+                Position = position;
+            }
         }
 
         private static int2 GetQuantizedSquare(fix2 position)

@@ -37,10 +37,9 @@ namespace SlyPirates.Shared.Systems
                 {
                     state.TargetsCache.Clear();
                     state.TargetSearch.FindTargets(in searchDistance, in searchPosition, in team, state.TargetsCache);
-                    if (state.TargetsCache.Count > 0)
-                    {
-                        target.SyncIds = new(state.TargetsCache);
-                    }
+                    target.SyncIds ??= new();
+                    target.SyncIds.Clear();
+                    target.SyncIds.AddRange(state.TargetsCache);
                 }).Invoke(ref state);
         }
     }

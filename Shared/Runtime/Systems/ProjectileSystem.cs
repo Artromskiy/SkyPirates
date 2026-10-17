@@ -52,6 +52,7 @@ namespace SlyPirates.Shared.Systems
                 // A projectile may outlive its target. The last destination still completes its flight.
                 bool hit = _world.GetEntityIdMap().TryGetEntity(impact.Target, out Entity targetEntity)
                     && _world.TryGet(targetEntity, out Position targetPosition)
+                    && _world.Has<RecivedDamage>(targetEntity)
                     && fix3.SqrDistance(targetPosition, impact.Position) <= HitRadius * HitRadius;
                 if (hit)
                     _world.GetOrAdd<RecivedDamage>(targetEntity) += (fix)impact.Damage;

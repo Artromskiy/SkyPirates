@@ -4,7 +4,6 @@ using SlyPirates.Shared.Ecs;
 using SlyPirates.Shared.Components.Config;
 using SlyPirates.Shared.Components.Runtime;
 using SlyPirates.Shared.IServices.TickableExecutors;
-using System.Collections.Generic;
 
 namespace SlyPirates.Shared.Systems
 {
@@ -14,18 +13,20 @@ namespace SlyPirates.Shared.Systems
         private Query _desc => _descCache ??= _world.
             WhereAll<Position, FlyDestination, MaxSpeed>().Alive().NotDisabled();
 
-        private readonly List<Entity> _finished = new();
-
         private readonly World _world;
+        private readonly IOperation _removeFinished;
 
         public FlyMoveSystem(World world)
         {
             _world = world;
+            Query query = _desc;
+            _removeFinished = world.Where(in query,
+                static (in Position position, in FlyDestination fly) => position == fly.EndPosition)
+                .Remove<FlyDestination>();
         }
 
         public void Tick(int tick, fix deltaTime)
         {
-            _finished.Clear();
             var desc = _desc;
             var delta = deltaTime;
             _world.ForEach<fix, Position, FlyDestination, MaxSpeed>(in desc, ref delta,
@@ -46,20 +47,7 @@ namespace SlyPirates.Shared.Systems
                     var arc = 4 * percent * (1 - percent);
                     position = new fix3(currentXZ.x, currentY + arc * ArcHeight, currentXZ.y);
                 }).Invoke(ref delta);
-
-            var finished = _finished;
-            _world.ForEachEntity<List<Entity>, Position, FlyDestination, MaxSpeed>(in desc, ref finished,
-                static (ref List<Entity> entities, EntityRef entity, in Position position, in FlyDestination fly, in MaxSpeed maxSpeed) =>
-                {
-                    if (position == fly.EndPosition)
-                    {
-                        entities.Add(entity);
-                    }
-                }).Invoke(ref finished);
-            foreach (var item in _finished)
-            {
-                _world.Remove<FlyDestination>(item);
-            }
+            _removeFinished.Invoke();
         }
     }
 }

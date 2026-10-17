@@ -61,7 +61,7 @@ namespace SlyPirates.Shared.Systems
                     }
                     catch { failed = true; }
                     position.Value.xz = solvedPos;
-                    failed |= !Walkable(state.HexMap, Hex.WorldToAxial(position.Value));
+                    failed |= !IsWalkable(state.HexMap, Hex.WorldToAxial(position.Value));
                     if (failed)
                     {
                         position.Value = cachePosition;
@@ -78,7 +78,7 @@ namespace SlyPirates.Shared.Systems
             foreach (var item in Hex.AxialNear)
             {
                 var offsetted = item.x_y + axialFrom;
-                if (Walkable(hexMap, offsetted))
+                if (IsWalkable(hexMap, offsetted))
                 {
                     continue;
                 }
@@ -93,7 +93,7 @@ namespace SlyPirates.Shared.Systems
             }
         }
 
-        private static bool Walkable(HexMap hexMap, int3 axial)
+        internal static bool IsWalkable(HexMap hexMap, int3 axial)
         {
             bool zero = hexMap.Data.ContainsKey(axial);
             var up = new int3(0, 1, 0);
