@@ -31,7 +31,7 @@ namespace SlyPirates.Client.Entry
             }
 
             Delta.Diagnostics.Trace.Info("[LocalStart] Spawn squad");
-            _session.Send(new SpawnSquadCommand(), _session.CurrentStep + 1);
+            _session.Send(new SpawnSquadCommand { Deck = ClientSetupData.StartingDeck }, _session.CurrentStep + 1);
             _spawnSquadSent = true;
         }
     }

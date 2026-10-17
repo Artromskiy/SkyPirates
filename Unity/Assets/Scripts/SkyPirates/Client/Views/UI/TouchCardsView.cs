@@ -1,5 +1,7 @@
 using SlyPirates.Client.IViewModels;
 using SlyPirates.Client.IViews;
+using SlyPirates.Shared.Ids;
+using System;
 using UnityEngine;
 
 namespace SlyPirates.Client.Views
@@ -8,16 +10,24 @@ namespace SlyPirates.Client.Views
     {
         [SerializeField]
         private UnitCardView[] _cards;
+        [SerializeField]
+        private UnitCardView _cardPrefab;
 
         public override void OnInject()
         {
             var cards = ViewModel.Cards;
-            for (int i = 0; i < _cards.Length; i++)
+            var cardViews = new UnitCardView[cards.Length];
+            int existingCount = Math.Min(_cards.Length, cards.Length);
+            Array.Copy(_cards, cardViews, existingCount);
+            for (int i = existingCount; i < cards.Length; i++)
+                cardViews[i] = Instantiate(_cardPrefab, transform);
+
+            for (int i = 0; i < cards.Length; i++)
             {
                 int index = i;
-                var unitId = cards[index];
-                _cards[index].Init(unitId, ViewModel.UnitsConfig[unitId].RumPrice);
-                _cards[index].OnClick += () => ViewModel.UseCard(index);
+                UnitId unitId = cards[index];
+                cardViews[index].Init(unitId, ViewModel.UnitsConfig[unitId].RumPrice);
+                cardViews[index].OnClick += () => ViewModel.UseCard(index);
             }
         }
     }

@@ -13,12 +13,7 @@ namespace SlyPirates.Client.ViewModels.UI
         private readonly IPlayer _player;
         private readonly ICommandSendScheduler _sendScheduler;
 
-        private readonly UnitId[] _cards = new UnitId[]
-        {
-            UnitId.Constants.Rogue,
-            UnitId.Constants.Militia,
-            UnitId.Constants.Buccaneer,
-        };
+        private readonly UnitId[] _cards = ClientSetupData.TeamCards;
         public ReadOnlySpan<UnitId> Cards => _cards;
         public UnitsInfoConfig UnitsConfig { get; }
 

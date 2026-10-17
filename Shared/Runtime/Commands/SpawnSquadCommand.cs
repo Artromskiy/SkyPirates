@@ -3,9 +3,10 @@ using SlyPirates.Shared.Data;
 
 namespace SlyPirates.Shared.Commands
 {
-    [CommandSchema(5, Predicted = false)]
+    [CommandSchema(0x00B081EA67211ACAUL, Predicted = false)]
     public struct SpawnSquadCommand
     {
         public EntityParameters CreationData;
+        public UnitDeck Deck;
     }
 }

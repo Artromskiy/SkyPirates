@@ -83,7 +83,8 @@ namespace SlyPirates.Client.Entry
                 return;
             }
 
-            _sessions.Send(new SpawnSquadCommand(), System.Math.Max(1, _sessions.CurrentStep + 1));
+            _sessions.Send(new SpawnSquadCommand { Deck = ClientSetupData.StartingDeck },
+                System.Math.Max(1, _sessions.CurrentStep + 1));
             _spawnSquadSent = true;
         }
 

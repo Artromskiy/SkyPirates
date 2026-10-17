@@ -56,6 +56,7 @@ MonoBehaviour:
   - {fileID: 2838389879196367755}
   - {fileID: 104978825824213606}
   - {fileID: 333072403768181199}
+  _cardPrefab: {fileID: 9174130980407725392, guid: a5b43e0891895a347a0389817d2a4db4, type: 3}
 --- !u!114 &5328958030263465614
 MonoBehaviour:
   m_ObjectHideFlags: 0

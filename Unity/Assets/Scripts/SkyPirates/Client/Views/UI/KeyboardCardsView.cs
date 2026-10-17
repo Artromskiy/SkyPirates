@@ -25,6 +25,11 @@ namespace SlyPirates.Client.Views
             {
                 ViewModel.UseCard(2);
             }
+
+            if (Input.GetKeyDown(KeyCode.Alpha4))
+            {
+                ViewModel.UseCard(3);
+            }
         }
     }
 }

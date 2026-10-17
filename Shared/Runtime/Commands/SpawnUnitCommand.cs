@@ -5,7 +5,7 @@ using SlyPirates.Shared.Ids;
 
 namespace SlyPirates.Shared.Commands
 {
-    [CommandSchema(6, Predicted = false)]
+    [CommandSchema(0x916B5DBFBB2D7240UL, Predicted = false)]
     public struct SpawnUnitCommand
     {
         public SyncId SquadId;
