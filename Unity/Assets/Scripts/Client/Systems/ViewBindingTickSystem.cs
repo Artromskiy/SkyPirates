@@ -16,7 +16,7 @@ namespace SlyPirates.Client.Systems
     {
         private readonly World _world;
         private readonly SceneWorld _scene;
-        private readonly ViewBindingSystem _binding;
+        private readonly AddressableViewBindingSystem _binding;
         private readonly HashSet<Entity> _changed = new();
         private readonly HashSet<Entity> _bound = new();
         private readonly List<Entity> _tokens = new();
@@ -28,7 +28,7 @@ namespace SlyPirates.Client.Systems
         private bool _rebind;
         private Entity[] _batch = Array.Empty<Entity>();
 
-        public ViewBindingTickSystem(World world, SceneWorld scene, ViewBindingSystem binding, SkyPiratesSessionProvider session)
+        public ViewBindingTickSystem(World world, SceneWorld scene, AddressableViewBindingSystem binding, SkyPiratesSessionProvider session)
         {
             _world = world;
             _scene = scene;
@@ -61,7 +61,10 @@ namespace SlyPirates.Client.Systems
                     if (_scene.TryGetView(entity, out GameObject view))
                     {
                         view.SetActive(false);
-                        Object.Destroy(view);
+                        if (!_binding.ReleaseView(entity, view))
+                        {
+                            Object.Destroy(view);
+                        }
                     }
                     _scene.UnbindView(entity);
                     continue;

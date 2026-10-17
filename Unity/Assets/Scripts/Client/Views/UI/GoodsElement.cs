@@ -1,5 +1,4 @@
-﻿using SlyPirates.Client.Databases;
-using SlyPirates.Shared.Ids;
+using SlyPirates.Client;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,17 +11,29 @@ namespace SlyPirates.Client.Views.UI
         private Image _icon;
         [SerializeField]
         private TMP_Text _count;
-        [SerializeField]
-        private GoodsDatabase _goodsDatabase;
 
-        public void Setup(GoodsId goodsId)
+        private Sprite _iconSprite;
+
+        public async void Setup(string iconAddressableKey)
         {
-            _icon.sprite = _goodsDatabase.Get(goodsId).Sprite;
+            Sprite iconSprite = await AddressableLoader.Load<Sprite>(iconAddressableKey, this);
+            if (iconSprite == null)
+            {
+                return;
+            }
+
+            _iconSprite = iconSprite;
+            _icon.sprite = iconSprite;
         }
 
         public void SetCount(int count)
         {
             _count.text = count.ToString();
+        }
+
+        private void OnDestroy()
+        {
+            AddressableLoader.Release(_iconSprite);
         }
     }
 }

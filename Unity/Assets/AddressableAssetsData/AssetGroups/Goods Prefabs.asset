@@ -1,0 +1,76 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Goods Prefabs
+  m_EditorClassIdentifier: Unity.Addressables.Editor::UnityEditor.AddressableAssets.Settings.AddressableAssetGroup
+  m_GroupName: Goods Prefabs
+  m_GUID: 0ed68821a7e574768b74778e959be576
+  m_SerializeEntries:
+  - m_GUID: 06d73211054bfdf419e6fb2ebf8c8c4d
+    m_Address: Prefabs/Visual/Goods/Sugar
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1029b725480e4f043b33fcb9d11d4512
+    m_Address: Prefabs/Visual/Goods/Wood
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2bc3c6c9e75d0c644a07a6fa7cfa7758
+    m_Address: goods
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7eee0ad6cebc2ce40a462ed248aaaab8
+    m_Address: Prefabs/Visual/Goods/Rope
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 82ff81a51b8b310428124b26906d4031
+    m_Address: Prefabs/Visual/Goods/Rum
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8a698ab8b0d1b014f8ee1ea457f27efe
+    m_Address: Prefabs/Visual/Goods/Gold
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bbaee21317e09774c80ecb73d1a845ad
+    m_Address: Prefabs/Visual/Goods/Tea
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bf9d9be0ef5de3045a940aa2f32bd233
+    m_Address: Prefabs/Visual/Goods/Spice
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e026d082841bc13409cc0ca97ce8c992
+    m_Address: Prefabs/Visual/Goods/Coffee
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ef11c1b1048bb3f429472079f2fb36e1
+    m_Address: Prefabs/Visual/Goods/Sail
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: d7225c1a4f5ff4e0cbab29797df1688f, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: bd52a4f5a6b5b48cc9242feca47a3d42, type: 2}
+    m_SchemaDisplayOrder:
+    - Goods Prefabs_ContentDirectoryGroupSchema
+  m_IncludeInBuild: 1
+  m_IncludeInBuildMigrated: 1

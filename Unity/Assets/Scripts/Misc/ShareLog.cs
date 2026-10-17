@@ -1,18 +1,18 @@
+using Common.UI;
 using System.Text;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace DVG.Misc
 {
     public class ShareLog : MonoBehaviour
     {
         [SerializeField]
-        private Button _button;
+        private EventButton _button;
 
         private void Awake()
         {
             Logger.Init();
-            _button.onClick.AddListener(Copy);
+            _button.OnClick += Copy;
         }
 
         private void Copy()

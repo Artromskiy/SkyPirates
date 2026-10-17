@@ -6523,42 +6523,107 @@
       }
     }
   },
+  "GoodsInfos": {
+    "Gold": {
+      "GoodsId": "Gold",
+      "PrefabAddressable": "goods",
+      "IconAddressable": "goods/gold/icon"
+    },
+    "Coffee": {
+      "GoodsId": "Coffee",
+      "PrefabAddressable": "goods",
+      "IconAddressable": "goods/coffee/icon"
+    },
+    "Rope": {
+      "GoodsId": "Rope",
+      "PrefabAddressable": "goods",
+      "IconAddressable": "goods/rope/icon"
+    },
+    "Sail": {
+      "GoodsId": "Sail",
+      "PrefabAddressable": "goods",
+      "IconAddressable": "goods/sail/icon"
+    },
+    "Spice": {
+      "GoodsId": "Spice",
+      "PrefabAddressable": "goods",
+      "IconAddressable": "goods/spice/icon"
+    },
+    "Sugar": {
+      "GoodsId": "Sugar",
+      "PrefabAddressable": "goods",
+      "IconAddressable": "goods/sugar/icon"
+    },
+    "Tea": {
+      "GoodsId": "Tea",
+      "PrefabAddressable": "goods",
+      "IconAddressable": "goods/tea/icon"
+    },
+    "Rum": {
+      "GoodsId": "Rum",
+      "PrefabAddressable": "goods",
+      "IconAddressable": "goods/rum/icon"
+    },
+    "Wood": {
+      "GoodsId": "Wood",
+      "PrefabAddressable": "goods",
+      "IconAddressable": "goods/wood/icon"
+    }
+  },
   "UnitsInfos": {
     "Sailor": {
-      "RumPrice": 1,
-      "UnitId": "Sailor"
+      "LocalizationKey": "units.sailor.name",
+      "Cost": 1,
+      "PrefabAddressable": "unit",
+      "IconAddressable": "units/sailor/icon"
     },
     "Rogue": {
-      "RumPrice": 1,
-      "UnitId": "Rogue"
+      "LocalizationKey": "units.rogue.name",
+      "Cost": 1,
+      "PrefabAddressable": "unit",
+      "IconAddressable": "units/rogue/icon"
     },
     "Pirate": {
-      "RumPrice": 2,
-      "UnitId": "Pirate"
+      "LocalizationKey": "units.pirate.name",
+      "Cost": 2,
+      "PrefabAddressable": "unit",
+      "IconAddressable": "units/pirate/icon"
     },
     "Skelly": {
-      "RumPrice": 2,
-      "UnitId": "Skelly"
+      "LocalizationKey": "units.skelly.name",
+      "Cost": 2,
+      "PrefabAddressable": "unit",
+      "IconAddressable": "units/skelly/icon"
     },
     "Militia": {
-      "RumPrice": 3,
-      "UnitId": "Militia"
+      "LocalizationKey": "units.militia.name",
+      "Cost": 3,
+      "PrefabAddressable": "unit",
+      "IconAddressable": "units/militia/icon"
     },
     "Imp": {
-      "RumPrice": 1,
-      "UnitId": "Imp"
+      "LocalizationKey": "units.imp.name",
+      "Cost": 1,
+      "PrefabAddressable": "unit",
+      "IconAddressable": "units/imp/icon"
     },
     "Daemon": {
-      "RumPrice": 2,
-      "UnitId": "Daemon"
+      "LocalizationKey": "units.daemon.name",
+      "Cost": 2,
+      "PrefabAddressable": "unit",
+      "IconAddressable": "units/daemon/icon"
     },
     "Buccaneer": {
-      "RumPrice": 2,
-      "UnitId": "Buccaneer"
+      "LocalizationKey": "units.buccaneer.name",
+      "Cost": 2,
+      "PrefabAddressable": "unit",
+      "IconAddressable": "units/buccaneer/icon"
     },
     "Bonny": {
-      "RumPrice": 2,
-      "UnitId": "Bonny"
+      "LocalizationKey": "units.bonny.name",
+      "Cost": 2,
+      "PrefabAddressable": "unit",
+      "IconAddressable": "units/bonny/icon"
     }
   },
   "UnitsStats": {

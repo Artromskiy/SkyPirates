@@ -17,13 +17,12 @@ namespace SlyPirates.Shared.Systems
 		private readonly List<Entity> _toEnable = new();
 		private readonly List<fix4> _activeQuads = new();
 
-        private Query? _activityRangesCache;
-        private Query _activityRanges => _activityRangesCache ??= _world.WhereAll<ActivityRange, Position>().Alive();
-
-        private Query? _enabledCache;
-        private Query _enabled => _enabledCache ??= _world.WhereAll<Position>().WhereNone<Disabled>().Alive();
-        private Query? _disabledCache;
-        private Query _disabled => _disabledCache ??= _world.WhereAll<Position, Disabled>().Alive();
+        private Query? _activityRanges;
+        private Query ActivityRanges => _activityRanges ??= _world.WhereAll<ActivityRange, Position>().Alive();
+        private Query? _enabled;
+        private Query Enabled => _enabled ??= _world.WhereAll<Position>().WhereNone<Disabled>().Alive();
+        private Query? _disabled;
+        private Query Disabled => _disabled ??= _world.WhereAll<Position, Disabled>().Alive();
 
 		public FlagDisabledSystem(World world)
 		{
@@ -37,7 +36,7 @@ namespace SlyPirates.Shared.Systems
 			_activeQuads.Clear();
 
 			var activeQuads = _activeQuads;
-			var activityRanges = _activityRanges;
+			var activityRanges = ActivityRanges;
 			_world.ForEach<List<fix4>, ActivityRange, Position>(in activityRanges, ref activeQuads, static (ref List<fix4> quads, in ActivityRange range, in Position position) =>
 			{
 				var pos = position.Value.xz;
@@ -49,7 +48,7 @@ namespace SlyPirates.Shared.Systems
 
 			var activeRegions = _activeQuads;
 			var toDisable = _toDisable;
-			var enabled = _enabled;
+			var enabled = Enabled;
 			(List<fix4> Regions, List<Entity> Entities) disableState = (activeRegions, toDisable);
 			_world.ForEachEntity<(List<fix4> Regions, List<Entity> Entities), Position>(in enabled,
 				ref disableState,
@@ -68,7 +67,7 @@ namespace SlyPirates.Shared.Systems
 				}).Invoke(ref disableState);
 
 			var toEnable = _toEnable;
-			var disabled = _disabled;
+			var disabled = Disabled;
 			(List<fix4> Regions, List<Entity> Entities) enableState = (activeRegions, toEnable);
 			_world.ForEachEntity<(List<fix4> Regions, List<Entity> Entities), Position>(in disabled, ref enableState,
 				static (ref (List<fix4> Regions, List<Entity> Entities) state, EntityRef entity, in Position position) =>
@@ -94,9 +93,7 @@ namespace SlyPirates.Shared.Systems
             }
         }
 
-		private static bool Inside(fix2 point, fix4 minMax)
-		{
-			return point.x >= minMax.x && point.y >= minMax.y && point.x <= minMax.z && point.y <= minMax.w;
-		}
-	}
+		private static bool Inside(fix2 point, fix4 minMax) =>
+            point.x >= minMax.x && point.y >= minMax.y && point.x <= minMax.z && point.y <= minMax.w;
+    }
 }

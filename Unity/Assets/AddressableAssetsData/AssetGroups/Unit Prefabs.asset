@@ -1,0 +1,76 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Unit Prefabs
+  m_EditorClassIdentifier: Unity.Addressables.Editor::UnityEditor.AddressableAssets.Settings.AddressableAssetGroup
+  m_GroupName: Unit Prefabs
+  m_GUID: d572bcd33d0ec4b21ba8bfc4d39fa892
+  m_SerializeEntries:
+  - m_GUID: 1946b070f76434c45a5ad459e5967669
+    m_Address: unit
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2872eb5546b6b014fbda96e71dbb0879
+    m_Address: Prefabs/Visual/Unit/None
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 33ced5a1793bb5b46b55d6ce648ab1ff
+    m_Address: Prefabs/Visual/Unit/Pirate
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 54cfd6e366fccf949a132917e9f158cf
+    m_Address: Prefabs/Visual/Unit/Sailor
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5991f77e3ba30ed42a6decb3e16ee4f0
+    m_Address: Prefabs/Visual/Unit/Militia
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 67d6d23dc131730499fb994fcc1dadcf
+    m_Address: Prefabs/Visual/Unit/Skelly
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7b236dd44beb0f541906da5d3d5c0bf9
+    m_Address: Prefabs/Visual/Unit/Imp
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f24a96766fa435a428848ddf2fcbc822
+    m_Address: Prefabs/Visual/Unit/Daemon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fcd20d377c42e8b47b64ce7f2c114ba8
+    m_Address: Prefabs/Visual/Unit/Rogue
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fff75a34de30c8d439309810e8d03076
+    m_Address: Prefabs/Visual/Unit/Buccaneer
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: d7225c1a4f5ff4e0cbab29797df1688f, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 1b3396ba63c1e43808fb457f4ef8fa98, type: 2}
+    m_SchemaDisplayOrder:
+    - Unit Prefabs_ContentDirectoryGroupSchema
+  m_IncludeInBuild: 1
+  m_IncludeInBuildMigrated: 1

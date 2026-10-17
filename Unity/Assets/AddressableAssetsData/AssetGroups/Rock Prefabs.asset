@@ -1,0 +1,491 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Rock Prefabs
+  m_EditorClassIdentifier: Unity.Addressables.Editor::UnityEditor.AddressableAssets.Settings.AddressableAssetGroup
+  m_GroupName: Rock Prefabs
+  m_GUID: e469b41d252f04fc3a79bc6937d557a7
+  m_SerializeEntries:
+  - m_GUID: 003d83dca6d86274fb16c4b28f62a7b8
+    m_Address: Prefabs/Visual/Rock/HardRock_09
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 01791b7de4fff774d955e258a9dd3927
+    m_Address: Prefabs/Visual/Rock/HardRock_07
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 07756f7dccaeeea4a850c0bc57fe4dd3
+    m_Address: Prefabs/Visual/Rock/SoftRock_11
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0b5aa7a3695030f439b4944c781efdc0
+    m_Address: Prefabs/Visual/Rock/SoftRock_19
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0c338f8bfa6804e468e2706bffee9028
+    m_Address: Prefabs/Visual/Rock/HardRock_36
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0d56bd5de85e04b49b5c1620732ef173
+    m_Address: Prefabs/Visual/Rock/HardRock_20
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 16265520d3655e5409e00428c8d5ece2
+    m_Address: Prefabs/Visual/Rock/HardRock_44
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1a9b1a4b7ddeb6f4bb0336b65e900569
+    m_Address: Prefabs/Visual/Rock/HardRock_17
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1b14b57b433cc5a4f90b86d59078fbdc
+    m_Address: Prefabs/Visual/Rock/SoftRock_15
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1f55f8c68246dc3438b73700695ee09b
+    m_Address: Prefabs/Visual/Rock/HardRock_05
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2638cd403c0cc484391be825b200e2a7
+    m_Address: Prefabs/Visual/Rock/HardRock_31
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 27f8f765890aba14b908d0ede66b2318
+    m_Address: Prefabs/Visual/Rock/HardRock_47
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2b0326f2802ca2e4489eac4c44671f7d
+    m_Address: Prefabs/Visual/Rock/HardRock_54
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2b35c1b656e276c449ef0cab9cb5ba19
+    m_Address: Prefabs/Visual/Rock/HardRock_04
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2e4531dc3154b2f46b0338b07c57fef1
+    m_Address: Prefabs/Visual/Rock/HardRock_58
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2e631824d371ffb48b7b57cdb171533e
+    m_Address: Prefabs/Visual/Rock/SoftRock_01
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 31dfdc82ec1e08740b5c19f43b277465
+    m_Address: Prefabs/Visual/Rock/SoftRock_10
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 31e5133e2df53ab47970453a7e782bc8
+    m_Address: Prefabs/Visual/Rock/SoftRock_09
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 340aa95c75f0ad14f9d49217100736cc
+    m_Address: Prefabs/Visual/Rock/HardRock_30
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 37b9b877b818c224fb13023fd85c174a
+    m_Address: Prefabs/Visual/Rock/HardRock_25
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 38dbcd9e922bd914abee71b85b5c3c1a
+    m_Address: Prefabs/Visual/Rock/HardRock_53
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3936941e0ad53bb4a9775f3e96bf0260
+    m_Address: Prefabs/Visual/Rock/SoftRock_14
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4156a41c251169448b64d397066c8d84
+    m_Address: Prefabs/Visual/Rock/HardRock_11
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4c549f88305ef3642b762ce661bf873e
+    m_Address: Prefabs/Visual/Rock/HardRock_28
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5058420d97eab5b4bbeb3541905be3e8
+    m_Address: Prefabs/Visual/Rock/HardRock_03
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5236fce04e3fede45808866a2a5b7f54
+    m_Address: Prefabs/Visual/Rock/HardRock_41
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5575ab0b19e22914c966176dc6ca946c
+    m_Address: Prefabs/Visual/Rock/HardRock_24
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 55c4e08a3377e4d408d2baefe841f9ee
+    m_Address: Prefabs/Visual/Rock/HardRock_35
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 59c50589de258a445b4d9781bbbcc017
+    m_Address: Prefabs/Visual/Rock/HardRock_26
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5a4274ac14df09048ad054c5a66acbb2
+    m_Address: Prefabs/Visual/Rock/HardRock_55
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 608b06708f1daa84fb790c4b7d4aeb16
+    m_Address: Prefabs/Visual/Rock/SoftRock_30
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 61734084b579d444d961c163642860bc
+    m_Address: Prefabs/Visual/Rock/SoftRock_28
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 617ca37626e746841b3ac2f6dc4f4d07
+    m_Address: Prefabs/Visual/Rock/HardRock_37
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 63e1efd65b4f1544daff22d21bcaad5f
+    m_Address: Prefabs/Visual/Rock/HardRock_39
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 640f9fa7285b86b438aaf6002352f78e
+    m_Address: Prefabs/Visual/Rock/HardRock_16
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6d9beab3555e04347b7011d2e26308ea
+    m_Address: Prefabs/Visual/Rock/SoftRock_05
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6f78cf8a9e9559642936af3bb54efc5b
+    m_Address: Prefabs/Visual/Rock/SoftRock_02
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 772e8fad8b9861742b6573f19f0fe458
+    m_Address: Prefabs/Visual/Rock/HardRock_14
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7cbf4246b128d794fbf27f7312740a26
+    m_Address: Prefabs/Visual/Rock/HardRock_40
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7d4fc2aba6c89b74db277e46e14451a1
+    m_Address: Prefabs/Visual/Rock/HardRock_21
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7d521e7abff16f44eb629bf1d625948a
+    m_Address: Prefabs/Visual/Rock/SoftRock_25
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7db47b43d11a1a94a83043e5f9c0dd4c
+    m_Address: Prefabs/Visual/Rock/HardRock_56
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7f3a4669ff1f24c45bbf9dacbb018a9f
+    m_Address: Prefabs/Visual/Rock/SoftRock_22
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8bd8b243b7b66a647a2094984c1b75ca
+    m_Address: Prefabs/Visual/Rock/SoftRock_07
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8e05911e258f2e64daa548cf4d96db54
+    m_Address: Prefabs/Visual/Rock/SoftRock_32
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 90b2ee39f4b6c6d4da5999947ab67be0
+    m_Address: Prefabs/Visual/Rock/HardRock_43
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 911567ec79cb7d54e9d550f45dad7612
+    m_Address: Prefabs/Visual/Rock/HardRock_27
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 91ae9495102f35e438e61abd907ec2e7
+    m_Address: Prefabs/Visual/Rock/SoftRock_18
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 920be984ad5cf2d4aa026df5ca209871
+    m_Address: Prefabs/Visual/Rock/HardRock_48
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 97410b42f813e3d429db68b74b5b280c
+    m_Address: Prefabs/Visual/Rock/HardRock_10
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 99e218b9b963f21458322baec8529de3
+    m_Address: Prefabs/Visual/Rock/HardRock_51
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9a940b5cdd2eae948a58bf04adb62854
+    m_Address: Prefabs/Visual/Rock/SoftRock_04
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9b8dd45c263f9894dab9de6d87d271c1
+    m_Address: Prefabs/Visual/Rock/HardRock_45
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a1e71661455255f4f945e41092dee117
+    m_Address: Prefabs/Visual/Rock/SoftRock_08
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a6124ea2cd61c2e428d74e95d93eb3d7
+    m_Address: Prefabs/Visual/Rock/HardRock_19
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ab76899227895e84eae5b295216c7c95
+    m_Address: Prefabs/Visual/Rock/HardRock_59
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ac065d4fb2da2fa45a669c26b4915ba0
+    m_Address: Prefabs/Visual/Rock/HardRock_34
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b5d1198af13763d458d07e6eba44d247
+    m_Address: Prefabs/Visual/Rock/HardRock_29
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ba52f27e4843aac439243ec20fe0a0eb
+    m_Address: Prefabs/Visual/Rock/HardRock_52
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ba54dbb5b0d92e7408f326d4d95100f3
+    m_Address: Prefabs/Visual/Rock/SoftRock_23
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: be91c2f72e3350f4eb7dffe61267d7ba
+    m_Address: Prefabs/Visual/Rock/HardRock_49
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c14fc7dedaf046e409641a1afbac9f6e
+    m_Address: Prefabs/Visual/Rock/HardRock_57
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c1c590ef6e27f5347bd5109622a7f234
+    m_Address: Prefabs/Visual/Rock/HardRock_46
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c1d8f10cf69ee574f9fe9460f627c278
+    m_Address: Prefabs/Visual/Rock/SoftRock_12
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c1de63daefdbb904aa6d7376510e620d
+    m_Address: Prefabs/Visual/Rock/SoftRock_27
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c43de358a671a3749878c98bba9b5df4
+    m_Address: Prefabs/Visual/Rock/SoftRock_31
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c79879771c4d464499888b7425ca8171
+    m_Address: Prefabs/Visual/Rock/HardRock_42
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c7fe83c52eb617d45bd0f368d30248fa
+    m_Address: Prefabs/Visual/Rock/HardRock_13
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cee7e7930fc04d945aa540f70ced0f72
+    m_Address: Prefabs/Visual/Rock/HardRock_18
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d11dad93fbd94a049a0595ea4c9ad857
+    m_Address: Prefabs/Visual/Rock/HardRock_08
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: da9a046a16e74164d884cd392ffc7e87
+    m_Address: Prefabs/Visual/Rock/HardRock_12
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: dbd6a40657b81bc4ab70815b32c064ab
+    m_Address: Prefabs/Visual/Rock/HardRock_22
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: dee0601b8b1bac346ab72f3479d757b4
+    m_Address: Prefabs/Visual/Rock/HardRock_06
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: df560bbcfede49047adbb80ade3598b5
+    m_Address: Prefabs/Visual/Rock/HardRock_02
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e0a60158426252843b0a9e0a7d81a559
+    m_Address: Prefabs/Visual/Rock/SoftRock_24
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e3db05f6866fd4248a2a2a5d9cb3f638
+    m_Address: Prefabs/Visual/Rock/SoftRock_17
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e66cb15f22a1c774387d321ee47d271a
+    m_Address: Prefabs/Visual/Rock/HardRock_01
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e7ca3ad07c6f76541b78c3a99d83f36e
+    m_Address: Prefabs/Visual/Rock/HardRock_60
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ed8437bf88499b34fa4d4c1223ea9216
+    m_Address: Prefabs/Visual/Rock/HardRock_38
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ef5193f0c438ebb4697aac93770a827b
+    m_Address: Prefabs/Visual/Rock/SoftRock_26
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ef6f0e5c509d22d409aa1a9fb133c0f0
+    m_Address: Prefabs/Visual/Rock/HardRock_23
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f1c642752a987ba489c0343de3b352d3
+    m_Address: Prefabs/Visual/Rock/HardRock_50
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f2073434dafb5614f82369dc03343015
+    m_Address: Prefabs/Visual/Rock/SoftRock_13
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f6a6beec1377be64482ff5f951ee93e0
+    m_Address: Prefabs/Visual/Rock/SoftRock_03
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f6abff48e862b8e4c9356a2665d215d7
+    m_Address: rock
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f799d2c976fb44049b8d21a46e655bbe
+    m_Address: Prefabs/Visual/Rock/SoftRock_16
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f85cce94b83995543bb47db1f041c082
+    m_Address: Prefabs/Visual/Rock/HardRock_15
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fa03cb47320faa546afe06597bb63651
+    m_Address: Prefabs/Visual/Rock/SoftRock_21
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fc142bb741d24a747a21e5f416b33a06
+    m_Address: Prefabs/Visual/Rock/HardRock_33
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fc2f35db53cee0c49b40776262a3d689
+    m_Address: Prefabs/Visual/Rock/SoftRock_06
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fce531448c0ec7149b5a63cb4b34f5db
+    m_Address: Prefabs/Visual/Rock/SoftRock_20
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fe19396841b4f3f4a987409f4e9c7710
+    m_Address: Prefabs/Visual/Rock/SoftRock_29
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ffb9f20cb167cce4582d828f959dd3c4
+    m_Address: Prefabs/Visual/Rock/HardRock_32
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: d7225c1a4f5ff4e0cbab29797df1688f, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 62148fdde13aa488b8c1037c410cd5a0, type: 2}
+    m_SchemaDisplayOrder:
+    - Rock Prefabs_ContentDirectoryGroupSchema
+  m_IncludeInBuild: 1
+  m_IncludeInBuildMigrated: 1

@@ -4,6 +4,7 @@
     "com.artromskiy.skypirates.shared": "file:../../Shared",
     "com.github-glitchenzo.nugetforunity": "https://github.com/GlitchEnzo/NuGetForUnity.git?path=/src/NuGetForUnity",
     "com.unity.2d.sprite": "1.0.0",
+    "com.unity.addressables": "4.1.1",
     "com.unity.ide.rider": "3.0.40",
     "com.unity.ide.visualstudio": "2.0.26",
     "com.unity.inputsystem": "6.7.0",

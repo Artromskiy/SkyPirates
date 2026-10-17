@@ -1,6 +1,8 @@
 using SlyPirates.Client.IViewModels;
 using SlyPirates.Client.IViews;
 using SlyPirates.Client.Views.UI;
+using SlyPirates.Client.DI;
+using SlyPirates.Shared.Data;
 using SlyPirates.Shared.Ids;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,12 +10,15 @@ using UnityEngine;
 
 namespace SlyPirates.Client.Views
 {
+    [Inject]
     public class GoodsView : View<IGoodsVM>
     {
         [SerializeField]
         private GoodsElement _goodsPrefab;
         [SerializeField]
         private RectTransform _content;
+        [Inject]
+        private GoodsInfoConfig _goodsInfos;
         private readonly Dictionary<GoodsId, GoodsElement> _elements = new();
         public override void OnInject()
         {
@@ -28,7 +33,7 @@ namespace SlyPirates.Client.Views
                 if (!_elements.TryGetValue(item.Key, out var element))
                 {
                     element = Instantiate(_goodsPrefab, _content);
-                    element.Setup(item.Key);
+                    element.Setup(_goodsInfos[item.Key].IconAddressable);
                     _elements.Add(item.Key, element);
                 }
                 element.SetCount(item.Value);

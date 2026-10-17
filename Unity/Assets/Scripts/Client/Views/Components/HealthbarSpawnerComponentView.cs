@@ -1,4 +1,5 @@
 using Delta.ECS.Unity;
+using SlyPirates.Client;
 using UnityEngine;
 
 namespace SlyPirates.Client.Views.Components
@@ -10,12 +11,17 @@ namespace SlyPirates.Client.Views.Components
         private GameObject? _healthbar;
         private IEntityView[] _views = System.Array.Empty<IEntityView>();
 
-        public void OnBind(EntityContext context)
+        public async void OnBind(EntityContext context)
         {
             if (_healthbar == null)
             {
-                GameObject prefab = Resources.Load<GameObject>(HealthbarPrefabPath);
-                _healthbar = Instantiate(prefab);
+                GameObject healthbar = await AddressableLoader.Instantiate(HealthbarPrefabPath, null, this);
+                if (healthbar == null)
+                {
+                    return;
+                }
+
+                _healthbar = healthbar;
                 _views = _healthbar.GetComponentsInChildren<IEntityView>(true);
                 HealthbarCanvasView.RegisterSpawnedView(_healthbar.transform);
             }
@@ -27,20 +33,25 @@ namespace SlyPirates.Client.Views.Components
             _healthbar.SetActive(isActiveAndEnabled);
         }
 
-        private void OnEnable() { if (_healthbar != null)
+        private void OnEnable()
+        {
+            if (_healthbar != null)
             {
                 _healthbar.SetActive(true);
             }
         }
-        private void OnDisable() { if (_healthbar != null)
+
+        private void OnDisable()
+        {
+            if (_healthbar != null)
             {
                 _healthbar.SetActive(false);
             }
         }
-        private void OnDestroy() { if (_healthbar != null)
-            {
-                Destroy(_healthbar);
-            }
+
+        private void OnDestroy()
+        {
+            AddressableLoader.ReleaseInstance(_healthbar);
         }
     }
 }

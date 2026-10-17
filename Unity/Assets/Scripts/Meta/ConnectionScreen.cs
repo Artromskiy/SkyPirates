@@ -1,7 +1,7 @@
+using Common.UI;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 namespace SlyPirates.Meta
 {
@@ -12,19 +12,19 @@ namespace SlyPirates.Meta
         [SerializeField]
         private TMP_InputField _portField;
         [SerializeField]
-        private Button _connectButton;
+        private EventButton _connectButton;
         [SerializeField]
-        private Button _playOfflineButton;
+        private EventButton _playOfflineButton;
         [SerializeField]
-        private Button _crewButton;
+        private EventButton _crewButton;
 
         private void Start()
         {
             _ipField.text = ClientSetupData.IP;
             _portField.text = ClientSetupData.Port;
-            _connectButton.onClick.AddListener(PlayOnline);
-            _playOfflineButton.onClick.AddListener(PlayOffline);
-            _crewButton.onClick.AddListener(TeamSelectionScreen.Open);
+            _connectButton.OnClick += PlayOnline;
+            _playOfflineButton.OnClick += PlayOffline;
+            _crewButton.OnClick += TeamSelectionScreen.Open;
         }
 
         private void PlayOnline()

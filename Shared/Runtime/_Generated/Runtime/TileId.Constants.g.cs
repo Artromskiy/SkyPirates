@@ -18,21 +18,11 @@ namespace SlyPirates.Shared.Ids
     {
         public static partial class Constants
         {
-            public static readonly TileId Land1 = new TileId("Land1");
-            public static readonly TileId Land2 = new TileId("Land2");
-            public static readonly TileId Land3 = new TileId("Land3");
-            public static readonly TileId Land4 = new TileId("Land4");
-            public static readonly TileId Land5 = new TileId("Land5");
-            public static readonly TileId Air = new TileId("Air");
+            public static readonly TileId Land = new TileId("Land");
 
             private static readonly TileId[] _allIds = new TileId[]
             {
-                new TileId("Land1"),
-                new TileId("Land2"),
-                new TileId("Land3"),
-                new TileId("Land4"),
-                new TileId("Land5"),
-                new TileId("Air"),
+                new TileId("Land"),
             };
             public static ReadOnlySpan<TileId> AllIds => _allIds;
         }

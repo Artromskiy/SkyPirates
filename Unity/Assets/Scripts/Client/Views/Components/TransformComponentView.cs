@@ -61,31 +61,9 @@ namespace SlyPirates.Client.Views.Components
             _ => to,
         };
 
-        private float3 Position
-        {
-            get => (float3)_context.Get<Position>().Value;
-            set => _context.GetRef<Position>().Value = (fix3)value;
-        }
+        private float3 Position => (float3)_context.Get<Position>().Value;
 
-        private float Rotation
-        {
-            get => (float)_context.Get<Rotation>().Value;
-            set => _context.GetRef<Rotation>().Value = (fix)value;
-        }
-
-        private void Awake() => EditorChanges.SubscribeOnChanged(transform, UpdateTransform);
-        private void OnDestroy() => EditorChanges.UnsubscribeOnChanged(transform, UpdateTransform);
-
-        private void UpdateTransform()
-        {
-            if (!_context.IsAlive)
-            {
-                return;
-            }
-
-            Position = transform.position;
-            Rotation = transform.eulerAngles.y;
-        }
+        private float Rotation => (float)_context.Get<Rotation>().Value;
 
         private enum InterpolationMode
         {

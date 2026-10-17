@@ -1,38 +1,65 @@
 [
   {
-    "UnitId": "Sailor",
-    "RumPrice": 1
+    "Key": "Sailor",
+    "LocalizationKey": "units.sailor.name",
+    "Cost": 1,
+    "PrefabAddressable": "unit",
+    "IconAddressable": "units/sailor/icon"
   },
   {
-    "UnitId": "Rogue",
-    "RumPrice": 1
+    "Key": "Rogue",
+    "LocalizationKey": "units.rogue.name",
+    "Cost": 1,
+    "PrefabAddressable": "unit",
+    "IconAddressable": "units/rogue/icon"
   },
   {
-    "UnitId": "Pirate",
-    "RumPrice": 2
+    "Key": "Pirate",
+    "LocalizationKey": "units.pirate.name",
+    "Cost": 2,
+    "PrefabAddressable": "unit",
+    "IconAddressable": "units/pirate/icon"
   },
   {
-    "UnitId": "Skelly",
-    "RumPrice": 2
+    "Key": "Skelly",
+    "LocalizationKey": "units.skelly.name",
+    "Cost": 2,
+    "PrefabAddressable": "unit",
+    "IconAddressable": "units/skelly/icon"
   },
   {
-    "UnitId": "Militia",
-    "RumPrice": 3
+    "Key": "Militia",
+    "LocalizationKey": "units.militia.name",
+    "Cost": 3,
+    "PrefabAddressable": "unit",
+    "IconAddressable": "units/militia/icon"
   },
   {
-    "UnitId": "Imp",
-    "RumPrice": 1
+    "Key": "Imp",
+    "LocalizationKey": "units.imp.name",
+    "Cost": 1,
+    "PrefabAddressable": "unit",
+    "IconAddressable": "units/imp/icon"
   },
   {
-    "UnitId": "Daemon",
-    "RumPrice": 2
+    "Key": "Daemon",
+    "LocalizationKey": "units.daemon.name",
+    "Cost": 2,
+    "PrefabAddressable": "unit",
+    "IconAddressable": "units/daemon/icon"
   },
   {
-    "UnitId": "Buccaneer",
-    "RumPrice": 2
+    "Key": "Buccaneer",
+    "LocalizationKey": "units.buccaneer.name",
+    "Cost": 2,
+    "PrefabAddressable": "unit",
+    "IconAddressable": "units/buccaneer/icon"
   },
   {
-    "UnitId": "Bonny",
-    "RumPrice": 2
+    "Key": "Bonny",
+    "LocalizationKey": "units.bonny.name",
+    "Cost": 2,
+    "PrefabAddressable": "unit",
+    "IconAddressable": "units/bonny/icon"
   }
 ]

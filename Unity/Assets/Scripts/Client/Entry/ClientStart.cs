@@ -25,7 +25,7 @@ namespace SlyPirates.Client.Entry
             RiptideLogger.EnableLoggingFor(LogType.Error, LogRiptideError);
 
             var sceneWorld = SceneWorld.GetForScene(gameObject.scene);
-            _container = new ClientContainer(sceneWorld);
+            _container = new ClientContainer(sceneWorld, this);
 
             _container.RegisterAndInjectViewModels();
 

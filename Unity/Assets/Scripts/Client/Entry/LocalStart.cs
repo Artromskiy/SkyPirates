@@ -32,7 +32,7 @@ namespace SlyPirates.Local.Entry
             {
                 Delta.Diagnostics.Trace.Info("[LocalStart] Container creation");
                 var sceneWorld = SceneWorld.GetForScene(gameObject.scene);
-                _container = new LocalContainer(sceneWorld, _historyCapacity);
+                _container = new LocalContainer(sceneWorld, this, _historyCapacity);
                 Delta.Diagnostics.Trace.Info("[LocalStart] Container register and inject ViewModels");
                 _container.RegisterAndInjectViewModels();
                 _gameLoop = _container.GetInstance<LocalGameLoop>();

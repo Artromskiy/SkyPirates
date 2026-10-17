@@ -85,7 +85,7 @@ namespace SlyPirates.Shared.Services.CommandExecutors
                 return false;
             }
 
-            int price = info.RumPrice;
+            int price = info.Cost;
             if (price == 0)
             {
                 return true;

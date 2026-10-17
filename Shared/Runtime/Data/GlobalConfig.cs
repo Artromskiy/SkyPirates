@@ -7,6 +7,7 @@
         public TreesStatsConfig TreesStats = default!;
         public RocksStatsConfig RocksStats = default!;
         public GoodsStatsConfig GoodsStats = default!;
+        public GoodsInfoConfig GoodsInfos = default!;
         public UnitsInfoConfig UnitsInfos = default!;
 
         public FramedComponentDependenciesConfig FramedComponentDependencies = default!;

@@ -2,7 +2,9 @@
 using Delta.ECS.Unity;
 using SlyPirates.Shared.Core.Ids;
 using SlyPirates.Client.IFactories;
+using SlyPirates.Client;
 using System;
+using System.Threading;
 using UnityEngine;
 
 namespace SlyPirates.Client.Views.Components
@@ -12,6 +14,7 @@ namespace SlyPirates.Client.Views.Components
     {
         private EntityContext _context;
         private GameObject _visual;
+        private CancellationTokenSource _visualLoadCancellation;
 
         [SerializeField]
         private Transform _visualRoot;
@@ -39,12 +42,9 @@ namespace SlyPirates.Client.Views.Components
             }
         }
 
-        public void UpdateVisual()
+        public async void UpdateVisual()
         {
-            if (_visual != null)
-            {
-                DestroyImmediate(_visual);
-            }
+            ReleaseVisual();
 
             if (_context.IsAlive)
             {
@@ -57,13 +57,15 @@ namespace SlyPirates.Client.Views.Components
             }
 
             string path = IdPathFormatter.FormatVisualPath(_id);
-            var prefab = Resources.Load<GameObject>(path);
-            if (prefab == null)
+            CancellationTokenSource loadCancellation = _visualLoadCancellation = new();
+            GameObject visual = await AddressableLoader.Instantiate(path, _visualRoot, this, loadCancellation.Token);
+            if (_visualLoadCancellation != loadCancellation)
             {
+                AddressableLoader.ReleaseInstance(visual);
                 return;
             }
 
-            _visual = Instantiate(prefab, _visualRoot);
+            _visual = visual;
             _visual.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
             float scale = _randomizeScale ? UnityEngine.Random.Range(0.9f, 1.1f) : 1;
             _visual.transform.localScale = new float3(scale);
@@ -71,19 +73,15 @@ namespace SlyPirates.Client.Views.Components
 
         private T Id => _context.Get<T>();
 
-        private void Awake() => EditorChanges.SubscribeOnChanged(this, SetId);
+        protected virtual void OnDestroy() => ReleaseVisual();
 
-        protected virtual void OnDestroy()
-            => EditorChanges.UnsubscribeOnChanged(this, SetId);
-
-        private void SetId()
+        private void ReleaseVisual()
         {
-            if (_context.IsAlive)
-            {
-                _context.GetRef<T>() = _id;
-            }
-
-            UpdateVisual();
+            _visualLoadCancellation?.Cancel();
+            _visualLoadCancellation?.Dispose();
+            _visualLoadCancellation = null;
+            AddressableLoader.ReleaseInstance(_visual);
+            _visual = null;
         }
     }
 }

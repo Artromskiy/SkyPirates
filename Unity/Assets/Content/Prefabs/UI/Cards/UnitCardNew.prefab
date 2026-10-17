@@ -149,6 +149,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9120936028782312949}
   - component: {fileID: 4343976347236251902}
+  - component: {fileID: 8832373550312869291}
   m_Layer: 5
   m_Name: UnitCardNew
   m_TagString: Untagged
@@ -195,10 +196,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7013366e57879044a9eb07830653eec1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: SlyPirates.Client::SlyPirates.Client.Views.UnitCardView
-  _button: {fileID: 0}
-  _icon: {fileID: 0}
+  _button: {fileID: 8832373550312869291}
+  _icon: {fileID: 1863034178988323436}
   _price: {fileID: 6229814269276046201}
-  _unitsDatabase: {fileID: 11400000, guid: 46c8ea29fac95a94bb246480335e1194, type: 2}
+  _selection: {fileID: 2198786416950293500}
+  _levelRoot: {fileID: 5530006107785518164}
+  _level: {fileID: 580740465689690988}
+  _name: {fileID: 5277497375934537493}
+--- !u!114 &8832373550312869291
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 621286268925756133}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ef6ec0b089049e9b1a3db65280aec26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Common.UI.EventButton::Common.UI.TintButton
+  <IsInteractable>k__BackingField: 1
+  _targetGraphic: {fileID: 2271449278249447238}
+  _normalColor: {r: 1, g: 1, b: 1, a: 1}
+  _pressedColor: {r: 1, g: 1, b: 1, a: 1}
+  _disabledColor: {r: 1, g: 1, b: 1, a: 1}
+  _disabledSprite: {fileID: 0}
 --- !u!1 &828183083422644806
 GameObject:
   m_ObjectHideFlags: 0
@@ -876,7 +898,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Common.UI::Common.UI.RoundRect
   m_Material: {fileID: 0}
   m_Color: {r: 0.43529412, g: 0.64705884, b: 0.89411765, a: 1}
-  m_RaycastTarget: 0
+  m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 0
   m_OnCullStateChanged:

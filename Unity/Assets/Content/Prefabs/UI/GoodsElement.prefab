@@ -230,7 +230,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: SlyPirates.Client::SlyPirates.Client.Views.UI.GoodsElement
   _icon: {fileID: 7745053138387125128}
   _count: {fileID: 6557898619905636787}
-  _goodsDatabase: {fileID: 11400000, guid: a42a328636906024397d9dce1d47042d, type: 2}
 --- !u!1 &8811289319731672076
 GameObject:
   m_ObjectHideFlags: 0

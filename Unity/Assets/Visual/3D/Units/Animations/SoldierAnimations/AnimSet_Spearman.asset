@@ -11,8 +11,8 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c6e4a9f252804c7da3fcc03c72414b04, type: 3}
   m_Name: AnimSet_Spearman
+  m_EditorClassIdentifier: 
   _structureProfile: {fileID: 11400000, guid: 61454887a8014f41aac3ee0a48fe5fbd, type: 2}
-  m_EditorClassIdentifier:
   _clips:
   - _clipHolder: Locomotion.Idle
     _clip: {fileID: 5744860080324372611, guid: 33eda0c25506d0a4c9761ff84393fbd2, type: 3}
@@ -22,16 +22,16 @@ MonoBehaviour:
     _defaultSpeed: 1
   - _clipHolder: Locomotion.Forward
     _clip: {fileID: 4767302288349894561, guid: 2eef80ec468f3f845864d39c38bdff2f, type: 3}
-    _defaultSpeed: 2
+    _defaultSpeed: 1.5
   - _clipHolder: Locomotion.Backward
     _clip: {fileID: 913539146266320756, guid: b711bf2e1ee2dc14282a93ea37f92a5e, type: 3}
-    _defaultSpeed: 2
+    _defaultSpeed: 1.5
   - _clipHolder: Locomotion.Right
     _clip: {fileID: 9082984439732464152, guid: b302cdf7eb979244ca7fd5882123897b, type: 3}
-    _defaultSpeed: 2
+    _defaultSpeed: 1.5
   - _clipHolder: Locomotion.Left
     _clip: {fileID: -5226729470618701869, guid: a6d9e55cd1fb43f449fbe5d02b700195, type: 3}
-    _defaultSpeed: 2
+    _defaultSpeed: 1.5
   - _clipHolder: Behaviour.PreAttack
     _clip: {fileID: 7412226553804243026, guid: fc7464ea5bbb0c54c9f9e2c79e8f537b, type: 3}
     _defaultSpeed: 1

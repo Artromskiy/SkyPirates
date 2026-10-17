@@ -1,0 +1,47 @@
+[
+  {
+    "GoodsId": "Gold",
+    "PrefabAddressable": "goods",
+    "IconAddressable": "goods/gold/icon"
+  },
+  {
+    "GoodsId": "Coffee",
+    "PrefabAddressable": "goods",
+    "IconAddressable": "goods/coffee/icon"
+  },
+  {
+    "GoodsId": "Rope",
+    "PrefabAddressable": "goods",
+    "IconAddressable": "goods/rope/icon"
+  },
+  {
+    "GoodsId": "Sail",
+    "PrefabAddressable": "goods",
+    "IconAddressable": "goods/sail/icon"
+  },
+  {
+    "GoodsId": "Spice",
+    "PrefabAddressable": "goods",
+    "IconAddressable": "goods/spice/icon"
+  },
+  {
+    "GoodsId": "Sugar",
+    "PrefabAddressable": "goods",
+    "IconAddressable": "goods/sugar/icon"
+  },
+  {
+    "GoodsId": "Tea",
+    "PrefabAddressable": "goods",
+    "IconAddressable": "goods/tea/icon"
+  },
+  {
+    "GoodsId": "Rum",
+    "PrefabAddressable": "goods",
+    "IconAddressable": "goods/rum/icon"
+  },
+  {
+    "GoodsId": "Wood",
+    "PrefabAddressable": "goods",
+    "IconAddressable": "goods/wood/icon"
+  }
+]

@@ -1,9 +1,11 @@
+using System.Threading;
 using Delta;
 using Delta.ECS.Unity;
 using SlyPirates.Client.IFactories;
 using SlyPirates.Shared.Core;
 using SlyPirates.Shared.Components.Config;
 using SlyPirates.Shared.Ids;
+using SlyPirates.Client;
 using UnityEngine;
 
 namespace SlyPirates.Client.Views.Components
@@ -19,6 +21,7 @@ namespace SlyPirates.Client.Views.Components
         private GameObject _visual;
         private TileId _tileId;
         private MaterialPropertyBlock _propertyBlock;
+        private CancellationTokenSource _visualLoadCancellation;
 
         private void OnEnable()
         {
@@ -58,17 +61,14 @@ namespace SlyPirates.Client.Views.Components
             ApplyColor(color);
         }
 
-        private void SetVisual(TileId tileId)
+        private async void SetVisual(TileId tileId)
         {
             if (_visual != null && _tileId.Equals(tileId))
             {
                 return;
             }
 
-            if (_visual != null)
-            {
-                Destroy(_visual);
-            }
+            ReleaseVisual();
 
             _tileId = tileId;
             if (tileId.IsNone)
@@ -76,14 +76,18 @@ namespace SlyPirates.Client.Views.Components
                 return;
             }
 
-            GameObject prefab = Resources.Load<GameObject>(IdPathFormatter.FormatVisualPath(tileId));
-            if (prefab == null)
+            string address = IdPathFormatter.FormatVisualPath(tileId);
+            CancellationTokenSource loadCancellation = _visualLoadCancellation = new();
+            GameObject visual = await AddressableLoader.Instantiate(address, transform, this, loadCancellation.Token);
+            if (_visualLoadCancellation != loadCancellation)
             {
+                AddressableLoader.ReleaseInstance(visual);
                 return;
             }
 
-            _visual = Instantiate(prefab, transform);
+            _visual = visual;
             _visual.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+            ApplyColor(_colorOverride);
         }
 
         private void ApplyColor(Color color)
@@ -93,10 +97,7 @@ namespace SlyPirates.Client.Views.Components
                 return;
             }
 
-            if (_propertyBlock == null)
-            {
-                _propertyBlock = new MaterialPropertyBlock();
-            }
+            _propertyBlock ??= new MaterialPropertyBlock();
 
             foreach (Renderer target in _visual.GetComponentsInChildren<Renderer>(true))
             {
@@ -107,12 +108,15 @@ namespace SlyPirates.Client.Views.Components
             }
         }
 
-        private void OnDestroy()
+        private void OnDestroy() => ReleaseVisual();
+
+        private void ReleaseVisual()
         {
-            if (_visual != null)
-            {
-                Destroy(_visual);
-            }
+            _visualLoadCancellation?.Cancel();
+            _visualLoadCancellation?.Dispose();
+            _visualLoadCancellation = null;
+            AddressableLoader.ReleaseInstance(_visual);
+            _visual = null;
         }
     }
 }

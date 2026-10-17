@@ -16,17 +16,17 @@ using Delta.ECS.Unity;
 using UnityEngine;
 using SimpleInjector;
 using System;
+using SlyPirates.Client;
 
 namespace SlyPirates.Client.DI
 {
     public class LocalContainer : SharedContainer
     {
-        public LocalContainer(SceneWorld sceneWorld, int historyCapacity = Constants.MaxHistoryTicks)
+        public LocalContainer(SceneWorld sceneWorld, UnityEngine.Object owner, int historyCapacity = Constants.MaxHistoryTicks)
             : base(Delta.Netcode.SessionMode.Local, true, sceneWorld.World, historyCapacity)
         {
             RegisterInstance(sceneWorld);
-            RegisterSingleton(() => Resources.Load<ViewPrefabCatalog>("ViewPrefabCatalog"));
-            RegisterSingleton(() => new ViewBindingSystem(sceneWorld, GetInstance<ViewPrefabCatalog>()));
+            RegisterSingleton(() => new AddressableViewBindingSystem(sceneWorld, owner));
             Delta.Diagnostics.Trace.Info("[DI] LocalContainer creation start");
             RegisterSingleton<IClientService, FakeClient>();
             RegisterSingleton<IPlayer, Player>();

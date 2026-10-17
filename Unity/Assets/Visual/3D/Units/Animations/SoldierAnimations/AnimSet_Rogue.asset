@@ -1,4 +1,3 @@
-%UNITY 7.0
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
 --- !u!114 &11400000
@@ -17,22 +16,22 @@ MonoBehaviour:
   _clips:
   - _clipHolder: Locomotion.Idle
     _clip: {fileID: -2790407512282707893, guid: fb33a128e16a20a4fb86e3c35c9f5b08, type: 3}
-    _defaultSpeed: 1.5
+    _defaultSpeed: 1
   - _clipHolder: Locomotion.Stand
     _clip: {fileID: -2790407512282707893, guid: fb33a128e16a20a4fb86e3c35c9f5b08, type: 3}
-    _defaultSpeed: 1.5
+    _defaultSpeed: 1
   - _clipHolder: Locomotion.Forward
     _clip: {fileID: 9193380280714709177, guid: 1bb32c4f1b3ba9e4e89e1b5312306439, type: 3}
-    _defaultSpeed: 2
+    _defaultSpeed: 1.5
   - _clipHolder: Locomotion.Backward
     _clip: {fileID: 913539146266320756, guid: b711bf2e1ee2dc14282a93ea37f92a5e, type: 3}
-    _defaultSpeed: 2
+    _defaultSpeed: 1.5
   - _clipHolder: Locomotion.Right
     _clip: {fileID: 9082984439732464152, guid: b302cdf7eb979244ca7fd5882123897b, type: 3}
-    _defaultSpeed: 2
+    _defaultSpeed: 1.5
   - _clipHolder: Locomotion.Left
     _clip: {fileID: -5226729470618701869, guid: a6d9e55cd1fb43f449fbe5d02b700195, type: 3}
-    _defaultSpeed: 2
+    _defaultSpeed: 1.5
   - _clipHolder: Behaviour.PreAttack
     _clip: {fileID: 6501565960005992761, guid: 6082feaefbf281248a933be4bd3cd3e2, type: 3}
     _defaultSpeed: 1

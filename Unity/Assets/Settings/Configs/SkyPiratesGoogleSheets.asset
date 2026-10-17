@@ -58,3 +58,7 @@ MonoBehaviour:
     Url: https://docs.google.com/spreadsheets/d/1Ovc14Sui7WKz4-JLyYwa629HNSdWGwXNS2y4FphMKEA/edit?gid=1805816128#gid=1805816128
     HeaderRows: 1
     Separator: 0
+  - Name: GoodsInfos
+    Url: https://docs.google.com/spreadsheets/d/1Ovc14Sui7WKz4-JLyYwa629HNSdWGwXNS2y4FphMKEA/edit?gid=1679167380#gid=1679167380
+    HeaderRows: 1
+    Separator: 0

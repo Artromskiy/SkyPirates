@@ -26,7 +26,7 @@ namespace SlyPirates.Client.Views
             {
                 int index = i;
                 UnitId unitId = cards[index];
-                cardViews[index].Init(unitId, ViewModel.UnitsConfig[unitId].RumPrice);
+                cardViews[index].Init(unitId, ViewModel.UnitsConfig[unitId], false, false, 1, true);
                 cardViews[index].OnClick += () => ViewModel.UseCard(index);
             }
         }

@@ -1,10 +1,10 @@
+using Common.UI;
 using SlyPirates.Client.Views;
 using SlyPirates.Shared.Data;
 using SlyPirates.Shared.Ids;
 using System;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace SlyPirates.Meta
 {
@@ -21,7 +21,7 @@ namespace SlyPirates.Meta
         [SerializeField]
         private TMP_Text _hint;
         [SerializeField]
-        private Button _doneButton;
+        private EventButton _doneButton;
         [SerializeField]
         private UnitCardView _cardPrefab;
 
@@ -32,17 +32,23 @@ namespace SlyPirates.Meta
             _instance = this;
             TouchCardsView[] embeddedGameplayCards = GetComponentsInChildren<TouchCardsView>(true);
             for (int index = 0; index < embeddedGameplayCards.Length; index++)
+            {
                 embeddedGameplayCards[index].gameObject.SetActive(false);
+            }
 
             _screenCanvas.enabled = false;
             if (_doneButton != null)
-                _doneButton.onClick.AddListener(OnDoneClicked);
+            {
+                _doneButton.OnClick += OnDoneClicked;
+            }
         }
 
         private void OnDestroy()
         {
             if (_instance == this)
+            {
                 _instance = null;
+            }
         }
 
         public static void Open()
@@ -66,7 +72,7 @@ namespace SlyPirates.Meta
             UnitId[] collection = ClientSetupData.CollectionCards;
             _teamCount.text = $"{team.Length}/{UnitDeck.Capacity}";
             _hint.text = team.Length == UnitDeck.Capacity ? string.Empty : "Добавьте карты из коллекции, чтобы продолжить.";
-            _doneButton.interactable = ClientSetupData.HasFullTeam;
+            _doneButton.IsInteractable = ClientSetupData.HasFullTeam;
 
             for (int index = 0; index < team.Length; index++)
             {
@@ -99,13 +105,17 @@ namespace SlyPirates.Meta
         private void OnDoneClicked()
         {
             if (ClientSetupData.HasFullTeam)
+            {
                 _screenCanvas.enabled = false;
+            }
         }
 
         private static void Clear(Transform parent)
         {
             for (int index = parent.childCount - 1; index >= 0; index--)
+            {
                 Destroy(parent.GetChild(index).gameObject);
+            }
         }
     }
 }
