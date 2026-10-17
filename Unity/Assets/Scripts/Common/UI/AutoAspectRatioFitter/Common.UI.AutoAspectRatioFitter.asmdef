@@ -1,0 +1,16 @@
+{
+    "name": "Common.UI.AutoAspectRatioFitter",
+    "rootNamespace": "Common.UI",
+    "references": [
+        "UnityEngine.UI"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -18,6 +18,9 @@ namespace Common.UI.Internals.Editor
 		private SerializedProperty _sprite = null!;
 		private SerializedProperty _spriteFitMode = null!;
 		private SerializedProperty _grayscale = null!;
+		private SerializedProperty _useGradientFill = null!;
+		private SerializedProperty _fillGradient = null!;
+		private SerializedProperty _fillGradientAngle = null!;
 		private SerializedProperty _color = null!;
 		private SerializedProperty _raycastTarget = null!;
 		private SerializedProperty _maskable = null!;
@@ -47,6 +50,9 @@ namespace Common.UI.Internals.Editor
 			_sprite = Find("_sprite");
 			_spriteFitMode = Find("_spriteFitMode");
 			_grayscale = Find("_grayscale");
+			_useGradientFill = Find("_useGradientFill");
+			_fillGradient = Find("_fillGradient");
+			_fillGradientAngle = Find("_fillGradientAngle");
 			_color = Find("m_Color");
 			_raycastTarget = Find("m_RaycastTarget");
 			_maskable = Find("m_Maskable");
@@ -96,7 +102,24 @@ namespace Common.UI.Internals.Editor
 				EditorGUILayout.PropertyField(_grayscale, new GUIContent("Grayscale", _grayscale.tooltip));
 			}
 
-			EditorGUILayout.PropertyField(_color, new GUIContent(_sprite.objectReferenceValue == null ? "Fill Color" : "Sprite Tint"));
+			if (_sprite.objectReferenceValue == null)
+			{
+				EditorGUILayout.PropertyField(_useGradientFill, new GUIContent("Gradient Fill"));
+				if (_useGradientFill.boolValue)
+				{
+					EditorGUILayout.PropertyField(_fillGradient, new GUIContent("Gradient"));
+					EditorGUILayout.PropertyField(_fillGradientAngle, new GUIContent("Angle"));
+					EditorGUILayout.PropertyField(_color, new GUIContent("Tint"));
+				}
+				else
+				{
+					EditorGUILayout.PropertyField(_color, new GUIContent("Fill Color"));
+				}
+			}
+			else
+			{
+				EditorGUILayout.PropertyField(_color, new GUIContent("Sprite Tint"));
+			}
 			EditorGUILayout.PropertyField(_raycastTarget, new GUIContent("Raycast Target"));
 			EditorGUILayout.PropertyField(_maskable, new GUIContent("Maskable"));
 

@@ -13,9 +13,10 @@ TrueTypeFontImporter:
   fallbackFontReferences: []
   customCharacters: 
   fontRenderingMode: 0
-  ascentCalculationMode: 1
+  ascentCalculationMode: 2
   useLegacyBoundsCalculation: 0
   shouldRoundAdvanceValue: 1
+  subsetRecipes: []
   userData: 
   assetBundleName: 
   assetBundleVariant: 

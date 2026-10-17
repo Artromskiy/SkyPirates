@@ -31,6 +31,9 @@ namespace Common.UI
 		private RoundRectSpriteFitMode _spriteFitMode;
 		[SerializeField, Tooltip("Render the sprite in grayscale while preserving its alpha and the rectangle's border and effects.")]
 		private bool _grayscale;
+		[SerializeField] private bool _useGradientFill;
+		[SerializeField] private Gradient _fillGradient = new();
+		[SerializeField, Range(0f, 360f)] private float _fillGradientAngle;
 		[SerializeField] private RoundRectBorderWidths _borderWidths;
 		[SerializeField] private bool _useIndividualBorderWidths;
 		[SerializeField] private Color _borderColor = Color.black;
@@ -51,6 +54,9 @@ namespace Common.UI
 		public Sprite Sprite { get => _sprite; set => SetAll(ref _sprite, value); }
 		public RoundRectSpriteFitMode SpriteFitMode { get => _spriteFitMode; set => SetVertices(ref _spriteFitMode, value); }
 		public bool Grayscale { get => _grayscale; set => SetVertices(ref _grayscale, value); }
+		public bool UseGradientFill { get => _useGradientFill; set => SetVertices(ref _useGradientFill, value); }
+		public Gradient FillGradient { get => _fillGradient; set => SetVertices(ref _fillGradient, value); }
+		public float FillGradientAngle { get => _fillGradientAngle; set => SetVertices(ref _fillGradientAngle, value); }
 		public RoundRectBorderWidths BorderWidths { get => _borderWidths; set => SetVertices(ref _borderWidths, value); }
 		public Color BorderColor { get => _borderColor; set => SetVertices(ref _borderColor, value); }
 		public Color ShadowColor { get => _shadowColor; set => SetVertices(ref _shadowColor, value); }
@@ -234,12 +240,24 @@ namespace Common.UI
 		private void AddSolidQuad(VertexHelper vh, Rect rect, Vector4 radii, Vector4 borderWidths, Color fillColor, Vector3 borderColor, float borderOpacity)
 		{
 			var effects = new Vector4(0f, 0f, borderOpacity, 0f);
+			var useGradient = _useGradientFill && _fillGradient != null;
+			var angle = _fillGradientAngle * Mathf.Deg2Rad;
+			var direction = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
+			var halfProjection = (Mathf.Abs(direction.x) * rect.width + Mathf.Abs(direction.y) * rect.height) * 0.5f;
 			var start = vh.currentVertCount;
 
 			for (var i = 0; i < 4; i++)
 			{
 				var position = Corner(rect, i);
-				vh.AddVert(new Vector3(position.x, position.y), fillColor, Shape(position, rect), radii, Vector4.zero, effects, borderColor, borderWidths);
+				var vertexColor = fillColor;
+				if (useGradient)
+				{
+					var projection = Vector2.Dot(position - rect.center, direction);
+					var gradientPosition = halfProjection > 0f ? (projection + halfProjection) / (halfProjection * 2f) : 0f;
+					vertexColor = ShaderVertexColor(_fillGradient.Evaluate(gradientPosition) * color);
+				}
+
+				vh.AddVert(new Vector3(position.x, position.y), vertexColor, Shape(position, rect), radii, Vector4.zero, effects, borderColor, borderWidths);
 			}
 
 			AddQuadTriangles(vh, start);
