@@ -1,6 +1,7 @@
 using Delta.Netcode;
 using System;
 using SlyPirates.Shared.Ecs;
+using SlyPirates.Shared.Components.Runtime;
 using SlyPirates.Shared.Data;
 using SlyPirates.Shared.Commands;
 using SlyPirates.Shared.IServices;
@@ -63,8 +64,40 @@ namespace SlyPirates.Shared.Services.Netcode
 
         public SessionHost Create(SessionMode mode, AuthorId authorId, ISessionTransport transport, long startStep = 0)
         {
-            var start = new SessionStart(new SessionId(1), authorId, new ProtocolId(1), startStep, 0xA0761D6478BD642FUL);
+            bool authoritative = mode == SessionMode.Local || mode == SessionMode.Server;
+            ulong seed = authoritative
+                ? BitConverter.ToUInt64(Guid.NewGuid().ToByteArray(), 0)
+                : 0xA0761D6478BD642FUL;
+
+            if (authoritative)
+            {
+                RandomizeInitialSeeds(seed);
+            }
+
+            var start = new SessionStart(new SessionId(1), authorId, new ProtocolId(1), startStep, seed);
             return Create(start, mode, transport);
+        }
+
+        private void RandomizeInitialSeeds(ulong seed)
+        {
+            int tick = _history.NewestTick;
+            WorldData snapshot = _history.GetSnapshot(tick);
+            Dictionary<int, RandomSeed> randomSeeds = snapshot.Get<RandomSeed>();
+            if (randomSeeds.Count == 0)
+            {
+                return;
+            }
+
+            int[] entityIds = randomSeeds.Keys.ToArray();
+            Array.Sort(entityIds);
+            int randomState = unchecked((int)(seed ^ (seed >> 32)));
+            var random = new Random(randomState);
+            foreach (int entityId in entityIds)
+            {
+                randomSeeds[entityId] = random.Next(1, int.MaxValue);
+            }
+
+            ApplySnapshot(snapshot, tick);
         }
 
         public SessionHost Create(SessionStart start, SessionMode mode, ISessionTransport transport)

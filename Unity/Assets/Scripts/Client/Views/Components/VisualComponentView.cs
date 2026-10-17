@@ -5,7 +5,10 @@ using SlyPirates.Client.IFactories;
 using SlyPirates.Client;
 using System;
 using System.Threading;
+using Delta.Diagnostics;
+using SlyPirates.Shared.Services.Netcode;
 using UnityEngine;
+using Debug = Delta.Diagnostics.Debug;
 
 namespace SlyPirates.Client.Views.Components
 {
@@ -73,6 +76,7 @@ namespace SlyPirates.Client.Views.Components
 
             string path = IdPathFormatter.FormatVisualPath(_id);
             CancellationTokenSource loadCancellation = _visualLoadCancellation = new();
+            Trace.Assert(_visualRoot != null, context:this);
             GameObject visual = await AddressableLoader.Instantiate(path, _visualRoot, this, loadCancellation.Token);
             if (_visualLoadCancellation != loadCancellation)
             {
