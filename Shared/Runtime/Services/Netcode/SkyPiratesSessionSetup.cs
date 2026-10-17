@@ -49,7 +49,10 @@ namespace SlyPirates.Shared.Services.Netcode
         public WorldData GetSnapshot(int tick) => _history.GetSnapshot(tick);
         public void ApplySnapshot(WorldData snapshot, int tick)
         {
-            if (Model != null) Model.ApplySnapshot(snapshot, tick);
+            if (Model != null)
+            {
+                Model.ApplySnapshot(snapshot, tick);
+            }
             else
             {
                 _history.ApplySnapshot(snapshot, tick);

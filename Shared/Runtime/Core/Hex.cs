@@ -70,10 +70,14 @@ namespace SlyPirates.Shared.Core
 			fix dy = Maths.Abs(ry - y);
 
 			if (dx > dy && dx > dz)
-				rx = -ry - rz;
-			else if (dy <= dz)
-				rz = -rx - ry;
-			//else
+            {
+                rx = -ry - rz;
+            }
+            else if (dy <= dz)
+            {
+                rz = -rx - ry;
+            }
+            //else
 			//    ry = -rx - rz;
 
 			return new int2(rx, rz);

@@ -55,7 +55,9 @@ namespace SlyPirates.Shared.Systems
                     && _world.Has<RecivedDamage>(targetEntity)
                     && fix3.SqrDistance(targetPosition, impact.Position) <= HitRadius * HitRadius;
                 if (hit)
+                {
                     _world.GetOrAdd<RecivedDamage>(targetEntity) += (fix)impact.Damage;
+                }
 
                 if (hit || impact.ReachedDestination)
                 {

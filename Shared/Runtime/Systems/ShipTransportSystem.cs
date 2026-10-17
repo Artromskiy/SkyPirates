@@ -8,6 +8,7 @@ using SlyPirates.Shared.Data;
 using SlyPirates.Shared.IServices.TickableExecutors;
 using SlyPirates.Shared.Ids;
 using System.Collections.Generic;
+using SlyPirates.Shared.Ecs;
 
 namespace SlyPirates.Shared.Systems
 {
@@ -56,7 +57,10 @@ namespace SlyPirates.Shared.Systems
             _transitions.Clear();
 
             if (!_mapEntity.IsValid)
+            {
                 _mapEntity = _world.WhereAll<HexMap>().First().Invoke();
+            }
+
             HexMap map = _mapEntity.IsValid ? _world.Get<HexMap>(_mapEntity) : default;
             EntityIdMap entityIdMap = _world.GetEntityIdMap();
 
@@ -71,7 +75,9 @@ namespace SlyPirates.Shared.Systems
                 {
                     Entity squad = state.EntityIdMap.GetEntity(ship.SquadId);
                     if (!state.World.Has<Alive>(squad) || state.World.Has<PendingDestroy>(squad))
+                    {
                         return;
+                    }
 
                     bool hasOnShip = state.World.Has<OnShip>(squad);
                     if (hasOnShip && state.World.Get<OnShip>(squad).ShipId.Value != shipId.Value)
@@ -110,10 +116,12 @@ namespace SlyPirates.Shared.Systems
                     }
 
                     if (++ship.BoardingTicks < BoardingTicks)
+                    {
                         return;
+                    }
 
                     ship.WasInsideDisembarkRange = state.Map.Data != null
-                        && TryFindLanding(state.Map, shipPosition.Value, ship.DisembarkDistance, out _);
+                                                   && TryFindLanding(state.Map, shipPosition.Value, ship.DisembarkDistance, out _);
                     ship.BoardingTicks = 0;
                     ship.TransitionReadyTick = state.Tick + TransitionCooldownTicks;
                     state.Transitions.Add(new Transition((Entity)shipRef, squad, ship.SquadId, shipId,
@@ -124,9 +132,13 @@ namespace SlyPirates.Shared.Systems
             {
                 Transition transition = _transitions[i];
                 if (transition.Kind == TransitionKind.Board)
+                {
                     Board(transition);
+                }
                 else
+                {
                     Disembark(transition);
+                }
             }
         }
 
@@ -136,7 +148,9 @@ namespace SlyPirates.Shared.Systems
             BoardEntity(transition.Squad, transition.SquadId, transition.ShipId);
 
             for (int i = 0; i < _members.Count; i++)
+            {
                 BoardEntity(_members[i], transition.SquadId, transition.ShipId);
+            }
         }
 
         private void Disembark(in Transition transition)
@@ -171,7 +185,9 @@ namespace SlyPirates.Shared.Systems
                     _world.GetRef<DesiredPosition>(member) = new DesiredPosition { Value = position };
                     _world.GetRef<DesiredRotation>(member) = new DesiredRotation { Value = squadRotation.Value };
                     if (_world.Has<Direction>(member))
+                    {
                         _world.GetRef<Direction>(member).Value = fix2.zero;
+                    }
                 }
             }
 
@@ -189,7 +205,9 @@ namespace SlyPirates.Shared.Systems
                 static (ref (SyncId SquadId, List<Entity> Members) state, EntityRef entity, in SquadMember member) =>
                 {
                     if (member.SquadId.Value == state.SquadId.Value)
+                    {
                         state.Members.Add(entity);
+                    }
                 }).Invoke(ref state);
         }
 
@@ -203,7 +221,9 @@ namespace SlyPirates.Shared.Systems
                     in OnShip onShip, in SyncId syncId) =>
                 {
                     if (onShip.SquadId.Value == state.SquadId.Value && syncId.Value != state.SquadId.Value)
+                    {
                         state.Members.Add(entity);
+                    }
                 }).Invoke(ref state);
         }
 
@@ -212,7 +232,9 @@ namespace SlyPirates.Shared.Systems
             ComponentDataSet components = ComponentDataSet.Capture(_world, entity, _retainedComponents);
             ComponentId[] componentIds = components.GetComponentIds(_world);
             if (componentIds.Length != 0)
+            {
                 _world.Remove(entity, componentIds);
+            }
 
             _world.Add(entity, new OnShip
             {
@@ -234,16 +256,22 @@ namespace SlyPirates.Shared.Systems
             {
                 int3 coordinate = tile.Key;
                 if (!HexMapCollisionSystem.IsWalkable(map, coordinate))
+                {
                     continue;
+                }
 
                 fix3 tilePosition = Hex.AxialToWorld(coordinate);
                 fix distanceSquared = fix2.SqrDistance(shipPosition.xz, tilePosition.xz);
                 if (distanceSquared > maxDistanceSquared)
+                {
                     continue;
+                }
 
                 if (found && (distanceSquared > nearestDistanceSquared
-                    || (distanceSquared == nearestDistanceSquared && Compare(coordinate, nearestCoordinate) >= 0)))
+                              || (distanceSquared == nearestDistanceSquared && Compare(coordinate, nearestCoordinate) >= 0)))
+                {
                     continue;
+                }
 
                 found = true;
                 nearestDistanceSquared = distanceSquared;
@@ -257,7 +285,11 @@ namespace SlyPirates.Shared.Systems
         private static int Compare(int3 left, int3 right)
         {
             int x = left.x.CompareTo(right.x);
-            if (x != 0) return x;
+            if (x != 0)
+            {
+                return x;
+            }
+
             int y = left.y.CompareTo(right.y);
             return y != 0 ? y : left.z.CompareTo(right.z);
         }

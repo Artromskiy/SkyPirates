@@ -37,16 +37,22 @@ namespace SlyPirates.Client.Views.Components.Animators
             var localVelocity = cachedTransform.InverseTransformVector(worldVelocity) / _maxSpeed;
 
             if (_anim != null && _anim.IsReady)
+            {
                 _anim.Blend2D(LocomotionBlendGroup, new Vector2(localVelocity.x, localVelocity.z), 0f);
+            }
         }
 
         private void CacheComponents()
         {
             if (_cachedTransform == null)
+            {
                 _cachedTransform = transform;
+            }
 
             if (_anim == null)
+            {
                 _anim = GetComponentInChildren<AnimView>();
+            }
         }
 
     }

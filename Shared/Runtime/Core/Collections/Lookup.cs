@@ -16,9 +16,11 @@ namespace SlyPirates.Shared.Core.Collections
 		public Lookup(int initialCapacity = 16)
 		{
 			if (initialCapacity <= 0)
-				throw new ArgumentOutOfRangeException(nameof(initialCapacity));
+            {
+                throw new ArgumentOutOfRangeException(nameof(initialCapacity));
+            }
 
-			_items = new T[initialCapacity];
+            _items = new T[initialCapacity];
 			_has = new bool[initialCapacity];
 			_offset = initialCapacity >> 1;
 		}
@@ -68,9 +70,11 @@ namespace SlyPirates.Shared.Core.Collections
 		public bool Remove(int id)
 		{
 			if (!TryToIndex(id, out int index) || !_has[index])
-				return false;
+            {
+                return false;
+            }
 
-			_has[index] = false;
+            _has[index] = false;
 			_items[index] = default!;
 			return true;
 		}
@@ -80,8 +84,10 @@ namespace SlyPirates.Shared.Core.Collections
 		{
 			Array.Clear(_has, 0, _has.Length);
 			if (RuntimeHelpers.IsReferenceOrContainsReferences<T>())
-				Array.Clear(_items, 0, _items.Length);
-		}
+            {
+                Array.Clear(_items, 0, _items.Length);
+            }
+        }
 
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -89,9 +95,11 @@ namespace SlyPirates.Shared.Core.Collections
 		{
 			int index = ToIndex(id);
 			if (!_has[index])
-				throw new KeyNotFoundException($"Key '{id}' not found");
+            {
+                throw new KeyNotFoundException($"Key '{id}' not found");
+            }
 
-			return _items[index];
+            return _items[index];
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -115,9 +123,11 @@ namespace SlyPirates.Shared.Core.Collections
 		{
 			int index = id + _offset;
 			if ((uint)index < (uint)_items.Length)
-				return;
+            {
+                return;
+            }
 
-			int newSize = _items.Length;
+            int newSize = _items.Length;
 			int newOffset = _offset;
 
 			int minIndex = Math.Min(index, 0);

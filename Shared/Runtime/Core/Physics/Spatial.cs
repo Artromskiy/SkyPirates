@@ -8,9 +8,11 @@ namespace SlyPirates.Shared.Core.Physics
 		public static bool Intersects(Segment segment, fix2 from, fix2 to, ref fix bestSqrDist, ref Collision collision)
 		{
 			if (!Intersects(segment.Start, segment.End, from, to, out var currentCollision))
-				return false;
+            {
+                return false;
+            }
 
-			var sqrDist = fix2.SqrDistance(from, currentCollision.Contact);
+            var sqrDist = fix2.SqrDistance(from, currentCollision.Contact);
 			CombineCollision(sqrDist, currentCollision, ref bestSqrDist, ref collision);
 			return true;
 		}
@@ -19,9 +21,11 @@ namespace SlyPirates.Shared.Core.Physics
 		public static bool Intersects(fix2 position, fix radius, fix2 from, fix2 to, ref fix bestSqrDist, ref Collision collision)
 		{
 			if (!Intersects(position, radius, from, to, out var currentCollision))
-				return false;
+            {
+                return false;
+            }
 
-			var sqrDist = fix2.SqrDistance(from, currentCollision.Contact);
+            var sqrDist = fix2.SqrDistance(from, currentCollision.Contact);
 			CombineCollision(sqrDist, currentCollision, ref bestSqrDist, ref collision);
 			return true;
 		}
@@ -30,9 +34,11 @@ namespace SlyPirates.Shared.Core.Physics
 		public static void CombineCollision(fix sqrDist, Collision currentCollision, ref fix bestSqrDist, ref Collision collision)
 		{
 			if (sqrDist > bestSqrDist)
-				return;
+            {
+                return;
+            }
 
-			if (sqrDist == bestSqrDist)
+            if (sqrDist == bestSqrDist)
 			{
 				collision.Normal = (collision.Normal + currentCollision.Normal) / 2;
 				collision.Contact = (collision.Contact + currentCollision.Contact) / 2;
@@ -51,9 +57,11 @@ namespace SlyPirates.Shared.Core.Physics
 			var sqrRadius = radius * radius;
 			var proj = Projection(position, from, to);
 			if (fix2.SqrDistance(proj, position) > sqrRadius)
-				return false;
+            {
+                return false;
+            }
 
-			var d = to - from;
+            var d = to - from;
 			var f = from - position;
 			var a = fix2.Dot(d, d);
 			var b = fix2.Dot(f, d);
@@ -62,9 +70,11 @@ namespace SlyPirates.Shared.Core.Physics
 
 			fix discriminant = (b * b - a * c);
 			if (discriminant < 0)
-				return false;
+            {
+                return false;
+            }
 
-			discriminant = Maths.Sqrt(discriminant);
+            discriminant = Maths.Sqrt(discriminant);
 			var t1 = (-b - discriminant) / (a);
 			var t2 = (-b + discriminant) / (a);
 			if (t1 >= 0 && t1 <= 1)
@@ -107,13 +117,17 @@ namespace SlyPirates.Shared.Core.Physics
 
 			var normal = new fix2(-ab.y, ab.x);
 			if (fix2.Dot(normal, from - a) < fix.Zero)
-				normal = -normal;
+            {
+                normal = -normal;
+            }
 
-			var sqrLength = fix2.SqrLength(normal);
+            var sqrLength = fix2.SqrLength(normal);
 			if (sqrLength <= fix.Zero)
-				return false;
+            {
+                return false;
+            }
 
-			collision.Normal = normal * Maths.InverseSqrt(sqrLength);
+            collision.Normal = normal * Maths.InverseSqrt(sqrLength);
 
 			if (d1 == fix.Zero && OnSegment(from, to, a))
 			{
@@ -140,19 +154,25 @@ namespace SlyPirates.Shared.Core.Physics
 			}
 
 			if ((d1 > fix.Zero && d2 > fix.Zero) || (d1 < fix.Zero && d2 < fix.Zero))
-				return false;
+            {
+                return false;
+            }
 
-			if ((d3 > fix.Zero && d4 > fix.Zero) || (d3 < fix.Zero && d4 < fix.Zero))
-				return false;
+            if ((d3 > fix.Zero && d4 > fix.Zero) || (d3 < fix.Zero && d4 < fix.Zero))
+            {
+                return false;
+            }
 
-			var denom = d2 - d1;
+            var denom = d2 - d1;
 
 			if (denom == 0)
 			{
 				if (d1 != fix.Zero)
-					return false;
+                {
+                    return false;
+                }
 
-				bool useX = Maths.Abs(b.x - a.x) > Maths.Abs(b.y - a.y);
+                bool useX = Maths.Abs(b.x - a.x) > Maths.Abs(b.y - a.y);
 
 				fix a0 = useX ? a.x : a.y;
 				fix a1 = useX ? b.x : b.y;
@@ -160,14 +180,21 @@ namespace SlyPirates.Shared.Core.Physics
 				fix c1 = useX ? to.x : to.y;
 
 				if (a0 > a1)
-					(a0, a1) = (a1, a0);
-				if (c0 > c1)
-					(c0, c1) = (c1, c0);
+                {
+                    (a0, a1) = (a1, a0);
+                }
 
-				if (a1 < c0 || c1 < a0)
-					return false;
+                if (c0 > c1)
+                {
+                    (c0, c1) = (c1, c0);
+                }
 
-				collision.Contact = from;
+                if (a1 < c0 || c1 < a0)
+                {
+                    return false;
+                }
+
+                collision.Contact = from;
 				return true;
 			}
 
@@ -195,9 +222,11 @@ namespace SlyPirates.Shared.Core.Physics
 			var sqrLen = fix2.SqrLength(ab);
 
 			if (sqrLen <= fix.Zero)
-				return start;
+            {
+                return start;
+            }
 
-			var t = Maths.Clamp(fix2.Dot(point - start, ab) / sqrLen, 0, 1);
+            var t = Maths.Clamp(fix2.Dot(point - start, ab) / sqrLen, 0, 1);
 
 			return start + ab * t;
 		}

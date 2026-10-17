@@ -37,7 +37,9 @@ namespace SlyPirates.Shared.Data
                 }
 
                 if (!shouldExclude && world.Has(entity, componentId))
+                {
                     world.Components.Visit(componentId, visitor);
+                }
             }
 
             return result;
@@ -47,7 +49,10 @@ namespace SlyPirates.Shared.Data
         {
             var componentIds = new ComponentId[_items.Count];
             for (int i = 0; i < _items.Count; i++)
+            {
                 componentIds[i] = world.GetAlias(_items[i].Name);
+            }
+
             return componentIds;
         }
 

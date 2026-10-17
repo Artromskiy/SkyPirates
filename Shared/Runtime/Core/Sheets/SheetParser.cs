@@ -29,9 +29,11 @@ namespace SlyPirates.Shared.Core.Sheets
 				{
 					var value = table[r, c];
 					if (value == null)
-						continue;
+                    {
+                        continue;
+                    }
 
-					var path = BuildPath(table, c, headerRows);
+                    var path = BuildPath(table, c, headerRows);
 					var replace = path.IndexOf(Insertion);
 					path.RemoveAt(replace);
 					path.InsertRange(replace, value.Split(Split));
@@ -41,8 +43,10 @@ namespace SlyPirates.Shared.Core.Sheets
 				}
 
 				if (hasData)
-					result.Add(obj);
-			}
+                {
+                    result.Add(obj);
+                }
+            }
 
 			return result;
 		}
@@ -65,8 +69,10 @@ namespace SlyPirates.Shared.Core.Sheets
 			{
 				var cells = lines[r].Split(divisor);
 				for (int c = 0; c < cells.Length; c++)
-					table[r, c] = string.IsNullOrWhiteSpace(cells[c]) ? null : cells[c];
-			}
+                {
+                    table[r, c] = string.IsNullOrWhiteSpace(cells[c]) ? null : cells[c];
+                }
+            }
 
 			return table;
 		}
@@ -86,9 +92,11 @@ namespace SlyPirates.Shared.Core.Sheets
 				r = startRow;
 
 				while (r >= 0 && table[r, c] == null)
-					r--;
+                {
+                    r--;
+                }
 
-				if (r < 0)
+                if (r < 0)
 				{
 					c--;
 				}
@@ -99,16 +107,20 @@ namespace SlyPirates.Shared.Core.Sheets
 					startRow = r - 1;
 
 					if (r == 0)
-						break;
-				}
+                    {
+                        break;
+                    }
+                }
 			}
 
 			path.Reverse();
 
 			if (!path.Contains(Insertion))
-				path.Add(Insertion);
+            {
+                path.Add(Insertion);
+            }
 
-			return path;
+            return path;
 		}
 
 		private static void Insert(JsonObject root, List<string> path)
@@ -134,15 +146,21 @@ namespace SlyPirates.Shared.Core.Sheets
 		private static JsonNode ParseValue(string value)
 		{
 			if (int.TryParse(value, out var i))
-				return JsonValue.Create(i);
+            {
+                return JsonValue.Create(i);
+            }
 
-			if (decimal.TryParse(value, NumberStyles.Any, CultureInfo.InvariantCulture, out var f))
-				return JsonValue.Create(f);
+            if (decimal.TryParse(value, NumberStyles.Any, CultureInfo.InvariantCulture, out var f))
+            {
+                return JsonValue.Create(f);
+            }
 
-			if (bool.TryParse(value, out var b))
-				return JsonValue.Create(b);
+            if (bool.TryParse(value, out var b))
+            {
+                return JsonValue.Create(b);
+            }
 
-			return JsonValue.Create(value);
+            return JsonValue.Create(value);
 		}
 	}
 }

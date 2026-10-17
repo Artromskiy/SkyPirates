@@ -63,12 +63,18 @@ namespace SlyPirates.Client.Init
         {
             var prefix = string.Empty;
             if (context is string text)
+            {
                 prefix = $"[{text}]";
+            }
             else if (context is not null && context is not UnityEngine.Object)
+            {
                 prefix = $"[{context.GetType().FullName}]";
+            }
 
             if (!string.IsNullOrEmpty(method))
+            {
                 prefix = string.IsNullOrEmpty(prefix) ? $"[{method}]" : $"{prefix} [{method}]";
+            }
 
             return prefix;
         }

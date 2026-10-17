@@ -15,8 +15,11 @@ namespace SlyPirates.Shared.Core.Physics
 			collision = default;
 			bool found = false;
 			foreach (var segment in Segments.Span)
-				found |= Spatial.Intersects(segment, from, to, ref bestSqrDist, ref collision);
-			return found;
+            {
+                found |= Spatial.Intersects(segment, from, to, ref bestSqrDist, ref collision);
+            }
+
+            return found;
 		}
 
 		public static bool CircleCast(fix2 from, fix2 to, fix radius, out Collision collision)
@@ -35,14 +38,21 @@ namespace SlyPirates.Shared.Core.Physics
 
 				fix t = skipLine ? fix.Zero : fix2.Dot((from - segment.Start), dir) / sqrLength;
 				if (skipLine || t < fix.Zero)
-					found |= Spatial.Intersects(segment.Start, radius, from, to, ref bestSqrDist, ref collision);
-				if (skipLine || t > fix.One)
-					found |= Spatial.Intersects(segment.End, radius, from, to, ref bestSqrDist, ref collision);
+                {
+                    found |= Spatial.Intersects(segment.Start, radius, from, to, ref bestSqrDist, ref collision);
+                }
 
-				if (skipLine)
-					continue;
+                if (skipLine || t > fix.One)
+                {
+                    found |= Spatial.Intersects(segment.End, radius, from, to, ref bestSqrDist, ref collision);
+                }
 
-				normal *= Maths.InverseSqrt(sqrLength);
+                if (skipLine)
+                {
+                    continue;
+                }
+
+                normal *= Maths.InverseSqrt(sqrLength);
 				var offset = normal * radius;
 				var offsetted1 = new Segment(segment.Start + offset, segment.End + offset);
 				var offsetted2 = new Segment(segment.Start - offset, segment.End - offset);
@@ -51,9 +61,11 @@ namespace SlyPirates.Shared.Core.Physics
 
 				var sqrRadius = radius * radius;
 				if (bestSqrDist < sqrRadius)
-					continue;
+                {
+                    continue;
+                }
 
-				var proj = Spatial.Projection(from, segment.Start, segment.End);
+                var proj = Spatial.Projection(from, segment.Start, segment.End);
 				var delta = from - proj;
 				var sqrDist = fix2.SqrLength(delta);
 				if (sqrDist < sqrRadius)
@@ -79,9 +91,11 @@ namespace SlyPirates.Shared.Core.Physics
 			for (int i = 0; i < MaxIterations; i++)
 			{
 				if (velocity == fix2.zero)
-					break;
+                {
+                    break;
+                }
 
-				if (!CircleCast(start, end, radius, out var hit))
+                if (!CircleCast(start, end, radius, out var hit))
 				{
 					start = end;
 					break;
@@ -92,25 +106,35 @@ namespace SlyPirates.Shared.Core.Physics
 				var distAlongTarget = fix2.Dot(realDir, targetDir);
 				var realSqr = fix2.SqrLength(realDir);
 				if (realSqr < sqrSkin)
-					start = hit.Contact - Skin * fix2.Normalize(targetDir);
-				else
+                {
+                    start = hit.Contact - Skin * fix2.Normalize(targetDir);
+                }
+                else
 				{
 					var skinOffset = Skin * Maths.InverseSqrt(realSqr) * realDir;
 					if (distAlongTarget <= 0)
-						start = hit.Contact + skinOffset;
-					else
-						start += realDir - skinOffset;
-				}
+                    {
+                        start = hit.Contact + skinOffset;
+                    }
+                    else
+                    {
+                        start += realDir - skinOffset;
+                    }
+                }
 
 				velocity = end - start;
 				var dot = fix2.Dot(velocity, hit.Normal);
 				if (dot < fix.Zero)
-					velocity -= hit.Normal * dot;
+                {
+                    velocity -= hit.Normal * dot;
+                }
 
-				if (fix2.Length(velocity) < Skin)
-					break;
+                if (fix2.Length(velocity) < Skin)
+                {
+                    break;
+                }
 
-				end = start + velocity;
+                end = start + velocity;
 			}
 			return start;
 		}

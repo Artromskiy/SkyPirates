@@ -35,7 +35,9 @@ namespace SlyPirates.Client.Views.Components
         {
             _realPosition = Position;
             if (mode == InterpolationMode.None)
+            {
                 return;
+            }
 
             var tran = transform;
             float3 position = tran.position;
@@ -77,7 +79,10 @@ namespace SlyPirates.Client.Views.Components
         private void UpdateTransform()
         {
             if (!_context.IsAlive)
+            {
                 return;
+            }
+
             Position = transform.position;
             Rotation = transform.eulerAngles.y;
         }

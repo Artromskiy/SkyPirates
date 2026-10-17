@@ -30,7 +30,9 @@ namespace SlyPirates.Client.Entry
             _session.ServerStepReceived += OnSyncTick;
             _session.Ready += ResetClock;
             if (_session.IsReady)
+            {
                 ResetClock();
+            }
         }
 
         public void Update()
@@ -42,7 +44,9 @@ namespace SlyPirates.Client.Entry
             }
 
             if (!_clock.IsRunning)
+            {
                 _clock.Start();
+            }
 
             TimeSpan elapsed = _clock.Elapsed;
             long elapsedSteps = elapsed.Ticks * Constants.TicksPerSecond / TimeSpan.TicksPerSecond;
@@ -57,7 +61,9 @@ namespace SlyPirates.Client.Entry
         private void OnSyncTick(long serverStep)
         {
             if (serverStep <= _targetStep)
+            {
                 return;
+            }
 
             _startStep = serverStep;
             _targetStep = serverStep;

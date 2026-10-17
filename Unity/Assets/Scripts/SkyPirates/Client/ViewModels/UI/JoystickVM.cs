@@ -22,7 +22,9 @@ namespace SlyPirates.Client.ViewModels.UI
             set
             {
                 if (_player.CurrentEntityId == null)
+                {
                     return;
+                }
 
                 float2 direction = value.direction;
                 Camera? camera = Camera.main;

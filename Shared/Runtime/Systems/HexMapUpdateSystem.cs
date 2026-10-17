@@ -37,9 +37,18 @@ namespace SlyPirates.Shared.Systems
 
         private void OnHexTileChanged(Entity entity, ChangeKind change, ref HexTile tile)
         {
-            if (change == ChangeKind.Removed) RemoveTile(entity);
-            else if (_world.Has<PendingDestroy>(entity)) RemoveTile(entity);
-            else SetTile(entity, ToCoordinate(in tile), GetTileId(entity));
+            if (change == ChangeKind.Removed)
+            {
+                RemoveTile(entity);
+            }
+            else if (_world.Has<PendingDestroy>(entity))
+            {
+                RemoveTile(entity);
+            }
+            else
+            {
+                SetTile(entity, ToCoordinate(in tile), GetTileId(entity));
+            }
         }
 
         private void OnTileIdChanged(Entity entity, ChangeKind change, ref TileId tileId)
@@ -55,8 +64,14 @@ namespace SlyPirates.Shared.Systems
 
         private void OnLifetimeChanged(Entity entity, ChangeKind change, ref PendingDestroy pending)
         {
-            if (change == ChangeKind.Removed) RefreshTile(entity);
-            else RemoveTile(entity);
+            if (change == ChangeKind.Removed)
+            {
+                RefreshTile(entity);
+            }
+            else
+            {
+                RemoveTile(entity);
+            }
         }
 
         private void RefreshTile(Entity entity)
@@ -77,8 +92,14 @@ namespace SlyPirates.Shared.Systems
         {
             if (_coordinatesByEntity.TryGetValue(entity, out int3 previousCoordinate))
             {
-                if (previousCoordinate != coordinate) _tiles.Remove(previousCoordinate);
-                else if (_tiles.TryGetValue(coordinate, out TileId previousId) && previousId == tileId) return;
+                if (previousCoordinate != coordinate)
+                {
+                    _tiles.Remove(previousCoordinate);
+                }
+                else if (_tiles.TryGetValue(coordinate, out TileId previousId) && previousId == tileId)
+                {
+                    return;
+                }
             }
 
             _coordinatesByEntity[entity] = coordinate;
@@ -88,7 +109,9 @@ namespace SlyPirates.Shared.Systems
         private void RemoveTile(Entity entity)
         {
             if (!_coordinatesByEntity.TryGetValue(entity, out int3 coordinate))
+            {
                 return;
+            }
 
             _coordinatesByEntity.Remove(entity);
             _tiles.Remove(coordinate);

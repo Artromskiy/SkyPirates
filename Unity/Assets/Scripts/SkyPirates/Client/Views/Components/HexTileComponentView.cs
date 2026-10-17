@@ -61,18 +61,26 @@ namespace SlyPirates.Client.Views.Components
         private void SetVisual(TileId tileId)
         {
             if (_visual != null && _tileId.Equals(tileId))
+            {
                 return;
+            }
 
             if (_visual != null)
+            {
                 Destroy(_visual);
+            }
 
             _tileId = tileId;
             if (tileId.IsNone)
+            {
                 return;
+            }
 
             GameObject prefab = Resources.Load<GameObject>(IdPathFormatter.FormatVisualPath(tileId));
             if (prefab == null)
+            {
                 return;
+            }
 
             _visual = Instantiate(prefab, transform);
             _visual.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
@@ -81,10 +89,14 @@ namespace SlyPirates.Client.Views.Components
         private void ApplyColor(Color color)
         {
             if (_visual == null)
+            {
                 return;
+            }
 
             if (_propertyBlock == null)
+            {
                 _propertyBlock = new MaterialPropertyBlock();
+            }
 
             foreach (Renderer target in _visual.GetComponentsInChildren<Renderer>(true))
             {
@@ -98,7 +110,9 @@ namespace SlyPirates.Client.Views.Components
         private void OnDestroy()
         {
             if (_visual != null)
+            {
                 Destroy(_visual);
+            }
         }
     }
 }

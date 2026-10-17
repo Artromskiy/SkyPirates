@@ -17,17 +17,23 @@ namespace SlyPirates.Shared.Core.Sheets
 			foreach (var node in array)
 			{
 				if (!node!.AsObject().TryGetPropertyValue(keyProperty, out var keyNode))
-					throw new InvalidOperationException($"Property '{keyProperty}' not found in element.");
+                {
+                    throw new InvalidOperationException($"Property '{keyProperty}' not found in element.");
+                }
 
-				var key = keyNode?.ToString();
+                var key = keyNode?.ToString();
 
 				if (string.IsNullOrWhiteSpace(key))
-					throw new InvalidOperationException($"Property '{keyProperty}' cannot be null or empty.");
+                {
+                    throw new InvalidOperationException($"Property '{keyProperty}' cannot be null or empty.");
+                }
 
-				if (result.ContainsKey(key))
-					throw new InvalidOperationException($"Duplicate key '{key}' in ToDictionary('{keyProperty}').");
+                if (result.ContainsKey(key))
+                {
+                    throw new InvalidOperationException($"Duplicate key '{key}' in ToDictionary('{keyProperty}').");
+                }
 
-				result[key] = node.AsObject().DeepClone();
+                result[key] = node.AsObject().DeepClone();
 			}
 			return result;
 		}

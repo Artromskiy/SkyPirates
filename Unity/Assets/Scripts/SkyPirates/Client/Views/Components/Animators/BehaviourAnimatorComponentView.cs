@@ -39,7 +39,9 @@ namespace SlyPirates.Client.Views.Components.Animators
         private void Animate(bool animate)
         {
             if (_animView == null || !_animView.IsReady)
+            {
                 return;
+            }
 
             BehaviourState behaviour = _context.Get<BehaviourState>();
             StateId state = behaviour.State;
@@ -58,13 +60,19 @@ namespace SlyPirates.Client.Views.Components.Animators
                 _statePercentVelocity = 0f;
 
                 if (string.IsNullOrEmpty(clipHolder))
+                {
                     _animView.StopLayer(BehaviourLayerName, fadeSeconds);
+                }
                 else if (!_animView.Play(clipHolder, fadeSeconds))
+                {
                     return;
+                }
             }
 
             if (string.IsNullOrEmpty(clipHolder))
+            {
                 return;
+            }
 
             _statePercent = animate
                 ? Maths.SmoothDamp(
@@ -80,16 +88,22 @@ namespace SlyPirates.Client.Views.Components.Animators
         private void CacheComponents()
         {
             if (_animView == null)
+            {
                 _animView = GetComponentInChildren<AnimView>();
+            }
         }
 
         private static string GetClipHolder(StateId state)
         {
             if (state == StateId.Constants.PreAttack)
+            {
                 return "Behaviour.PreAttack";
+            }
 
             if (state == StateId.Constants.PostAttack)
+            {
                 return "Behaviour.PostAttack";
+            }
 
             return string.Empty;
         }

@@ -1,4 +1,4 @@
-using Delta.ECS;
+﻿using Delta.ECS;
 using Delta.ECS.Unity;
 using SlyPirates.Shared.Components.Runtime;
 using SlyPirates.Shared.IServices.TickableExecutors;
@@ -70,7 +70,11 @@ namespace SlyPirates.Client.Systems
                 bool hasViewToken = _world.Has<ConfigViewToken>(entity);
                 if (_world.Has<PendingDestroy>(entity) || !hasViewToken)
                 {
-                    if (_world.Has<BindingViewToken>(entity)) _tokens.Add(entity);
+                    if (_world.Has<BindingViewToken>(entity))
+                    {
+                        _tokens.Add(entity);
+                    }
+
                     if (hasViewToken)
                     {
                         // A gameplay destroy keeps its bound view alive for its death animation.
@@ -79,29 +83,56 @@ namespace SlyPirates.Client.Systems
 
                     // A history restore can remove the view's source components. Suspend the
                     // existing view until those components return, then bind it again in place.
-                    if (_world.Has<ViewBound>(entity)) _unbind.Add(entity);
+                    if (_world.Has<ViewBound>(entity))
+                    {
+                        _unbind.Add(entity);
+                    }
+
                     if (_scene.TryGetView(entity, out GameObject staleView))
+                    {
                         staleView.SetActive(false);
+                    }
+
                     continue;
                 }
 
                 var token = new BindingViewToken(_world.Get<ConfigViewToken>(entity).Value);
-                if (_world.Has<BindingViewToken>(entity)) _world.GetRef<BindingViewToken>(entity) = token;
-                else _world.Add(entity, token);
-                if (_world.Has<ViewBound>(entity)) _unbind.Add(entity);
+                if (_world.Has<BindingViewToken>(entity))
+                {
+                    _world.GetRef<BindingViewToken>(entity) = token;
+                }
+                else
+                {
+                    _world.Add(entity, token);
+                }
+
+                if (_world.Has<ViewBound>(entity))
+                {
+                    _unbind.Add(entity);
+                }
             }
             _changed.Clear();
 
             // The library binder handles normal OnBind, including reuse of a retained GameObject.
-            if (_tokens.Count != 0) _world.Remove<BindingViewToken>(Batch(_tokens));
-            if (_unbind.Count != 0) _world.Remove<ViewBound>(Batch(_unbind));
+            if (_tokens.Count != 0)
+            {
+                _world.Remove<BindingViewToken>(Batch(_tokens));
+            }
+
+            if (_unbind.Count != 0)
+            {
+                _world.Remove<ViewBound>(Batch(_unbind));
+            }
+
             _binding.BindPendingViews();
             _bindingChanges.Invoke();
             foreach (Entity entity in _bound)
             {
                 if (_world.IsAlive(entity) && !_world.Has<PendingDestroy>(entity) && _world.Has<ConfigViewToken>(entity)
                     && _scene.TryGetView(entity, out GameObject view) && !view.activeSelf)
+                {
                     view.SetActive(true);
+                }
             }
             _bound.Clear();
         }
@@ -110,13 +141,23 @@ namespace SlyPirates.Client.Systems
 
         private void OnBindingChanged(Entity entity, ChangeKind change, ref ViewBound bound)
         {
-            if (change == ChangeKind.Removed) _changed.Add(entity);
-            else _bound.Add(entity);
+            if (change == ChangeKind.Removed)
+            {
+                _changed.Add(entity);
+            }
+            else
+            {
+                _bound.Add(entity);
+            }
         }
 
         private ReadOnlySpan<Entity> Batch(List<Entity> entities)
         {
-            if (_batch.Length < entities.Count) Array.Resize(ref _batch, Math.Max(entities.Count, _batch.Length * 2));
+            if (_batch.Length < entities.Count)
+            {
+                Array.Resize(ref _batch, Math.Max(entities.Count, _batch.Length * 2));
+            }
+
             entities.CopyTo(_batch);
             return _batch.AsSpan(0, entities.Count);
         }

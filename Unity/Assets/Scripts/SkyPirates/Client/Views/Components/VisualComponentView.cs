@@ -25,29 +25,43 @@ namespace SlyPirates.Client.Views.Components
         public virtual void OnBind(EntityContext context)
         {
             _context = context;
-            if (_visual == null || !_id.Equals(Id)) UpdateVisual();
+            if (_visual == null || !_id.Equals(Id))
+            {
+                UpdateVisual();
+            }
         }
 
         private void Update()
         {
             if (!_id.Equals(Id))
+            {
                 UpdateVisual();
+            }
         }
 
         public void UpdateVisual()
         {
             if (_visual != null)
+            {
                 DestroyImmediate(_visual);
+            }
 
             if (_context.IsAlive)
+            {
                 _id = Id;
+            }
+
             if (_id.IsNone)
+            {
                 return;
+            }
 
             string path = IdPathFormatter.FormatVisualPath(_id);
             var prefab = Resources.Load<GameObject>(path);
             if (prefab == null)
+            {
                 return;
+            }
 
             _visual = Instantiate(prefab, _visualRoot);
             _visual.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
@@ -65,7 +79,10 @@ namespace SlyPirates.Client.Views.Components
         private void SetId()
         {
             if (_context.IsAlive)
+            {
                 _context.GetRef<T>() = _id;
+            }
+
             UpdateVisual();
         }
     }

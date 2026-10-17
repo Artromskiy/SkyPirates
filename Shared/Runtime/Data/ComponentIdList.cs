@@ -20,7 +20,11 @@ namespace SlyPirates.Shared.Data
         public ComponentId[] GetIds(World world)
         {
             var ids = new ComponentId[_items.Count];
-            for (int i = 0; i < ids.Length; i++) ids[i] = world.GetAlias(_items[i]);
+            for (int i = 0; i < ids.Length; i++)
+            {
+                ids[i] = world.GetAlias(_items[i]);
+            }
+
             return ids;
         }
     }

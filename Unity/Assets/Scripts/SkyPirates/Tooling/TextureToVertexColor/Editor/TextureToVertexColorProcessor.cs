@@ -95,10 +95,14 @@ namespace SlyPirates.Tooling.TextureToVertexColor.Editor
 
                 Material[] sourceMaterials = targetRenderer.sharedMaterials;
                 if (!TryGetTextureSources(sourceMaterials, temporaryTextures, out TextureSource[] textureSources, out message))
+                {
                     return false;
+                }
 
                 if (!TryBakeColors(sourceMesh, vertices.Length, uv, textureSources, out Color[] colors, out message))
+                {
                     return false;
+                }
 
                 generatedMesh = UnityEngine.Object.Instantiate(sourceMesh);
                 generatedMesh.name = sourceMesh.name + "_VertexColor";
@@ -122,16 +126,23 @@ namespace SlyPirates.Tooling.TextureToVertexColor.Editor
 
                 Mesh savedMesh = AssetDatabase.LoadAssetAtPath<Mesh>(meshPath);
                 if (savedMesh == null)
+                {
                     throw new InvalidOperationException("Unity did not create the output mesh asset.");
+                }
 
                 SetMesh(targetRenderer, rendererTransform, savedMesh);
                 Material[] outputMaterials = new Material[targetRenderer.sharedMaterials.Length];
                 for (int i = 0; i < outputMaterials.Length; i++)
+                {
                     outputMaterials[i] = vertexColorMaterial;
+                }
+
                 targetRenderer.sharedMaterials = outputMaterials;
 
                 if (PrefabUtility.SaveAsPrefabAsset(contents, outputPath) == null)
+                {
                     throw new InvalidOperationException("Unity did not save the converted prefab.");
+                }
 
                 AssetDatabase.SaveAssets();
                 message = "Created a new prefab and mesh with texture color baked into vertex colors.";
@@ -140,9 +151,15 @@ namespace SlyPirates.Tooling.TextureToVertexColor.Editor
             catch (Exception exception)
             {
                 if (!string.IsNullOrEmpty(outputPath))
+                {
                     AssetDatabase.DeleteAsset(outputPath);
+                }
+
                 if (!string.IsNullOrEmpty(meshPath))
+                {
                     AssetDatabase.DeleteAsset(meshPath);
+                }
+
                 outputPath = null;
                 message = "Texture conversion failed: " + exception.Message;
                 return false;
@@ -150,12 +167,22 @@ namespace SlyPirates.Tooling.TextureToVertexColor.Editor
             finally
             {
                 if (generatedMesh != null)
+                {
                     UnityEngine.Object.DestroyImmediate(generatedMesh);
+                }
+
                 foreach (Texture2D texture in temporaryTextures)
+                {
                     if (texture != null)
+                    {
                         UnityEngine.Object.DestroyImmediate(texture);
+                    }
+                }
+
                 if (contents != null)
+                {
                     PrefabUtility.UnloadPrefabContents(contents);
+                }
             }
         }
 
@@ -163,18 +190,26 @@ namespace SlyPirates.Tooling.TextureToVertexColor.Editor
         public static void ConvertNatureObstaclePrefabs()
         {
             if (!TryConvertNatureObstaclePrefabs(out string message))
+            {
                 Debug.LogError(message);
+            }
             else
+            {
                 Debug.Log(message);
+            }
         }
 
         public static void ConvertNatureObstaclePrefabsAndExit()
         {
             bool succeeded = TryConvertNatureObstaclePrefabs(out string message);
             if (succeeded)
+            {
                 Debug.Log(message);
+            }
             else
+            {
                 Debug.LogError(message);
+            }
 
             EditorApplication.Exit(succeeded ? 0 : 1);
         }
@@ -183,9 +218,13 @@ namespace SlyPirates.Tooling.TextureToVertexColor.Editor
         {
             bool succeeded = TryRenameNatureVertexColorMeshes(out string message);
             if (succeeded)
+            {
                 Debug.Log(message);
+            }
             else
+            {
                 Debug.LogError(message);
+            }
 
             EditorApplication.Exit(succeeded ? 0 : 1);
         }
@@ -224,7 +263,9 @@ namespace SlyPirates.Tooling.TextureToVertexColor.Editor
                 targetCounts.TryGetValue(targetPath, out int duplicateCount);
                 targetCounts[targetPath] = duplicateCount + 1;
                 if (duplicateCount > 0)
+                {
                     targetPath = NatureMeshOutputFolder + "/" + readableName + "_" + (duplicateCount + 1) + ".asset";
+                }
 
                 renamePlans.Add(meshPath, targetPath);
             }
@@ -234,7 +275,9 @@ namespace SlyPirates.Tooling.TextureToVertexColor.Editor
             {
                 Mesh mesh = AssetDatabase.LoadAssetAtPath<Mesh>(plan.Key);
                 if (mesh == null)
+                {
                     continue;
+                }
 
                 string newName = Path.GetFileNameWithoutExtension(plan.Value);
                 mesh.name = newName;
@@ -265,7 +308,9 @@ namespace SlyPirates.Tooling.TextureToVertexColor.Editor
             foreach (string folder in NaturePrefabFolders)
             {
                 if (!AssetDatabase.IsValidFolder(folder))
+                {
                     continue;
+                }
 
                 prefabPaths.AddRange(AssetDatabase.FindAssets("t:Prefab", new[] { folder })
                     .Select(AssetDatabase.GUIDToAssetPath)
@@ -288,11 +333,16 @@ namespace SlyPirates.Tooling.TextureToVertexColor.Editor
             try
             {
                 if (!TryEnableMeshReadback(prefabPaths, importerReadStates, out message))
+                {
                     return false;
+                }
 
                 Texture2D texture = LoadNatureTexture(out Material sourceMaterial, out message);
                 if (texture == null || sourceMaterial == null)
+                {
                     return false;
+                }
+
                 Material vertexColorMaterial = AssetDatabase.LoadAssetAtPath<Material>(VertexColorMaterialPath);
                 if (vertexColorMaterial == null)
                 {
@@ -300,7 +350,9 @@ namespace SlyPirates.Tooling.TextureToVertexColor.Editor
                     return false;
                 }
                 if (!TryGetTextureSources(new[] { sourceMaterial }, temporaryTextures, out TextureSource[] sourceTexture, out message))
+                {
                     return false;
+                }
 
                 for (int prefabIndex = 0; prefabIndex < prefabPaths.Count; prefabIndex++)
                 {
@@ -319,7 +371,9 @@ namespace SlyPirates.Tooling.TextureToVertexColor.Editor
                     }
 
                     if (prefabIndex % 20 == 0)
+                    {
                         EditorUtility.DisplayProgressBar("Texture To Vertex Color", prefabPath, (float)prefabIndex / prefabPaths.Count);
+                    }
                 }
             }
             catch (Exception exception)
@@ -331,8 +385,13 @@ namespace SlyPirates.Tooling.TextureToVertexColor.Editor
                 EditorUtility.ClearProgressBar();
                 RestoreMeshReadback(importerReadStates);
                 foreach (Texture2D texture in temporaryTextures)
+                {
                     if (texture != null)
+                    {
                         UnityEngine.Object.DestroyImmediate(texture);
+                    }
+                }
+
                 AssetDatabase.SaveAssets();
                 AssetDatabase.Refresh();
             }
@@ -357,12 +416,19 @@ namespace SlyPirates.Tooling.TextureToVertexColor.Editor
             {
                 GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
                 if (prefab == null)
+                {
                     continue;
+                }
 
                 foreach (MeshFilter filter in prefab.GetComponentsInChildren<MeshFilter>(true))
+                {
                     AddModelPath(filter.sharedMesh, modelPaths);
+                }
+
                 foreach (SkinnedMeshRenderer renderer in prefab.GetComponentsInChildren<SkinnedMeshRenderer>(true))
+                {
                     AddModelPath(renderer.sharedMesh, modelPaths);
+                }
             }
 
             if (modelPaths.Count == 0)
@@ -382,7 +448,9 @@ namespace SlyPirates.Tooling.TextureToVertexColor.Editor
 
                 originalStates[modelPath] = importer.isReadable;
                 if (importer.isReadable)
+                {
                     continue;
+                }
 
                 importer.isReadable = true;
                 AssetDatabase.WriteImportSettingsIfDirty(modelPath);
@@ -399,7 +467,9 @@ namespace SlyPirates.Tooling.TextureToVertexColor.Editor
             {
                 ModelImporter importer = AssetImporter.GetAtPath(pair.Key) as ModelImporter;
                 if (importer == null || importer.isReadable == pair.Value)
+                {
                     continue;
+                }
 
                 importer.isReadable = pair.Value;
                 AssetDatabase.WriteImportSettingsIfDirty(pair.Key);
@@ -407,17 +477,23 @@ namespace SlyPirates.Tooling.TextureToVertexColor.Editor
             }
 
             if (changed)
+            {
                 AssetDatabase.Refresh(ImportAssetOptions.ForceUpdate);
+            }
         }
 
         private static void AddModelPath(Mesh mesh, HashSet<string> modelPaths)
         {
             if (mesh == null)
+            {
                 return;
+            }
 
             string path = AssetDatabase.GetAssetPath(mesh);
             if (!string.IsNullOrEmpty(path) && path.EndsWith(".fbx", StringComparison.OrdinalIgnoreCase))
+            {
                 modelPaths.Add(path);
+            }
         }
 
         private static Texture2D LoadNatureTexture(out Material sourceMaterial, out string message)
@@ -449,9 +525,13 @@ namespace SlyPirates.Tooling.TextureToVertexColor.Editor
         {
             bool succeeded = TryApplyNatureVertexColorMaterials(out string message);
             if (succeeded)
+            {
                 Debug.Log(message);
+            }
             else
+            {
                 Debug.LogError(message);
+            }
 
             EditorApplication.Exit(succeeded ? 0 : 1);
         }
@@ -487,7 +567,9 @@ namespace SlyPirates.Tooling.TextureToVertexColor.Editor
                     {
                         Mesh mesh = GetMesh(renderer, renderer.transform);
                         if (mesh == null || !AssetDatabase.GetAssetPath(mesh).StartsWith(NatureMeshOutputFolder, StringComparison.Ordinal))
+                        {
                             continue;
+                        }
 
                         StripUvChannels(mesh);
                         SetVertexColorMaterials(renderer, mesh, vertexColorMaterial);
@@ -506,7 +588,9 @@ namespace SlyPirates.Tooling.TextureToVertexColor.Editor
                 finally
                 {
                     if (contents != null)
+                    {
                         PrefabUtility.UnloadPrefabContents(contents);
+                    }
                 }
             }
 
@@ -537,35 +621,47 @@ namespace SlyPirates.Tooling.TextureToVertexColor.Editor
                 foreach (MeshFilter filter in prefabContents.GetComponentsInChildren<MeshFilter>(true))
                 {
                     if (filter.sharedMesh == null)
+                    {
                         continue;
+                    }
 
                     if (!TryGetOrCreateVertexColorMesh(filter.sharedMesh, sourceTexture, generatedMeshes,
                             out Mesh convertedMesh, out bool wasCreated, out message))
+                    {
                         return false;
+                    }
 
                     filter.sharedMesh = convertedMesh;
                     SetVertexColorMaterials(filter.GetComponent<MeshRenderer>(), convertedMesh, vertexColorMaterial);
                     changed = true;
                     convertedRendererCount++;
                     if (wasCreated)
+                    {
                         convertedMeshCount++;
+                    }
                 }
 
                 foreach (SkinnedMeshRenderer renderer in prefabContents.GetComponentsInChildren<SkinnedMeshRenderer>(true))
                 {
                     if (renderer.sharedMesh == null)
+                    {
                         continue;
+                    }
 
                     if (!TryGetOrCreateVertexColorMesh(renderer.sharedMesh, sourceTexture, generatedMeshes,
                             out Mesh convertedMesh, out bool wasCreated, out message))
+                    {
                         return false;
+                    }
 
                     renderer.sharedMesh = convertedMesh;
                     SetVertexColorMaterials(renderer, convertedMesh, vertexColorMaterial);
                     changed = true;
                     convertedRendererCount++;
                     if (wasCreated)
+                    {
                         convertedMeshCount++;
+                    }
                 }
 
                 if (changed && PrefabUtility.SaveAsPrefabAsset(prefabContents, prefabPath) == null)
@@ -584,7 +680,9 @@ namespace SlyPirates.Tooling.TextureToVertexColor.Editor
             finally
             {
                 if (prefabContents != null)
+                {
                     PrefabUtility.UnloadPrefabContents(prefabContents);
+                }
             }
         }
 
@@ -601,7 +699,9 @@ namespace SlyPirates.Tooling.TextureToVertexColor.Editor
             message = null;
             string meshKey = GetMeshKey(sourceMesh);
             if (generatedMeshes.TryGetValue(meshKey, out convertedMesh))
+            {
                 return true;
+            }
 
             if (!sourceMesh.isReadable)
             {
@@ -630,7 +730,9 @@ namespace SlyPirates.Tooling.TextureToVertexColor.Editor
             }
 
             if (!TryBakeColors(sourceMesh, sourceMesh.vertexCount, uv, new[] { sourceTexture }, out Color[] colors, out message))
+            {
                 return false;
+            }
 
             convertedMesh = UnityEngine.Object.Instantiate(sourceMesh);
             convertedMesh.name = sourceMesh.name + "_VertexColor";
@@ -682,23 +784,34 @@ namespace SlyPirates.Tooling.TextureToVertexColor.Editor
         private static string GetReadableMeshName(string sourceName, string meshName)
         {
             if (string.Equals(sourceName, meshName, StringComparison.Ordinal))
+            {
                 return sourceName;
+            }
 
             int commonLength = 0;
             int commonLimit = Mathf.Min(sourceName.Length, meshName.Length);
             while (commonLength < commonLimit && sourceName[commonLength] == meshName[commonLength])
+            {
                 commonLength++;
+            }
 
             if (commonLength >= sourceName.Length)
+            {
                 return sourceName + meshName.Substring(commonLength);
+            }
 
             while (commonLength > 0 && sourceName[commonLength - 1] != '_')
+            {
                 commonLength--;
+            }
+
             if (commonLength > 0)
             {
                 string uniqueMeshPart = meshName.Substring(commonLength).TrimStart('_');
                 if (uniqueMeshPart.Length > 0)
+                {
                     return sourceName + "_" + uniqueMeshPart;
+                }
             }
 
             return sourceName + "_" + meshName;
@@ -711,19 +824,25 @@ namespace SlyPirates.Tooling.TextureToVertexColor.Editor
             string filename = Path.GetFileNameWithoutExtension(meshPath);
             const string generatedSuffix = "_VertexColor";
             if (!filename.EndsWith(generatedSuffix, StringComparison.Ordinal))
+            {
                 return false;
+            }
 
             string encodedName = filename.Substring(0, filename.Length - generatedSuffix.Length);
             foreach (string candidate in sourceModelNames)
             {
                 string prefix = candidate + "_";
                 if (!encodedName.StartsWith(prefix, StringComparison.Ordinal))
+                {
                     continue;
+                }
 
                 string meshAndId = encodedName.Substring(prefix.Length);
                 int idSeparator = meshAndId.LastIndexOf('_');
                 if (idSeparator <= 0 || !long.TryParse(meshAndId.Substring(idSeparator + 1), out _))
+                {
                     continue;
+                }
 
                 sourceName = candidate;
                 meshName = meshAndId.Substring(0, idSeparator);
@@ -736,7 +855,9 @@ namespace SlyPirates.Tooling.TextureToVertexColor.Editor
         private static void EnsureFolder(string folder)
         {
             if (AssetDatabase.IsValidFolder(folder))
+            {
                 return;
+            }
 
             string[] segments = folder.Split('/');
             string current = segments[0];
@@ -744,7 +865,10 @@ namespace SlyPirates.Tooling.TextureToVertexColor.Editor
             {
                 string next = current + "/" + segments[i];
                 if (!AssetDatabase.IsValidFolder(next))
+                {
                     AssetDatabase.CreateFolder(current, segments[i]);
+                }
+
                 current = next;
             }
         }
@@ -752,19 +876,29 @@ namespace SlyPirates.Tooling.TextureToVertexColor.Editor
         private static void SetVertexColorMaterials(Renderer renderer, Mesh mesh, Material vertexColorMaterial)
         {
             if (renderer == null || mesh == null || vertexColorMaterial == null)
+            {
                 return;
+            }
 
             Material[] currentMaterials = renderer.sharedMaterials;
             int materialCount = Mathf.Max(1, Mathf.Max(mesh.subMeshCount, currentMaterials.Length));
             bool alreadyAssigned = currentMaterials.Length == materialCount;
             for (int i = 0; alreadyAssigned && i < currentMaterials.Length; i++)
+            {
                 alreadyAssigned = currentMaterials[i] == vertexColorMaterial;
+            }
+
             if (alreadyAssigned)
+            {
                 return;
+            }
 
             var vertexColorMaterials = new Material[materialCount];
             for (int i = 0; i < vertexColorMaterials.Length; i++)
+            {
                 vertexColorMaterials[i] = vertexColorMaterial;
+            }
+
             renderer.sharedMaterials = vertexColorMaterials;
         }
 
@@ -772,7 +906,9 @@ namespace SlyPirates.Tooling.TextureToVertexColor.Editor
         {
             var emptyUvs = new List<Vector4>(0);
             for (int channel = 0; channel < 8; channel++)
+            {
                 mesh.SetUVs(channel, emptyUvs);
+            }
         }
 
         private static bool TryGetTextureSources(
@@ -867,14 +1003,19 @@ namespace SlyPirates.Tooling.TextureToVertexColor.Editor
             catch
             {
                 if (copy != null)
+                {
                     UnityEngine.Object.DestroyImmediate(copy);
+                }
+
                 return null;
             }
             finally
             {
                 RenderTexture.active = previous;
                 if (temporary != null)
+                {
                     RenderTexture.ReleaseTemporary(temporary);
+                }
             }
         }
 
@@ -902,7 +1043,9 @@ namespace SlyPirates.Tooling.TextureToVertexColor.Editor
                     Vector2 sampleUv = Vector2.Scale(uv[vertexIndex], source.Scale) + source.Offset;
                     Color sample = source.Texture.GetPixelBilinear(sampleUv.x, sampleUv.y) * source.Tint;
                     if (hasOriginalColors)
+                    {
                         sample *= originalColors[vertexIndex];
+                    }
 
                     if (assigned[vertexIndex])
                     {
@@ -923,12 +1066,17 @@ namespace SlyPirates.Tooling.TextureToVertexColor.Editor
             for (int i = 0; i < vertexCount; i++)
             {
                 if (assigned[i])
+                {
                     continue;
+                }
 
                 Vector2 sampleUv = Vector2.Scale(uv[i], fallback.Scale) + fallback.Offset;
                 Color sample = fallback.Texture.GetPixelBilinear(sampleUv.x, sampleUv.y) * fallback.Tint;
                 if (hasOriginalColors)
+                {
                     sample *= originalColors[i];
+                }
+
                 colors[i] = sample;
             }
 
@@ -938,9 +1086,15 @@ namespace SlyPirates.Tooling.TextureToVertexColor.Editor
         private static Color GetMaterialTint(Material material)
         {
             if (material.HasProperty(BaseColorProperty))
+            {
                 return material.GetColor(BaseColorProperty);
+            }
+
             if (material.HasProperty(ColorProperty))
+            {
                 return material.GetColor(ColorProperty);
+            }
+
             return Color.white;
         }
 
@@ -956,7 +1110,10 @@ namespace SlyPirates.Tooling.TextureToVertexColor.Editor
         private static Mesh GetMesh(Renderer renderer, Transform rendererTransform)
         {
             if (renderer is SkinnedMeshRenderer skinned)
+            {
                 return skinned.sharedMesh;
+            }
+
             if (renderer is MeshRenderer && rendererTransform != null)
             {
                 MeshFilter filter = rendererTransform.GetComponent<MeshFilter>();
@@ -968,18 +1125,28 @@ namespace SlyPirates.Tooling.TextureToVertexColor.Editor
         private static void SetMesh(Renderer renderer, Transform rendererTransform, Mesh mesh)
         {
             if (renderer is SkinnedMeshRenderer skinned)
+            {
                 skinned.sharedMesh = mesh;
+            }
             else
+            {
                 rendererTransform.GetComponent<MeshFilter>().sharedMesh = mesh;
+            }
         }
 
         private static string GetHierarchyPath(Transform target, Transform root)
         {
             List<string> names = new List<string>();
             for (Transform current = target; current != null && current != root; current = current.parent)
+            {
                 names.Add(current.name);
+            }
+
             if (target != root && names.Count == 0)
+            {
                 return null;
+            }
+
             names.Reverse();
             return string.Join("/", names);
         }
@@ -987,14 +1154,19 @@ namespace SlyPirates.Tooling.TextureToVertexColor.Editor
         private static Transform FindByPath(Transform root, string path)
         {
             if (string.IsNullOrEmpty(path))
+            {
                 return root;
+            }
+
             string[] names = path.Split('/');
             Transform current = root;
             foreach (string name in names)
             {
                 current = current.Find(name);
                 if (current == null)
+                {
                     return null;
+                }
             }
             return current;
         }
@@ -1003,7 +1175,10 @@ namespace SlyPirates.Tooling.TextureToVertexColor.Editor
         {
             char[] invalid = Path.GetInvalidFileNameChars();
             foreach (char character in invalid)
+            {
                 value = value.Replace(character, '_');
+            }
+
             return value.Replace('/', '_').Replace('\\', '_');
         }
     }

@@ -42,7 +42,9 @@ namespace SlyPirates.Client.Views.Components.Animators
             get
             {
                 if (_animator == null)
+                {
                     _animator = GetComponentInChildren<Animator>();
+                }
 
                 return _animator;
             }
@@ -54,7 +56,9 @@ namespace SlyPirates.Client.Views.Components.Animators
         {
             if (!TryGetClipHolder(clipHolder, out ClipHolderReference holder)
                 || !holder.Layer.Play(holder.Index, fadeSeconds, restart))
+            {
                 return false;
+            }
 
             holder.Layer.FadeWeight(1f, fadeSeconds);
             return true;
@@ -65,7 +69,9 @@ namespace SlyPirates.Client.Views.Components.Animators
             if (!TryGetClipHolder(clipHolder, out ClipHolderReference holder)
                 || !holder.Layer.Play(holder.Index, fadeSeconds, true)
                 || !holder.Layer.StopAfterClip(holder.Index, fadeSeconds))
+            {
                 return false;
+            }
 
             holder.Layer.FadeWeight(1f, fadeSeconds);
             return true;
@@ -76,7 +82,9 @@ namespace SlyPirates.Client.Views.Components.Animators
             if (!TryGetBlendGroup(blendGroupName, AnimBlendMode.Weighted, out AnimBlendGroupReference group)
                 || blend == null
                 || !group.Layer.Blend(blend, fadeSeconds, group.HolderIndices))
+            {
                 return false;
+            }
 
             group.Layer.FadeWeight(1f, fadeSeconds);
             return true;
@@ -85,7 +93,9 @@ namespace SlyPirates.Client.Views.Components.Animators
         public bool Blend2D(string blendGroupName, Vector2 parameter, float fadeSeconds = DefaultFadeSeconds)
         {
             if (!TryGetBlendGroup(blendGroupName, AnimBlendMode.Directional2D, out AnimBlendGroupReference group))
+            {
                 return false;
+            }
 
             group.CalculateDirectionalWeights(parameter);
             group.SynchronizeDirectionalPlayback();
@@ -98,7 +108,9 @@ namespace SlyPirates.Client.Views.Components.Animators
         {
             if (!TryGetClipHolder(clipHolder, out ClipHolderReference holder)
                 || !holder.Layer.SetClipHolderWeight(holder.Index, weight, fadeSeconds))
+            {
                 return false;
+            }
 
             holder.Layer.FadeWeight(1f, fadeSeconds);
             return true;
@@ -119,7 +131,9 @@ namespace SlyPirates.Client.Views.Components.Animators
         public bool FadeLayer(string layerName, float targetWeight, float fadeSeconds = DefaultFadeSeconds)
         {
             if (!TryGetLayer(layerName, out AnimLayer layer))
+            {
                 return false;
+            }
 
             layer.FadeWeight(targetWeight, fadeSeconds);
             return true;
@@ -133,11 +147,16 @@ namespace SlyPirates.Client.Views.Components.Animators
         public bool StopLayer(string layerName, float fadeSeconds = DefaultFadeSeconds)
         {
             if (!TryGetLayer(layerName, out AnimLayer layer))
+            {
                 return false;
+            }
 
             layer.Clear(fadeSeconds);
             if (!string.Equals(layerName, BaseLayer, StringComparison.Ordinal))
+            {
                 layer.FadeWeight(0f, fadeSeconds);
+            }
+
             return true;
         }
 
@@ -155,14 +174,20 @@ namespace SlyPirates.Client.Views.Components.Animators
                 _graphRebuildRequired = false;
                 DestroyGraph();
                 if (isActiveAndEnabled)
+                {
                     CreateGraph();
+                }
             }
 
             if (!_graphCreated)
+            {
                 return;
+            }
 
             foreach (AnimLayer layer in _layers.Values)
+            {
                 layer.Update(Time.deltaTime);
+            }
         }
 
         private void OnDisable()
@@ -185,13 +210,17 @@ namespace SlyPirates.Client.Views.Components.Animators
         private void OnAnimAssetChanged(ScriptableObject asset)
         {
             if (asset == _animationSet || (_animationSet != null && asset == _animationSet.StructureProfile))
+            {
                 _graphRebuildRequired = true;
+            }
         }
 
         private void CreateGraph()
         {
             if (_graphCreated)
+            {
                 return;
+            }
 
             Animator animator = Animator;
             if (animator == null || _animationSet == null || _animationSet.StructureProfile == null)
@@ -203,7 +232,9 @@ namespace SlyPirates.Client.Views.Components.Animators
             _previousController = animator.runtimeAnimatorController;
             _controllerWasCleared = _previousController != null;
             if (_controllerWasCleared)
+            {
                 animator.runtimeAnimatorController = null;
+            }
 
             _graph = PlayableGraph.Create(name + " Animation Graph");
             _graph.SetTimeUpdateMode(DirectorUpdateMode.GameTime);
@@ -227,10 +258,14 @@ namespace SlyPirates.Client.Views.Components.Animators
                 {
                     AnimClipDefinition clip = clips[i];
                     if (clip == null || !IsValidName(clip.ClipHolder) || clip.Clip == null)
+                    {
                         continue;
+                    }
 
                     if (!animationClips.TryAdd(clip.ClipHolder, clip))
+                    {
                         Debug.LogWarning("Duplicate animation assignment for clip holder '" + clip.ClipHolder + "'.", this);
+                    }
                 }
             }
 
@@ -245,13 +280,18 @@ namespace SlyPirates.Client.Views.Components.Animators
                 {
                     AnimLayerDefinition definition = layerDefinitions[i];
                     if (!IsValidDefinition(definition))
+                    {
                         continue;
+                    }
 
                     if (_layers.TryGetValue(definition.Name, out AnimLayer existing))
                     {
                         existing.SetAdditive(definition.Additive);
                         if (definition.Mask != null)
+                        {
                             existing.SetMask(definition.Mask);
+                        }
+
                         existing.FadeWeight(definition.DefaultWeight, 0f);
                         continue;
                     }
@@ -272,7 +312,9 @@ namespace SlyPirates.Client.Views.Components.Animators
                 {
                     AnimClipHolderDefinition holder = holders[i];
                     if (!IsValidDefinition(holder))
+                    {
                         continue;
+                    }
 
                     if (!animationClips.TryGetValue(holder.Name, out AnimClipDefinition clipDefinition))
                     {
@@ -294,9 +336,13 @@ namespace SlyPirates.Client.Views.Components.Animators
 
                     int holderIndex = layer.AddClipHolder(holder.Name, clipDefinition.Clip, clipDefinition.DefaultSpeed);
                     if (holderIndex < 0)
+                    {
                         Debug.LogWarning("Duplicate clip holder '" + holder.Name + "' in layer '" + holder.Layer + "'.", this);
+                    }
                     else
+                    {
                         _clipHolders.Add(holder.Name, new ClipHolderReference(layer, holderIndex));
+                    }
                 }
             }
 
@@ -306,13 +352,17 @@ namespace SlyPirates.Client.Views.Components.Animators
         private void LoadBlendGroups(AnimBlendGroupDefinition[] definitions)
         {
             if (definitions == null)
+            {
                 return;
+            }
 
             for (int i = 0; i < definitions.Length; i++)
             {
                 AnimBlendGroupDefinition definition = definitions[i];
                 if (!IsValidDefinition(definition))
+                {
                     continue;
+                }
 
                 if (_blendGroups.ContainsKey(definition.Name))
                 {
@@ -364,11 +414,15 @@ namespace SlyPirates.Client.Views.Components.Animators
         private void DestroyGraph()
         {
             if (_graph.IsValid())
+            {
                 _graph.Destroy();
+            }
 
             Animator animator = Animator;
             if (_controllerWasCleared && animator != null && animator.runtimeAnimatorController == null)
+            {
                 animator.runtimeAnimatorController = _previousController;
+            }
 
             _layers.Clear();
             _clipHolders.Clear();
@@ -442,7 +496,9 @@ namespace SlyPirates.Client.Views.Components.Animators
                 for (int i = 0; i < points.Length; i++)
                 {
                     if (IsDirectionalPoint(points[i].Position))
+                    {
                         directionCount++;
+                    }
                 }
 
                 _directionAngles = new float[directionCount];
@@ -460,7 +516,9 @@ namespace SlyPirates.Client.Views.Components.Animators
                         _centerPointIndex = i;
                     }
                     else if (radius > maxRadius)
+                    {
                         maxRadius = radius;
+                    }
 
                     if (IsDirectionalPoint(position))
                     {
@@ -476,7 +534,9 @@ namespace SlyPirates.Client.Views.Components.Animators
             public void CalculateDirectionalWeights(Vector2 parameter)
             {
                 if (_hasCachedWeights && parameter.Equals(_lastParameter))
+                {
                     return;
+                }
 
                 _lastParameter = parameter;
                 _hasCachedWeights = true;
@@ -489,10 +549,14 @@ namespace SlyPirates.Client.Views.Components.Animators
 
                 float magnitude = parameter.magnitude;
                 if (TrySetCenterWeight(magnitude))
+                {
                     return;
+                }
 
                 if (magnitude <= 0.0001f)
+                {
                     parameter = Vector2.right;
+                }
 
                 int lowerDirection = -1;
                 int upperDirection = -1;
@@ -506,7 +570,9 @@ namespace SlyPirates.Client.Views.Components.Animators
             public void SynchronizeDirectionalPlayback()
             {
                 if (_directionPointIndices.Length == 0)
+                {
                     return;
+                }
 
                 if (!_directionalPlaybackSynchronized)
                 {
@@ -515,7 +581,9 @@ namespace SlyPirates.Client.Views.Components.Animators
                 }
 
                 if (_hasSynchronizedSpeed && _lastSynchronizedSpeed == _normalizedSpeed)
+                {
                     return;
+                }
 
                 UpdateDirectionalPlaybackSpeed();
                 _lastSynchronizedSpeed = _normalizedSpeed;
@@ -525,7 +593,9 @@ namespace SlyPirates.Client.Views.Components.Animators
             private bool TrySetCenterWeight(float magnitude)
             {
                 if (magnitude > 0.0001f || _centerPointIndex < 0)
+                {
                     return false;
+                }
 
                 Weights[_centerPointIndex] = 1f;
                 CalculateWeightedNormalizedSpeed();
@@ -535,7 +605,9 @@ namespace SlyPirates.Client.Views.Components.Animators
             private void ApplyCenterOnlyWeight()
             {
                 if (_centerPointIndex >= 0)
+                {
                     Weights[_centerPointIndex] = 1f;
+                }
 
                 CalculateWeightedNormalizedSpeed();
             }
@@ -594,7 +666,9 @@ namespace SlyPirates.Client.Views.Components.Animators
             private float GetDirectionalWeight(float magnitude)
             {
                 if (_centerPointIndex < 0)
+                {
                     return 1f;
+                }
 
                 return Mathf.Clamp01(magnitude / Mathf.Max(_maxRadius, 0.0001f));
             }
@@ -602,7 +676,9 @@ namespace SlyPirates.Client.Views.Components.Animators
             private void ApplyCenterWeight(float directionalWeight)
             {
                 if (_centerPointIndex < 0)
+                {
                     return;
+                }
 
                 Weights[_centerPointIndex] = 1f - directionalWeight;
             }
@@ -611,13 +687,17 @@ namespace SlyPirates.Client.Views.Components.Animators
             {
                 _normalizedSpeed = 0f;
                 for (int i = 0; i < Weights.Length; i++)
+                {
                     _normalizedSpeed += Weights[i] * _pointNormalizedSpeeds[i];
+                }
             }
 
             private static float GetUpperWeight(float span, float lowerDelta)
             {
                 if (span <= 0.0001f)
+                {
                     return 0f;
+                }
 
                 return Mathf.Clamp01(-lowerDelta / span);
             }
@@ -680,7 +760,9 @@ namespace SlyPirates.Client.Views.Components.Animators
             public int AddClipHolder(string name, AnimationClip clip, float defaultSpeed)
             {
                 if (_holderIndices.ContainsKey(name))
+                {
                     return -1;
+                }
 
                 int index = _holders.Count;
                 _mixer.SetInputCount(index + 1);
@@ -706,7 +788,9 @@ namespace SlyPirates.Client.Views.Components.Animators
             public bool Play(int index, float fadeSeconds, bool restart)
             {
                 if (!IsValidHolderIndex(index))
+                {
                     return false;
+                }
 
                 _autoStopRemaining = -1f;
                 if (restart)
@@ -725,12 +809,16 @@ namespace SlyPirates.Client.Views.Components.Animators
             public bool StopAfterClip(int index, float fadeSeconds)
             {
                 if (!IsValidHolderIndex(index))
+                {
                     return false;
+                }
 
                 AnimationClipPlayable playable = _holders[index];
                 float speed = (float)playable.GetSpeed();
                 if (speed <= Mathf.Epsilon)
+                {
                     return false;
+                }
 
                 _autoStopRemaining = _clipLengths[index] / speed;
                 _autoStopFadeDuration = Mathf.Max(0f, fadeSeconds);
@@ -744,20 +832,26 @@ namespace SlyPirates.Client.Views.Components.Animators
                 {
                     AnimBlend item = blend[i];
                     if (!TryGetBlendTarget(item, allowedIndices, out _))
+                    {
                         continue;
+                    }
 
                     total += item.Weight;
                 }
 
                 if (total <= Mathf.Epsilon || float.IsInfinity(total))
+                {
                     return false;
+                }
 
                 Array.Clear(_targetWeights, 0, _targetWeights.Length);
                 for (int i = 0; i < blend.Length; i++)
                 {
                     AnimBlend item = blend[i];
                     if (!TryGetBlendTarget(item, allowedIndices, out int index))
+                    {
                         continue;
+                    }
 
                     _targetWeights[index] += item.Weight / total;
                 }
@@ -774,7 +868,9 @@ namespace SlyPirates.Client.Views.Components.Animators
                 {
                     int index = indices[i];
                     if (index >= 0 && index < _targetWeights.Length)
+                    {
                         _targetWeights[index] += Mathf.Max(0f, weights[i]);
+                    }
                 }
 
                 BeginWeightFade(fadeSeconds);
@@ -784,7 +880,9 @@ namespace SlyPirates.Client.Views.Components.Animators
             public bool SetClipHolderWeight(int index, float weight, float fadeSeconds)
             {
                 if (!IsValidHolderIndex(index))
+                {
                     return false;
+                }
 
                 _targetWeights[index] = Mathf.Clamp01(weight);
                 BeginWeightFade(fadeSeconds);
@@ -795,7 +893,9 @@ namespace SlyPirates.Client.Views.Components.Animators
             public bool SetClipHolderTime(int index, float normalizedTime)
             {
                 if (!IsValidHolderIndex(index))
+                {
                     return false;
+                }
 
                 AnimationClipPlayable playable = _holders[index];
                 playable.SetTime(Mathf.Clamp01(normalizedTime) * _clipLengths[index]);
@@ -805,7 +905,9 @@ namespace SlyPirates.Client.Views.Components.Animators
             public float GetNormalizedTime(int index)
             {
                 if (!IsValidHolderIndex(index))
+                {
                     return 0f;
+                }
 
                 float clipLength = _clipLengths[index];
                 return clipLength <= Mathf.Epsilon
@@ -816,7 +918,9 @@ namespace SlyPirates.Client.Views.Components.Animators
             public float GetDefaultNormalizedSpeed(int index)
             {
                 if (!IsValidHolderIndex(index))
+                {
                     return 0f;
+                }
 
                 return _defaultNormalizedSpeeds[index];
             }
@@ -824,7 +928,9 @@ namespace SlyPirates.Client.Views.Components.Animators
             public void SetNormalizedSpeed(int index, float normalizedSpeed)
             {
                 if (!IsValidHolderIndex(index))
+                {
                     return;
+                }
 
                 AnimationClipPlayable playable = _holders[index];
                 playable.SetSpeed(Mathf.Max(0f, normalizedSpeed) * _clipLengths[index]);
@@ -833,7 +939,9 @@ namespace SlyPirates.Client.Views.Components.Animators
             public bool SetClipHolderSpeed(int index, float speed)
             {
                 if (!IsValidHolderIndex(index))
+                {
                     return false;
+                }
 
                 _holders[index].SetSpeed(speed);
                 return true;
@@ -882,11 +990,15 @@ namespace SlyPirates.Client.Views.Components.Animators
             private void UpdateAutoStop(float deltaTime)
             {
                 if (_autoStopRemaining < 0f)
+                {
                     return;
+                }
 
                 _autoStopRemaining -= deltaTime;
                 if (_autoStopRemaining > 0f)
+                {
                     return;
+                }
 
                 _autoStopRemaining = -1f;
                 Clear(_autoStopFadeDuration);
@@ -925,7 +1037,9 @@ namespace SlyPirates.Client.Views.Components.Animators
             private void ApplyWeightFadeImmediately()
             {
                 if (_weightFadeDuration == 0f)
+                {
                     UpdateClipWeights(0f);
+                }
             }
 
             private static bool IsPositiveFinite(float value)
@@ -953,7 +1067,9 @@ namespace SlyPirates.Client.Views.Components.Animators
             private static float MoveTowards(float current, float target, float deltaTime, float duration)
             {
                 if (duration <= 0f)
+                {
                     return target;
+                }
 
                 return Mathf.MoveTowards(current, target, deltaTime / duration);
             }
@@ -965,7 +1081,9 @@ namespace SlyPirates.Client.Views.Components.Animators
             for (int i = 0; i < points.Count; i++)
             {
                 if (IsDirectionalPoint(points[i].Position))
+                {
                     directions++;
+                }
             }
 
             return directions >= 2;
@@ -1005,7 +1123,9 @@ namespace SlyPirates.Client.Views.Components.Animators
             _layerMixer.SetInputWeight(layerIndex, Mathf.Clamp01(weight));
             _layerMixer.SetLayerAdditive((uint)layerIndex, additive);
             if (mask != null)
+            {
                 _layerMixer.SetLayerMaskFromAvatarMask((uint)layerIndex, mask);
+            }
 
             return new AnimLayer(mixer, _layerMixer, layerIndex, weight);
         }

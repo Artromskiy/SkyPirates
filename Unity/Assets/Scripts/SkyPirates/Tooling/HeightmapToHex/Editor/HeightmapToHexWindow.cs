@@ -36,14 +36,22 @@ namespace SlyPirates.Tooling.HeightmapToHex.Editor
         private void OnEnable()
         {
             _palette ??= new List<HeightColorRule>();
-            if (_palette.Count == 0) _palette.AddRange(DefaultPalette());
+            if (_palette.Count == 0)
+            {
+                _palette.AddRange(DefaultPalette());
+            }
+
             _heightmap ??= AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/GeneratedHexIslands/HeightMaps/IslandHeightmap_RoughMountain.png");
             _rules = new ReorderableList(_palette, typeof(HeightColorRule), true, true, true, true);
             _rules.drawHeaderCallback = r => EditorGUI.LabelField(r, "Height palette (drag rows to reorder)");
             _rules.elementHeight = EditorGUIUtility.singleLineHeight + 6;
             _rules.drawElementCallback = DrawRule;
             _rules.onAddCallback = list => _palette.Add(new HeightColorRule { name = "Color " + (_palette.Count + 1), minimumHeight = _palette[_palette.Count - 1].minimumHeight, color = Color.white });
-            _rules.onRemoveCallback = list => { if (_palette.Count > 1) ReorderableList.defaultBehaviours.DoRemoveButton(list); };
+            _rules.onRemoveCallback = list => { if (_palette.Count > 1)
+                {
+                    ReorderableList.defaultBehaviours.DoRemoveButton(list);
+                }
+            };
         }
 
         private void OnGUI()
@@ -55,8 +63,16 @@ namespace SlyPirates.Tooling.HeightmapToHex.Editor
             _maximumElevation = EditorGUILayout.IntField("Maximum elevation", _maximumElevation);
             _heightSteps = EditorGUILayout.IntField("Height steps", _heightSteps);
             _rules.DoLayoutList();
-            if (GUILayout.Button("Generate In Open Scene", GUILayout.Height(32))) Generate();
-            if (!string.IsNullOrEmpty(_status)) EditorGUILayout.HelpBox(_status, MessageType.Info);
+            if (GUILayout.Button("Generate In Open Scene", GUILayout.Height(32)))
+            {
+                Generate();
+            }
+
+            if (!string.IsNullOrEmpty(_status))
+            {
+                EditorGUILayout.HelpBox(_status, MessageType.Info);
+            }
+
             EditorGUILayout.EndScrollView();
         }
 
@@ -85,7 +101,12 @@ namespace SlyPirates.Tooling.HeightmapToHex.Editor
             SceneManager.MoveGameObjectToScene(root, scene);
             Undo.RegisterCreatedObjectUndo(root, "Generate Island Hex Map");
             foreach (GameObject old in scene.GetRootGameObjects())
-                if (old != root && old.name.StartsWith(RootName, StringComparison.Ordinal)) DestroyImmediate(old);
+            {
+                if (old != root && old.name.StartsWith(RootName, StringComparison.Ordinal))
+                {
+                    DestroyImmediate(old);
+                }
+            }
 
             int count = 0;
             for (int x = 0; x < _columns; x++)
@@ -96,12 +117,21 @@ namespace SlyPirates.Tooling.HeightmapToHex.Editor
                 float u = (column * 1.5f + halfWidth) / (2f * halfWidth);
                 float v = ((y - (_rows - 1) * 0.5f + parity * 0.5f) * Mathf.Sqrt(3f) + halfDepth) / (2f * halfDepth);
                 float height = map.GetPixelBilinear(u, v).grayscale;
-                if (height <= LandThreshold) continue;
+                if (height <= LandThreshold)
+                {
+                    continue;
+                }
 
                 float land = Mathf.InverseLerp(LandThreshold, 1f, height);
                 int zone = 0;
                 for (int i = 1; i < _palette.Count; i++)
-                    if (land >= _palette[i].minimumHeight) zone = i;
+                {
+                    if (land >= _palette[i].minimumHeight)
+                    {
+                        zone = i;
+                    }
+                }
+
                 float steps = Mathf.Abs((float)_heightSteps);
                 float steppedHeight = steps == 0f ? land : Mathf.Round(land * steps) / steps;
                 int elevation = Mathf.Max(1, Mathf.RoundToInt(steppedHeight * _maximumElevation));

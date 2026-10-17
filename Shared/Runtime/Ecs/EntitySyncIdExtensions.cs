@@ -15,7 +15,9 @@ namespace SlyPirates.Shared.Ecs
         {
             Entity mapEntity = world.WhereAll<EntityIdMap>().First().Invoke();
             if (mapEntity.IsValid)
+            {
                 return world.Get<EntityIdMap>(mapEntity);
+            }
 
             mapEntity = world.Create<EntityIdMap>();
             var map = new EntityIdMap(initialCapacity);

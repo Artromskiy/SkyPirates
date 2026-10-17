@@ -19,12 +19,28 @@ namespace SlyPirates.Client.Views.Components
                 _views = _healthbar.GetComponentsInChildren<IEntityView>(true);
                 HealthbarCanvasView.RegisterSpawnedView(_healthbar.transform);
             }
-            foreach (IEntityView view in _views) view.OnBind(context);
+            foreach (IEntityView view in _views)
+            {
+                view.OnBind(context);
+            }
+
             _healthbar.SetActive(isActiveAndEnabled);
         }
 
-        private void OnEnable() { if (_healthbar != null) _healthbar.SetActive(true); }
-        private void OnDisable() { if (_healthbar != null) _healthbar.SetActive(false); }
-        private void OnDestroy() { if (_healthbar != null) Destroy(_healthbar); }
+        private void OnEnable() { if (_healthbar != null)
+            {
+                _healthbar.SetActive(true);
+            }
+        }
+        private void OnDisable() { if (_healthbar != null)
+            {
+                _healthbar.SetActive(false);
+            }
+        }
+        private void OnDestroy() { if (_healthbar != null)
+            {
+                Destroy(_healthbar);
+            }
+        }
     }
 }

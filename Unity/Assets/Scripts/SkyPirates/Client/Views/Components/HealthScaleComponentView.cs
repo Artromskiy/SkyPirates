@@ -31,7 +31,9 @@ namespace SlyPirates.Client.Views.Components
         private void Update()
         {
             if (Health == _health)
+            {
                 return;
+            }
 
             bool damaged = Health < _health;
             _health = Health;

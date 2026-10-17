@@ -13,7 +13,9 @@ namespace SlyPirates.Client.Views
         private void OnDisable()
         {
             if (_current == this)
+            {
                 _current = null;
+            }
         }
 
         public override void OnInject()
@@ -24,13 +26,17 @@ namespace SlyPirates.Client.Views
         public static void RegisterSpawnedView(Transform healthbarView)
         {
             if (_current != null && healthbarView != null)
+            {
                 _current.Register(healthbarView);
+            }
         }
 
         public void Register(Transform healthbarView)
         {
             if (healthbarView != null)
+            {
                 healthbarView.SetParent(transform, false);
+            }
         }
     }
 }

@@ -39,7 +39,10 @@ namespace SlyPirates.Shared.Ecs
         public WorldHistory(World world, ReadOnlySpan<ComponentId> componentIds, int initialCapacity, int maxCapacity)
         {
             if (initialCapacity <= 0 || maxCapacity < initialCapacity)
+            {
                 throw new ArgumentOutOfRangeException(nameof(maxCapacity));
+            }
+
             _world = world ?? throw new ArgumentNullException(nameof(world));
             _capacity = maxCapacity;
             _frames = new FrameRing<PresenceFrame>(initialCapacity);
@@ -48,11 +51,14 @@ namespace SlyPirates.Shared.Ecs
             var ids = new List<ComponentId>();
             var visitor = new CreateColumns(world, this, columns);
             for (int i = 0; i < componentIds.Length; i++)
+            {
                 if (componentIds[i] != pendingId && !ids.Contains(componentIds[i]))
                 {
                     ids.Add(componentIds[i]);
                     world.Components.Visit(componentIds[i], visitor);
                 }
+            }
+
             ComponentId syncId = world.Components.GetPrimary<SyncId>();
             if (!ids.Contains(syncId))
             {
@@ -70,7 +76,10 @@ namespace SlyPirates.Shared.Ecs
             var resources = new List<HistoryResource>();
             var disposeVisitor = new CreateResources(world, this, resources);
             foreach (ComponentId id in world.GetGroup(Group.All))
+            {
                 world.Components.Visit(id, disposeVisitor);
+            }
+
             _resources = resources.ToArray();
         }
 
@@ -81,7 +90,10 @@ namespace SlyPirates.Shared.Ecs
         {
             ThrowIfDisposed();
             if (_frames.Count != 0 && tick < NewestTick)
+            {
                 throw new InvalidOperationException("Rollback before replacing the future of history.");
+            }
+
             bool replace = _frames.Count != 0 && tick == NewestTick;
             PresenceFrame? previous = _frames.Count == 0 ? null : _frames.Last;
             var capture = _recycled.Count != 0 ? _recycled.Pop() : new PresenceFrame();
@@ -109,11 +121,18 @@ namespace SlyPirates.Shared.Ecs
                     bool present = _world.IsAlive(entity) && _world.Has<SyncId>(entity) && !_world.Has<PendingDestroy>(entity);
                     if (present)
                     {
-                        if (IsPresent(entity)) continue;
+                        if (IsPresent(entity))
+                        {
+                            continue;
+                        }
+
                         _present.Set(entity, true);
                         capture.Added.Add(entity);
                     }
-                    else if (_present.Remove(entity)) capture.Removed.Add(entity);
+                    else if (_present.Remove(entity))
+                    {
+                        capture.Removed.Add(entity);
+                    }
                 }
             }
             _presenceTick = tick;
@@ -125,20 +144,40 @@ namespace SlyPirates.Shared.Ecs
             if (replace)
             {
                 foreach (Entity entity in previous!.Added)
-                    if (!_present.TryGetValue(entity, out _)) _disappeared.Add(entity);
+                {
+                    if (!_present.TryGetValue(entity, out _))
+                    {
+                        _disappeared.Add(entity);
+                    }
+                }
+
                 foreach (Entity entity in previous.Removed)
-                    if (IsPresent(entity)) _appeared.Add(entity);
+                {
+                    if (IsPresent(entity))
+                    {
+                        _appeared.Add(entity);
+                    }
+                }
             }
 
             for (int i = 0; i < _columns.Length; i++)
+            {
                 _columns[i].Capture(tick, replace, _appeared, _disappeared);
+            }
+
             if (replace)
             {
                 _frames.RemoveLast();
                 if (_frames.Count == 0)
                 {
                     foreach (Entity entity in capture.Removed)
-                        if (_baselinePresence.Remove(entity)) RemoveReference(entity);
+                    {
+                        if (_baselinePresence.Remove(entity))
+                        {
+                            RemoveReference(entity);
+                        }
+                    }
+
                     foreach (Entity entity in capture.Added)
                     {
                         _baselinePresence.Set(entity, true);
@@ -149,14 +188,32 @@ namespace SlyPirates.Shared.Ecs
                 }
                 else
                 {
-                    foreach (Entity entity in previous!.Added) RemoveReference(entity);
-                    foreach (Entity entity in capture.Added) AddReference(entity);
+                    foreach (Entity entity in previous!.Added)
+                    {
+                        RemoveReference(entity);
+                    }
+
+                    foreach (Entity entity in capture.Added)
+                    {
+                        AddReference(entity);
+                    }
                 }
                 Recycle(previous!);
             }
-            else foreach (Entity entity in capture.Added) AddReference(entity);
+            else
+            {
+                foreach (Entity entity in capture.Added)
+                {
+                    AddReference(entity);
+                }
+            }
+
             _frames.Add(capture);
-            while (_frames.Count > _capacity) DropFirst();
+            while (_frames.Count > _capacity)
+            {
+                DropFirst();
+            }
+
             ReleaseUnreferenced();
             _ownershipChanges.Invoke();
             _pendingChanges.Invoke();
@@ -177,17 +234,39 @@ namespace SlyPirates.Shared.Ecs
             for (int i = 0; i < _presenceChanged.Count; i++)
             {
                 Entity entity = _presenceChanged.GetEntityAt(i);
-                if (!Owns(entity) || !_world.IsAlive(entity)) continue;
+                if (!Owns(entity) || !_world.IsAlive(entity))
+                {
+                    continue;
+                }
+
                 bool pending = _world.Has<PendingDestroy>(entity);
                 if (IsPresent(entity))
                 {
-                    if (pending) _restored.Add(entity);
+                    if (pending)
+                    {
+                        _restored.Add(entity);
+                    }
                 }
-                else if (!pending) _transitions.Add(entity);
+                else if (!pending)
+                {
+                    _transitions.Add(entity);
+                }
             }
-            if (_transitions.Count != 0) _world.Add<PendingDestroy>(Batch(_transitions));
-            if (_restored.Count != 0) _world.Remove<PendingDestroy>(Batch(_restored));
-            for (int i = 0; i < _columns.Length; i++) _columns[i].Restore(tick);
+            if (_transitions.Count != 0)
+            {
+                _world.Add<PendingDestroy>(Batch(_transitions));
+            }
+
+            if (_restored.Count != 0)
+            {
+                _world.Remove<PendingDestroy>(Batch(_restored));
+            }
+
+            for (int i = 0; i < _columns.Length; i++)
+            {
+                _columns[i].Restore(tick);
+            }
+
             ReleaseUnreferenced();
             // Consume this restore's writes without hiding them from other observers.
             _ownershipChanges.Invoke();
@@ -197,19 +276,33 @@ namespace SlyPirates.Shared.Ecs
 
         private void OnOwnershipChanged(Entity entity, ChangeKind change, ref SyncId id)
         {
-            if (change != ChangeKind.Removed) _owned.Set(entity, id.Value);
-            if (Owns(entity)) _presenceChanged.Set(entity, true);
+            if (change != ChangeKind.Removed)
+            {
+                _owned.Set(entity, id.Value);
+            }
+
+            if (Owns(entity))
+            {
+                _presenceChanged.Set(entity, true);
+            }
         }
 
         private void OnPendingChanged(Entity entity, ChangeKind change, ref PendingDestroy pending)
         {
-            if (Owns(entity)) _presenceChanged.Set(entity, true);
+            if (Owns(entity))
+            {
+                _presenceChanged.Set(entity, true);
+            }
         }
 
         private void MovePresence(int tick)
         {
             int from = _presenceTick;
-            if (from == tick) return;
+            if (from == tick)
+            {
+                return;
+            }
+
             bool forward = from < tick;
             int direction = forward ? 1 : -1;
             int first = _frames.IndexAfter(Math.Min(from, tick));
@@ -219,12 +312,28 @@ namespace SlyPirates.Shared.Ecs
                 PresenceFrame frame = _frames.At(i);
                 foreach (Entity entity in frame.Added)
                 {
-                    if (forward) _present.Set(entity, true); else _present.Remove(entity);
+                    if (forward)
+                    {
+                        _present.Set(entity, true);
+                    }
+                    else
+                    {
+                        _present.Remove(entity);
+                    }
+
                     _presenceChanged.Set(entity, true);
                 }
                 foreach (Entity entity in frame.Removed)
                 {
-                    if (forward) _present.Remove(entity); else _present.Set(entity, true);
+                    if (forward)
+                    {
+                        _present.Remove(entity);
+                    }
+                    else
+                    {
+                        _present.Set(entity, true);
+                    }
+
                     _presenceChanged.Set(entity, true);
                 }
             }
@@ -237,10 +346,18 @@ namespace SlyPirates.Shared.Ecs
             while (_frames.Last.Tick > tick)
             {
                 PresenceFrame frame = _frames.RemoveLast();
-                foreach (Entity entity in frame.Added) RemoveReference(entity);
+                foreach (Entity entity in frame.Added)
+                {
+                    RemoveReference(entity);
+                }
+
                 Recycle(frame);
             }
-            for (int i = 0; i < _columns.Length; i++) _columns[i].Rollback(tick);
+            for (int i = 0; i < _columns.Length; i++)
+            {
+                _columns[i].Rollback(tick);
+            }
+
             ReleaseUnreferenced();
         }
 
@@ -249,34 +366,72 @@ namespace SlyPirates.Shared.Ecs
             ThrowIfDisposed();
             _frames.Find(tick);
             var present = new HashSet<Entity>();
-            for (int i = 0; i < _baselinePresence.Count; i++) present.Add(_baselinePresence.GetEntityAt(i));
+            for (int i = 0; i < _baselinePresence.Count; i++)
+            {
+                present.Add(_baselinePresence.GetEntityAt(i));
+            }
+
             for (int i = 1; i < _frames.Count; i++)
             {
                 PresenceFrame frame = _frames.At(i);
-                if (frame.Tick > tick) break;
-                foreach (Entity entity in frame.Added) present.Add(entity);
-                foreach (Entity entity in frame.Removed) present.Remove(entity);
+                if (frame.Tick > tick)
+                {
+                    break;
+                }
+
+                foreach (Entity entity in frame.Added)
+                {
+                    present.Add(entity);
+                }
+
+                foreach (Entity entity in frame.Removed)
+                {
+                    present.Remove(entity);
+                }
             }
             var ids = _syncIds.StateAt(tick);
             var syncIds = new Dictionary<Entity, int>(present.Count);
             foreach (Entity entity in present)
-                if (ids.TryGetValue(entity, out SyncId id)) syncIds.Add(entity, id.Value);
+            {
+                if (ids.TryGetValue(entity, out SyncId id))
+                {
+                    syncIds.Add(entity, id.Value);
+                }
+            }
+
             var snapshot = new WorldData();
-            for (int i = 0; i < _columns.Length; i++) _columns[i].Export(snapshot, tick, syncIds);
+            for (int i = 0; i < _columns.Length; i++)
+            {
+                _columns[i].Export(snapshot, tick, syncIds);
+            }
+
             return snapshot;
         }
 
         public void ApplySnapshot(WorldData snapshot, int tick)
         {
             ThrowIfDisposed();
-            if (snapshot == null) throw new ArgumentNullException(nameof(snapshot));
+            if (snapshot == null)
+            {
+                throw new ArgumentNullException(nameof(snapshot));
+            }
+
             var sourceIds = snapshot.Get<SyncId>();
             foreach (var pair in sourceIds)
+            {
                 if (pair.Key != pair.Value.Value)
+                {
                     throw new ArgumentException("Snapshot SyncId keys must match their component values.", nameof(snapshot));
+                }
+            }
+
             var retained = new Dictionary<int, Entity>();
             _ownershipChanges.Invoke();
-            for (int i = 0; i < _owned.Count; i++) retained[_owned.GetValueAt(i)] = _owned.GetEntityAt(i);
+            for (int i = 0; i < _owned.Count; i++)
+            {
+                retained[_owned.GetValueAt(i)] = _owned.GetEntityAt(i);
+            }
+
             CaptureResources();
             ResetFrames();
             var entities = new Dictionary<int, Entity>(sourceIds.Count);
@@ -285,7 +440,13 @@ namespace SlyPirates.Shared.Ecs
             {
                 ids.Clear();
                 for (int i = 0; i < _columns.Length; i++)
-                    if (_columns[i].ContainsSnapshot(snapshot, pair.Key)) ids.Add(_columns[i].Id);
+                {
+                    if (_columns[i].ContainsSnapshot(snapshot, pair.Key))
+                    {
+                        ids.Add(_columns[i].Id);
+                    }
+                }
+
                 ComponentId[] components = ids.ToArray();
                 Entity entity;
                 if (retained.TryGetValue(pair.Key, out entity) && _world.IsAlive(entity))
@@ -295,19 +456,34 @@ namespace SlyPirates.Shared.Ecs
                     _world.Remove<PendingDestroy>(entity);
                     _world.Add(entity, components);
                 }
-                else entity = _world.Create(components);
+                else
+                {
+                    entity = _world.Create(components);
+                }
+
                 entities.Add(pair.Key, entity);
                 _owned.Set(entity, pair.Key);
             }
-            for (int i = 0; i < _columns.Length; i++) _columns[i].Import(snapshot, entities);
+            for (int i = 0; i < _columns.Length; i++)
+            {
+                _columns[i].Import(snapshot, entities);
+            }
+
             _release.Clear();
             for (int i = 0; i < _owned.Count; i++)
             {
                 Entity entity = _owned.GetEntityAt(i);
-                if (!entities.TryGetValue(_owned.GetValueAt(i), out Entity keep) || keep != entity) _release.Add(entity);
+                if (!entities.TryGetValue(_owned.GetValueAt(i), out Entity keep) || keep != entity)
+                {
+                    _release.Add(entity);
+                }
             }
             ReleaseQueued();
-            for (int i = 0; i < _resources.Length; i++) _resources[i].Prune();
+            for (int i = 0; i < _resources.Length; i++)
+            {
+                _resources[i].Prune();
+            }
+
             Save(tick);
         }
 
@@ -319,29 +495,51 @@ namespace SlyPirates.Shared.Ecs
             ResetFrames();
             // Clearing all references can release any owned descriptor. Ordinary saves
             // and restores only revisit changed presence or expired references.
-            for (int i = 0; i < _owned.Count; i++) _presenceChanged.Set(_owned.GetEntityAt(i), true);
+            for (int i = 0; i < _owned.Count; i++)
+            {
+                _presenceChanged.Set(_owned.GetEntityAt(i), true);
+            }
+
             ReleaseUnreferenced();
-            for (int i = 0; i < _resources.Length; i++) _resources[i].Prune();
+            for (int i = 0; i < _resources.Length; i++)
+            {
+                _resources[i].Prune();
+            }
         }
 
         private void ResetFrames()
         {
-            while (_frames.Count > 0) Recycle(_frames.RemoveLast());
+            while (_frames.Count > 0)
+            {
+                Recycle(_frames.RemoveLast());
+            }
+
             _references.Clear();
             _present.Clear();
             _baselinePresence.Clear();
             _presenceChanged.Clear();
             _presenceTick = 0;
-            for (int i = 0; i < _columns.Length; i++) _columns[i].Clear();
+            for (int i = 0; i < _columns.Length; i++)
+            {
+                _columns[i].Clear();
+            }
         }
 
         public void Dispose()
         {
-            if (_disposed) return;
+            if (_disposed)
+            {
+                return;
+            }
+
             _ownershipChanges.Invoke();
             ResetFrames();
             _release.Clear();
-            for (int i = 0; i < _owned.Count; i++) _release.Add(_owned.GetEntityAt(i));
+            for (int i = 0; i < _owned.Count; i++)
+            {
+                _release.Add(_owned.GetEntityAt(i));
+            }
+
             ReleaseQueued();
             _disposed = true;
         }
@@ -350,12 +548,25 @@ namespace SlyPirates.Shared.Ecs
         {
             Recycle(_frames.RemoveFirst());
             PresenceFrame first = _frames.First;
-            foreach (Entity entity in first.Added) _baselinePresence.Set(entity, true);
+            foreach (Entity entity in first.Added)
+            {
+                _baselinePresence.Set(entity, true);
+            }
+
             foreach (Entity entity in first.Removed)
-                if (_baselinePresence.Remove(entity)) RemoveReference(entity);
+            {
+                if (_baselinePresence.Remove(entity))
+                {
+                    RemoveReference(entity);
+                }
+            }
+
             first.Added.Clear();
             first.Removed.Clear();
-            for (int i = 0; i < _columns.Length; i++) _columns[i].DropFirst();
+            for (int i = 0; i < _columns.Length; i++)
+            {
+                _columns[i].DropFirst();
+            }
         }
 
         // Count presence intervals intersecting the retained range, not every frame in them.
@@ -367,13 +578,20 @@ namespace SlyPirates.Shared.Ecs
 
         private void RemoveReference(Entity entity)
         {
-            if (!_references.TryGetValue(entity, out int count)) return;
+            if (!_references.TryGetValue(entity, out int count))
+            {
+                return;
+            }
+
             if (count == 1)
             {
                 _references.Remove(entity);
                 _presenceChanged.Set(entity, true);
             }
-            else _references.Set(entity, count - 1);
+            else
+            {
+                _references.Set(entity, count - 1);
+            }
         }
 
         private void Recycle(PresenceFrame frame)
@@ -385,7 +603,11 @@ namespace SlyPirates.Shared.Ecs
 
         private ReadOnlySpan<Entity> Batch(List<Entity> entities)
         {
-            if (_batch.Length < entities.Count) Array.Resize(ref _batch, Math.Max(entities.Count, _batch.Length * 2));
+            if (_batch.Length < entities.Count)
+            {
+                Array.Resize(ref _batch, Math.Max(entities.Count, _batch.Length * 2));
+            }
+
             entities.CopyTo(_batch);
             return _batch.AsSpan(0, entities.Count);
         }
@@ -397,38 +619,66 @@ namespace SlyPirates.Shared.Ecs
             {
                 Entity entity = _presenceChanged.GetEntityAt(i);
                 if (Owns(entity) && !_references.TryGetValue(entity, out _) &&
-                    (!_world.IsAlive(entity) || _world.Has<PendingDestroy>(entity))) _release.Add(entity);
+                    (!_world.IsAlive(entity) || _world.Has<PendingDestroy>(entity)))
+                {
+                    _release.Add(entity);
+                }
             }
             ReleaseQueued();
         }
 
         private void ReleaseQueued()
         {
-            if (_release.Count == 0) return;
+            if (_release.Count == 0)
+            {
+                return;
+            }
+
             CaptureResources();
-            if (_batch.Length < _release.Count) Array.Resize(ref _batch, _release.Count);
+            if (_batch.Length < _release.Count)
+            {
+                Array.Resize(ref _batch, _release.Count);
+            }
+
             int count = 0;
             foreach (Entity entity in _release)
             {
                 _owned.Remove(entity);
-                if (_world.IsAlive(entity)) _batch[count++] = entity;
+                if (_world.IsAlive(entity))
+                {
+                    _batch[count++] = entity;
+                }
             }
             ReadOnlySpan<Entity> batch = _batch.AsSpan(0, count);
-            for (int i = 0; i < _resources.Length; i++) _resources[i].Release(_release, batch);
-            if (count != 0) _world.Destroy(batch);
+            for (int i = 0; i < _resources.Length; i++)
+            {
+                _resources[i].Release(_release, batch);
+            }
+
+            if (count != 0)
+            {
+                _world.Destroy(batch);
+            }
+
             _release.Clear();
         }
 
         private void CaptureResources()
         {
-            for (int i = 0; i < _resources.Length; i++) _resources[i].Capture();
+            for (int i = 0; i < _resources.Length; i++)
+            {
+                _resources[i].Capture();
+            }
         }
 
         internal bool Owns(Entity entity) => _owned.TryGetValue(entity, out _);
         internal bool IsPresent(Entity entity) => _present.TryGetValue(entity, out _);
         private void ThrowIfDisposed()
         {
-            if (_disposed) throw new ObjectDisposedException(nameof(WorldHistory));
+            if (_disposed)
+            {
+                throw new ObjectDisposedException(nameof(WorldHistory));
+            }
         }
 
         private readonly struct CreateColumns : IStructComponentVisitor
@@ -493,13 +743,28 @@ namespace SlyPirates.Shared.Ecs
         public override void Capture() => _capture.Invoke();
         internal void Remember(Entity entity, in T value)
         {
-            if (!_owner.Owns(entity)) return;
-            if (!_values.TryGetValue(entity, out List<T> values)) _values.Set(entity, values = new List<T>());
-            if (!values.Contains(value)) values.Add(value);
+            if (!_owner.Owns(entity))
+            {
+                return;
+            }
+
+            if (!_values.TryGetValue(entity, out List<T> values))
+            {
+                _values.Set(entity, values = new List<T>());
+            }
+
+            if (!values.Contains(value))
+            {
+                values.Add(value);
+            }
         }
         internal void DisposeCurrent(Entity entity, ref T value)
         {
-            if (_values.TryGetValue(entity, out List<T> values)) values.Remove(value);
+            if (_values.TryGetValue(entity, out List<T> values))
+            {
+                values.Remove(value);
+            }
+
             _dispose(ref value);
         }
         public override void Release(IReadOnlyList<Entity> entities, ReadOnlySpan<Entity> batch)
@@ -508,6 +773,7 @@ namespace SlyPirates.Shared.Ecs
             var context = this;
             _world.ForEachEntity(batch, in _query, ref context, _id, typeof(HistoryReleaseResource<>)).Invoke();
             foreach (Entity entity in entities)
+            {
                 if (_values.TryGetValue(entity, out List<T> values))
                 {
                     foreach (T item in values)
@@ -517,6 +783,7 @@ namespace SlyPirates.Shared.Ecs
                     }
                     _values.Remove(entity);
                 }
+            }
         }
         public override void Prune()
         {
@@ -529,13 +796,19 @@ namespace SlyPirates.Shared.Ecs
                 bool hasValue = _world.IsAlive(entity) && _world.Has(entity, _id);
                 T current = hasValue ? _world.Get<T>(entity, _id) : default;
                 for (int j = values.Count - 1; j >= 0; j--)
+                {
                     if (!hasValue || !EqualityComparer<T>.Default.Equals(current, values[j]))
                     {
                         T value = values[j];
                         _dispose(ref value);
                         values.RemoveAt(j);
                     }
-                if (values.Count == 0) _values.Remove(entity);
+                }
+
+                if (values.Count == 0)
+                {
+                    _values.Remove(entity);
+                }
             }
         }
     }
@@ -568,7 +841,11 @@ namespace SlyPirates.Shared.Ecs
             if (Count == _items.Length)
             {
                 var items = new T?[_items.Length * 2];
-                for (int i = 0; i < Count; i++) items[i] = At(i);
+                for (int i = 0; i < Count; i++)
+                {
+                    items[i] = At(i);
+                }
+
                 _items = items;
                 _head = 0;
             }
@@ -590,13 +867,28 @@ namespace SlyPirates.Shared.Ecs
         }
         public int IndexAfter(int tick)
         {
-            if (Count == 0 || tick < First.Tick) return 0;
-            if (tick >= Last.Tick) return Count;
+            if (Count == 0 || tick < First.Tick)
+            {
+                return 0;
+            }
+
+            if (tick >= Last.Tick)
+            {
+                return Count;
+            }
+
             int low = 0, high = Count;
             while (low < high)
             {
                 int middle = (low + high) >> 1;
-                if (At(middle).Tick <= tick) low = middle + 1; else high = middle;
+                if (At(middle).Tick <= tick)
+                {
+                    low = middle + 1;
+                }
+                else
+                {
+                    high = middle;
+                }
             }
             return low;
         }
@@ -604,9 +896,16 @@ namespace SlyPirates.Shared.Ecs
         public int FindIndex(int tick)
         {
             if (Count == 0 || tick < First.Tick || tick > Last.Tick)
+            {
                 throw new ArgumentOutOfRangeException(nameof(tick), $"Tick {tick} is outside the retained history.");
+            }
+
             int index = IndexAfter(tick) - 1;
-            if (At(index).Tick == tick) return index;
+            if (At(index).Tick == tick)
+            {
+                return index;
+            }
+
             throw new ArgumentOutOfRangeException(nameof(tick), $"Tick {tick} was not saved.");
         }
     }
@@ -660,18 +959,28 @@ namespace SlyPirates.Shared.Ecs
             // Keep the state before this frame for reversible change rows. Restoring a
             // nearby tick then touches only the intervening changes in either direction.
             int previous = _frames.Count - (replace ? 2 : 1);
-            if (previous >= 0) StateAt(_frames.At(previous).Tick);
+            if (previous >= 0)
+            {
+                StateAt(_frames.At(previous).Tick);
+            }
             else
             {
                 _state.Clear();
-                for (int i = 0; i < _baseline.Count; i++) _state.Set(_baseline.GetEntityAt(i), _baseline.GetValueAt(i));
+                for (int i = 0; i < _baseline.Count; i++)
+                {
+                    _state.Set(_baseline.GetEntityAt(i), _baseline.GetValueAt(i));
+                }
+
                 _stateTick = null;
             }
             _indices.Clear();
             if (replace)
             {
                 _capture = _frames.Last;
-                for (int i = 0; i < _capture.Changes.Count; i++) _indices.Set(_capture.Changes[i].Entity, i);
+                for (int i = 0; i < _capture.Changes.Count; i++)
+                {
+                    _indices.Set(_capture.Changes[i].Entity, i);
+                }
             }
             else
             {
@@ -679,27 +988,47 @@ namespace SlyPirates.Shared.Ecs
                 _capture.Tick = tick;
                 _frames.Add(_capture);
             }
-            if (_stateTick >= tick) _stateTick = null;
+            if (_stateTick >= tick)
+            {
+                _stateTick = null;
+            }
+
             _changeOperation.Invoke();
-            if (_frames.Count == 1) _captureOperation.Invoke();
+            if (_frames.Count == 1)
+            {
+                _captureOperation.Invoke();
+            }
             else if (appeared.Count != 0)
             {
                 // Logical revival must seed even values that were not written through ref.
                 foreach (Entity entity in appeared)
+                {
                     if (_indices.TryGetValue(entity, out _) || _state.TryGetValue(entity, out _))
+                    {
                         Record(entity, false, default);
+                    }
+                }
+
                 var context = this;
                 _world.ForEachEntity(Batch(appeared), in _query, ref context, Id, typeof(HistoryCaptureComponent<>)).Invoke();
             }
             // A tag removes the entire logical entity once, including unchanged columns.
-            foreach (Entity entity in disappeared) Record(entity, false, default);
+            foreach (Entity entity in disappeared)
+            {
+                Record(entity, false, default);
+            }
+
             _capture = null!;
             _worldTick = tick;
         }
 
         internal void CaptureRow(Entity entity, in T value)
         {
-            if (!_owner.IsPresent(entity)) return;
+            if (!_owner.IsPresent(entity))
+            {
+                return;
+            }
+
             Record(entity, true, value);
         }
 
@@ -707,12 +1036,26 @@ namespace SlyPirates.Shared.Ecs
         {
             if (_capture == null)
             {
-                if (_owner.Owns(entity)) _changed.Set(entity, true);
+                if (_owner.Owns(entity))
+                {
+                    _changed.Set(entity, true);
+                }
+
                 return;
             }
-            if (!_owner.IsPresent(entity)) return;
-            if (kind == ChangeKind.Removed) Record(entity, false, default);
-            else Record(entity, true, value);
+            if (!_owner.IsPresent(entity))
+            {
+                return;
+            }
+
+            if (kind == ChangeKind.Removed)
+            {
+                Record(entity, false, default);
+            }
+            else
+            {
+                Record(entity, true, value);
+            }
         }
 
         private void Record(Entity entity, bool hasValue, in T value)
@@ -736,16 +1079,32 @@ namespace SlyPirates.Shared.Ecs
         public EntityValueMap<T> StateAt(int tick)
         {
             int target = _frames.FindIndex(tick);
-            if (_stateTick == tick) return _state;
+            if (_stateTick == tick)
+            {
+                return _state;
+            }
+
             if (!_stateTick.HasValue || _stateTick.Value < _frames.First.Tick)
             {
                 _state.Clear();
-                for (int i = 0; i < _baseline.Count; i++) _state.Set(_baseline.GetEntityAt(i), _baseline.GetValueAt(i));
+                for (int i = 0; i < _baseline.Count; i++)
+                {
+                    _state.Set(_baseline.GetEntityAt(i), _baseline.GetValueAt(i));
+                }
+
                 _stateTick = null;
             }
             int from = _stateTick.HasValue ? _frames.IndexAfter(_stateTick.Value) : 0;
-            for (int i = from - 1; i > target; i--) Undo(_frames.At(i), _state);
-            for (int i = from; i <= target; i++) Apply(_frames.At(i), _state);
+            for (int i = from - 1; i > target; i--)
+            {
+                Undo(_frames.At(i), _state);
+            }
+
+            for (int i = from; i <= target; i++)
+            {
+                Apply(_frames.At(i), _state);
+            }
+
             _stateTick = tick;
             return _state;
         }
@@ -760,7 +1119,10 @@ namespace SlyPirates.Shared.Ecs
             for (int i = last - 1; i >= first; i--)
             {
                 ComponentHistoryFrame<T> frame = _frames.At(i);
-                foreach (HistoryChange<T> change in frame.Changes) _changed.Set(change.Entity, true);
+                foreach (HistoryChange<T> change in frame.Changes)
+                {
+                    _changed.Set(change.Entity, true);
+                }
             }
 
             _add.Clear();
@@ -771,13 +1133,30 @@ namespace SlyPirates.Shared.Ecs
                 bool exists = _world.Has(entity, Id);
                 if (_state.TryGetValue(entity, out T value))
                 {
-                    if (exists) _world.GetRef<T>(entity, Id) = value;
-                    else _add.Add(entity);
+                    if (exists)
+                    {
+                        _world.GetRef<T>(entity, Id) = value;
+                    }
+                    else
+                    {
+                        _add.Add(entity);
+                    }
                 }
-                else if (exists) _remove.Add(entity);
+                else if (exists)
+                {
+                    _remove.Add(entity);
+                }
             }
-            if (_remove.Count != 0) _world.Remove(Batch(_remove), Id);
-            if (_add.Count != 0) _world.Add(Batch(_add), Id);
+            if (_remove.Count != 0)
+            {
+                _world.Remove(Batch(_remove), Id);
+            }
+
+            if (_add.Count != 0)
+            {
+                _world.Add(Batch(_add), Id);
+            }
+
             foreach (Entity entity in _add)
             {
                 _state.TryGetValue(entity, out T value);
@@ -791,7 +1170,11 @@ namespace SlyPirates.Shared.Ecs
 
         private ReadOnlySpan<Entity> Batch(List<Entity> entities)
         {
-            if (_batch.Length < entities.Count) Array.Resize(ref _batch, Math.Max(entities.Count, _batch.Length * 2));
+            if (_batch.Length < entities.Count)
+            {
+                Array.Resize(ref _batch, Math.Max(entities.Count, _batch.Length * 2));
+            }
+
             entities.CopyTo(_batch);
             return _batch.AsSpan(0, entities.Count);
         }
@@ -804,8 +1187,15 @@ namespace SlyPirates.Shared.Ecs
 
         public override void Rollback(int tick)
         {
-            while (_frames.Count > 0 && _frames.Last.Tick > tick) Recycle(_frames.RemoveLast());
-            if (_stateTick > tick) _stateTick = null;
+            while (_frames.Count > 0 && _frames.Last.Tick > tick)
+            {
+                Recycle(_frames.RemoveLast());
+            }
+
+            if (_stateTick > tick)
+            {
+                _stateTick = null;
+            }
         }
         public override void DropFirst()
         {
@@ -816,14 +1206,30 @@ namespace SlyPirates.Shared.Ecs
         private static void Apply(ComponentHistoryFrame<T> frame, EntityValueMap<T> state)
         {
             foreach (HistoryChange<T> change in frame.Changes)
-                if (change.HasValue) state.Set(change.Entity, change.Current); else state.Remove(change.Entity);
+            {
+                if (change.HasValue)
+                {
+                    state.Set(change.Entity, change.Current);
+                }
+                else
+                {
+                    state.Remove(change.Entity);
+                }
+            }
         }
         private static void Undo(ComponentHistoryFrame<T> frame, EntityValueMap<T> state)
         {
             for (int i = frame.Changes.Count - 1; i >= 0; i--)
             {
                 HistoryChange<T> change = frame.Changes[i];
-                if (change.HadValue) state.Set(change.Entity, change.Previous); else state.Remove(change.Entity);
+                if (change.HadValue)
+                {
+                    state.Set(change.Entity, change.Previous);
+                }
+                else
+                {
+                    state.Remove(change.Entity);
+                }
             }
         }
         public override void Export(WorldData snapshot, int tick, Dictionary<Entity, int> syncIds)
@@ -833,18 +1239,36 @@ namespace SlyPirates.Shared.Ecs
             // Canonical SyncId order keeps the hash independent of archetype/storage order.
             var ordered = new SortedDictionary<int, T>();
             for (int i = 0; i < values.Count; i++)
-                if (syncIds.TryGetValue(values.GetEntityAt(i), out int id)) ordered.Add(id, values.GetValueAt(i));
-            foreach (var pair in ordered) output.Add(pair.Key, pair.Value);
+            {
+                if (syncIds.TryGetValue(values.GetEntityAt(i), out int id))
+                {
+                    ordered.Add(id, values.GetValueAt(i));
+                }
+            }
+
+            foreach (var pair in ordered)
+            {
+                output.Add(pair.Key, pair.Value);
+            }
         }
         public override bool ContainsSnapshot(WorldData snapshot, int id) => snapshot.Get<T>().ContainsKey(id);
         public override void Import(WorldData snapshot, Dictionary<int, Entity> entities)
         {
             foreach (var pair in snapshot.Get<T>())
-                if (entities.TryGetValue(pair.Key, out Entity entity)) _world.GetRef<T>(entity, Id) = pair.Value;
+            {
+                if (entities.TryGetValue(pair.Key, out Entity entity))
+                {
+                    _world.GetRef<T>(entity, Id) = pair.Value;
+                }
+            }
         }
         public override void Clear()
         {
-            while (_frames.Count > 0) Recycle(_frames.RemoveLast());
+            while (_frames.Count > 0)
+            {
+                Recycle(_frames.RemoveLast());
+            }
+
             _baseline.Clear(); _state.Clear(); _indices.Clear(); _changed.Clear(); _stateTick = null;
             _worldTick = 0;
         }

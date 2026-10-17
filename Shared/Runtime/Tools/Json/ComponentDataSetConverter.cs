@@ -17,22 +17,33 @@ namespace SlyPirates.Shared.Tools.Json
         public override ComponentDataSet Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
             if (reader.TokenType != JsonTokenType.StartObject)
+            {
                 throw new JsonException("Component data must be an object.");
+            }
 
             if (_world == null)
+            {
                 throw new JsonException("Deserializing component data requires a registered world.");
+            }
 
             var result = new ComponentDataSet();
             while (reader.Read() && reader.TokenType != JsonTokenType.EndObject)
             {
                 if (reader.TokenType != JsonTokenType.PropertyName)
+                {
                     throw new JsonException("Expected a component name.");
+                }
 
                 var name = reader.GetString();
                 if (string.IsNullOrWhiteSpace(name))
+                {
                     throw new JsonException("Component name cannot be empty.");
+                }
+
                 if (!reader.Read())
+                {
                     throw new JsonException($"Missing value for component '{name}'.");
+                }
 
                 using JsonDocument value = JsonDocument.ParseValue(ref reader);
                 ComponentId componentId = _world.GetAlias(name);

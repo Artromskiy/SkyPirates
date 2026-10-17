@@ -26,16 +26,22 @@ namespace SlyPirates.Client.Views.Components.Animators
             bool healthChanged = health < _prevHealth;
             _prevHealth = health;
             if (!healthChanged)
+            {
                 return;
+            }
 
             if (_animView != null && _animView.IsReady)
+            {
                 _animView.PlayOnce("Reaction.Damage");
+            }
         }
 
         private void CacheComponents()
         {
             if (_animView == null)
+            {
                 _animView = GetComponentInChildren<AnimView>();
+            }
         }
 
     }

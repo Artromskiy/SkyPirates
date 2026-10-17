@@ -18,25 +18,42 @@ namespace SlyPirates.Tooling
             var platform = Application.platform;
 #if UNITY_EDITOR
             if (_useTestPlatform)
+            {
                 platform = _testPlatform;
+            }
 #endif
 
             foreach (var view in _mobileViews)
+            {
                 view.SetActive(false);
+            }
+
             foreach (var view in _standaloneViews)
+            {
                 view.SetActive(false);
+            }
 
             var mobile = platform is
                 RuntimePlatform.Android or
                 RuntimePlatform.IPhonePlayer or
                 RuntimePlatform.WebGLPlayer;
 
-            if (mobile) foreach (var view in _mobileViews)
-                view.SetActive(true);
+            if (mobile)
+            {
+                foreach (var view in _mobileViews)
+                {
+                    view.SetActive(true);
+                }
+            }
 
             // macOS editor and player platforms use the keyboard controls in _standaloneViews.
-            else foreach (var view in _standaloneViews)
-                view.SetActive(true);
+            else
+            {
+                foreach (var view in _standaloneViews)
+                {
+                    view.SetActive(true);
+                }
+            }
         }
     }
 }

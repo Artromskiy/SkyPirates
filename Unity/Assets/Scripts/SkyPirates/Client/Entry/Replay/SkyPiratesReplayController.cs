@@ -28,13 +28,19 @@ namespace SlyPirates.Client.Entry.Replay
         private void Update()
         {
             if (_session == null)
+            {
                 return;
+            }
 
             if (Input.GetKeyDown(KeyCode.F9))
+            {
                 ToggleReplayRecording();
+            }
 
             if (!_replayMode)
+            {
                 return;
+            }
 
             _playback?.Update(Time.unscaledDeltaTime);
             _postTickables.Tick(checked((int)_session.CurrentStep));
@@ -49,7 +55,9 @@ namespace SlyPirates.Client.Entry.Replay
             }
 
             if (!CanRecordReplay)
+            {
                 return;
+            }
 
             long initialStep = _session.CurrentStep;
             WorldData initialWorld = _history.GetSnapshot(checked((int)initialStep));
@@ -60,7 +68,9 @@ namespace SlyPirates.Client.Entry.Replay
         public void LoadReplayFile(string path)
         {
             if (!IsInitialized)
+            {
                 throw new InvalidOperationException("The local game session has not started.");
+            }
 
             _playback ??= new SkyPiratesReplayPlayback(_session, _simulation);
             _playback.Load(SkyPiratesReplayFile.Load(path));
@@ -73,7 +83,9 @@ namespace SlyPirates.Client.Entry.Replay
         public void SeekReplay(long step)
         {
             if (_playback == null)
+            {
                 return;
+            }
 
             _playback.Seek(step);
             _postTickables.Tick(checked((int)step));
@@ -82,7 +94,9 @@ namespace SlyPirates.Client.Entry.Replay
         public void SetReplayPlaying(bool playing)
         {
             if (_playback != null)
+            {
                 _playback.Playing = playing;
+            }
         }
 
         public bool IsInitialized => _session != null && _session.Session != null;
@@ -106,7 +120,9 @@ namespace SlyPirates.Client.Entry.Replay
         public void StepReplay(int direction)
         {
             if (_playback == null)
+            {
                 return;
+            }
 
             SeekReplay(Math.Max(_playback.FirstStep, Math.Min(_playback.LastStep, _playback.CurrentStep + direction)));
         }
@@ -114,7 +130,9 @@ namespace SlyPirates.Client.Entry.Replay
         public bool VerifyReplayHash(long step, out ulong expected, out ulong actual)
         {
             if (_playback != null)
+            {
                 return _playback.VerifyHashAt(step, out expected, out actual);
+            }
 
             expected = 0;
             actual = 0;
@@ -124,7 +142,9 @@ namespace SlyPirates.Client.Entry.Replay
         private void SaveReplayRecording()
         {
             if (_recorder == null)
+            {
                 return;
+            }
 
             try
             {
@@ -134,7 +154,9 @@ namespace SlyPirates.Client.Entry.Replay
                 string path = Path.Combine(directory, $"{fileName}.json");
                 int suffix = 1;
                 while (File.Exists(path))
+                {
                     path = Path.Combine(directory, $"{fileName}-{suffix++}.json");
+                }
 
                 SkyPiratesReplayFile.Save(path, _recorder.Capture());
                 _recorder = null;
@@ -155,7 +177,9 @@ namespace SlyPirates.Client.Entry.Replay
                     || File.Exists(Path.Combine(directory.FullName, ".git"));
                 bool hasRootSolution = File.Exists(Path.Combine(directory.FullName, "SkyPirates.slnx"));
                 if (hasGitMetadata && hasRootSolution)
+                {
                     return Path.Combine(directory.FullName, "Replays");
+                }
 
                 directory = directory.Parent;
             }

@@ -25,7 +25,9 @@ namespace DVG.Editor.Tools
 
             Delta.Diagnostics.Trace.Info($"Removed {_empty.Count} empty folders");
             if (_empty.Count > 0)
+            {
                 AssetDatabase.Refresh();
+            }
         }
 
         private static bool GetEmptyDirectories(DirectoryInfo dir, List<DirectoryInfo> results)
@@ -38,7 +40,9 @@ namespace DVG.Editor.Tools
                     dir.GetFiles("*.*").All(x => x.Extension == ".meta");
 
                 if (isEmpty)
+                {
                     results.Add(dir);
+                }
             }
             catch { }
 

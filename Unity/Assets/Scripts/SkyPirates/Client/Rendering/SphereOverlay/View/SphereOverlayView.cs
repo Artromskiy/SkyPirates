@@ -53,7 +53,9 @@ namespace SlyPirates.Rendering.SphereOverlay.View
         private void RefreshVolume()
         {
             if (isActiveAndEnabled && _radius > 0f)
+            {
                 SphereOverlayRegistry.Set(this, transform.position, _radius, _gradient, _color);
+            }
         }
     }
 }

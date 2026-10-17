@@ -55,7 +55,9 @@ namespace SlyPirates.Local.Entry
         private void Update()
         {
             if (_container == null || _gameLoop == null)
+            {
                 return;
+            }
 
             _gameLoop.Update();
         }

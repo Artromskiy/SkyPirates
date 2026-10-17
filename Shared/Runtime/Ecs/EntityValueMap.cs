@@ -52,7 +52,10 @@ namespace SlyPirates.Shared.Ecs
             exists = page.DenseIndices[slot] != 0 && page.Entities[slot] == entity;
             if (!exists)
             {
-                if (page.DenseIndices[slot] != 0) RemoveAt(page, slot);
+                if (page.DenseIndices[slot] != 0)
+                {
+                    RemoveAt(page, slot);
+                }
 
                 page.Entities[slot] = entity;
                 page.DenseIndices[slot] = _entities.Count + 1;
@@ -110,7 +113,10 @@ namespace SlyPirates.Shared.Ecs
 
         private Page? GetPage(int entityIndex, bool create)
         {
-            if (entityIndex < 0) throw new ArgumentOutOfRangeException(nameof(entityIndex));
+            if (entityIndex < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(entityIndex));
+            }
 
             int pageIndex = entityIndex >> PageShift;
             int rootIndex = pageIndex >> (DirectoryShift * 2);
@@ -118,9 +124,15 @@ namespace SlyPirates.Shared.Ecs
             int leafIndex = pageIndex & DirectoryMask;
 
             if (!create)
+            {
                 return _root.Length == 0 ? null : _root[rootIndex]?.Children[middleIndex]?.Pages[leafIndex];
+            }
 
-            if (_root.Length == 0) _root = new MiddleDirectory?[RootSize];
+            if (_root.Length == 0)
+            {
+                _root = new MiddleDirectory?[RootSize];
+            }
+
             MiddleDirectory middle = _root[rootIndex] ??= new MiddleDirectory();
             LeafDirectory leaf = middle.Children[middleIndex] ??= new LeafDirectory();
             return leaf.Pages[leafIndex] ??= new Page();

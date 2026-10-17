@@ -30,7 +30,9 @@ namespace SlyPirates.Client.Views.Components
             _muzzlePoint = null;
             if (world.GetEntityIdMap().TryGetRetainedEntity(source, out Entity sourceEntity)
                 && scene.TryGetView(sourceEntity, out GameObject sourceView))
+            {
                 _muzzlePoint = sourceView.GetComponent<ProjectileSourceView>()?.MuzzlePoint;
+            }
 
             _startPosition = (float3)projectile.StartPosition;
             _muzzlePosition = _startPosition;
@@ -44,7 +46,9 @@ namespace SlyPirates.Client.Views.Components
         private void Awake()
         {
             if (_lineRenderer == null)
+            {
                 _lineRenderer = GetComponent<LineRenderer>();
+            }
 
             _lineRenderer.useWorldSpace = true;
             _lineRenderer.positionCount = 2;
@@ -63,7 +67,9 @@ namespace SlyPirates.Client.Views.Components
         {
             Vector3 position = (float3)_context.Get<Position>().Value;
             if (_muzzlePoint != null)
+            {
                 _muzzlePosition = _muzzlePoint.position;
+            }
 
             Vector3 flightStart = _startPosition;
             Vector3 flightEnd = _destination;

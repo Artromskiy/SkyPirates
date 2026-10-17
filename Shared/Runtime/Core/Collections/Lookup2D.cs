@@ -24,9 +24,11 @@ namespace SlyPirates.Shared.Core.Collections
 		public Lookup2D(int initialSize = 8)
 		{
 			if (initialSize <= 0)
-				throw new ArgumentOutOfRangeException(nameof(initialSize));
+            {
+                throw new ArgumentOutOfRangeException(nameof(initialSize));
+            }
 
-			_width = initialSize;
+            _width = initialSize;
 			_height = initialSize;
 
 			_items = new T[_width * _height];
@@ -65,9 +67,11 @@ namespace SlyPirates.Shared.Core.Collections
 		public bool Remove(int x, int y)
 		{
 			if (!TryToIndex(x, y, out int index) || !_has[index])
-				return false;
+            {
+                return false;
+            }
 
-			_has[index] = false;
+            _has[index] = false;
 			_items[index] = default!;
 			return true;
 		}
@@ -76,8 +80,10 @@ namespace SlyPirates.Shared.Core.Collections
 		{
 			Array.Clear(_has, 0, _has.Length);
 			if (RuntimeHelpers.IsReferenceOrContainsReferences<T>())
-				Array.Clear(_items, 0, _items.Length);
-		}
+            {
+                Array.Clear(_items, 0, _items.Length);
+            }
+        }
 
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -85,9 +91,11 @@ namespace SlyPirates.Shared.Core.Collections
 		{
 			int index = ToIndex(x, y);
 			if (!_has[index])
-				throw new KeyNotFoundException($"Key ({x},{y}) not found");
+            {
+                throw new KeyNotFoundException($"Key ({x},{y}) not found");
+            }
 
-			return _items[index];
+            return _items[index];
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -134,9 +142,11 @@ namespace SlyPirates.Shared.Core.Collections
 			int iy = y + _offsetY;
 
 			if ((uint)ix < (uint)_width && (uint)iy < (uint)_height)
-				return;
+            {
+                return;
+            }
 
-			int newWidth = _width;
+            int newWidth = _width;
 			int newHeight = _height;
 			int newOffsetX = _offsetX;
 			int newOffsetY = _offsetY;

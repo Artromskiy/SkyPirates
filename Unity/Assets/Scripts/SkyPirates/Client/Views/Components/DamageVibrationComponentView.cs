@@ -20,7 +20,9 @@ namespace SlyPirates.Client.Views.Components
         private void Update()
         {
             if (!_vibrate)
+            {
                 return;
+            }
 
             if (Health >= _health)
             {

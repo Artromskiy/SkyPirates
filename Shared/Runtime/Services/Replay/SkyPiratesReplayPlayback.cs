@@ -34,24 +34,46 @@ namespace SlyPirates.Shared.Services.Replay
             get => _speed;
             set
             {
-                if (value <= 0 || double.IsNaN(value) || double.IsInfinity(value)) throw new ArgumentOutOfRangeException(nameof(value));
+                if (value <= 0 || double.IsNaN(value) || double.IsInfinity(value))
+                {
+                    throw new ArgumentOutOfRangeException(nameof(value));
+                }
+
                 _speed = value;
             }
         }
         public int FramesPerTick
         {
             get => _framesPerTick;
-            set { if (value <= 0) throw new ArgumentOutOfRangeException(nameof(value)); _framesPerTick = value; }
+            set { if (value <= 0)
+                {
+                    throw new ArgumentOutOfRangeException(nameof(value));
+                }
+
+                _framesPerTick = value; }
         }
         public int CompletedLoops { get; private set; }
 
         public void Load(SkyPiratesReplayData replay)
         {
-            if (replay == null) throw new ArgumentNullException(nameof(replay));
-            if (replay.EndHashCheck.Step < replay.InitialStep) throw new ArgumentException("Replay ends before its initial state.", nameof(replay));
+            if (replay == null)
+            {
+                throw new ArgumentNullException(nameof(replay));
+            }
+
+            if (replay.EndHashCheck.Step < replay.InitialStep)
+            {
+                throw new ArgumentException("Replay ends before its initial state.", nameof(replay));
+            }
+
             foreach (var command in replay.Commands)
+            {
                 if (command.Step <= replay.InitialStep || command.Step > replay.EndHashCheck.Step)
+                {
                     throw new ArgumentException("Replay commands must be inside its simulation range.", nameof(replay));
+                }
+            }
+
             _session.ApplySnapshot(replay.InitialWorld, checked((int)replay.InitialStep));
             var start = new SessionStart(new SessionId(1), new AuthorId(0), new ProtocolId(1), checked(replay.InitialStep + 1), 0);
             _session.Restart(start);
@@ -72,7 +94,11 @@ namespace SlyPirates.Shared.Services.Replay
         public void Seek(long targetStep)
         {
             EnsureLoaded();
-            if (targetStep < FirstStep || targetStep > LastStep) throw new ArgumentOutOfRangeException(nameof(targetStep));
+            if (targetStep < FirstStep || targetStep > LastStep)
+            {
+                throw new ArgumentOutOfRangeException(nameof(targetStep));
+            }
+
             _simulation.Tick(targetStep);
             _position = targetStep - FirstStep;
         }
@@ -83,12 +109,23 @@ namespace SlyPirates.Shared.Services.Replay
         {
             EnsureLoaded();
             if (elapsedSeconds < 0 || double.IsNaN(elapsedSeconds) || double.IsInfinity(elapsedSeconds))
+            {
                 throw new ArgumentOutOfRangeException(nameof(elapsedSeconds));
-            if (!Playing) return;
+            }
+
+            if (!Playing)
+            {
+                return;
+            }
+
             double delta = Mode == ReplayRunMode.RunRealFps ? elapsedSeconds * Constants.TicksPerSecond
                 : Mode == ReplayRunMode.RunFixedFps ? 1d / FramesPerTick : 1d;
             _position = Math.Min(LastStep - FirstStep, _position + delta * Speed);
-            if (_position + 1e-10 >= LastStep - FirstStep) _position = LastStep - FirstStep;
+            if (_position + 1e-10 >= LastStep - FirstStep)
+            {
+                _position = LastStep - FirstStep;
+            }
+
             long fixedStep = FirstStep + (long)Math.Floor(_position + 1e-10);
             double fraction = Math.Max(0, _position - (fixedStep - FirstStep));
             var input = default(JoystickCommand);
@@ -96,7 +133,10 @@ namespace SlyPirates.Shared.Services.Replay
             if (_position >= LastStep - FirstStep)
             {
                 if (Loop) { CompletedLoops++; Seek(FirstStep); }
-                else Playing = false;
+                else
+                {
+                    Playing = false;
+                }
             }
         }
 
@@ -112,7 +152,10 @@ namespace SlyPirates.Shared.Services.Replay
 
         private void EnsureLoaded()
         {
-            if (_replay == null) throw new InvalidOperationException("Load a replay before playback.");
+            if (_replay == null)
+            {
+                throw new InvalidOperationException("Load a replay before playback.");
+            }
         }
     }
 }

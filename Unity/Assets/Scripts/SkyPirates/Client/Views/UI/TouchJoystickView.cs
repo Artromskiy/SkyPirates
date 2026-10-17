@@ -25,13 +25,17 @@ namespace SlyPirates.Client.Views
         public void OnDrag(PointerEventData eventData)
         {
             if (_pointerId != eventData.pointerId)
+            {
                 return;
+            }
 
             float maxDelta = (_outKnob.sizeDelta.x * _outKnob.lossyScale.x / 2);
             float2 pos = eventData.position;
             float2 delta = (pos - _start) / maxDelta;
             if (float2.SqrLength(delta) > 1)
+            {
                 delta = float2.Normalize(delta);
+            }
 
             _inKnob.position = (_start + delta * maxDelta).xy_;
 
@@ -56,7 +60,9 @@ namespace SlyPirates.Client.Views
         public void OnPointerUp(PointerEventData eventData)
         {
             if (_pointerId != eventData.pointerId)
+            {
                 return;
+            }
 
             _inKnob.gameObject.SetActive(false);
             _outKnob.gameObject.SetActive(false);

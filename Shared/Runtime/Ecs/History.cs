@@ -27,13 +27,19 @@ namespace SlyPirates.Shared.Ecs
         public History(int initialCapacity, int maxCapacity)
         {
             if (!((maxCapacity & (maxCapacity - 1)) == 0))
+            {
                 throw new ArgumentException("History maxCapacity should be power of two");
+            }
 
             if (!((initialCapacity & (initialCapacity - 1)) == 0))
+            {
                 throw new ArgumentException("History initialCapacity should be power of two");
+            }
 
             if (initialCapacity > maxCapacity)
+            {
                 throw new ArgumentException("History initialCapacity should be less or equal to maxCapacity");
+            }
 
             _maxCapacity = maxCapacity;
             Capacity = initialCapacity;
@@ -90,20 +96,28 @@ namespace SlyPirates.Shared.Ecs
         {
             int count = _count;
             if (count == 0)
+            {
                 throw new IndexOutOfRangeException($"History is empty and does not contain tick {tick}");
+            }
 
             int lastIdx = Index(count - 1);
             if (_ticks[lastIdx] <= tick)
+            {
                 return _values[lastIdx];
+            }
 
             var head = _head;
             int oldestTick = _ticks[head];
 
             if (tick < oldestTick)
+            {
                 throw new IndexOutOfRangeException($"History does not contain tick {tick}. Last found tick {_ticks[lastIdx]}");
+            }
 
             if (tick == oldestTick)
+            {
                 return _values[head];
+            }
 
             int idx = BinarySearch(tick, count);
 
@@ -116,21 +130,30 @@ namespace SlyPirates.Shared.Ecs
         {
             int count = _count;
             if (count == 0)
+            {
                 return;
+            }
 
             while (count > 0 && GetTick(count - 1) > toTick)
+            {
                 count--;
+            }
 
             _count = count;
 
             if (count == 0)
+            {
                 _head = 0;
+            }
         }
 
         public readonly T? GetLast(out int tick)
         {
             if (_count == 0)
+            {
                 throw new InvalidOperationException("History is empty");
+            }
+
             var idx = Index(_count - 1);
             tick = _ticks[idx];
             return _values[idx];
@@ -158,12 +181,18 @@ namespace SlyPirates.Shared.Ecs
                 int midTick = _ticks[idx];
 
                 if (midTick == tick)
+                {
                     return idx;
+                }
 
                 if (midTick < tick)
+                {
                     lo = mid + 1;
+                }
                 else
+                {
                     hi = mid - 1;
+                }
             }
 
             return Index(hi);
@@ -172,7 +201,9 @@ namespace SlyPirates.Shared.Ecs
         private void EnsureCapacity()
         {
             if (_count < Capacity)
+            {
                 return;
+            }
 
             if (Capacity >= _maxCapacity)
             {
@@ -183,7 +214,9 @@ namespace SlyPirates.Shared.Ecs
 
             int newCapacity = Capacity << 1;
             if (newCapacity > _maxCapacity)
+            {
                 newCapacity = _maxCapacity;
+            }
 
             Resize(newCapacity);
         }
@@ -239,10 +272,14 @@ namespace SlyPirates.Shared.Ecs
                 ref var yRef = ref Unsafe.As<T?, NullableReadable>(ref y);
 
                 if (xRef.hasValue != yRef.hasValue)
+                {
                     return false;
+                }
 
                 if (!xRef.hasValue)
+                {
                     return true;
+                }
 
                 var xBytes = MemoryMarshal.CreateSpan(ref Unsafe.As<T, byte>(ref xRef.value), _size);
                 var yBytes = MemoryMarshal.CreateSpan(ref Unsafe.As<T, byte>(ref yRef.value), _size);

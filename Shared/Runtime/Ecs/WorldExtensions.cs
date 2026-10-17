@@ -30,11 +30,15 @@ namespace SlyPirates.Shared.Ecs
             for (int i = 0; i < componentIds.Length; i++)
             {
                 if (!world.Has(entity, componentIds[i]))
+                {
                     missing[missingCount++] = componentIds[i];
+                }
             }
 
             if (missingCount != 0)
+            {
                 world.Add(entity, missing.AsSpan(0, missingCount));
+            }
 
             foreach (var entry in components)
             {

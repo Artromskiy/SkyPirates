@@ -14,9 +14,11 @@ namespace SlyPirates.Shared.Core.Collections
 		public Lookup(int initialCapacity = 16)
 		{
 			if (initialCapacity <= 0)
-				throw new ArgumentOutOfRangeException(nameof(initialCapacity));
+            {
+                throw new ArgumentOutOfRangeException(nameof(initialCapacity));
+            }
 
-			_items = new bool[initialCapacity];
+            _items = new bool[initialCapacity];
 			_offset = initialCapacity >> 1;
 		}
 
@@ -29,10 +31,14 @@ namespace SlyPirates.Shared.Core.Collections
 			set
 			{
 				if (value)
-					Add(id);
-				else
-					Remove(id);
-			}
+                {
+                    Add(id);
+                }
+                else
+                {
+                    Remove(id);
+                }
+            }
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -52,9 +58,11 @@ namespace SlyPirates.Shared.Core.Collections
 		public bool Remove(int id)
 		{
 			if (!TryToIndex(id, out int index) || !_items[index])
-				return false;
+            {
+                return false;
+            }
 
-			_items[index] = false;
+            _items[index] = false;
 			return true;
 		}
 
@@ -76,9 +84,11 @@ namespace SlyPirates.Shared.Core.Collections
 		{
 			int index = id + _offset;
 			if ((uint)index < (uint)_items.Length)
-				return;
+            {
+                return;
+            }
 
-			int newSize = _items.Length;
+            int newSize = _items.Length;
 			int newOffset = _offset;
 
 			int minIndex = Math.Min(index, 0);

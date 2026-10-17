@@ -17,7 +17,9 @@ namespace SlyPirates.Client.Views.Components
             for (int i = 0; i < transforms.Length; i++)
             {
                 if (transforms[i].name != MuzzlePointName)
+                {
                     continue;
+                }
 
                 _muzzlePoint = transforms[i];
                 return;

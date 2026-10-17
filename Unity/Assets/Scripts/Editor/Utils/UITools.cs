@@ -20,7 +20,9 @@ namespace DVG.Editor.Tools
         {
             GameObject selected = cmd.context as GameObject;
             if (selected == null)
+            {
                 return;
+            }
 
             _changeCounter = 0;
             foreach (var item in selected.GetComponentsInChildren<Graphic>(true))
@@ -42,7 +44,9 @@ namespace DVG.Editor.Tools
         {
             GameObject selected = cmd.context as GameObject;
             if (selected == null)
+            {
                 return;
+            }
 
             _changeCounter = 0;
             EnableMasking(selected.transform);
@@ -55,7 +59,9 @@ namespace DVG.Editor.Tools
         {
             GameObject selected = cmd.context as GameObject;
             if (selected == null)
+            {
                 return;
+            }
 
             _changeCounter = 0;
             DisableMaskingRecursive(selected.transform);
@@ -69,7 +75,9 @@ namespace DVG.Editor.Tools
             foreach (var item in go.GetComponentsInChildren<MaskableGraphic>(true))
             {
                 if (item.transform == go)
+                {
                     continue;
+                }
 
                 if (!item.maskable)
                 {
@@ -90,7 +98,9 @@ namespace DVG.Editor.Tools
             }
 
             if (go.TryGetComponent<Mask>(out _))
+            {
                 return;
+            }
 
             var count = go.childCount;
             for (int i = 0; i < count; i++)

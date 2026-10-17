@@ -27,7 +27,10 @@ namespace SlyPirates.Client.Views.Components
         {
             ulong instanceId = EntityId.ToULong(instance.GetEntityId());
             if (!_changeSubscriptions.ContainsKey(instanceId))
+            {
                 _changeSubscriptions[instanceId] = null;
+            }
+
             _changeSubscriptions[instanceId] += onChanged;
         }
 
@@ -36,7 +39,9 @@ namespace SlyPirates.Client.Views.Components
         {
             ulong instanceId = EntityId.ToULong(instance.GetEntityId());
             if (_changeSubscriptions.ContainsKey(instanceId))
+            {
                 _changeSubscriptions[instanceId] -= onChanged;
+            }
         }
 
 #if UNITY_EDITOR
@@ -45,11 +50,15 @@ namespace SlyPirates.Client.Views.Components
             for (int i = 0; i < stream.length; ++i)
             {
                 if (stream.GetEventType(i) != ObjectChangeKind.ChangeGameObjectOrComponentProperties)
+                {
                     continue;
+                }
 
                 stream.GetChangeGameObjectOrComponentPropertiesEvent(i, out var data);
                 if (_changeSubscriptions.TryGetValue(EntityId.ToULong(data.entityId), out var subscriptions))
+                {
                     subscriptions?.Invoke();
+                }
             }
         }
 #endif

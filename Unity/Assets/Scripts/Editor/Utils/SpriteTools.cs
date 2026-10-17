@@ -13,12 +13,16 @@ namespace DVG.Editor.Tools
         {
             Object[] selected = Selection.objects;
             if (selected == null || selected.Length == 0)
+            {
                 return;
+            }
 
             foreach (Object obj in selected)
             {
                 if (obj is not Texture2D texture)
+                {
                     continue;
+                }
 
                 Vector2Int min = new(int.MaxValue, int.MaxValue);
                 Vector2Int max = new(int.MinValue, int.MinValue);

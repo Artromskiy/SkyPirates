@@ -34,7 +34,9 @@ namespace SlyPirates.Client.ViewModels.UI
         public void UseCard(int index)
         {
             if (_player.SquadEntityId == null)
+            {
                 return;
+            }
 
             var selected = _cards[index];
             var cmdData = new SpawnUnitCommand()

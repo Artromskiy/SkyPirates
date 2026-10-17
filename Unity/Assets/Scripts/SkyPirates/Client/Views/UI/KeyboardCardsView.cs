@@ -12,13 +12,19 @@ namespace SlyPirates.Client.Views
         private void Update()
         {
             if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
                 ViewModel.UseCard(0);
+            }
 
             if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
                 ViewModel.UseCard(1);
+            }
 
             if (Input.GetKeyDown(KeyCode.Alpha3))
+            {
                 ViewModel.UseCard(2);
+            }
         }
     }
 }

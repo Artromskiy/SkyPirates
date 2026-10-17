@@ -72,7 +72,10 @@ namespace SlyPirates.Tooling.TextureToVertexColor.Editor
                 allowSceneObjects = false,
             };
             if (_vertexColorMaterial == null)
+            {
                 _vertexColorMaterial = AssetDatabase.LoadAssetAtPath<Material>(DefaultVertexMaterialPath);
+            }
+
             _materialField.SetValueWithoutNotify(_vertexColorMaterial);
             _materialField.RegisterValueChangedCallback(change => _vertexColorMaterial = change.newValue as Material);
             content.Add(_materialField);
@@ -91,9 +94,13 @@ namespace SlyPirates.Tooling.TextureToVertexColor.Editor
             content.Add(_status);
 
             if (_source == null && Selection.activeObject is GameObject selected)
+            {
                 SetSource(selected);
+            }
             else
+            {
                 SetSource(_source);
+            }
         }
 
         private void SetSource(GameObject source)
@@ -107,8 +114,12 @@ namespace SlyPirates.Tooling.TextureToVertexColor.Editor
             {
                 Renderer[] found = source.GetComponentsInChildren<Renderer>(true);
                 foreach (Renderer renderer in found)
+                {
                     if (renderer is MeshRenderer || renderer is SkinnedMeshRenderer)
+                    {
                         _renderers.Add(renderer);
+                    }
+                }
             }
 
             List<string> labels = BuildRendererLabels();
@@ -130,7 +141,10 @@ namespace SlyPirates.Tooling.TextureToVertexColor.Editor
         {
             List<string> labels = new List<string>(_renderers.Count);
             foreach (Renderer renderer in _renderers)
+            {
                 labels.Add(GetHierarchyPath(renderer.transform, _source.transform));
+            }
+
             return labels;
         }
 
@@ -162,7 +176,9 @@ namespace SlyPirates.Tooling.TextureToVertexColor.Editor
         private void SetStatus(string message, HelpBoxMessageType type)
         {
             if (_status == null)
+            {
                 return;
+            }
 
             _status.text = message;
             _status.messageType = type;
@@ -172,7 +188,9 @@ namespace SlyPirates.Tooling.TextureToVertexColor.Editor
         {
             List<string> names = new List<string>();
             for (Transform current = target; current != null && current != root; current = current.parent)
+            {
                 names.Add(current.name);
+            }
 
             names.Reverse();
             return string.Join("/", names);

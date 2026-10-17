@@ -41,11 +41,17 @@ namespace DVG.Editor.Tools
                     _textures[i], typeof(Texture2D), false,
                     GUILayout.Height(40), GUILayout.Width(40));
                 if (_textures[i] != null)
+                {
                     EditorGUILayout.LabelField(_textures[i].name);
+                }
+
                 if (GUILayout.Button("✕", GUILayout.Width(24))) { _textures.RemoveAt(i); break; }
                 EditorGUILayout.EndHorizontal();
             }
-            if (GUILayout.Button("+ Add Texture")) _textures.Add(null);
+            if (GUILayout.Button("+ Add Texture"))
+            {
+                _textures.Add(null);
+            }
 
             EditorGUILayout.Space();
             EditorGUILayout.LabelField("Grid Settings", EditorStyles.boldLabel);
@@ -53,14 +59,22 @@ namespace DVG.Editor.Tools
             _cols = EditorGUILayout.IntField("Columns (N)", _cols);
             _autoRows = EditorGUILayout.Toggle("Auto Rows", _autoRows);
             if (!_autoRows)
+            {
                 _rows = EditorGUILayout.IntField("Rows (M)", _rows);
+            }
             else
+            {
                 EditorGUILayout.LabelField("Rows", _textures.Count > 0
                     ? Mathf.CeilToInt((float)_textures.Count / Mathf.Max(_cols, 1)).ToString()
                     : "auto");
+            }
 
             int tileSizeIndex = Array.IndexOf(_potSizes, _tileSizePOT);
-            if (tileSizeIndex < 0) tileSizeIndex = 3;
+            if (tileSizeIndex < 0)
+            {
+                tileSizeIndex = 3;
+            }
+
             var potLabels = Array.ConvertAll(_potSizes, x => x.ToString());
             tileSizeIndex = EditorGUILayout.Popup("Tile Size (POT)", tileSizeIndex, potLabels);
             _tileSizePOT = _potSizes[tileSizeIndex];
@@ -70,7 +84,10 @@ namespace DVG.Editor.Tools
             _padding = EditorGUILayout.IntField("Padding (px)", _padding);
             _blackToAlpha = EditorGUILayout.Toggle("HSV Value → Alpha", _blackToAlpha);
             if (_blackToAlpha)
+            {
                 _alphaCurve = EditorGUILayout.CurveField("Alpha Curve", _alphaCurve);
+            }
+
             _outputPath = EditorGUILayout.TextField("Output Path", _outputPath);
 
             int cols = Mathf.Max(_cols, 1);
@@ -82,7 +99,11 @@ namespace DVG.Editor.Tools
 
             EditorGUILayout.Space();
             GUI.enabled = _textures.Count > 0;
-            if (GUILayout.Button("Build Atlas", GUILayout.Height(36))) Build();
+            if (GUILayout.Button("Build Atlas", GUILayout.Height(36)))
+            {
+                Build();
+            }
+
             GUI.enabled = true;
 
             EditorGUILayout.EndScrollView();
@@ -91,14 +112,28 @@ namespace DVG.Editor.Tools
         private void HandleDrop(Rect rect)
         {
             var e = Event.current;
-            if (!rect.Contains(e.mousePosition)) return;
-            if (e.type != EventType.DragUpdated && e.type != EventType.DragPerform) return;
+            if (!rect.Contains(e.mousePosition))
+            {
+                return;
+            }
+
+            if (e.type != EventType.DragUpdated && e.type != EventType.DragPerform)
+            {
+                return;
+            }
+
             DragAndDrop.visualMode = DragAndDropVisualMode.Copy;
             if (e.type == EventType.DragPerform)
             {
                 DragAndDrop.AcceptDrag();
                 foreach (var obj in DragAndDrop.objectReferences)
-                    if (obj is Texture2D t) _textures.Add(t);
+                {
+                    if (obj is Texture2D t)
+                    {
+                        _textures.Add(t);
+                    }
+                }
+
                 e.Use();
             }
         }
@@ -107,7 +142,12 @@ namespace DVG.Editor.Tools
         {
             var readables = new List<Texture2D>();
             foreach (var src in _textures)
-                if (src != null) readables.Add(GetReadable(src));
+            {
+                if (src != null)
+                {
+                    readables.Add(GetReadable(src));
+                }
+            }
 
             if (readables.Count == 0) { Delta.Diagnostics.Trace.Warn("[AtlasTools] No valid textures."); return; }
 
@@ -140,7 +180,9 @@ namespace DVG.Editor.Tools
                 var tile = ResizeBilinear(crop, tileSize, tileSize);
 
                 if (_blackToAlpha)
+                {
                     ApplyValueToAlpha(tile);
+                }
 
                 atlas.SetPixels(px, py, tileSize, tileSize, tile.GetPixels());
             }
@@ -151,7 +193,9 @@ namespace DVG.Editor.Tools
 
             var dir = Path.GetDirectoryName(_outputPath);
             if (!string.IsNullOrEmpty(dir) && !Directory.Exists(dir))
+            {
                 Directory.CreateDirectory(dir);
+            }
 
             File.WriteAllBytes(_outputPath, finalAtlas.EncodeToPNG());
             AssetDatabase.Refresh();
@@ -185,14 +229,32 @@ namespace DVG.Editor.Tools
                     var c = px[y * w + x];
                     if (c.r > 10 || c.g > 10 || c.b > 10 || c.a > 10)
                     {
-                        if (x < minX) minX = x;
-                        if (y < minY) minY = y;
-                        if (x > maxX) maxX = x;
-                        if (y > maxY) maxY = y;
+                        if (x < minX)
+                        {
+                            minX = x;
+                        }
+
+                        if (y < minY)
+                        {
+                            minY = y;
+                        }
+
+                        if (x > maxX)
+                        {
+                            maxX = x;
+                        }
+
+                        if (y > maxY)
+                        {
+                            maxY = y;
+                        }
                     }
                 }
 
-            if (minX > maxX) return new RectInt(0, 0, 1, 1);
+            if (minX > maxX)
+            {
+                return new RectInt(0, 0, 1, 1);
+            }
 
             int bw = Mathf.Min(NextPOT(maxX - minX + 1), w);
             int bh = Mathf.Min(NextPOT(maxY - minY + 1), h);
@@ -208,8 +270,11 @@ namespace DVG.Editor.Tools
 
             for (int y = 0; y < newH; y++)
                 for (int x = 0; x < newW; x++)
-                    px[y * newW + x] = src.GetPixelBilinear((x + 0.5f) * sx / src.width,
-                                                             (y + 0.5f) * sy / src.height);
+            {
+                px[y * newW + x] = src.GetPixelBilinear((x + 0.5f) * sx / src.width,
+                    (y + 0.5f) * sy / src.height);
+            }
+
             dst.SetPixels(px);
             dst.Apply();
             return dst;
@@ -238,7 +303,11 @@ namespace DVG.Editor.Tools
 
         private static int NextPOT(int v)
         {
-            if (v <= 0) return 1;
+            if (v <= 0)
+            {
+                return 1;
+            }
+
             v--;
             v |= v >> 1; v |= v >> 2; v |= v >> 4; v |= v >> 8; v |= v >> 16;
             return v + 1;

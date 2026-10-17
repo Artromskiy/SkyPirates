@@ -152,7 +152,10 @@ namespace SlyPirates.Tooling
             var copy = new CommandsData();
             var copyAction = new CommandsCopyAction(commandsData, copy);
             foreach (ICommandRegistration registration in GeneratedCommands.Registrations)
+            {
                 registration.Visit(ref copyAction);
+            }
+
             return copy;
         }
 
@@ -161,7 +164,10 @@ namespace SlyPirates.Tooling
             var copy = Copy(commandsData);
             var removeAction = new RemoveAction(copy, tick);
             foreach (ICommandRegistration registration in GeneratedCommands.Registrations)
+            {
                 registration.Visit(ref removeAction);
+            }
+
             return copy;
         }
 

@@ -31,9 +31,18 @@ namespace SlyPirates.Shared.Systems
 
         private void OnLifetimeChanged(Entity entity, ChangeKind change, ref PendingDestroy pending)
         {
-            if (!_world.IsAlive(entity)) _ids.Remove(entity);
-            else if (_world.Has<PendingDestroy>(entity)) _ids.Deactivate(entity);
-            else if (_world.TryGet(entity, out SyncId id)) _ids.Register(entity, id);
+            if (!_world.IsAlive(entity))
+            {
+                _ids.Remove(entity);
+            }
+            else if (_world.Has<PendingDestroy>(entity))
+            {
+                _ids.Deactivate(entity);
+            }
+            else if (_world.TryGet(entity, out SyncId id))
+            {
+                _ids.Register(entity, id);
+            }
         }
 
         private void OnChanged(Entity entity, ChangeKind change, ref SyncId id)
@@ -41,14 +50,21 @@ namespace SlyPirates.Shared.Systems
             if (change == ChangeKind.Removed)
             {
                 if (_world.IsAlive(entity))
+                {
                     _ids.Deactivate(entity);
+                }
                 else
+                {
                     _ids.Remove(entity);
+                }
             }
             else
             {
                 _ids.Register(entity, id);
-                if (_world.Has<PendingDestroy>(entity)) _ids.Deactivate(entity);
+                if (_world.Has<PendingDestroy>(entity))
+                {
+                    _ids.Deactivate(entity);
+                }
             }
         }
     }

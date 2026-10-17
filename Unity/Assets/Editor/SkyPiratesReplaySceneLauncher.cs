@@ -29,17 +29,21 @@ namespace SlyPirates.Editor
             }
 
             if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo())
+            {
                 return;
+            }
 
             try
             {
                 int historyCapacity = GetReplayHistoryCapacity(replayPath);
                 Scene scene = EditorSceneManager.OpenScene(ReplayScenePath, OpenSceneMode.Single);
                 if (!scene.IsValid())
+                {
                     throw new InvalidOperationException($"Could not open replay scene '{ReplayScenePath}'.");
+                }
 
                 SlyPirates.Local.Entry.LocalStart localStart = FindLocalStart(scene)
-                    ?? throw new InvalidOperationException($"Replay scene '{ReplayScenePath}' has no LocalStart component.");
+                                                               ?? throw new InvalidOperationException($"Replay scene '{ReplayScenePath}' has no LocalStart component.");
                 var serializedStart = new SerializedObject(localStart);
                 SerializedProperty historyCapacityProperty = serializedStart.FindProperty("_historyCapacity")
                     ?? throw new InvalidOperationException("LocalStart has no _historyCapacity setting.");
@@ -65,7 +69,9 @@ namespace SlyPirates.Editor
             if (state == PlayModeStateChange.EnteredPlayMode)
             {
                 if (!string.IsNullOrEmpty(SessionState.GetString(PendingReplayPathKey, string.Empty)))
+                {
                     EditorApplication.update += LoadPendingReplay;
+                }
             }
             else if (state == PlayModeStateChange.EnteredEditMode)
             {
@@ -86,7 +92,9 @@ namespace SlyPirates.Editor
 
             SkyPiratesReplayController? replayController = UnityEngine.Object.FindAnyObjectByType<SkyPiratesReplayController>();
             if (replayController == null || !replayController.IsInitialized)
+            {
                 return;
+            }
 
             EditorApplication.update -= LoadPendingReplay;
             SessionState.EraseString(PendingReplayPathKey);
@@ -106,11 +114,15 @@ namespace SlyPirates.Editor
         {
             ReplayHeader? replay = JsonUtility.FromJson<ReplayHeader>(File.ReadAllText(replayPath));
             if (replay?.EndHashCheck == null)
+            {
                 throw new InvalidDataException("The selected file is not a valid Sky Pirates replay.");
+            }
 
             long frameCount = replay.EndHashCheck.Step - replay.InitialStep + 1;
             if (frameCount <= 0)
+            {
                 throw new InvalidDataException("The replay has an invalid frame range.");
+            }
 
             return checked((int)frameCount);
         }
@@ -122,7 +134,10 @@ namespace SlyPirates.Editor
             foreach (SlyPirates.Local.Entry.LocalStart localStart in root.GetComponentsInChildren<SlyPirates.Local.Entry.LocalStart>(true))
             {
                 if (result != null)
+                {
                     throw new InvalidOperationException("Replay scene must contain exactly one LocalStart component.");
+                }
+
                 result = localStart;
             }
 
@@ -133,7 +148,9 @@ namespace SlyPirates.Editor
         {
             int originalCapacity = SessionState.GetInt(OriginalHistoryCapacityKey, -1);
             if (originalCapacity < 0)
+            {
                 return;
+            }
 
             Scene scene = SceneManager.GetActiveScene();
             if (scene.path == ReplayScenePath)
@@ -148,7 +165,9 @@ namespace SlyPirates.Editor
                         historyCapacityProperty.intValue = originalCapacity;
                         serializedStart.ApplyModifiedProperties();
                         if (scene.isDirty && !EditorSceneManager.SaveScene(scene, scene.path, false))
+                        {
                             Debug.LogError($"Could not restore replay scene settings in '{scene.path}'.");
+                        }
                     }
                 }
             }

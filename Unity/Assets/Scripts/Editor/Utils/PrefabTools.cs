@@ -10,7 +10,9 @@ namespace DVG.Editor.Tools
         {
             GameObject[] selected = Selection.gameObjects;
             if (selected == null || selected.Length == 0)
+            {
                 return;
+            }
 
             Delta.Diagnostics.Trace.Info($"Selected {selected.Length} elements");
 
@@ -29,7 +31,10 @@ namespace DVG.Editor.Tools
             int removed = 0;
             var transforms = root.GetComponentsInChildren<Transform>(true);
             foreach (var t in transforms)
+            {
                 removed += GameObjectUtility.RemoveMonoBehavioursWithMissingScript(t.gameObject);
+            }
+
             return removed;
         }
     }

@@ -33,14 +33,18 @@ namespace SlyPirates.Client.Views.Components
         private void OnDestroy()
         {
             if (_sphereOverlayView != null)
+            {
                 _sphereOverlayView.ClearVolume();
+            }
         }
 
         private void UpdateVolume()
         {
             float radius = Mathf.Max(0f, _radius);
             if (_sphereOverlayView != null)
+            {
                 _sphereOverlayView.SetRadius(radius);
+            }
         }
 
         private float Radius => (float)_context.Get<ImpactDistance>().Value;

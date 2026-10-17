@@ -23,7 +23,10 @@ namespace SlyPirates.Client.Services
         public void SendCommand<T>(T payload)
         {
             if (_session.IsReplay || !_client.IsConnected || !_player.CurrentEntityId.HasValue || !_session.IsReady)
+            {
                 return;
+            }
+
             _scheduled.Enqueue(new ScheduledCommand<T>(payload));
         }
 

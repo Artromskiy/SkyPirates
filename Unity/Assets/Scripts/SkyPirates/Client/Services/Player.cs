@@ -25,7 +25,9 @@ namespace SlyPirates.Client.Services
         private void OnSpawnSquad(Command<SpawnSquadCommand> cmd)
         {
             if ((int)cmd.Header.Key.AuthorId.Value != _client.Id)
+            {
                 return;
+            }
 
             SquadEntityId = cmd.Payload.CreationData.SyncId;
             CurrentEntityId = cmd.Payload.CreationData.SyncId;

@@ -200,7 +200,9 @@ namespace SlyPirates.Shared.Tools.Json
             for (int i = 0; i < options.Converters.Count; i++)
             {
                 if (options.Converters[i] is not ComponentDataSetConverter)
+                {
                     continue;
+                }
 
                 options.Converters.RemoveAt(i);
                 break;

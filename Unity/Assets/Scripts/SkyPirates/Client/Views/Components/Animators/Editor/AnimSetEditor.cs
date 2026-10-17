@@ -45,12 +45,16 @@ namespace SlyPirates.Client.Views.Components.Animators.Editor
             }
 
             if (profileChanged || NeedsSynchronization(profileHolders))
+            {
                 SynchronizeClipHolders(profileHolders);
+            }
 
             EditorGUILayout.Space();
             EditorGUILayout.LabelField("Clip Holders", EditorStyles.boldLabel);
             if (profileHolders.arraySize == 0)
+            {
                 EditorGUILayout.HelpBox("The assigned AnimProfile does not define any clip holders.", MessageType.Info);
+            }
 
             for (int i = 0; i < profileHolders.arraySize; i++)
             {
@@ -79,7 +83,9 @@ namespace SlyPirates.Client.Views.Components.Animators.Editor
         private bool NeedsSynchronization(SerializedProperty profileHolders)
         {
             if (_clips.arraySize != profileHolders.arraySize)
+            {
                 return true;
+            }
 
             for (int i = 0; i < profileHolders.arraySize; i++)
             {
@@ -88,7 +94,9 @@ namespace SlyPirates.Client.Views.Components.Animators.Editor
                 string setName = _clips.GetArrayElementAtIndex(i)
                     .FindPropertyRelative("_clipHolder").stringValue;
                 if (profileName != setName)
+                {
                     return true;
+                }
             }
 
             return false;
@@ -102,7 +110,9 @@ namespace SlyPirates.Client.Views.Components.Animators.Editor
                 SerializedProperty definition = _clips.GetArrayElementAtIndex(i);
                 string name = definition.FindPropertyRelative("_clipHolder").stringValue;
                 if (string.IsNullOrEmpty(name) || existing.ContainsKey(name))
+                {
                     continue;
+                }
 
                 existing.Add(name, new ClipValues(
                     definition.FindPropertyRelative("_clip").objectReferenceValue,

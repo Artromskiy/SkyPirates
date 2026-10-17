@@ -91,7 +91,11 @@ namespace SlyPirates.Shared.Services.Netcode
                 throw new InvalidOperationException("Replay commands require a started local session.");
             }
 
-            if (IsReplay) throw new InvalidOperationException("Replay commands have already been sealed.");
+            if (IsReplay)
+            {
+                throw new InvalidOperationException("Replay commands have already been sealed.");
+            }
+
             var outcome = new CommandOutcome(CommandResult.Accepted, header);
             CommandOutcome applied = Session.ApplyOutcome(outcome, finalPayload);
             if (applied.Result != CommandResult.Accepted)
@@ -167,7 +171,11 @@ namespace SlyPirates.Shared.Services.Netcode
 
         public CommandKey Send<T>(in T payload, long simulationStep)
         {
-            if (IsReplay) throw new InvalidOperationException("Replay commands cannot be changed.");
+            if (IsReplay)
+            {
+                throw new InvalidOperationException("Replay commands cannot be changed.");
+            }
+
             if (!IsReady || Session == null)
             {
                 throw new InvalidOperationException("The session is not ready to send commands.");
@@ -182,8 +190,14 @@ namespace SlyPirates.Shared.Services.Netcode
             {
                 // Delta.Netcode keeps its transport clock monotonic. The same model has a
                 // separate display cursor and can restore previously computed fixed states.
-                if (simulationStep >= Session.CurrentStep) Session.Tick(simulationStep);
-                else _setup.Model.Tick(simulationStep);
+                if (simulationStep >= Session.CurrentStep)
+                {
+                    Session.Tick(simulationStep);
+                }
+                else
+                {
+                    _setup.Model.Tick(simulationStep);
+                }
             }
         }
 
@@ -276,9 +290,14 @@ namespace SlyPirates.Shared.Services.Netcode
         public void AdvanceFrame(long step, double fractionalSeconds, in JoystickCommand input)
         {
             if (fractionalSeconds < 0 || double.IsNaN(fractionalSeconds) || double.IsInfinity(fractionalSeconds))
+            {
                 throw new ArgumentOutOfRangeException(nameof(fractionalSeconds));
+            }
+
             if (step != _session.CurrentStep || _session.HasDirtyCommands)
+            {
                 Tick(step);
+            }
             else if (fractionalSeconds < _fractionalSeconds)
             {
                 _session.RestoreFixedState(step);
@@ -290,7 +309,11 @@ namespace SlyPirates.Shared.Services.Netcode
 
         public void Tick(long simulationStep)
         {
-            if (_transientDirty) _session.RestoreFixedState(_session.CurrentStep);
+            if (_transientDirty)
+            {
+                _session.RestoreFixedState(_session.CurrentStep);
+            }
+
             _fractionalSeconds = 0;
             _transientDirty = false;
             if (_tickLoop.Tick(simulationStep))

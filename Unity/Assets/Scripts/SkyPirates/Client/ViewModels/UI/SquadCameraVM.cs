@@ -33,18 +33,30 @@ namespace SlyPirates.Client.ViewModels.UI
             get
             {
                 if (_player.CurrentEntityId == null)
+                {
                     return float3.zero;
+                }
+
                 if (!_entityRegistry.TryGet(_player.CurrentEntityId.Value, out var entity))
+                {
                     return float3.zero;
+                }
+
                 if (!_world.IsAlive(entity))
+                {
                     return float3.zero;
+                }
 
                 SyncId syncId = new() { Value = _player.CurrentEntityId.Value };
                 _entityRegistry.TryGet(syncId, out var squad);
                 if (_world.IsAlive(squad) && _world.Has<Position>(squad))
+                {
                     return (float3)_world.Get<Position>(squad).Value;
+                }
                 else
+                {
                     return float3.zero;
+                }
             }
         }
 
@@ -53,11 +65,19 @@ namespace SlyPirates.Client.ViewModels.UI
             get
             {
                 if (_player.CurrentEntityId == null)
+                {
                     return (float)_config.MinDistance;
+                }
+
                 if (!_entityRegistry.TryGet(_player.CurrentEntityId.Value, out var entity))
+                {
                     return (float)_config.MinDistance;
+                }
+
                 if (!_world.IsAlive(entity))
+                {
                     return (float)_config.MinDistance;
+                }
 
                 return GetHorizontalRange() / Maths.Tan(Maths.Radians(TargetFov) / 2);
             }
@@ -72,9 +92,14 @@ namespace SlyPirates.Client.ViewModels.UI
         {
             float range = 4;
             if (!_player.CurrentEntityId.HasValue)
+            {
                 return range;
+            }
+
             if (!_entityRegistry.TryGet(_player.CurrentEntityId.Value, out var squad))
+            {
                 return range;
+            }
 
             float searchDistance = (float)_world.Get<TargetSearchDistance>(squad).Value;
             return Maths.Max(range, searchDistance + 1);

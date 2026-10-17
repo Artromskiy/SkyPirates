@@ -22,7 +22,9 @@ namespace SlyPirates.Rendering.SphereOverlay.Internals
         internal static void Set(Object owner, Vector3 center, float radius, Gradient gradient, Color tint)
         {
             if (owner == null)
+            {
                 return;
+            }
 
             Volumes[owner] = new Volume
             {
@@ -36,7 +38,9 @@ namespace SlyPirates.Rendering.SphereOverlay.Internals
         internal static void Remove(Object owner)
         {
             if (owner != null)
+            {
                 Volumes.Remove(owner);
+            }
         }
 
         internal static int CopyTo(Vector4[] centers, Color32[] gradientPixels)
@@ -53,7 +57,9 @@ namespace SlyPirates.Rendering.SphereOverlay.Internals
                 }
 
                 if (count >= centers.Length || (count + 1) * GradientResolution > gradientPixels.Length)
+                {
                     break;
+                }
 
                 centers[count] = volume.CenterRadius;
                 var gradient = volume.Gradient;
@@ -69,7 +75,9 @@ namespace SlyPirates.Rendering.SphereOverlay.Internals
             }
 
             for (var i = 0; i < StaleOwners.Count; i++)
+            {
                 Volumes.Remove(StaleOwners[i]);
+            }
 
             return count;
         }

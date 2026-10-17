@@ -19,7 +19,9 @@ namespace SlyPirates.Client.Views
         private void Update()
         {
             if (_pointerId == int.MinValue || _horizontalInput == 0)
+            {
                 return;
+            }
 
             if (_cameraView != null)
             {
@@ -43,12 +45,16 @@ namespace SlyPirates.Client.Views
         public void OnDrag(PointerEventData eventData)
         {
             if (eventData.pointerId != _pointerId)
+            {
                 return;
+            }
 
             float maxDelta = _outKnob.sizeDelta.x * _outKnob.lossyScale.x / 2;
             Vector2 input = (eventData.position - _start) / maxDelta;
             if (input.sqrMagnitude > 1)
+            {
                 input.Normalize();
+            }
 
             _horizontalInput = input.x;
             _verticalInput = input.y;
@@ -58,7 +64,9 @@ namespace SlyPirates.Client.Views
         public void OnPointerUp(PointerEventData eventData)
         {
             if (eventData.pointerId != _pointerId)
+            {
                 return;
+            }
 
             _inKnob.gameObject.SetActive(false);
             _outKnob.gameObject.SetActive(false);

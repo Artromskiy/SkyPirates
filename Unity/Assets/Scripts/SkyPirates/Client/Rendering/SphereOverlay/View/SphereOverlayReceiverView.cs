@@ -20,7 +20,9 @@ namespace SlyPirates.Rendering.SphereOverlay.View
         private void OnTransformChildrenChanged()
         {
             if (isActiveAndEnabled)
+            {
                 RefreshRenderers();
+            }
         }
 
         private void RefreshRenderers()
@@ -32,27 +34,35 @@ namespace SlyPirates.Rendering.SphereOverlay.View
             {
                 var renderer = _children[i];
                 if (renderer != null)
+                {
                     _currentChildren.Add(renderer);
+                }
             }
 
             _removedChildren.Clear();
             foreach (var pair in _originalMasks)
             {
                 if (pair.Key != null && _currentChildren.Contains(pair.Key))
+                {
                     continue;
+                }
 
                 RestoreMask(pair.Key, pair.Value);
                 _removedChildren.Add(pair.Key);
             }
 
             for (var i = 0; i < _removedChildren.Count; i++)
+            {
                 _originalMasks.Remove(_removedChildren[i]);
+            }
 
             for (var i = 0; i < _children.Count; i++)
             {
                 var renderer = _children[i];
                 if (renderer == null)
+                {
                     continue;
+                }
 
                 if (!_originalMasks.TryGetValue(renderer, out var originalMask))
                 {
@@ -68,7 +78,9 @@ namespace SlyPirates.Rendering.SphereOverlay.View
         private void RestoreMasks()
         {
             foreach (var pair in _originalMasks)
+            {
                 RestoreMask(pair.Key, pair.Value);
+            }
 
             _originalMasks.Clear();
         }
@@ -76,7 +88,9 @@ namespace SlyPirates.Rendering.SphereOverlay.View
         private static void RestoreMask(Renderer renderer, uint originalMask)
         {
             if (renderer == null)
+            {
                 return;
+            }
 
             var currentMask = renderer.renderingLayerMask;
             renderer.renderingLayerMask =

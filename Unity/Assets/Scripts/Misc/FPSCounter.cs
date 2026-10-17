@@ -31,7 +31,10 @@ namespace DVG.Misc
             if (FrameTimingManager.GetLatestTimings(1, _frameTimings) > 0)
             {
                 while (_timings.TryPeek(out var t) && t.time < Time.unscaledTime - _timingDuration)
+                {
                     _timings.Dequeue();
+                }
+
                 _timings.Enqueue((_frameTimings[0], Time.unscaledTime));
             }
             double avgMaxTotal = 0;
@@ -52,11 +55,15 @@ namespace DVG.Misc
 
             Array.Sort(timings, (t1, t2) => t2.data.cpuFrameTime.CompareTo(t1.data.cpuFrameTime));
             for (int i = 0; i < tenPercCount; i++)
+            {
                 avgMaxTotal += timings[i].data.cpuFrameTime;
+            }
 
             Array.Sort(timings, (t1, t2) => t2.data.cpuMainThreadFrameTime.CompareTo(t1.data.cpuMainThreadFrameTime));
             for (int i = 0; i < tenPercCount; i++)
+            {
                 avgMaxCpu += timings[i].data.cpuMainThreadFrameTime;
+            }
 
             ArrayPool<(FrameTiming, float)>.Shared.Return(timings);
 
@@ -66,10 +73,25 @@ namespace DVG.Misc
             avgMaxTotal /= tenPercCount;
             avgMaxCpu /= tenPercCount;
 
-            if (_avgTotalFpsText) _avgTotalFpsText.text = $"All Avg: {ToFps(avgTotal)}";
-            if (_minTotalFpsText) _minTotalFpsText.text = $"All Min: {ToFps(avgMaxTotal)}";
-            if (_avgCpuFpsText) _avgCpuFpsText.text = $"Cpu Avg: {ToFps(avgCpu)}";
-            if (_minCpuFpsText) _minCpuFpsText.text = $"Cpu Min: {ToFps(avgMaxCpu)}";
+            if (_avgTotalFpsText)
+            {
+                _avgTotalFpsText.text = $"All Avg: {ToFps(avgTotal)}";
+            }
+
+            if (_minTotalFpsText)
+            {
+                _minTotalFpsText.text = $"All Min: {ToFps(avgMaxTotal)}";
+            }
+
+            if (_avgCpuFpsText)
+            {
+                _avgCpuFpsText.text = $"Cpu Avg: {ToFps(avgCpu)}";
+            }
+
+            if (_minCpuFpsText)
+            {
+                _minCpuFpsText.text = $"Cpu Min: {ToFps(avgMaxCpu)}";
+            }
         }
 
         private int ToFps(double timeMs) => (int)(1000.0 / timeMs);

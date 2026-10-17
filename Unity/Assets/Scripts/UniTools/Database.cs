@@ -24,7 +24,9 @@ namespace DVG.UniTools
         private void InitLookup()
         {
             if (_lookupInited)
+            {
                 return;
+            }
 
             _lookup.Clear();
             for (int i = 0; i < _items.Count; i++)

@@ -79,7 +79,9 @@ namespace SlyPirates.Client.Views.Components
         private void Recolor(int teamId)
         {
             foreach (var item in GetComponentsInChildren<Image>(true))
+            {
                 item.color = TeamIdToColor.RecolorHue(item.color, teamId);
+            }
         }
 
         private float MaxHealth => (float)_context.Get<MaxHealth>().Value;
@@ -90,7 +92,9 @@ namespace SlyPirates.Client.Views.Components
         {
             int level = _context.Has<Level>() ? _context.Get<Level>().Value : 1;
             if (_displayedLevel == level)
+            {
                 return;
+            }
 
             _displayedLevel = level;
             _level.text = level.ToString();

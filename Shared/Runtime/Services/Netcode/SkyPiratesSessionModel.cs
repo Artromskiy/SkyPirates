@@ -43,7 +43,10 @@ namespace SlyPirates.Shared.Services.Netcode
         public void LockCommands() => CommandsLocked = true;
         private void EnsureMutableCommands()
         {
-            if (CommandsLocked) throw new InvalidOperationException("Recorded replay commands are immutable.");
+            if (CommandsLocked)
+            {
+                throw new InvalidOperationException("Recorded replay commands are immutable.");
+            }
         }
 
         public bool TrySchedule(ref long simulationStep)
@@ -59,7 +62,10 @@ namespace SlyPirates.Shared.Services.Netcode
         {
             EnsureMutableCommands();
             if (command.Header.Step <= _history.OldestTick)
+            {
                 throw new InvalidOperationException("The command is older than the available rollback range.");
+            }
+
             RemoveExisting(command.Header.Key);
 
             if (!_commands.TryGetValue(command.Header.Step, out var commands))
@@ -88,7 +94,10 @@ namespace SlyPirates.Shared.Services.Netcode
         {
             EnsureMutableCommands();
             if (_commandSteps.TryGetValue(key, out long scheduled) && scheduled <= _history.OldestTick)
+            {
                 throw new InvalidOperationException("The command is older than the available rollback range.");
+            }
+
             if (!RemoveScheduledCommand(key, out long step))
             {
                 return;
@@ -103,7 +112,10 @@ namespace SlyPirates.Shared.Services.Netcode
         public void Tick(long simulationStep)
         {
             if (simulationStep < _history.OldestTick)
+            {
                 throw new ArgumentOutOfRangeException(nameof(simulationStep));
+            }
+
             if (_dirtyStep <= ComputedStep)
             {
                 long restoreStep = _dirtyStep - 1;
@@ -118,7 +130,11 @@ namespace SlyPirates.Shared.Services.Netcode
                 RestoreFixedState(simulationStep);
                 return;
             }
-            if (CurrentStep != ComputedStep) RestoreFixedState(ComputedStep);
+            if (CurrentStep != ComputedStep)
+            {
+                RestoreFixedState(ComputedStep);
+            }
+
             while (CurrentStep < simulationStep)
             {
                 long step = CurrentStep + 1;
@@ -133,7 +149,10 @@ namespace SlyPirates.Shared.Services.Netcode
             _history.GoTo(checked((int)step));
             CurrentStep = step;
             _entityRegistry.Rebuild();
-            if (moved) StateRestored?.Invoke();
+            if (moved)
+            {
+                StateRestored?.Invoke();
+            }
         }
 
         public void ApplySnapshot(WorldData snapshot, int tick)

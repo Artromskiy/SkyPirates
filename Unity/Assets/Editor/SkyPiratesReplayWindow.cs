@@ -30,14 +30,18 @@ namespace SlyPirates.Editor
                 {
                     string selected = EditorUtility.OpenFilePanel("Open Sky Pirates replay", "", "json");
                     if (!string.IsNullOrEmpty(selected))
+                    {
                         _path = selected;
+                    }
                 }
             }
 
             using (new EditorGUI.DisabledScope(string.IsNullOrEmpty(_path) || !File.Exists(_path) || EditorApplication.isPlayingOrWillChangePlaymode))
             {
                 if (GUILayout.Button("Open replay scene and start"))
+                {
                     SkyPiratesReplaySceneLauncher.OpenAndPlay(_path);
+                }
             }
 
             using (new EditorGUI.DisabledScope(!EditorApplication.isPlaying || string.IsNullOrEmpty(_path) || !File.Exists(_path)))
@@ -59,7 +63,9 @@ namespace SlyPirates.Editor
             if (EditorApplication.isPlaying)
             {
                 if (_replayController == null)
+                {
                     _replayController = FindAnyObjectByType<SkyPiratesReplayController>();
+                }
             }
             else
             {
@@ -67,7 +73,9 @@ namespace SlyPirates.Editor
             }
 
             if (_replayController == null)
+            {
                 return;
+            }
 
             EditorGUILayout.Space();
             EditorGUILayout.LabelField("Recording", EditorStyles.boldLabel);
@@ -78,7 +86,9 @@ namespace SlyPirates.Editor
                     ? "Stop and save recording (F9)"
                     : "Start recording (F9)";
                 if (GUILayout.Button(buttonText))
+                {
                     _replayController.ToggleReplayRecording();
+                }
             }
 
             string recordingStatus = _replayController.IsRecordingReplay
@@ -134,27 +144,54 @@ namespace SlyPirates.Editor
 
             using (new EditorGUILayout.HorizontalScope())
             {
-                if (GUILayout.Button("|<")) _replayController.SeekReplay(_replayController.ReplayFirstFrame);
-                if (GUILayout.Button("<")) _replayController.StepReplay(-1);
+                if (GUILayout.Button("|<"))
+                {
+                    _replayController.SeekReplay(_replayController.ReplayFirstFrame);
+                }
+
+                if (GUILayout.Button("<"))
+                {
+                    _replayController.StepReplay(-1);
+                }
+
                 if (GUILayout.Button(_replayController.IsReplayPlaying ? "Pause" : "Play"))
+                {
                     _replayController.SetReplayPlaying(!_replayController.IsReplayPlaying);
-                if (GUILayout.Button(">")) _replayController.StepReplay(1);
-                if (GUILayout.Button(">|")) _replayController.SeekReplay(_replayController.ReplayLastFrame);
+                }
+
+                if (GUILayout.Button(">"))
+                {
+                    _replayController.StepReplay(1);
+                }
+
+                if (GUILayout.Button(">|"))
+                {
+                    _replayController.SeekReplay(_replayController.ReplayLastFrame);
+                }
             }
 
             _frame = EditorGUILayout.LongField("Go to frame", _frame);
             using (new EditorGUILayout.HorizontalScope())
             {
                 if (GUILayout.Button("Seek"))
+                {
                     _replayController.SeekReplay(System.Math.Max(first, System.Math.Min(last, _frame)));
+                }
+
                 if (GUILayout.Button("Verify hash here"))
                 {
                     if (_replayController.VerifyReplayHash(_replayController.ReplayFrame, out ulong expected, out ulong actual))
+                    {
                         EditorUtility.DisplayDialog("Replay hash", $"Match: 0x{actual:X16}", "OK");
+                    }
                     else if (expected != 0)
+                    {
                         EditorUtility.DisplayDialog("Replay hash", $"Mismatch\nExpected: 0x{expected:X16}\nActual: 0x{actual:X16}", "OK");
+                    }
                     else
+                    {
                         EditorUtility.DisplayDialog("Replay hash", "There is no hash check for this frame.", "OK");
+                    }
                 }
             }
         }

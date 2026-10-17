@@ -35,7 +35,9 @@ namespace SlyPirates.Client.Entry
         private void Connect()
         {
             if (_container == null)
+            {
                 return;
+            }
 
             var client = _container.GetInstance<Riptide.Client>();
 

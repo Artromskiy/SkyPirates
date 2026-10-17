@@ -39,7 +39,9 @@ namespace SlyPirates.Shared.Systems
                     in ImpactDistance impactDistance, in Position position, in Target target, in Ranged ranged, in SyncId syncId) =>
                 {
                     if (behaviour.State != StateId.Constants.PreAttack || behaviour.Percent != 1 || !target.SyncId.HasValue)
+                    {
                         return;
+                    }
 
                     state.Add(new Attack(syncId, position.Value,
                         target.SyncId.Value, damage, impactDistance, (fix)ranged.ProjectileSpeed,
@@ -54,12 +56,16 @@ namespace SlyPirates.Shared.Systems
 
                 fix impactDistance = (fix)attack.ImpactDistance;
                 if (fix3.SqrDistance(targetPosition, attack.Position) > impactDistance * impactDistance)
+                {
                     continue;
+                }
 
                 Entity attackerEntity = _world.GetEntity(attack.Attacker);
                 ref var idReserve = ref _world.GetRef<SyncIdReserve>(attackerEntity);
                 if (idReserve.RemainingCount() <= 0)
+                {
                     continue;
+                }
 
                 var projectileSyncId = idReserve.GetNext();
                 var projectileEntity = _entityFactory.Create(new EntityParameters(projectileSyncId, default, default));

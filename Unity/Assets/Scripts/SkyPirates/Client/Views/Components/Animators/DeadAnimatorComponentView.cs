@@ -27,23 +27,31 @@ namespace SlyPirates.Client.Views.Components.Animators
             bool dead = !_context.Has<Alive>();
 
             if (_animView == null || !_animView.IsReady)
+            {
                 return;
+            }
 
             if (!_hasAnimViewState || _animViewState != dead)
             {
                 _animViewState = dead;
                 _hasAnimViewState = true;
                 if (dead)
+                {
                     _animView.Play("Life.Dead");
+                }
                 else
+                {
                     _animView.StopLayer(DeadLayerName);
+                }
             }
         }
 
         private void CacheComponents()
         {
             if (_animView == null)
+            {
                 _animView = GetComponentInChildren<AnimView>();
+            }
         }
     }
 }

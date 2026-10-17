@@ -35,8 +35,12 @@ namespace SlyPirates.Client.Views
             }
 
             foreach (var item in _elements.Keys.ToArray())
+            {
                 if (!goods.ContainsKey(item) && _elements.Remove(item, out var element))
+                {
                     Destroy(element.gameObject);
+                }
+            }
         }
     }
 }

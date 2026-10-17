@@ -31,7 +31,9 @@ namespace SlyPirates.Client.Views.Components
         {
             bool alive = _context.Has<Alive>();
             if (_alive == alive)
+            {
                 return;
+            }
 
             _alive = alive;
 

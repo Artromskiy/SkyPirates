@@ -32,9 +32,11 @@ namespace SlyPirates.Shared.Core.Collections
 			int id = GetOrCreateEntryId<T>();
 
 			if (!_entries.TryGetValue(id, out var entry))
-				_entries[id] = entry = new Entry<T>();
+            {
+                _entries[id] = entry = new Entry<T>();
+            }
 
-			var typed = (Entry<T>)entry;
+            var typed = (Entry<T>)entry;
 			typed.Value = value;
 			typed.Exists = true;
 		}
@@ -50,9 +52,11 @@ namespace SlyPirates.Shared.Core.Collections
 			}
 
 			if (entry is not Entry<T> typed)
-				throw new InvalidOperationException();
+            {
+                throw new InvalidOperationException();
+            }
 
-			value = typed.Value;
+            value = typed.Value;
 			return true;
 		}
 
@@ -67,15 +71,21 @@ namespace SlyPirates.Shared.Core.Collections
 		{
 			if (TryGetEntryId<T>(out var id) &&
 				_entries.TryGetValue(id, out var entry))
-				entry.Exists = false;
-		}
+            {
+                entry.Exists = false;
+            }
+        }
 
 		public void Clear()
 		{
 			for (int i = 0; i < _usedEntries; i++)
-				if (_entries.TryGetValue(i, out var entry))
-					entry.Exists = false;
-		}
+            {
+                if (_entries.TryGetValue(i, out var entry))
+                {
+                    entry.Exists = false;
+                }
+            }
+        }
 
 		public void Dispose()
 		{

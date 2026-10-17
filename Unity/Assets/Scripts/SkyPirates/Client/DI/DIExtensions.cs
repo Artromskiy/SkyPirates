@@ -23,15 +23,21 @@ namespace SlyPirates.Client.DI
 
             Delta.Diagnostics.Trace.Info("[DI] Registering Views");
             foreach (var item in views)
+            {
                 container.RegisterView(item);
+            }
 
             Delta.Diagnostics.Trace.Info("[DI] Injecting ViewModels");
             foreach (var item in views)
+            {
                 container.InjectVM(item);
+            }
 
             Delta.Diagnostics.Trace.Info("[DI] Injecting Attributed");
             foreach (var item in all)
+            {
                 container.InjectAttributed(item);
+            }
 
             Delta.Diagnostics.Trace.Info("[DI] Container Analyze");
             container.Analyze();
@@ -59,7 +65,9 @@ namespace SlyPirates.Client.DI
             var vmProp = viewType.GetProperty("ViewModel");
             var injectMethod = vmProp?.SetMethod;
             if (injectMethod == null)
+            {
                 return;
+            }
 
             var vmPropType = vmProp.PropertyType;
             Delta.Diagnostics.Trace.Info($"[DI] GetInstance: {vmPropType.GetFormattedName()}");
@@ -83,7 +91,9 @@ namespace SlyPirates.Client.DI
                 foreach (var field in fields)
                 {
                     if (field.GetCustomAttribute<InjectAttribute>() is null)
+                    {
                         continue;
+                    }
 
                     field.SetValue(obj, container.GetInstance(field.FieldType));
                 }

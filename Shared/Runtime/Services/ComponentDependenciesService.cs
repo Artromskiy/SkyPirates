@@ -41,7 +41,9 @@ namespace SlyPirates.Shared.Services
                     }
 
                     if (hasAll)
+                    {
                         addedComponent |= _world.Add(entity, dependency.Add);
+                    }
                 }
             }
             while (addedComponent);

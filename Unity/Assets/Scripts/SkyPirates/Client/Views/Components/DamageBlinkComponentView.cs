@@ -44,7 +44,9 @@ namespace SlyPirates.Client.Views.Components
 
             List<MaterialFlash> flashes = CollectMaterialFlashes();
             if (flashes.Count == 0)
+            {
                 return;
+            }
 
             float intensity = 0;
             _tween = DOTween.Sequence()
@@ -69,11 +71,15 @@ namespace SlyPirates.Client.Views.Components
                 {
                     Material material = materials[materialIndex];
                     if (material == null)
+                    {
                         continue;
+                    }
 
                     int colorProperty = GetColorProperty(material);
                     if (colorProperty == 0)
+                    {
                         continue;
+                    }
 
                     var propertyBlock = new MaterialPropertyBlock();
                     renderer.GetPropertyBlock(propertyBlock, materialIndex);
@@ -91,7 +97,9 @@ namespace SlyPirates.Client.Views.Components
         private int GetColorProperty(Material material)
         {
             if (material.HasProperty(BaseColorHash))
+            {
                 return BaseColorHash;
+            }
 
             return material.HasProperty(ColorHash) ? ColorHash : 0;
         }
@@ -102,7 +110,9 @@ namespace SlyPirates.Client.Views.Components
             {
                 MaterialFlash flash = flashes[i];
                 if (flash.Renderer == null)
+                {
                     continue;
+                }
 
                 flash.PropertyBlock.SetColor(
                     flash.ColorProperty,

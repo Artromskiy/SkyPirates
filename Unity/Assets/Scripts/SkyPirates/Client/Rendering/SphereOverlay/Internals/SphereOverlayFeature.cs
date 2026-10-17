@@ -58,14 +58,18 @@ namespace SlyPirates.Rendering.SphereOverlay.Internals
         public override void AddRenderPasses(ScriptableRenderer renderer, ref RenderingData renderingData)
         {
             if (_pass == null)
+            {
                 return;
+            }
 
             var cameraData = renderingData.cameraData;
             var isGameCamera = cameraData.cameraType == CameraType.Game;
             var isSceneViewCamera = cameraData.cameraType == CameraType.SceneView;
             if ((!isGameCamera && !isSceneViewCamera) ||
                 (isGameCamera && cameraData.renderType != CameraRenderType.Base))
+            {
                 return;
+            }
 
             renderer.EnqueuePass(_pass);
         }
@@ -80,9 +84,15 @@ namespace SlyPirates.Rendering.SphereOverlay.Internals
         private void DisposeMaterials()
         {
             if (_material != null)
+            {
                 CoreUtils.Destroy(_material);
+            }
+
             if (_maskMaterial != null)
+            {
                 CoreUtils.Destroy(_maskMaterial);
+            }
+
             _material = null;
             _maskMaterial = null;
         }
@@ -147,7 +157,9 @@ namespace SlyPirates.Rendering.SphereOverlay.Internals
             {
                 var volumeCount = SphereOverlayRegistry.CopyTo(_centers, _gradientPixels);
                 if (volumeCount == 0)
+                {
                     return;
+                }
 
                 var resourceData = frameData.Get<UniversalResourceData>();
                 var renderingData = frameData.Get<UniversalRenderingData>();
@@ -156,7 +168,9 @@ namespace SlyPirates.Rendering.SphereOverlay.Internals
                 if (resourceData.isActiveTargetBackBuffer ||
                     !resourceData.activeColorTexture.IsValid() ||
                     !resourceData.activeDepthTexture.IsValid())
+                {
                     return;
+                }
 
                 _gradientLut.SetPixels32(_gradientPixels);
                 _gradientLut.Apply(updateMipmaps: false, makeNoLongerReadable: false);
@@ -174,7 +188,10 @@ namespace SlyPirates.Rendering.SphereOverlay.Internals
                 var drawingSettings = RenderingUtils.CreateDrawingSettings(
                     _shaderTagIds[0], renderingData, cameraData, lightData, SortingCriteria.CommonOpaque);
                 for (var i = 1; i < _shaderTagIds.Length; i++)
+                {
                     drawingSettings.SetShaderPassName(i, _shaderTagIds[i]);
+                }
+
                 drawingSettings.overrideMaterial = _maskMaterial;
                 drawingSettings.overrideMaterialPassIndex = 0;
                 drawingSettings.perObjectData = PerObjectData.None;

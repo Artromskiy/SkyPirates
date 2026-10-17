@@ -11,7 +11,9 @@ namespace SlyPirates.Client.Views
         private void Update()
         {
             if (_cameraView == null)
+            {
                 return;
+            }
 
             float mouseDeltaX = Input.GetAxisRaw("Mouse X");
             float mouseDeltaY = Input.GetAxisRaw("Mouse Y");

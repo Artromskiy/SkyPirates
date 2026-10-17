@@ -85,7 +85,9 @@ namespace SlyPirates.Shared.Systems
             FindEntityTargets(in searchDistance, in searchPosition, in team, _targetsCache);
 
             for (int i = 0; i < _targetsCache.Count; i++)
+            {
                 targets.Add(_world.Get<SyncId>(_targetsCache[i].Entity));
+            }
         }
 
         private void FindEntityTargets(
