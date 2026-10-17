@@ -136,7 +136,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8a72af54420a4a51952f0618395f4b8b, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: SlyPirates.Rendering.SphereOverlay::SlyPirates.Rendering.SphereOverlay.View.SphereOverlayView
+  m_EditorClassIdentifier: Common.Rendering.SphereOverlay::Common.Rendering.SphereOverlayView
   _gradient:
     serializedVersion: 2
     key0: {r: 1, g: 1, b: 1, a: 0}

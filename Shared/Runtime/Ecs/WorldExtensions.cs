@@ -57,10 +57,8 @@ namespace SlyPirates.Shared.Ecs
                 _world = world;
             }
 
-            public void Visit<T>(ComponentId componentId, in T value) where T : struct
-            {
+            public void Visit<T>(ComponentId componentId, in T value) where T : struct =>
                 _world.GetRef<T>(_entity, componentId) = value;
-            }
         }
     }
 }

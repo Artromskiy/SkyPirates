@@ -1,0 +1,39 @@
+using SlyPirates.Shared.Commands;
+using SlyPirates.Shared.Data;
+using SlyPirates.Shared.Tools.Json;
+using System.Collections.Generic;
+using System.IO;
+using UnityEngine;
+
+namespace SlyPirates.Tooling.Testing
+{
+    public class SerializeChecker : MonoBehaviour
+    {
+        [SerializeField]
+        private TextAsset _textAsset;
+
+        private void Update()
+        {
+            TestSerialize();
+        }
+
+        [ContextMenu("Serialization/Test Serialize")]
+        private void TestSerialize()
+        {
+            var commandsData = SerializationUTF8.
+                DeserializeCompressed<(Dictionary<int, WorldData> WorldData, CommandsData Commands)>(_textAsset.bytes).Commands;
+
+            string commandsDataJson = SerializationUTF8.SerializeOrdered(commandsData);
+            File.WriteAllText(GetPath("CommandsData"), commandsDataJson);
+        }
+
+        private string GetPath(string fileName)
+        {
+            const string folder = "Scripts/Tooling/TimelineDebug";
+            string path = Path.Combine(Application.dataPath, folder, fileName);
+            path = Path.ChangeExtension(path, "json");
+            Directory.CreateDirectory(Path.GetDirectoryName(path));
+            return path;
+        }
+    }
+}
