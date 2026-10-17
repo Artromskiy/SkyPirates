@@ -14,7 +14,7 @@ namespace SlyPirates.Shared.Systems
             WhereAll<Position, FlyDestination, MaxSpeed>().Alive().NotDisabled();
 
         private readonly World _world;
-        private readonly IOperation _removeFinished;
+        private readonly EcsResultOperation<int> _removeFinished;
 
         public FlyMoveSystem(World world)
         {
