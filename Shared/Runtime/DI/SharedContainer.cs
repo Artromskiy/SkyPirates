@@ -151,6 +151,7 @@ namespace SlyPirates.Shared.DI
             typeof(FutureCommandValidator<JoystickCommand>), typeof(LateCommandValidator<JoystickCommand>), typeof(ZeroTickCommandValidator<JoystickCommand>),
             typeof(FutureCommandValidator<LoadWorldCommand>), typeof(LateCommandValidator<LoadWorldCommand>), typeof(ZeroTickCommandValidator<LoadWorldCommand>),
             typeof(FutureCommandValidator<SpawnSquadCommand>), typeof(LateCommandValidator<SpawnSquadCommand>), typeof(ZeroTickCommandValidator<SpawnSquadCommand>),
+            typeof(SpawnUnitCommandValidator),
             typeof(FutureCommandValidator<SpawnUnitCommand>), typeof(LateCommandValidator<SpawnUnitCommand>), typeof(ZeroTickCommandValidator<SpawnUnitCommand>),
         };
 

@@ -1690,6 +1690,7 @@ MonoBehaviour:
   _portField: {fileID: 1663016598263134873}
   _connectButton: {fileID: 6150511300207225853}
   _playOfflineButton: {fileID: 8357570056912274022}
+  _crewButton: {fileID: 0}
 --- !u!1 &8809142686101262128
 GameObject:
   m_ObjectHideFlags: 0
