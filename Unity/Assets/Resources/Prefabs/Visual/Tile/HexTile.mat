@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: DarkGreen
+  m_Name: HexTile
   m_Shader: {fileID: -6465566751694194690, guid: 063528ed04fd1a0438c2030478229595, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -83,7 +83,7 @@ Material:
     m_Ints: []
     m_Floats:
     - Boolean_4250ceec64ad417ead1ccdd2e1e27d2a: 0
-    - Vector1_3094ab2dafb64fc68020f17085347969: 0
+    - Vector1_3094ab2dafb64fc68020f17085347969: 0.01
     - Vector1_e603ef6936204e7bb454b36fc79979b2: 1
     - _AddPrecomputedVelocity: 0
     - _AlphaClip: 0
@@ -122,7 +122,7 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Color: {r: 0.14899999, g: 0.29799998, b: 0, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
   m_BuildTextureStacks: []

@@ -139,7 +139,7 @@ namespace SlyPirates.Tooling.HeightmapToHex.Editor
                 {
                     GameObject tile = (GameObject)PrefabUtility.InstantiatePrefab(prefab, scene);
                     tile.transform.SetParent(root.transform, true);
-                    tile.GetComponent<HexTileComponentView>().SetEditorPreview(column, y - (_rows - 1) / 2, level, "Land" + Mathf.Min(zone + 1, 5), _palette[zone].color);
+                    tile.GetComponent<HexTileComponentView>().SetEditorPreview(column, y - (_rows - 1) / 2, level, "Land", _palette[zone].color);
                     count++;
                 }
             }
