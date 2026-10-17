@@ -139,4 +139,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3417a5ab8fbe1ec4fbcab3d77ca9d5a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: SlyPirates.Client::SlyPirates.Client.Views.Components.DisposeScaleComponentView
-  _delay: 0.1
+  _delay: 0.0625
