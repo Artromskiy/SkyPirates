@@ -1069,6 +1069,12 @@
         <member name="M:Delta.ECS.IOperation`1.Invoke(`0@)">
             <summary>Executes this operation using and updating caller-owned state.</summary>
         </member>
+        <member name="T:Delta.ECS.IResultOperation`1">
+            <summary>A deferred operation that produces a typed result when invoked.</summary>
+        </member>
+        <member name="M:Delta.ECS.IResultOperation`1.Invoke">
+            <summary>Executes this operation and returns its result.</summary>
+        </member>
         <member name="T:Delta.ECS.IOperation`2">
             <summary>A deferred operation that can use caller-owned context and functor state.</summary>
         </member>
