@@ -1,5 +1,41 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-2367754821054373103
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f62c9c65cf3354c93be831c8bc075510, type: 3}
+  m_Name: ScreenSpaceAmbientOcclusion
+  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.ScreenSpaceAmbientOcclusion
+  m_Active: 1
+  m_Settings:
+    AOMethod: 0
+    Downsample: 0
+    AfterOpaque: 0
+    Source: 1
+    NormalSamples: 1
+    Intensity: 3
+    DirectLightingStrength: 0.25
+    Radius: 0.035
+    Samples: 1
+    BlurQuality: 0
+    Falloff: 100
+    SampleCount: -1
+    Mode: 0
+    GTAOMinimumRadiusInPixels: 40
+    UseComputeShader: 0
+    GTAOTemporalFilterEnabled: 0
+    GTAOGhostingMitigation: 0.5
+    GTAOHistoryLength: 0.9
+    GTAODirectionCount: 2
+    GTAOStepCount: 4
+    GTAOSpatialFilter: 0
+    GTAODepthSampling: 0
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25,10 +61,10 @@ MonoBehaviour:
     probeSamplingDebugTexture: {fileID: 0}
     probeVolumeBlendStatesCS: {fileID: 0}
   m_RendererFeatures:
-  - {fileID: 8044255681545314971}
-  - {fileID: 1097029040655924017}
   - {fileID: 5678890012345678901}
-  m_RendererFeatureMap: 9b22ed0cecefa26f317b95a4196e390f35bc60d06078cf4el
+  - {fileID: 7056223491112345678}
+  - {fileID: -2367754821054373103}
+  m_RendererFeatureMap: 35bc60d06078cf4e4ea08433e1bdec6111e3d5ff880b24dfl
   postProcessData: {fileID: 0}
   m_AssetVersion: 3
   m_PrepassLayerMask:
@@ -59,20 +95,6 @@ MonoBehaviour:
   m_AccurateGbufferNormals: 0
   m_IntermediateTextureMode: 0
   m_TileOnlyMode: 0
---- !u!114 &1097029040655924017
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e32e72b6a3f58a24c9033e2b9275eea0, type: 3}
-  m_Name: ScreenSpaceShadows
-  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.ScreenSpaceShadows
-  m_Active: 1
-  m_Shader: {fileID: 4800000, guid: 0f854b35a0cf61a429bd5dcfea30eddd, type: 3}
 --- !u!114 &5678890012345678901
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -85,8 +107,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a950dc62f29452f8e9580a264a22d0d, type: 3}
   m_Name: SphereOverlayFeature
   m_EditorClassIdentifier: 
-  m_Active: 1
---- !u!114 &8044255681545314971
+  m_Active: 0
+--- !u!114 &7056223491112345678
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -95,29 +117,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f62c9c65cf3354c93be831c8bc075510, type: 3}
-  m_Name: ScreenSpaceAmbientOcclusion
+  m_Script: {fileID: 11500000, guid: f1a56de98c8244c9aa91ec9b4a39120f, type: 3}
+  m_Name: HexTerrainStencilShadowFeature
   m_EditorClassIdentifier: 
-  m_Active: 1
-  m_Settings:
-    AOMethod: 1
-    Downsample: 1
-    AfterOpaque: 1
-    Source: 1
-    NormalSamples: 0
-    Intensity: 0.25
-    DirectLightingStrength: 0.3
-    Radius: 1
-    Samples: 0
-    BlurQuality: 0
-    Falloff: 300
-    SampleCount: -1
-    Mode: 0
-    GTAOMinimumRadiusInPixels: 40
-    UseComputeShader: 0
-    GTAOTemporalFilterEnabled: 0
-    GTAOGhostingMitigation: 0.5
-    GTAOHistoryLength: 0.9
-    GTAODirectionCount: 2
-    GTAOStepCount: 4
-    GTAOSpatialFilter: 0
+  m_Active: 0

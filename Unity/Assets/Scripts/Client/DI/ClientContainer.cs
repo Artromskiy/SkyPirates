@@ -59,6 +59,7 @@ namespace SlyPirates.Client.DI
         private static readonly Type[] PostTickableExecutors = new Type[]
         {
             typeof(ViewBindingTickSystem),
+            typeof(HexMapChunkRenderSystem),
             //typeof(TimelineWriter)
         };
 

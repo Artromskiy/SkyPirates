@@ -51,6 +51,7 @@ namespace SlyPirates.Local.Entry
                 var session = _container.GetInstance<SkyPiratesSessionProvider>();
                 session.ApplySnapshot(worldData, -1);
                 _container.GetAllInstances<IPostTickable>().OfType<ViewBindingTickSystem>().Single().Tick(0);
+                _container.GetAllInstances<IPostTickable>().OfType<HexMapChunkRenderSystem>().Single().Tick(0);
                 session.Start(new AuthorId((uint)client.Id));
             }
             catch (Exception e)
