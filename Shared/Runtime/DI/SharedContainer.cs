@@ -130,9 +130,9 @@ namespace SlyPirates.Shared.DI
             typeof(DamageSystem),
             typeof(GoodsDropSystem),
             typeof(GoodsCollectorSystem),
-            typeof(SquadGoodsDistributionSystem), // distributes goods across squad members
             typeof(MarkDeadSystem),
             typeof(SquadUnitMergeSystem),
+            typeof(SquadGoodsDistributionSystem), // distributes goods across active squad members
             typeof(ShipTransportSystem), // boarding and disembarking are applied after gameplay updates
         };
 

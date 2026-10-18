@@ -31,7 +31,7 @@ namespace SlyPirates.Shared.Systems
 
         private Query? _squadDescCache;
         private Query _squadDesc => _squadDescCache ??= _world.
-            WhereAll<Squad, SyncId, GoodsDrop, SquadMemberCount>().Alive().NotDisabled();
+            WhereAll<Squad, SyncId, GoodsDrop>().Alive().NotDisabled();
 
         public SquadGoodsDistributionSystem(World world)
         {
@@ -93,20 +93,20 @@ namespace SlyPirates.Shared.Systems
 
                     units.Add(syncId);
                 }).Invoke(ref collectState);
-            // will redistribute only if there's members
-            var goodsPerSquad = _goodsPerSquad;
+            // Keep squad goods until an active member can receive them.
+            var goodsPerSquad = (_goodsPerSquad, _unitsPerSquad);
             var squadDesc = _squadDesc;
-            _world.ForEach<Dictionary<int, Dictionary<GoodsId, int>>, GoodsDrop, SyncId, SquadMemberCount>(in squadDesc, ref goodsPerSquad,
-                static (ref Dictionary<int, Dictionary<GoodsId, int>> goodsPerSquad, ref GoodsDrop goods, in SyncId syncId, in SquadMemberCount memberCount) =>
+            _world.ForEach<(Dictionary<int, Dictionary<GoodsId, int>> GoodsPerSquad, Dictionary<int, List<SyncId>> UnitsPerSquad), GoodsDrop, SyncId>(in squadDesc, ref goodsPerSquad,
+                static (ref (Dictionary<int, Dictionary<GoodsId, int>> GoodsPerSquad, Dictionary<int, List<SyncId>> UnitsPerSquad) state, ref GoodsDrop goods, in SyncId syncId) =>
                 {
-                    if (memberCount.Value == 0)
+                    if (!state.UnitsPerSquad.TryGetValue(syncId.Value, out var units) || units.Count == 0)
                     {
                         return;
                     }
 
-                    if (!goodsPerSquad.TryGetValue(syncId, out var squadGoods))
+                    if (!state.GoodsPerSquad.TryGetValue(syncId.Value, out var squadGoods))
                     {
-                        goodsPerSquad[syncId] = squadGoods = new();
+                        state.GoodsPerSquad[syncId.Value] = squadGoods = new();
                     }
 
                     foreach (var item in goods.Values)
