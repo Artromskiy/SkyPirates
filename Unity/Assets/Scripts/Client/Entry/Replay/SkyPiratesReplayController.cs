@@ -1,6 +1,4 @@
 using SlyPirates.Client.DI;
-using SlyPirates.Client.Entry;
-using SlyPirates.Shared;
 using SlyPirates.Shared.Data;
 using SlyPirates.Shared.Ecs;
 using SlyPirates.Shared.IServices.TickableExecutors;

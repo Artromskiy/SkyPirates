@@ -1,7 +1,6 @@
 using SlyPirates.Shared.Core;
 using SlyPirates.Shared;
 using SlyPirates.Client.Entry;
-using SlyPirates.Client.IFactories;
 using SlyPirates.Client.IServices;
 using SlyPirates.Client.Factories;
 using SlyPirates.Client.IViewModels;
@@ -10,7 +9,6 @@ using SlyPirates.Client.Systems;
 using SlyPirates.Client.ViewModels.UI;
 using SlyPirates.Local.Services;
 using SlyPirates.Shared.DI;
-using SlyPirates.Shared.IServices;
 using SlyPirates.Shared.IServices.TickableExecutors;
 using Delta.ECS.Unity;
 using UnityEngine;

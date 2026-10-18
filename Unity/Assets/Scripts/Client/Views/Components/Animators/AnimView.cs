@@ -52,112 +52,75 @@ namespace SlyPirates.Client.Views.Components.Animators
         public bool IsReady => _graphCreated;
         public IReadOnlyCollection<string> LayerNames => _layers.Keys;
 
-        public bool Play(string clipHolder, float fadeSeconds = DefaultFadeSeconds, bool restart = true)
+        public void Play(string clipHolder, float fadeSeconds = DefaultFadeSeconds, bool restart = true)
         {
-            if (!TryGetClipHolder(clipHolder, out ClipHolderReference holder)
-                || !holder.Layer.Play(holder.Index, fadeSeconds, restart))
-            {
-                return false;
-            }
-
+            ClipHolderReference holder = GetClipHolder(clipHolder);
+            holder.Layer.Play(holder.Index, fadeSeconds, restart);
             holder.Layer.FadeWeight(1f, fadeSeconds);
-            return true;
         }
 
-        public bool PlayOnce(string clipHolder, float fadeSeconds = DefaultFadeSeconds)
+        public void PlayOnce(string clipHolder, float fadeSeconds = DefaultFadeSeconds)
         {
-            if (!TryGetClipHolder(clipHolder, out ClipHolderReference holder)
-                || !holder.Layer.Play(holder.Index, fadeSeconds, true)
-                || !holder.Layer.StopAfterClip(holder.Index, fadeSeconds))
-            {
-                return false;
-            }
-
+            ClipHolderReference holder = GetClipHolder(clipHolder);
+            holder.Layer.Play(holder.Index, fadeSeconds, true);
+            holder.Layer.StopAfterClip(holder.Index, fadeSeconds);
             holder.Layer.FadeWeight(1f, fadeSeconds);
-            return true;
         }
 
-        public bool Blend(string blendGroupName, AnimBlend[] blend, float fadeSeconds = DefaultFadeSeconds)
+        public void Blend(string blendGroupName, AnimBlend[] blend, float fadeSeconds = DefaultFadeSeconds)
         {
-            if (!TryGetBlendGroup(blendGroupName, AnimBlendMode.Weighted, out AnimBlendGroupReference group)
-                || blend == null
-                || !group.Layer.Blend(blend, fadeSeconds, group.HolderIndices))
-            {
-                return false;
-            }
-
+            AnimBlendGroupReference group = GetBlendGroup(blendGroupName, AnimBlendMode.Weighted);
+            group.Layer.Blend(blend, fadeSeconds, group.HolderIndices);
             group.Layer.FadeWeight(1f, fadeSeconds);
-            return true;
         }
 
-        public bool Blend2D(string blendGroupName, Vector2 parameter, float fadeSeconds = DefaultFadeSeconds)
+        public void Blend2D(string blendGroupName, Vector2 parameter, float fadeSeconds = DefaultFadeSeconds)
         {
-            if (!TryGetBlendGroup(blendGroupName, AnimBlendMode.Directional2D, out AnimBlendGroupReference group))
-            {
-                return false;
-            }
-
+            AnimBlendGroupReference group = GetBlendGroup(blendGroupName, AnimBlendMode.Directional2D);
             group.CalculateDirectionalWeights(parameter);
             group.SynchronizeDirectionalPlayback();
             group.Layer.SetWeights(group.HolderIndicesInPointOrder, group.Weights, fadeSeconds);
             group.Layer.FadeWeight(1f, fadeSeconds);
-            return true;
         }
 
-        public bool SetClipHolderWeight(string clipHolder, float weight, float fadeSeconds = DefaultFadeSeconds)
+        public void SetClipHolderWeight(string clipHolder, float weight, float fadeSeconds = DefaultFadeSeconds)
         {
-            if (!TryGetClipHolder(clipHolder, out ClipHolderReference holder)
-                || !holder.Layer.SetClipHolderWeight(holder.Index, weight, fadeSeconds))
-            {
-                return false;
-            }
-
+            ClipHolderReference holder = GetClipHolder(clipHolder);
+            holder.Layer.SetClipHolderWeight(holder.Index, weight, fadeSeconds);
             holder.Layer.FadeWeight(1f, fadeSeconds);
-            return true;
         }
 
-        public bool SetClipHolderTime(string clipHolder, float normalizedTime)
+        public void SetClipHolderTime(string clipHolder, float normalizedTime)
         {
-            return TryGetClipHolder(clipHolder, out ClipHolderReference holder)
-                   && holder.Layer.SetClipHolderTime(holder.Index, normalizedTime);
+            ClipHolderReference holder = GetClipHolder(clipHolder);
+            holder.Layer.SetClipHolderTime(holder.Index, normalizedTime);
         }
 
-        public bool SetClipHolderSpeed(string clipHolder, float speed)
+        public void SetClipHolderSpeed(string clipHolder, float speed)
         {
-            return TryGetClipHolder(clipHolder, out ClipHolderReference holder)
-                   && holder.Layer.SetClipHolderSpeed(holder.Index, speed);
+            ClipHolderReference holder = GetClipHolder(clipHolder);
+            holder.Layer.SetClipHolderSpeed(holder.Index, speed);
         }
 
-        public bool FadeLayer(string layerName, float targetWeight, float fadeSeconds = DefaultFadeSeconds)
+        public void FadeLayer(string layerName, float targetWeight, float fadeSeconds = DefaultFadeSeconds)
         {
-            if (!TryGetLayer(layerName, out AnimLayer layer))
-            {
-                return false;
-            }
-
+            AnimLayer layer = GetLayer(layerName);
             layer.FadeWeight(targetWeight, fadeSeconds);
-            return true;
         }
 
-        public bool SetLayerWeight(string layerName, float weight)
+        public void SetLayerWeight(string layerName, float weight)
         {
-            return FadeLayer(layerName, weight, 0f);
+            FadeLayer(layerName, weight, 0f);
         }
 
-        public bool StopLayer(string layerName, float fadeSeconds = DefaultFadeSeconds)
+        public void StopLayer(string layerName, float fadeSeconds = DefaultFadeSeconds)
         {
-            if (!TryGetLayer(layerName, out AnimLayer layer))
-            {
-                return false;
-            }
-
+            AnimLayer layer = GetLayer(layerName);
             layer.Clear(fadeSeconds);
             if (!string.Equals(layerName, BaseLayer, StringComparison.Ordinal))
             {
                 layer.FadeWeight(0f, fadeSeconds);
             }
-
-            return true;
         }
 
         private void OnEnable()
@@ -785,13 +748,8 @@ namespace SlyPirates.Client.Views.Components.Animators
                 return index;
             }
 
-            public bool Play(int index, float fadeSeconds, bool restart)
+            public void Play(int index, float fadeSeconds, bool restart)
             {
-                if (!IsValidHolderIndex(index))
-                {
-                    return false;
-                }
-
                 _autoStopRemaining = -1f;
                 if (restart)
                 {
@@ -803,62 +761,50 @@ namespace SlyPirates.Client.Views.Components.Animators
                 _targetWeights[index] = 1f;
                 BeginWeightFade(fadeSeconds);
                 ApplyWeightFadeImmediately();
-                return true;
             }
 
-            public bool StopAfterClip(int index, float fadeSeconds)
+            public void StopAfterClip(int index, float fadeSeconds)
             {
-                if (!IsValidHolderIndex(index))
-                {
-                    return false;
-                }
-
                 AnimationClipPlayable playable = _holders[index];
                 float speed = (float)playable.GetSpeed();
                 if (speed <= Mathf.Epsilon)
                 {
-                    return false;
+                    throw new InvalidOperationException("Cannot auto-stop a clip whose playback speed is zero.");
                 }
 
                 _autoStopRemaining = _clipLengths[index] / speed;
                 _autoStopFadeDuration = Mathf.Max(0f, fadeSeconds);
-                return true;
             }
 
-            public bool Blend(AnimBlend[] blend, float fadeSeconds, HashSet<int> allowedIndices = null!)
+            public void Blend(AnimBlend[] blend, float fadeSeconds, HashSet<int> allowedIndices = null!)
             {
+                if (blend == null)
+                {
+                    throw new ArgumentNullException(nameof(blend));
+                }
+
                 float total = 0f;
                 for (int i = 0; i < blend.Length; i++)
                 {
                     AnimBlend item = blend[i];
-                    if (!TryGetBlendTarget(item, allowedIndices, out _))
-                    {
-                        continue;
-                    }
-
+                    GetBlendTargetIndex(item, allowedIndices);
                     total += item.Weight;
                 }
 
-                if (total <= Mathf.Epsilon || float.IsInfinity(total))
+                if (!IsPositiveFinite(total) || total <= Mathf.Epsilon)
                 {
-                    return false;
+                    throw new ArgumentException("Blend weights must have a finite, positive total.", nameof(blend));
                 }
 
                 Array.Clear(_targetWeights, 0, _targetWeights.Length);
                 for (int i = 0; i < blend.Length; i++)
                 {
                     AnimBlend item = blend[i];
-                    if (!TryGetBlendTarget(item, allowedIndices, out int index))
-                    {
-                        continue;
-                    }
-
-                    _targetWeights[index] += item.Weight / total;
+                    _targetWeights[_holderIndices[item.ClipHolder]] += item.Weight / total;
                 }
 
                 BeginWeightFade(fadeSeconds);
                 ApplyWeightFadeImmediately();
-                return true;
             }
 
             public void SetWeights(int[] indices, float[] weights, float fadeSeconds)
@@ -867,48 +813,28 @@ namespace SlyPirates.Client.Views.Components.Animators
                 for (int i = 0; i < indices.Length; i++)
                 {
                     int index = indices[i];
-                    if (index >= 0 && index < _targetWeights.Length)
-                    {
-                        _targetWeights[index] += Mathf.Max(0f, weights[i]);
-                    }
+                    _targetWeights[index] += Mathf.Max(0f, weights[i]);
                 }
 
                 BeginWeightFade(fadeSeconds);
                 ApplyWeightFadeImmediately();
             }
 
-            public bool SetClipHolderWeight(int index, float weight, float fadeSeconds)
+            public void SetClipHolderWeight(int index, float weight, float fadeSeconds)
             {
-                if (!IsValidHolderIndex(index))
-                {
-                    return false;
-                }
-
                 _targetWeights[index] = Mathf.Clamp01(weight);
                 BeginWeightFade(fadeSeconds);
                 ApplyWeightFadeImmediately();
-                return true;
             }
 
-            public bool SetClipHolderTime(int index, float normalizedTime)
+            public void SetClipHolderTime(int index, float normalizedTime)
             {
-                if (!IsValidHolderIndex(index))
-                {
-                    return false;
-                }
-
                 AnimationClipPlayable playable = _holders[index];
                 playable.SetTime(Mathf.Clamp01(normalizedTime) * _clipLengths[index]);
-                return true;
             }
 
             public float GetNormalizedTime(int index)
             {
-                if (!IsValidHolderIndex(index))
-                {
-                    return 0f;
-                }
-
                 float clipLength = _clipLengths[index];
                 return clipLength <= Mathf.Epsilon
                     ? 0f
@@ -917,34 +843,18 @@ namespace SlyPirates.Client.Views.Components.Animators
 
             public float GetDefaultNormalizedSpeed(int index)
             {
-                if (!IsValidHolderIndex(index))
-                {
-                    return 0f;
-                }
-
                 return _defaultNormalizedSpeeds[index];
             }
 
             public void SetNormalizedSpeed(int index, float normalizedSpeed)
             {
-                if (!IsValidHolderIndex(index))
-                {
-                    return;
-                }
-
                 AnimationClipPlayable playable = _holders[index];
                 playable.SetSpeed(Mathf.Max(0f, normalizedSpeed) * _clipLengths[index]);
             }
 
-            public bool SetClipHolderSpeed(int index, float speed)
+            public void SetClipHolderSpeed(int index, float speed)
             {
-                if (!IsValidHolderIndex(index))
-                {
-                    return false;
-                }
-
                 _holders[index].SetSpeed(speed);
-                return true;
             }
 
             public void FadeWeight(float target, float fadeSeconds)
@@ -1005,33 +915,25 @@ namespace SlyPirates.Client.Views.Components.Animators
                 FadeWeight(0f, _autoStopFadeDuration);
             }
 
-            private bool TryGetHolder(string name, out int index)
+            private int GetHolderIndex(string name)
             {
-                if (!IsValidName(name))
-                {
-                    index = -1;
-                    return false;
-                }
-
-                return _holderIndices.TryGetValue(name, out index);
+                return _holderIndices[name];
             }
 
-            private bool TryGetBlendTarget(AnimBlend blend, HashSet<int> allowedIndices, out int index)
+            private int GetBlendTargetIndex(AnimBlend blend, HashSet<int> allowedIndices)
             {
-                if (!IsPositiveFinite(blend.Weight)
-                    || !TryGetHolder(blend.ClipHolder, out index)
-                    || (allowedIndices != null && !allowedIndices.Contains(index)))
+                if (!IsPositiveFinite(blend.Weight))
                 {
-                    index = -1;
-                    return false;
+                    throw new ArgumentOutOfRangeException(nameof(blend), "Animation blend weights must be positive and finite.");
                 }
 
-                return true;
-            }
+                int index = GetHolderIndex(blend.ClipHolder);
+                if (allowedIndices != null && !allowedIndices.Contains(index))
+                {
+                    throw new ArgumentException($"Clip holder '{blend.ClipHolder}' does not belong to the selected blend group.", nameof(blend));
+                }
 
-            private bool IsValidHolderIndex(int index)
-            {
-                return index >= 0 && index < _holders.Count;
+                return index;
             }
 
             private void ApplyWeightFadeImmediately()
@@ -1130,44 +1032,29 @@ namespace SlyPirates.Client.Views.Components.Animators
             return new AnimLayer(mixer, _layerMixer, layerIndex, weight);
         }
 
-        private bool TryGetLayer(string layerName, out AnimLayer layer)
+        private AnimLayer GetLayer(string layerName) => GetRequired(_layers, layerName);
+
+        private ClipHolderReference GetClipHolder(string name) => GetRequired(_clipHolders, name);
+
+        private AnimBlendGroupReference GetBlendGroup(string name, AnimBlendMode mode)
         {
-            if (!IsReadyForName(layerName))
+            AnimBlendGroupReference group = GetRequired(_blendGroups, name);
+            if (group.Mode != mode)
             {
-                layer = null!;
-                return false;
+                throw new InvalidOperationException($"Animation blend group '{name}' uses {group.Mode}, not {mode}.");
             }
 
-            return _layers.TryGetValue(layerName, out layer);
+            return group;
         }
 
-        private bool TryGetClipHolder(string name, out ClipHolderReference holder)
+        private T GetRequired<T>(Dictionary<string, T> items, string name) where T : class
         {
-            if (!IsReadyForName(name))
+            if (!_graphCreated)
             {
-                holder = null!;
-                return false;
+                throw new InvalidOperationException("Cannot access animation data before the animation graph is ready.");
             }
 
-            return _clipHolders.TryGetValue(name, out holder);
-        }
-
-        private bool TryGetBlendGroup(string name, AnimBlendMode mode, out AnimBlendGroupReference group)
-        {
-            if (!IsReadyForName(name)
-                || !_blendGroups.TryGetValue(name, out group)
-                || group.Mode != mode)
-            {
-                group = null!;
-                return false;
-            }
-
-            return true;
-        }
-
-        private bool IsReadyForName(string name)
-        {
-            return _graphCreated && IsValidName(name);
+            return items[name];
         }
 
         private static bool IsValidName(string value)

@@ -1,5 +1,4 @@
 ﻿using SlyPirates.Shared.Core;
-using SlyPirates.Shared;
 using UnityEngine;
 
 namespace SlyPirates.Client.IViews

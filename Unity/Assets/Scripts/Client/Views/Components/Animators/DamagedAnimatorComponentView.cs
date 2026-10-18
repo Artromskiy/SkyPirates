@@ -1,6 +1,5 @@
 ﻿using Delta.ECS.Unity;
 using SlyPirates.Shared.Components.Runtime;
-using SlyPirates.Client.Views.Components;
 using UnityEngine;
 
 namespace SlyPirates.Client.Views.Components.Animators
@@ -11,18 +10,15 @@ namespace SlyPirates.Client.Views.Components.Animators
         private EntityContext _context;
         private AnimView _animView;
 
-        private void Awake() => CacheComponents();
-
         public void OnBind(EntityContext context)
         {
             _context = context;
-            CacheComponents();
             _prevHealth = (float)_context.Get<Health>().Value;
         }
 
-        public void OnVisualInstanceLoaded()
+        public void OnVisualInstanceLoaded(GameObject visual)
         {
-            CacheComponents();
+            _animView = visual.GetComponentInChildren<AnimView>(true);
             _prevHealth = (float)_context.Get<Health>().Value;
         }
 
@@ -39,14 +35,6 @@ namespace SlyPirates.Client.Views.Components.Animators
             if (_animView != null && _animView.IsReady)
             {
                 _animView.PlayOnce("Reaction.Damage");
-            }
-        }
-
-        private void CacheComponents()
-        {
-            if (_animView == null)
-            {
-                _animView = GetComponentInChildren<AnimView>();
             }
         }
 

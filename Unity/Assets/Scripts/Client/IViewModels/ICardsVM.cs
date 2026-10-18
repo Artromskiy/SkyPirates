@@ -1,5 +1,4 @@
 ﻿using SlyPirates.Shared.Core;
-using SlyPirates.Shared;
 using SlyPirates.Shared.Data;
 using SlyPirates.Shared.Ids;
 using System;

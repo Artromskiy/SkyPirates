@@ -1,6 +1,5 @@
 using Delta;
 using Delta.ECS.Unity;
-using SlyPirates.Shared.Components;
 using SlyPirates.Shared.Components.Runtime;
 using DG.Tweening;
 using UnityEngine;

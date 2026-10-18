@@ -1,6 +1,5 @@
 using Delta.ECS.Unity;
 using SlyPirates.Shared.Components.Runtime;
-using SlyPirates.Client.Views.Components;
 using UnityEngine;
 
 namespace SlyPirates.Client.Views.Components.Animators
@@ -14,17 +13,14 @@ namespace SlyPirates.Client.Views.Components.Animators
 
         private const string DeadLayerName = "DeadLayer";
 
-        private void Awake() => CacheComponents();
-
         public void OnBind(EntityContext context)
         {
             _context = context;
-            CacheComponents();
         }
 
-        public void OnVisualInstanceLoaded()
+        public void OnVisualInstanceLoaded(GameObject visual)
         {
-            CacheComponents();
+            _animView = visual.GetComponentInChildren<AnimView>(true);
             _hasAnimViewState = false;
         }
 
@@ -52,12 +48,5 @@ namespace SlyPirates.Client.Views.Components.Animators
             }
         }
 
-        private void CacheComponents()
-        {
-            if (_animView == null)
-            {
-                _animView = GetComponentInChildren<AnimView>();
-            }
-        }
     }
 }

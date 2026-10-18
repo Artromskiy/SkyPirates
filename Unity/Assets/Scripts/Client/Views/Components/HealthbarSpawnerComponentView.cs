@@ -1,5 +1,5 @@
 using Delta.ECS.Unity;
-using SlyPirates.Client;
+using System.Threading;
 using UnityEngine;
 
 namespace SlyPirates.Client.Views.Components
@@ -10,12 +10,26 @@ namespace SlyPirates.Client.Views.Components
 
         private GameObject? _healthbar;
         private IEntityView[] _views = System.Array.Empty<IEntityView>();
+        private CancellationTokenSource? _loadCancellation;
 
         public async void OnBind(EntityContext context)
         {
             if (_healthbar == null)
             {
-                GameObject healthbar = await AddressableLoader.InstantiateStaged(HealthbarPrefabPath, this);
+                CancelLoad();
+                CancellationTokenSource loadCancellation = _loadCancellation = new();
+                GameObject healthbar = await AddressableLoader.InstantiateStaged(
+                    HealthbarPrefabPath,
+                    this,
+                    loadCancellation.Token);
+                if (_loadCancellation != loadCancellation)
+                {
+                    AddressableLoader.ReleaseInstance(healthbar);
+                    return;
+                }
+
+                _loadCancellation = null;
+                loadCancellation.Dispose();
                 if (healthbar == null)
                 {
                     return;
@@ -43,6 +57,8 @@ namespace SlyPirates.Client.Views.Components
 
         private void OnDisable()
         {
+            CancelLoad();
+
             if (_healthbar != null)
             {
                 _healthbar.SetActive(false);
@@ -51,7 +67,15 @@ namespace SlyPirates.Client.Views.Components
 
         private void OnDestroy()
         {
+            CancelLoad();
             AddressableLoader.ReleaseInstance(_healthbar);
+        }
+
+        private void CancelLoad()
+        {
+            _loadCancellation?.Cancel();
+            _loadCancellation?.Dispose();
+            _loadCancellation = null;
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using SlyPirates.Shared.Core;
-using SlyPirates.Shared;
 using SimpleInjector;
 using SimpleInjector.Diagnostics;
 using System;

@@ -1,9 +1,7 @@
 ﻿using Delta;
 using Delta.ECS.Unity;
-using SlyPirates.Shared;
 using SlyPirates.Shared.Components.Runtime;
 using SlyPirates.Shared.Ids;
-using SlyPirates.Client.Views.Components;
 using UnityEngine;
 
 namespace SlyPirates.Client.Views.Components.Animators
@@ -22,19 +20,16 @@ namespace SlyPirates.Client.Views.Components.Animators
         private EntityContext _context;
         private AnimView _animView;
 
-        private void Awake() => CacheComponents();
-
         public void OnBind(EntityContext context)
         {
             _context = context;
-            CacheComponents();
             _statePercentVelocity = 0;
             Animate(false);
         }
 
-        public void OnVisualInstanceLoaded()
+        public void OnVisualInstanceLoaded(GameObject visual)
         {
-            CacheComponents();
+            _animView = visual.GetComponentInChildren<AnimView>(true);
             _hasAnimViewState = false;
             _statePercentVelocity = 0;
             Animate(false);
@@ -72,9 +67,9 @@ namespace SlyPirates.Client.Views.Components.Animators
                 {
                     _animView.StopLayer(BehaviourLayerName, fadeSeconds);
                 }
-                else if (!_animView.Play(clipHolder, fadeSeconds))
+                else
                 {
-                    return;
+                    _animView.Play(clipHolder, fadeSeconds);
                 }
             }
 
@@ -92,14 +87,6 @@ namespace SlyPirates.Client.Views.Components.Animators
                     Time.deltaTime)
                 : targetPercent;
             _animView.SetClipHolderTime(clipHolder, _statePercent);
-        }
-
-        private void CacheComponents()
-        {
-            if (_animView == null)
-            {
-                _animView = GetComponentInChildren<AnimView>();
-            }
         }
 
         private static string GetClipHolder(StateId state)

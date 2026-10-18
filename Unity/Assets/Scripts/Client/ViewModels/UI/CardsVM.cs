@@ -1,5 +1,4 @@
-﻿using Delta.Netcode;
-using SlyPirates.Client.IServices;
+﻿using SlyPirates.Client.IServices;
 using SlyPirates.Client.IViewModels;
 using SlyPirates.Shared.Commands;
 using SlyPirates.Shared.Data;

@@ -1,6 +1,5 @@
 #nullable enable
 using SlyPirates.Shared.Core;
-using SlyPirates.Shared;
 using SlyPirates.Shared.Tools.Json;
 using Delta.ECS;
 using UnityEngine;

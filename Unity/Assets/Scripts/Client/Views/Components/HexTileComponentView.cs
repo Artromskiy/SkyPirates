@@ -5,7 +5,6 @@ using SlyPirates.Client.IFactories;
 using SlyPirates.Shared.Core;
 using SlyPirates.Shared.Components.Config;
 using SlyPirates.Shared.Ids;
-using SlyPirates.Client;
 using UnityEngine;
 
 namespace SlyPirates.Client.Views.Components
@@ -82,6 +81,13 @@ namespace SlyPirates.Client.Views.Components
             if (_visualLoadCancellation != loadCancellation)
             {
                 AddressableLoader.ReleaseInstance(visual);
+                return;
+            }
+
+            _visualLoadCancellation = null;
+            loadCancellation.Dispose();
+            if (visual == null)
+            {
                 return;
             }
 

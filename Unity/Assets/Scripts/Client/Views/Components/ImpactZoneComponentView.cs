@@ -1,8 +1,5 @@
 ﻿using Delta;
 using Delta.ECS.Unity;
-using SlyPirates.Shared;
-using SlyPirates.Client.Views;
-using SlyPirates.Client.Views.Components;
 using Common.Rendering;
 using SlyPirates.Shared.Components.Config;
 using UnityEngine;

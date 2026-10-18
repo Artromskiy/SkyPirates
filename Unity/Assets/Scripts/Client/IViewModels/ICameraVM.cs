@@ -1,6 +1,5 @@
 ﻿using Delta;
 using SlyPirates.Shared.Core;
-using SlyPirates.Shared;
 
 namespace SlyPirates.Client.IViewModels
 {

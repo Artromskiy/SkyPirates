@@ -1,15 +1,10 @@
 ﻿using Delta.ECS;
-using SlyPirates.Shared.Components;
 using SlyPirates.Shared.Components.Runtime;
 using SlyPirates.Client.IServices;
 using SlyPirates.Client.IViewModels;
 using SlyPirates.Shared.Components.Config;
-using SlyPirates.Shared.Components.Framed;
-using SlyPirates.Shared.Ecs;
 using SlyPirates.Shared.Ids;
 using SlyPirates.Shared.IServices;
-using SlyPirates.Shared.Systems;
-using System;
 using System.Collections.Generic;
 
 namespace SlyPirates.Client.ViewModels.UI

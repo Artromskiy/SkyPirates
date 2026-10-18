@@ -2,19 +2,16 @@
 using Delta.ECS.Unity;
 using SlyPirates.Shared.Core.Ids;
 using SlyPirates.Client.IFactories;
-using SlyPirates.Client;
 using System;
 using System.Threading;
 using Delta.Diagnostics;
-using SlyPirates.Shared.Services.Netcode;
 using UnityEngine;
-using Debug = Delta.Diagnostics.Debug;
 
 namespace SlyPirates.Client.Views.Components
 {
     public interface IVisualInstanceLoaded
     {
-        void OnVisualInstanceLoaded();
+        void OnVisualInstanceLoaded(GameObject visual);
     }
 
     public abstract class VisualComponentView<T> : MonoBehaviour, IEntityView
@@ -23,18 +20,13 @@ namespace SlyPirates.Client.Views.Components
         private EntityContext _context;
         private GameObject _visual;
         private CancellationTokenSource _visualLoadCancellation;
-        private MonoBehaviour[] _components = Array.Empty<MonoBehaviour>();
 
-        [SerializeField]
-        private Transform _visualRoot;
-        [SerializeField]
-        private bool _randomizeScale;
-        [SerializeField]
-        private T _id;
+        [SerializeField] private Transform _visualRoot;
+        [SerializeField] private bool _randomizeScale;
+        [SerializeField] private T _id;
 
         protected EntityContext Context => _context;
 
-        private void Awake() => _components = GetComponents<MonoBehaviour>();
 
         public virtual void OnBind(EntityContext context)
         {
@@ -46,7 +38,7 @@ namespace SlyPirates.Client.Views.Components
             else
             {
                 OnVisualLoaded(_visual);
-                NotifyVisualInstanceLoaded();
+                NotifyVisualInstanceLoadedNextFrame(_visual);
             }
         }
 
@@ -76,11 +68,19 @@ namespace SlyPirates.Client.Views.Components
 
             string path = IdPathFormatter.FormatVisualPath(_id);
             CancellationTokenSource loadCancellation = _visualLoadCancellation = new();
-            Trace.Assert(_visualRoot != null, context:this);
+            Trace.Assert(_visualRoot != null, context: this);
             GameObject visual = await AddressableLoader.Instantiate(path, _visualRoot, this, loadCancellation.Token);
+            await Awaitable.NextFrameAsync();
             if (_visualLoadCancellation != loadCancellation)
             {
                 AddressableLoader.ReleaseInstance(visual);
+                return;
+            }
+
+            _visualLoadCancellation = null;
+            loadCancellation.Dispose();
+            if (visual == null)
+            {
                 return;
             }
 
@@ -89,17 +89,23 @@ namespace SlyPirates.Client.Views.Components
             float scale = _randomizeScale ? UnityEngine.Random.Range(0.9f, 1.1f) : 1;
             _visual.transform.localScale = new float3(scale);
             OnVisualLoaded(visual);
-            NotifyVisualInstanceLoaded();
+            NotifyVisualInstanceLoaded(visual);
         }
 
-        private void NotifyVisualInstanceLoaded()
+        private void NotifyVisualInstanceLoaded(GameObject visual)
         {
-            foreach (MonoBehaviour component in _components)
+            foreach (var listener in GetComponents<IVisualInstanceLoaded>())
             {
-                if (component is IVisualInstanceLoaded listener)
-                {
-                    listener.OnVisualInstanceLoaded();
-                }
+                listener.OnVisualInstanceLoaded(visual);
+            }
+        }
+
+        private async void NotifyVisualInstanceLoadedNextFrame(GameObject visual)
+        {
+            await Awaitable.NextFrameAsync();
+            if (_visual == visual)
+            {
+                NotifyVisualInstanceLoaded(visual);
             }
         }
 

@@ -1,7 +1,6 @@
 #nullable enable
 using Delta;
 using Delta.ECS;
-using SlyPirates.Shared.Components;
 using SlyPirates.Shared.Components.Runtime;
 using SlyPirates.Client.IServices;
 using SlyPirates.Client.IViewModels;

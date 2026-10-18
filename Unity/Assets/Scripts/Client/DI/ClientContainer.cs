@@ -1,7 +1,6 @@
 using SlyPirates.Shared.Core;
 using SlyPirates.Shared;
 using SlyPirates.Client.Entry;
-using SlyPirates.Client.IFactories;
 using SlyPirates.Client.IServices;
 using SlyPirates.Client.Factories;
 using SlyPirates.Client.IViewModels;
@@ -9,7 +8,6 @@ using SlyPirates.Client.Services;
 using SlyPirates.Client.Systems;
 using SlyPirates.Client.ViewModels.UI;
 using SlyPirates.Shared.DI;
-using SlyPirates.Shared.IServices;
 using SlyPirates.Shared.IServices.TickableExecutors;
 using Riptide.Transports.Udp;
 using SimpleInjector;
