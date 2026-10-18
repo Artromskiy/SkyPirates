@@ -10,7 +10,6 @@ using System.Collections.Generic;
 
 namespace SlyPirates.Shared.Systems
 {
-    // crazy stuff
     public sealed class GoodsCollectorSystem : IDeltaTickableExecutor
     {
         private const int SquareSize = 5;
@@ -28,11 +27,13 @@ namespace SlyPirates.Shared.Systems
             .WhereAll<GoodsId, SyncId, Position, GoodsAmount, MaxSpeed>().WhereNone<FlyDestination>().Alive()
             .NotDisabled();
 
-        // if something is collector and collectable at same time => heat death of the universe
         private Query? _collectorsDescCache;
 
         private Query _collectorsDesc => _collectorsDescCache ??=
             _world.WhereAll<SyncId, Position, GoodsDrop, GoodsCollectorRadius>().Alive().NotDisabled();
+
+        private Query? _goodsOwnersDescCache;
+        private Query _goodsOwnersDesc => _goodsOwnersDescCache ??= _world.WhereAll<SyncId, GoodsDrop>().Alive();
 
         private readonly World _world;
 
@@ -63,14 +64,19 @@ namespace SlyPirates.Shared.Systems
                     list.Add(new DropRef { SyncId = syncId.Value, PositionXZ = posXZ });
                 }).Invoke(ref partitioning);
 
-            (Lookup2D<List<DropRef>> Grid, Lookup<BestCollector> Best) bestState = (_partitioning, _bestCollectors);
+            (World World, Lookup2D<List<DropRef>> Grid, Lookup<BestCollector> Best) bestState =
+                (_world, _partitioning, _bestCollectors);
             var collectorsDesc = _collectorsDesc;
             _world
-                .ForEach<(Lookup2D<List<DropRef>> Grid, Lookup<BestCollector> Best), SyncId, Position,
+                .ForEachEntity<(World World, Lookup2D<List<DropRef>> Grid, Lookup<BestCollector> Best), SyncId, Position,
                     GoodsCollectorRadius>(in collectorsDesc, ref bestState,
-                    static (ref (Lookup2D<List<DropRef>> Grid, Lookup<BestCollector> Best) state,
-                        in SyncId collectorId, in Position collectorPos, in GoodsCollectorRadius radius) =>
+                    static (ref (World World, Lookup2D<List<DropRef>> Grid, Lookup<BestCollector> Best) state,
+                        EntityRef collector, in SyncId collectorId, in Position collectorPos, in GoodsCollectorRadius radius) =>
                     {
+                        Entity collectorEntity = collector;
+                        SyncId ownerId = state.World.Has<SquadMember>(collectorEntity)
+                            ? state.World.Get<SquadMember>(collectorEntity).SquadId
+                            : collectorId;
                         fix2 center = ((fix3)collectorPos).xz;
                         fix searchRadius = radius;
                         fix sqrSearchRadius = searchRadius * searchRadius;
@@ -104,6 +110,7 @@ namespace SlyPirates.Shared.Systems
                                     state.Best[dropId] = new BestCollector
                                     {
                                         CollectorSyncId = collectorId,
+                                        OwnerSyncId = ownerId,
                                         SqrDistance = sqrDist,
                                         Position = collectorPos,
                                     };
@@ -134,16 +141,17 @@ namespace SlyPirates.Shared.Systems
                         }
 
                         state.RemoveDrops.Add(entity);
-                        if (!state.CollectorsDrops.TryGetValue(best.CollectorSyncId.Value, out var collected))
+                        if (!state.CollectorsDrops.TryGetValue(best.OwnerSyncId.Value, out var collected))
                         {
-                            state.CollectorsDrops[best.CollectorSyncId.Value] = collected = new List<GoodsData>();
+                            state.CollectorsDrops[best.OwnerSyncId.Value] = collected = new List<GoodsData>();
                         }
 
                         collected.Add(new() { GoodsId = goodsId, GoodsAmount = goodsAmount });
                     }).Invoke(ref applyState);
 
             var collectorsDrops = _collectorsDrops;
-            _world.ForEach<Lookup<List<GoodsData>>, SyncId, GoodsDrop>(in collectorsDesc, ref collectorsDrops,
+            var goodsOwnersDesc = _goodsOwnersDesc;
+            _world.ForEach<Lookup<List<GoodsData>>, SyncId, GoodsDrop>(in goodsOwnersDesc, ref collectorsDrops,
                 static (ref Lookup<List<GoodsData>> collectedDrops, in SyncId collectorId, ref GoodsDrop drop) =>
                 {
                     if (!collectedDrops.TryGetValue(collectorId.Value, out var toCollect))
@@ -195,6 +203,7 @@ namespace SlyPirates.Shared.Systems
         {
             public fix SqrDistance;
             public SyncId CollectorSyncId;
+            public SyncId OwnerSyncId;
             public Position Position;
         }
     }

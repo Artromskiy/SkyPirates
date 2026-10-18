@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using Delta;
 using Delta.ECS;
 using SlyPirates.Shared.Components;
@@ -58,7 +57,7 @@ namespace SlyPirates.Shared.Systems
                         state.UnitsPerGroup.Add(groupId, units = new List<Unit>());
                     }
 
-                    units.Add(new Unit(entity, member.SquadId, syncId.Value, level, maxHealth.Value, damage.Value));
+                    units.Add(new Unit(entity, syncId.Value, level, maxHealth.Value, damage.Value));
                 }).Invoke(ref state);
 
             foreach (var units in _unitsPerGroup.Values)
@@ -91,8 +90,6 @@ namespace SlyPirates.Shared.Systems
 
         private Unit Merge(Unit strongest, Unit first, Unit second, Unit third)
         {
-            RedistributeGoods(strongest, first, second, third);
-
             ref var level = ref _world.GetOrAdd<Level>(strongest.Entity);
             level.Value = strongest.Level + 1;
 
@@ -105,7 +102,6 @@ namespace SlyPirates.Shared.Systems
 
             var merged = new Unit(
                 strongest.Entity,
-                strongest.SquadId,
                 strongest.SyncId,
                 level.Value,
                 maxHealth.Value,
@@ -128,60 +124,6 @@ namespace SlyPirates.Shared.Systems
             }
 
             return merged;
-        }
-
-        private void RedistributeGoods(Unit strongest, Unit first, Unit second, Unit third)
-        {
-            Entity squad = _world.GetEntity(strongest.SquadId);
-            var goods = _world.Get<GoodsDrop>(squad).Values.ToBuilder();
-            bool moved = MoveGoodsToSquad(goods, strongest, first);
-            moved |= MoveGoodsToSquad(goods, strongest, second);
-            moved |= MoveGoodsToSquad(goods, strongest, third);
-            if (moved)
-            {
-                _world.GetRef<GoodsDrop>(squad) = new() { Values = goods.ToImmutable() };
-            }
-        }
-
-        private bool MoveGoodsToSquad(
-            ImmutableSortedDictionary<GoodsId, int>.Builder goods,
-            Unit strongest,
-            Unit unit)
-        {
-            if (unit.SyncId == strongest.SyncId)
-            {
-                return false;
-            }
-
-            bool moved = false;
-            foreach (var item in _world.Get<GoodsDrop>(unit.Entity).Values)
-            {
-                if (item.Value <= 0)
-                {
-                    continue;
-                }
-
-                if (goods.TryGetValue(item.Key, out int amount))
-                {
-                    goods[item.Key] = amount + item.Value;
-                }
-                else
-                {
-                    goods.Add(item.Key, item.Value);
-                }
-
-                moved = true;
-            }
-
-            if (moved)
-            {
-                _world.GetRef<GoodsDrop>(unit.Entity) = new()
-                {
-                    Values = ImmutableSortedDictionary<GoodsId, int>.Empty
-                };
-            }
-
-            return moved;
         }
 
         private static bool IsStronger(Unit candidate, Unit current)
@@ -219,7 +161,6 @@ namespace SlyPirates.Shared.Systems
         private readonly struct Unit
         {
             public readonly Entity Entity;
-            public readonly SyncId SquadId;
             public readonly int SyncId;
             public readonly int Level;
             public readonly fix MaxHealth;
@@ -227,14 +168,12 @@ namespace SlyPirates.Shared.Systems
 
             public Unit(
                 Entity entity,
-                SyncId squadId,
                 int syncId,
                 int level,
                 fix maxHealth,
                 fix damage)
             {
                 Entity = entity;
-                SquadId = squadId;
                 SyncId = syncId;
                 Level = level;
                 MaxHealth = maxHealth;

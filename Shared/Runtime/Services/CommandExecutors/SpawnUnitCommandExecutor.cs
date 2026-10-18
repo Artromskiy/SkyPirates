@@ -10,13 +10,8 @@ using SlyPirates.Shared.Data;
 using SlyPirates.Shared.Ids;
 using SlyPirates.Shared.IFactories;
 using SlyPirates.Shared.IServices;
-using SlyPirates.Shared.Systems;
 using SlyPirates.Shared.Tools.TraceHelpers;
-using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Linq;
-using System.Diagnostics;
-using System;
 
 namespace SlyPirates.Shared.Services.CommandExecutors
 {
@@ -28,8 +23,6 @@ namespace SlyPirates.Shared.Services.CommandExecutors
         private readonly World _world;
 
         private static readonly GoodsId _rum = "Rum";
-        private Query? _descCache;
-        private Query _desc => _descCache ??= _world.WhereAll<SquadMember, GoodsDrop, SyncId>().NotDisabled().Alive();
 
         public SpawnUnitCommandExecutor(UnitsInfoConfig unitsInfoConfig, IEntityRegistry entityRegistryService,
             IConfigedEntityFactory<UnitId> unitFactory, World world)
@@ -73,13 +66,6 @@ namespace SlyPirates.Shared.Services.CommandExecutors
 
         private bool TrySpawn(Entity squad, UnitId unitId)
         {
-            // collect squad goods info
-            // not enough => return
-            // remove goods (first from squad then units sorted by syncId)
-            // add new unit
-            // end => redistribution system will do the work
-
-            var squadId = _world.Get<SyncId>(squad);
             if (!_unitsInfoConfig.TryGetValue(unitId, out var info))
             {
                 return false;
@@ -91,81 +77,17 @@ namespace SlyPirates.Shared.Services.CommandExecutors
                 return true;
             }
 
-            ref var drop = ref _world.GetRef<GoodsDrop>(squad);
-            int squadRum = drop.Values.GetValueOrDefault(_rum);
-            if (squadRum >= price)
-            {
-                var newDrop = drop.Values.ToBuilder();
-                newDrop[_rum] -= price;
-                drop = new() { Values = newDrop.ToImmutable() };
-                return true;
-            }
-
-            (SyncId SquadId, int TotalRum) totalRumState = (squadId, squadRum);
-            var query = _desc;
-            _world.ForEach<(SyncId SquadId, int TotalRum), SquadMember, GoodsDrop>(in query, ref totalRumState,
-                static (ref (SyncId SquadId, int TotalRum) context, in SquadMember member, in GoodsDrop goodsDrop) =>
-                {
-                    if (member.SquadId.Value == context.SquadId.Value)
-                    {
-                        context.TotalRum += goodsDrop.Values.GetValueOrDefault(_rum);
-                    }
-                }).Invoke(ref totalRumState);
-            int totalRum = totalRumState.TotalRum;
-
-            if (totalRum < price)
+            var drop = _world.Get<GoodsDrop>(squad);
+            int rum = drop.Values.GetValueOrDefault(_rum);
+            if (rum < price)
             {
                 return false;
             }
 
-            List<(Entity entity, GoodsDrop drop, SyncId syncId)> units = new();
-            (SyncId SquadId, List<(Entity entity, GoodsDrop drop, SyncId syncId)> Units)
-                collectState = (squadId, units);
-            _world.ForEachEntity(in query, ref collectState,
-                static (ref (SyncId SquadId, List<(Entity entity, GoodsDrop drop, SyncId syncId)> Units) context,
-                    EntityRef entityRef, in SquadMember member, in GoodsDrop goodsDrop, in SyncId syncId) =>
-                {
-                    if (member.SquadId.Value != context.SquadId.Value)
-                    {
-                        return;
-                    }
-
-                    Entity entity = entityRef;
-                    context.Units.Add((entity, goodsDrop, syncId));
-                }).Invoke(ref collectState);
-
-            int leftPrice = price;
-
-            // remove from squad
-            var squadNewDrop = drop.Values.ToBuilder();
-            int removeSquad = Maths.Min(squadRum, price);
-            if (squadRum > 0)
-            {
-                squadNewDrop[_rum] -= removeSquad;
-                leftPrice -= removeSquad;
-                drop = new() { Values = squadNewDrop.ToImmutable() };
-            }
-
-            // remove from units
-            foreach (var unit in units.OrderBy(u => u.syncId.Value))
-            {
-                int count = unit.drop.Values.GetValueOrDefault(_rum);
-                int remove = Maths.Min(count, leftPrice);
-                if (remove == 0)
-                {
-                    continue;
-                }
-
-                var newDrop = unit.drop.Values.ToBuilder();
-                newDrop[_rum] -= remove;
-                leftPrice -= remove;
-                _world.GetRef<GoodsDrop>(unit.entity) = new() { Values = newDrop.ToImmutable() };
-                if (leftPrice == 0)
-                {
-                    break;
-                }
-            }
-
+            ref var squadDrop = ref _world.GetRef<GoodsDrop>(squad);
+            var newDrop = squadDrop.Values.ToBuilder();
+            newDrop[_rum] = rum - price;
+            squadDrop = new() { Values = newDrop.ToImmutable() };
             return true;
         }
     }
