@@ -60,6 +60,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 33315418ffa9d49519c2be01848fb262
+    m_Address: Prefabs/Visual/Unit/Bonny
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: d7225c1a4f5ff4e0cbab29797df1688f, type: 2}
   m_SchemaSet:

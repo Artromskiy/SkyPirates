@@ -18,6 +18,13 @@ namespace SlyPirates.Local.Entry
 {
     public class LocalStart : MonoBehaviour
     {
+        private static readonly string[] MapPaths =
+        {
+            "Configs/Maps/Map5",
+            "Configs/Maps/Map6",
+            "Configs/Maps/Map7",
+        };
+
         [SerializeField, Min(1)]
         [Tooltip("Number of fixed states retained by the local session history.")]
         private int _historyCapacity = Constants.MaxHistoryTicks;
@@ -38,8 +45,9 @@ namespace SlyPirates.Local.Entry
 
                 Delta.Diagnostics.Trace.Info("[LocalStart] Container get instances");
                 var client = _container.GetInstance<IClientService>();
-                var worldData = _container.GetInstance<IPathFactory<WorldData>>().Create("Configs/Maps/Map1");
-                Delta.Diagnostics.Trace.Info("[LocalStart] Load map");
+                string mapPath = MapPaths[new System.Random(Guid.NewGuid().GetHashCode()).Next(MapPaths.Length)];
+                var worldData = _container.GetInstance<IPathFactory<WorldData>>().Create(mapPath);
+                Delta.Diagnostics.Trace.Info($"[LocalStart] Load map: {mapPath}");
                 var session = _container.GetInstance<SkyPiratesSessionProvider>();
                 session.ApplySnapshot(worldData, -1);
                 _container.GetAllInstances<IPostTickable>().OfType<ViewBindingTickSystem>().Single().Tick(0);

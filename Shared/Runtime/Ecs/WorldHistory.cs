@@ -434,7 +434,7 @@ namespace SlyPirates.Shared.Ecs
 
             CaptureResources();
             ResetFrames();
-            var entities = new Dictionary<int, Entity>(sourceIds.Count);
+            var archetypes = new List<SnapshotArchetype>();
             var ids = new List<ComponentId>(_columns.Length);
             foreach (var pair in sourceIds)
             {
@@ -447,23 +447,70 @@ namespace SlyPirates.Shared.Ecs
                     }
                 }
 
-                ComponentId[] components = ids.ToArray();
-                Entity entity;
-                if (retained.TryGetValue(pair.Key, out entity) && _world.IsAlive(entity))
+                SnapshotArchetype? archetype = null;
+                for (int i = 0; i < archetypes.Count; i++)
                 {
-                    // Reset all historical membership in two combined structural transitions.
-                    _world.Remove(entity, _componentIds);
-                    _world.Remove<PendingDestroy>(entity);
-                    _world.Add(entity, components);
-                }
-                else
-                {
-                    entity = _world.Create(components);
+                    if (archetypes[i].Matches(ids))
+                    {
+                        archetype = archetypes[i];
+                        break;
+                    }
                 }
 
-                entities.Add(pair.Key, entity);
-                _owned.Set(entity, pair.Key);
+                if (archetype == null)
+                {
+                    archetype = new SnapshotArchetype(ids.ToArray());
+                    archetypes.Add(archetype);
+                }
+
+                archetype.SyncIds.Add(pair.Key);
             }
+
+            var entities = new Dictionary<int, Entity>(sourceIds.Count);
+            for (int archetypeIndex = 0; archetypeIndex < archetypes.Count; archetypeIndex++)
+            {
+                SnapshotArchetype archetype = archetypes[archetypeIndex];
+                archetype.MissingSyncIds.Clear();
+                for (int i = 0; i < archetype.SyncIds.Count; i++)
+                {
+                    int syncId = archetype.SyncIds[i];
+                    if (retained.TryGetValue(syncId, out Entity entity) && _world.IsAlive(entity))
+                    {
+                        // Reset all historical membership in two combined structural transitions.
+                        _world.Remove(entity, _componentIds);
+                        _world.Remove<PendingDestroy>(entity);
+                        _world.Add(entity, archetype.Components);
+                        entities.Add(syncId, entity);
+                        _owned.Set(entity, syncId);
+                    }
+                    else
+                    {
+                        archetype.MissingSyncIds.Add(syncId);
+                    }
+                }
+
+                int missingCount = archetype.MissingSyncIds.Count;
+                if (missingCount == 0)
+                {
+                    continue;
+                }
+
+                if (_batch.Length < missingCount)
+                {
+                    Array.Resize(ref _batch, Math.Max(missingCount, _batch.Length * 2));
+                }
+
+                Span<Entity> created = _batch.AsSpan(0, missingCount);
+                _world.Create(archetype.Components, missingCount, created);
+                for (int i = 0; i < missingCount; i++)
+                {
+                    int syncId = archetype.MissingSyncIds[i];
+                    Entity entity = created[i];
+                    entities.Add(syncId, entity);
+                    _owned.Set(entity, syncId);
+                }
+            }
+
             for (int i = 0; i < _columns.Length; i++)
             {
                 _columns[i].Import(snapshot, entities);
@@ -485,6 +532,33 @@ namespace SlyPirates.Shared.Ecs
             }
 
             Save(tick);
+        }
+
+        private sealed class SnapshotArchetype
+        {
+            public readonly ComponentId[] Components;
+            public readonly List<int> SyncIds = new();
+            public readonly List<int> MissingSyncIds = new();
+
+            public SnapshotArchetype(ComponentId[] components) => Components = components;
+
+            public bool Matches(List<ComponentId> components)
+            {
+                if (Components.Length != components.Count)
+                {
+                    return false;
+                }
+
+                for (int i = 0; i < Components.Length; i++)
+                {
+                    if (Components[i] != components[i])
+                    {
+                        return false;
+                    }
+                }
+
+                return true;
+            }
         }
 
         public void Clear()

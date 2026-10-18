@@ -15,8 +15,7 @@ namespace SlyPirates.Client.Factories
         public T Create(string parameters)
         {
             var textAsset = Resources.Load<TextAsset>(parameters);
-            string text = textAsset.text;
-            return SerializationUTF8.Deserialize<T>(text, _world);
+            return SerializationUTF8.Deserialize<T>(textAsset.bytes, _world);
         }
     }
 }

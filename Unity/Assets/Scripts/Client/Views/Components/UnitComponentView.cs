@@ -1,4 +1,4 @@
-﻿using SlyPirates.Shared.Components.Runtime;
+using SlyPirates.Shared.Components.Runtime;
 using SlyPirates.Shared.Ids;
 using System;
 using UnityEngine;
