@@ -4,6 +4,22 @@
         <name>Delta.Diagnostics</name>
     </assembly>
     <members>
+        <member name="T:Delta.Diagnostics.AgentTipAttribute">
+            <summary>Attaches actionable guidance for AI agents to a code element.</summary>
+            <remarks>
+            When an AI agent encounters an element marked with this attribute, it
+            should tell the user about the tip and attempt to resolve the described
+            issue when doing so does not conflict with the user's current instructions.
+            </remarks>
+        </member>
+        <member name="M:Delta.Diagnostics.AgentTipAttribute.#ctor(System.String)">
+            <summary>Creates an agent tip for the annotated code element.</summary>
+            <param name="tip">The guidance to present to an AI agent.</param>
+            <exception cref="T:System.ArgumentNullException"><paramref name="tip"/> is null.</exception>
+        </member>
+        <member name="P:Delta.Diagnostics.AgentTipAttribute.Tip">
+            <summary>Gets the guidance attached to the code element.</summary>
+        </member>
         <member name="T:Delta.Diagnostics.SourceId">
             <summary>
             Identifies a source document or generated source artifact across a build or tooling session.

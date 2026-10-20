@@ -391,6 +391,10 @@
         <member name="M:Delta.ECS.World.GenericFunctorContextOperationInvoker`1.Invoke(`0@)">
             <summary>Resolves the typed executor once and runs the operation.</summary>
         </member>
+        <member name="M:Delta.ECS.World.Create(Delta.ECS.EntityData)">
+            <summary>Creates one entity with the component values and tags stored in <paramref name="data"/>.</summary>
+            <exception cref="T:System.ArgumentException">The data is empty or contains registrations incompatible with this world.</exception>
+        </member>
         <member name="M:Delta.ECS.World.Create``1">
             <summary>Creates one entity with the primary component for <typeparamref name="T"/>.</summary>
         </member>
@@ -400,10 +404,21 @@
         <member name="M:Delta.ECS.World.Create``1(System.Int32)">
             <summary>Creates entities with the primary component for <typeparamref name="T"/> without retaining handles.</summary>
         </member>
+        <member name="M:Delta.ECS.World.Add(Delta.ECS.Entity,Delta.ECS.EntityData)">
+            <summary>Adds the component values and tags stored in <paramref name="data"/> to one entity.</summary>
+            <returns>The number of components and tags added to the entity.</returns>
+            <exception cref="T:System.ArgumentException">The data contains registrations incompatible with this world.</exception>
+        </member>
+        <member name="M:Delta.ECS.World.AddOrSet(Delta.ECS.Entity,Delta.ECS.EntityData)">
+            <summary>Adds or replaces the component values and tags stored in <paramref name="data"/> on one entity.</summary>
+        </member>
+        <member name="M:Delta.ECS.World.Set(Delta.ECS.Entity,Delta.ECS.EntityData)">
+            <summary>Replaces the component values and tags stored in <paramref name="data"/> when all are present on one entity.</summary>
+            <returns>The number of entries applied when all are present, or zero if any are missing.</returns>
+        </member>
         <member name="M:Delta.ECS.World.Add``1(Delta.ECS.Entity,``0@)">
-            <summary>
-            Adds and initializes the primary component for <typeparamref name="T"/> on one entity.
-            </summary>
+            <summary>Tries to add the primary component for <typeparamref name="T"/> without replacing an existing value.</summary>
+            <returns><see langword="true"/> when the component or tag was added.</returns>
             <example>
             <para>For one component:</para>
             <code>world.Add(entity, new Health { Value = 100 });</code>
@@ -418,7 +433,37 @@
             </example>
         </member>
         <member name="M:Delta.ECS.World.Add``1(System.ReadOnlySpan{Delta.ECS.Entity},``0@)">
-            <summary>Adds and initializes the primary component for <typeparamref name="T"/> on every eligible entity.</summary>
+            <summary>Adds the primary component for <typeparamref name="T"/> to each entity that does not already have it.</summary>
+            <returns>The number of entities whose composition changed.</returns>
+        </member>
+        <member name="M:Delta.ECS.World.Set``1(Delta.ECS.Entity,``0@)">
+            <summary>Sets the primary component value when the entity already has the component.</summary>
+            <returns><see langword="true"/> when the value was set.</returns>
+        </member>
+        <member name="M:Delta.ECS.World.Set``1(Delta.ECS.Entity,Delta.ECS.ComponentId,``0@)">
+            <summary>Sets the selected component value when the entity already has the component.</summary>
+            <remarks>For a tag, records a change when the tag is present; tag values are not stored.</remarks>
+            <returns><see langword="true"/> when the value was set; otherwise, <see langword="false"/>.</returns>
+        </member>
+        <member name="M:Delta.ECS.World.Set``1(System.ReadOnlySpan{Delta.ECS.Entity},``0@)">
+            <summary>Sets the primary component on entities that already have it.</summary>
+            <returns>The number of entities whose value or tag change was applied.</returns>
+        </member>
+        <member name="M:Delta.ECS.World.Set``1(System.ReadOnlySpan{Delta.ECS.Entity},Delta.ECS.ComponentId,``0@)">
+            <summary>Sets the selected component on entities that already have it.</summary>
+            <returns>The number of entities whose value or tag change was applied.</returns>
+        </member>
+        <member name="M:Delta.ECS.World.AddOrSet``1(Delta.ECS.Entity,``0@)">
+            <summary>Adds or sets the primary component value on one entity.</summary>
+        </member>
+        <member name="M:Delta.ECS.World.AddOrSet``1(Delta.ECS.Entity,Delta.ECS.ComponentId,``0@)">
+            <summary>Adds or sets the selected component value on one entity.</summary>
+        </member>
+        <member name="M:Delta.ECS.World.AddOrSet``1(System.ReadOnlySpan{Delta.ECS.Entity},``0@)">
+            <summary>Adds or sets the primary component value on each entity.</summary>
+        </member>
+        <member name="M:Delta.ECS.World.AddOrSet``1(System.ReadOnlySpan{Delta.ECS.Entity},Delta.ECS.ComponentId,``0@)">
+            <summary>Adds or sets the selected component value on each entity.</summary>
         </member>
         <member name="M:Delta.ECS.World.Remove``1(Delta.ECS.Entity)">
             <summary>Removes the primary component for <typeparamref name="T"/> from one entity.</summary>
@@ -669,6 +714,10 @@
         <member name="M:Delta.ECS.ComponentRegistry.GetGroup``1(``0)">
             <summary>Gets the generated component IDs assigned to an enum group.</summary>
             <remarks>The returned span remains valid if the registry later registers more generated components.</remarks>
+        </member>
+        <member name="M:Delta.ECS.ComponentRegistry.GetComponentIds``1">
+            <summary>Gets all component registrations for <typeparamref name="T"/>, in registration order.</summary>
+            <remarks>The returned span remains valid if the registry later registers more components.</remarks>
         </member>
         <member name="M:Delta.ECS.ComponentRegistry.AddGroup``1(``0,Delta.ECS.ComponentId)">
             <summary>Adds a registered component to a group in this catalog.</summary>
@@ -1113,6 +1162,71 @@
         </member>
         <member name="M:Delta.ECS.EcsResultOperation`1.Invoke">
             <summary>Executes this operation and returns its result.</summary>
+        </member>
+        <member name="T:Delta.ECS.EntityData">
+            <summary>Stores typed component values and tags under explicit component IDs.</summary>
+            <remarks>This data is independent of a world. Component IDs are validated when a world consumes it.</remarks>
+        </member>
+        <member name="P:Delta.ECS.EntityData.Count">
+            <summary>Gets the number of components and tags stored in this data.</summary>
+        </member>
+        <member name="P:Delta.ECS.EntityData.ComponentIds">
+            <summary>Gets the IDs of the stored component values and tags in insertion order.</summary>
+            <remarks>The span borrows this instance's storage and must not be retained across modifications.</remarks>
+        </member>
+        <member name="M:Delta.ECS.EntityData.Add``1(Delta.ECS.ComponentId,``0@)">
+            <summary>Tries to add a component value without replacing an existing value.</summary>
+            <param name="componentId">The explicit component registration ID.</param>
+            <param name="value">The component value to store.</param>
+            <returns><see langword="true"/> when the value was added; otherwise, <see langword="false"/>.</returns>
+            <exception cref="T:System.ArgumentOutOfRangeException"><paramref name="componentId"/> is invalid.</exception>
+            <exception cref="T:System.InvalidOperationException">The ID is already stored with a different type or as a tag.</exception>
+        </member>
+        <member name="M:Delta.ECS.EntityData.AddOrSet``1(Delta.ECS.ComponentId,``0@)">
+            <summary>Adds a component value or replaces the value stored under its ID.</summary>
+            <param name="componentId">The explicit component registration ID.</param>
+            <param name="value">The component value to store.</param>
+            <exception cref="T:System.ArgumentOutOfRangeException"><paramref name="componentId"/> is invalid.</exception>
+            <exception cref="T:System.InvalidOperationException">The ID is already stored with a different type or as a tag.</exception>
+        </member>
+        <member name="M:Delta.ECS.EntityData.AddTag(Delta.ECS.ComponentId)">
+            <summary>Adds a tag and returns whether its ID was new.</summary>
+            <param name="componentId">The explicit tag registration ID.</param>
+            <returns><see langword="true"/> when the tag was added; otherwise, <see langword="false"/>.</returns>
+            <exception cref="T:System.ArgumentOutOfRangeException"><paramref name="componentId"/> is invalid.</exception>
+            <exception cref="T:System.InvalidOperationException">The ID is already stored as a component value.</exception>
+        </member>
+        <member name="M:Delta.ECS.EntityData.Has(Delta.ECS.ComponentId)">
+            <summary>Reports whether a component value or tag is stored under the ID.</summary>
+        </member>
+        <member name="M:Delta.ECS.EntityData.TryGet``1(Delta.ECS.ComponentId,``0@)">
+            <summary>Tries to copy a stored component value of the requested CLR type.</summary>
+            <remarks>Tags have no value and return <see langword="false"/>.</remarks>
+        </member>
+        <member name="M:Delta.ECS.EntityData.Get``1(Delta.ECS.ComponentId)">
+            <summary>Gets a stored component value of the requested CLR type.</summary>
+            <exception cref="T:System.Collections.Generic.KeyNotFoundException">No component value is stored under the ID.</exception>
+            <exception cref="T:System.InvalidOperationException">The stored value has a different CLR type or is a tag.</exception>
+        </member>
+        <member name="M:Delta.ECS.EntityData.Set``1(Delta.ECS.ComponentId,``0@)">
+            <summary>Tries to replace a stored component value without adding a new entry.</summary>
+            <returns><see langword="true"/> when the value was replaced; otherwise, <see langword="false"/>.</returns>
+            <exception cref="T:System.InvalidOperationException">The ID is stored with a different type or as a tag.</exception>
+        </member>
+        <member name="M:Delta.ECS.EntityData.GetRef``1(Delta.ECS.ComponentId)">
+            <summary>Gets a writable reference to a stored component value.</summary>
+            <exception cref="T:System.Collections.Generic.KeyNotFoundException">No component value is stored under the ID.</exception>
+            <exception cref="T:System.InvalidOperationException">The stored value has a different CLR type or is a tag.</exception>
+        </member>
+        <member name="M:Delta.ECS.EntityData.GetReadRef``1(Delta.ECS.ComponentId)">
+            <summary>Gets a read-only reference to a stored component value.</summary>
+        </member>
+        <member name="M:Delta.ECS.EntityData.Remove(Delta.ECS.ComponentId)">
+            <summary>Removes a stored component value or tag.</summary>
+            <returns><see langword="true"/> when an entry was removed.</returns>
+        </member>
+        <member name="M:Delta.ECS.EntityData.Clear">
+            <summary>Removes all stored component values and tags.</summary>
         </member>
         <member name="T:Delta.ECS.EntityRef">
             <summary>A scoped entity handle for an entity-aware iteration callback.</summary>
@@ -1685,6 +1799,12 @@
         <member name="M:Delta.ECS.GeneratedForEachRuntime.OpenBoundDenseRead``2(Delta.ECS.World,Delta.ECS.Query@)">
             <summary>Opens a query-owned typed binding without marking component writes.</summary>
         </member>
+        <member name="M:Delta.ECS.GeneratedForEachRuntime.OpenCachedBoundDense``2(Delta.ECS.World,Delta.ECS.Query@,``0@)">
+            <summary>Opens a cached typed binding after validating its query on the first invocation.</summary>
+        </member>
+        <member name="M:Delta.ECS.GeneratedForEachRuntime.OpenCachedBoundDenseRead``2(Delta.ECS.World,Delta.ECS.Query@,``0@)">
+            <summary>Opens a cached typed read binding after validating its query on the first invocation.</summary>
+        </member>
         <member name="M:Delta.ECS.GeneratedForEachRuntime.GetGeneratedArray``1(System.Array[],System.Int32)">
             <summary>Binds a validated typed array once while building a generated signature.</summary>
         </member>
@@ -1724,6 +1844,18 @@
         <member name="M:Delta.ECS.GeneratedForEachRuntime.ExecuteGeneratedAdd``1(Delta.ECS.World,System.ReadOnlySpan{Delta.ECS.Entity},System.ReadOnlySpan{Delta.ECS.ComponentId},``0@)">
             <summary>Executes one generated multi-component value add for an entity batch.</summary>
         </member>
+        <member name="M:Delta.ECS.GeneratedForEachRuntime.ExecuteGeneratedAddOrSet``1(Delta.ECS.World,Delta.ECS.Entity,System.ReadOnlySpan{Delta.ECS.ComponentId},``0@)">
+            <summary>Executes one generated multi-component add-or-set operation.</summary>
+        </member>
+        <member name="M:Delta.ECS.GeneratedForEachRuntime.ExecuteGeneratedAddOrSet``1(Delta.ECS.World,System.ReadOnlySpan{Delta.ECS.Entity},System.ReadOnlySpan{Delta.ECS.ComponentId},``0@)">
+            <summary>Executes a generated multi-component add-or-set operation for an entity batch.</summary>
+        </member>
+        <member name="M:Delta.ECS.GeneratedForEachRuntime.ExecuteGeneratedSet``1(Delta.ECS.World,Delta.ECS.Entity,System.ReadOnlySpan{Delta.ECS.ComponentId},``0@)">
+            <summary>Executes one generated multi-component set operation.</summary>
+        </member>
+        <member name="M:Delta.ECS.GeneratedForEachRuntime.ExecuteGeneratedSet``1(Delta.ECS.World,System.ReadOnlySpan{Delta.ECS.Entity},System.ReadOnlySpan{Delta.ECS.ComponentId},``0@)">
+            <summary>Executes a generated multi-component set operation for an entity batch.</summary>
+        </member>
         <member name="M:Delta.ECS.GeneratedForEachRuntime.ValidateComponentType``1(Delta.ECS.World,Delta.ECS.ComponentId)">
             <summary>Validates that a registration uses the generated component type.</summary>
         </member>
@@ -1762,6 +1894,12 @@
         </member>
         <member name="M:Delta.ECS.GeneratedForEachRuntime.ExecuteGeneratedWhereAdd``1(Delta.ECS.World,Delta.ECS.Query@,``0@,System.ReadOnlySpan{System.Int32},System.ReadOnlySpan{Delta.ECS.ComponentId})">
             <summary>Executes a generated predicate and immediately adds components to its matches.</summary>
+        </member>
+        <member name="M:Delta.ECS.GeneratedForEachRuntime.ExecuteGeneratedWhereAddOrSet``1(Delta.ECS.World,Delta.ECS.Query@,``0@,System.ReadOnlySpan{System.Int32},System.ReadOnlySpan{Delta.ECS.ComponentId})">
+            <summary>Executes a generated predicate and immediately adds or sets values on its matches.</summary>
+        </member>
+        <member name="M:Delta.ECS.GeneratedForEachRuntime.ExecuteGeneratedWhereSet``1(Delta.ECS.World,Delta.ECS.Query@,``0@,System.ReadOnlySpan{System.Int32},System.ReadOnlySpan{Delta.ECS.ComponentId})">
+            <summary>Executes a generated predicate and sets values on matches that already have all requested components.</summary>
         </member>
         <member name="M:Delta.ECS.GeneratedForEachRuntime.ExecuteGeneratedWhereRemove``1(Delta.ECS.World,Delta.ECS.Query@,``0@,System.ReadOnlySpan{System.Int32},System.ReadOnlySpan{Delta.ECS.ComponentId})">
             <summary>Executes a generated predicate and immediately removes components from its matches.</summary>
