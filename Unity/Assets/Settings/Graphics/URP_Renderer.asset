@@ -107,7 +107,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a950dc62f29452f8e9580a264a22d0d, type: 3}
   m_Name: SphereOverlayFeature
   m_EditorClassIdentifier: 
-  m_Active: 0
+  m_Active: 1
 --- !u!114 &7056223491112345678
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -120,4 +120,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1a56de98c8244c9aa91ec9b4a39120f, type: 3}
   m_Name: HexTerrainStencilShadowFeature
   m_EditorClassIdentifier: 
-  m_Active: 0
+  m_Active: 1

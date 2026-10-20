@@ -278,7 +278,7 @@ MonoBehaviour:
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 1
+  m_RenderPostProcessing: 0
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0
@@ -312,7 +312,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _camera: {fileID: 330585545}
-  _horizontalVerticalScale: 1
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -351,7 +350,7 @@ Light:
     m_Type: 1
     m_Resolution: -1
     m_CustomResolution: -1
-    m_Strength: 0.25
+    m_Strength: 0.7
     m_Bias: 0.05
     m_NormalBias: 0.4
     m_NearPlane: 0.2
@@ -404,13 +403,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 410087039}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.38302222, y: 0.38302228, z: -0.17860621, w: -0.8213937}
+  m_LocalRotation: {x: 0.24632373, y: 0.5470295, z: -0.1724777, w: 0.7812393}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 796119640}
-  m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+  m_LocalEulerAnglesHint: {x: 35, y: 70, z: 0}
 --- !u!114 &410087042
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -955,7 +954,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4be83ee3b916425898dba8b98f9e59ea, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: SlyPirates.Client::SlyPirates.Client.Entry.Replay.SkyPiratesReplayController
 --- !u!1 &1985690235
 GameObject:
@@ -1709,7 +1708,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 744718286628510554, guid: 167a233d5d293424f821045c8eca5343, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 242.33801
+      value: 330.5874
       objectReference: {fileID: 0}
     - target: {fileID: 744718286628510554, guid: 167a233d5d293424f821045c8eca5343, type: 3}
       propertyPath: m_SizeDelta.y
@@ -1717,11 +1716,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 744718286628510554, guid: 167a233d5d293424f821045c8eca5343, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 403.50702
+      value: 535.8811
       objectReference: {fileID: 0}
     - target: {fileID: 744718286628510554, guid: 167a233d5d293424f821045c8eca5343, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -203.44139
+      value: -144.60846
       objectReference: {fileID: 0}
     - target: {fileID: 1134484273900601587, guid: 167a233d5d293424f821045c8eca5343, type: 3}
       propertyPath: m_AnchorMax.y
@@ -1733,7 +1732,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1134484273900601587, guid: 167a233d5d293424f821045c8eca5343, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 242.33801
+      value: 330.5874
       objectReference: {fileID: 0}
     - target: {fileID: 1134484273900601587, guid: 167a233d5d293424f821045c8eca5343, type: 3}
       propertyPath: m_SizeDelta.y
@@ -1741,11 +1740,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1134484273900601587, guid: 167a233d5d293424f821045c8eca5343, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 665.84503
+      value: 886.4685
       objectReference: {fileID: 0}
     - target: {fileID: 1134484273900601587, guid: 167a233d5d293424f821045c8eca5343, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -203.44139
+      value: -144.60846
       objectReference: {fileID: 0}
     - target: {fileID: 1894678690539085940, guid: 167a233d5d293424f821045c8eca5343, type: 3}
       propertyPath: m_Pivot.x
@@ -1837,7 +1836,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3189336297900243639, guid: 167a233d5d293424f821045c8eca5343, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 242.33801
+      value: 330.5874
       objectReference: {fileID: 0}
     - target: {fileID: 3189336297900243639, guid: 167a233d5d293424f821045c8eca5343, type: 3}
       propertyPath: m_SizeDelta.y
@@ -1845,11 +1844,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3189336297900243639, guid: 167a233d5d293424f821045c8eca5343, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 141.169
+      value: 185.2937
       objectReference: {fileID: 0}
     - target: {fileID: 3189336297900243639, guid: 167a233d5d293424f821045c8eca5343, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -203.44139
+      value: -144.60846
       objectReference: {fileID: 0}
     - target: {fileID: 4812935882897104237, guid: 167a233d5d293424f821045c8eca5343, type: 3}
       propertyPath: m_Name
