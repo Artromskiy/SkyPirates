@@ -1,7 +1,6 @@
 ﻿using Delta.ECS;
 using SlyPirates.Shared.Core.Ids;
 using SlyPirates.Shared.Data;
-using SlyPirates.Shared.Ecs;
 using SlyPirates.Shared.IFactories;
 using SlyPirates.Shared.IServices;
 using System;
@@ -30,7 +29,7 @@ namespace SlyPirates.Shared.Factories
         {
             var config = _entityConfigFactory.Create(parameters.Id);
             var entity = _entityFactory.Create(parameters.parameters);
-            _world.SetEntityData(entity, config);
+            _world.AddOrSet(entity, config);
             _entityDependencyService.Apply(entity);
             _componentDefaultsService.Apply(entity);
             return entity;

@@ -59,7 +59,7 @@ namespace SlyPirates.Client.Entry.Replay
 
             long initialStep = _session.CurrentStep;
             WorldData initialWorld = _history.GetSnapshot(checked((int)initialStep));
-            _recorder = new SkyPiratesReplayRecorder(_session.Session, _history, initialWorld, initialStep);
+            _recorder = new SkyPiratesReplayRecorder(_session.Session, _session.World, _history, initialWorld, initialStep);
             Delta.Diagnostics.Trace.Info($"[Replay] Recording started from saved step {initialStep}. Press F9 again to save.");
         }
 
@@ -71,7 +71,7 @@ namespace SlyPirates.Client.Entry.Replay
             }
 
             _playback ??= new SkyPiratesReplayPlayback(_session, _simulation);
-            _playback.Load(SkyPiratesReplayFile.Load(path));
+            _playback.Load(SkyPiratesReplayFile.Load(path, _session.World));
             _replayMode = true;
             _gameLoop.Enabled = false;
             _postTickables.Tick(checked((int)_playback.CurrentStep));
@@ -156,7 +156,7 @@ namespace SlyPirates.Client.Entry.Replay
                     path = Path.Combine(directory, $"{fileName}-{suffix++}.json");
                 }
 
-                SkyPiratesReplayFile.Save(path, _recorder.Capture());
+                SkyPiratesReplayFile.Save(path, _recorder.Capture(), _session.World);
                 _recorder = null;
                 Delta.Diagnostics.Trace.Info($"[Replay] Saved: {path}");
             }

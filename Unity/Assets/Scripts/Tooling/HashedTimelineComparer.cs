@@ -2,6 +2,7 @@
 using Delta.Netcode;
 using SlyPirates.Shared.Commands;
 using SlyPirates.Shared.Data;
+using SlyPirates.Shared.Ecs;
 using SlyPirates.Shared.Tools.Json;
 using System;
 using System.Buffers;
@@ -60,8 +61,9 @@ namespace SlyPirates.Tooling
                 int index = i;
                 tasks[index] = Task.Run(() =>
                 {
+                    using var componentWorld = WorldFactory.Create();
                     _timelines[index] = SerializationUTF8.
-                        DeserializeCompressed<(Dictionary<int, WorldData> WorldData, CommandsData Commands)>(bytes[index]);
+                        DeserializeCompressed<(Dictionary<int, WorldData> WorldData, CommandsData Commands)>(bytes[index], componentWorld);
                 });
             }
             Task.WhenAll(tasks).ContinueWith((_) => _loaded = true);
@@ -74,12 +76,13 @@ namespace SlyPirates.Tooling
                 return;
             }
 
+            using var world = WorldFactory.Create();
             for (int i = 0; i < _timelines.Length; i++)
             {
                 var data = Get(i).WorldData;
                 var worldData = data?.GetValueOrDefault(_tick);
                 _infos[i].Contains = worldData is not null;
-                _infos[i].Hash = worldData is null ? 0 : (int)GetWorldHash(worldData);
+                _infos[i].Hash = worldData is null ? 0 : (int)GetWorldHash(worldData, world);
             }
         }
 
@@ -91,7 +94,8 @@ namespace SlyPirates.Tooling
                 return;
             }
 
-            string res = SerializationUTF8.SerializeOrdered(Get(_timelineIndex).Item1[_tick]);
+            using var world = WorldFactory.Create();
+            string res = SerializationUTF8.SerializeOrdered(Get(_timelineIndex).Item1[_tick], world);
             File.WriteAllText(GetPath("Snapshot"), res);
         }
 
@@ -140,10 +144,10 @@ namespace SlyPirates.Tooling
         }
 
 
-        private ulong GetWorldHash(WorldData worldData)
+        private static ulong GetWorldHash(WorldData worldData, Delta.ECS.World world)
         {
             ArrayBufferWriter<byte> writer = new();
-            SerializationUTF8.SerializeOrdered(worldData, writer);
+            SerializationUTF8.SerializeOrdered(worldData, writer, world);
             return XxHash64.HashToUInt64(writer.WrittenSpan);
         }
 

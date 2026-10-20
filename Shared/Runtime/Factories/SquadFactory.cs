@@ -1,5 +1,4 @@
 ﻿using Delta.ECS;
-using SlyPirates.Shared.Ecs;
 using SlyPirates.Shared.Components.Runtime;
 using SlyPirates.Shared.Data;
 using SlyPirates.Shared.IFactories;
@@ -28,7 +27,7 @@ namespace SlyPirates.Shared.Factories
         {
             var entity = _entityFactory.Create(parameters.entityParameters);
             _world.Add<Squad>(entity);
-            _world.SetEntityData(entity, _squadStats[0]);
+            _world.AddOrSet(entity, _squadStats[0]);
             _entityDependencyService.Apply(entity);
             _componentDefaultsService.Apply(entity);
             _world.GetRef<TeamId>(entity) = parameters.team;

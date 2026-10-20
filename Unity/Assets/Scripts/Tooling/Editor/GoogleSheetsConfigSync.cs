@@ -92,7 +92,7 @@ namespace SlyPirates.Tooling.Editor
                 outputs.Add(item.Key + ".json", item.Value.ToJsonString(SerializationUTF8.Options));
             }
 
-            outputs.Add("GlobalConfig.json", SerializationUTF8.Serialize(configObject));
+            outputs.Add("GlobalConfig.json", SerializationUTF8.Serialize(configObject, componentWorld));
 
             var outputDirectory = Path.GetFullPath(loader.OutputDirectory);
             Directory.CreateDirectory(outputDirectory);

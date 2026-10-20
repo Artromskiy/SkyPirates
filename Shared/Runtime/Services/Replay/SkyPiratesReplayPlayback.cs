@@ -146,7 +146,7 @@ namespace SlyPirates.Shared.Services.Replay
             if (_replay!.EndHashCheck.Step != step) { expected = actual = 0; return false; }
             expected = _replay.EndHashCheck.Hash;
             WorldData snapshot = _session.GetSnapshot(checked((int)step));
-            actual = SerializationUTF8.GetHashSum(snapshot);
+            actual = SerializationUTF8.GetHashSum(snapshot, _session.World);
             return actual == expected;
         }
 

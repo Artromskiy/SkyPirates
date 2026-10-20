@@ -7,6 +7,7 @@ using SlyPirates.Shared.IServices.TickableExecutors;
 using SlyPirates.Shared.Services.Netcode;
 using SlyPirates.Shared.Services.Replay;
 using SlyPirates.Shared.Tools.Json;
+using SlyPirates.Shared.Ecs;
 using System;
 using System.IO;
 using System.Diagnostics;
@@ -25,7 +26,8 @@ namespace SlyPirates.ReplayRunner
             }
             try
             {
-                var replay = SkyPiratesReplayFile.Load(args[0]);
+                using var dataWorld = WorldFactory.Create();
+                var replay = SkyPiratesReplayFile.Load(args[0], dataWorld);
                 using var container = new ReplayContainer(checked((int)(replay.EndHashCheck.Step - replay.InitialStep + 1)));
                 var session = container.GetInstance<SkyPiratesSessionProvider>();
                 var playback = new SkyPiratesReplayPlayback(session,

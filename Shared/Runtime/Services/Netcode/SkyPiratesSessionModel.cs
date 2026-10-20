@@ -1,3 +1,4 @@
+using Delta.ECS;
 using Delta.Netcode;
 using SlyPirates.Shared.Ecs;
 using SlyPirates.Shared.Data;
@@ -12,6 +13,7 @@ namespace SlyPirates.Shared.Services.Netcode
 {
     public sealed class SkyPiratesSessionModel : ISessionModel
     {
+        private readonly World _world;
         private readonly IWorldHistory _history;
         private readonly IDeltaTickableService<IDeltaTickableExecutor> _systems;
         private readonly ITickableService<IInTickable> _inTickables;
@@ -22,6 +24,7 @@ namespace SlyPirates.Shared.Services.Netcode
 
         public SkyPiratesSessionModel(
             long startStep,
+            World world,
             IWorldHistory history,
             IDeltaTickableService<IDeltaTickableExecutor> systems,
             ITickableService<IInTickable> inTickables,
@@ -29,6 +32,7 @@ namespace SlyPirates.Shared.Services.Netcode
         {
             CurrentStep = startStep - 1;
             ComputedStep = CurrentStep;
+            _world = world;
             _history = history;
             _systems = systems;
             _inTickables = inTickables;
@@ -172,7 +176,7 @@ namespace SlyPirates.Shared.Services.Netcode
                 Step = snapshotStep,
                 World = _history.GetSnapshot(checked((int)snapshotStep)),
             };
-            SerializationUTF8.SerializeCompressed(state, output);
+            SerializationUTF8.SerializeCompressed(state, output, _world);
         }
 
         public long SaveReplayAnchor(IBufferWriter<byte> output)
@@ -183,7 +187,7 @@ namespace SlyPirates.Shared.Services.Netcode
 
         public void Load(ReadOnlySpan<byte> state)
         {
-            var snapshot = SerializationUTF8.DeserializeCompressed<SnapshotState>(state.ToArray());
+            var snapshot = SerializationUTF8.DeserializeCompressed<SnapshotState>(state.ToArray(), _world);
             ApplySnapshot(snapshot.World, checked((int)snapshot.Step));
             _commands.Clear();
             _commandSteps.Clear();

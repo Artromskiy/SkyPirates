@@ -1,3 +1,4 @@
+using Delta.ECS;
 using Delta.Netcode;
 using System;
 using SlyPirates.Shared.Ecs;
@@ -13,6 +14,7 @@ namespace SlyPirates.Shared.Services.Netcode
 {
     public sealed class SkyPiratesSessionSetup
     {
+        private readonly World _world;
         private readonly IWorldHistory _history;
         private readonly ICommandPayloadHandler _payloadHandler;
         private readonly IDeltaTickableService<IDeltaTickableExecutor> _systems;
@@ -24,6 +26,7 @@ namespace SlyPirates.Shared.Services.Netcode
         private readonly ICommandMutatorRegistration[] _mutators;
 
         public SkyPiratesSessionSetup(
+            World world,
             IWorldHistory history,
             ICommandPayloadHandler payloadHandler,
             IDeltaTickableService<IDeltaTickableExecutor> systems,
@@ -34,6 +37,7 @@ namespace SlyPirates.Shared.Services.Netcode
             IEnumerable<ICommandValidatorRegistration> validators,
             IEnumerable<ICommandMutatorRegistration> mutators)
         {
+            _world = world;
             _history = history;
             _payloadHandler = payloadHandler;
             _systems = systems;
@@ -46,6 +50,7 @@ namespace SlyPirates.Shared.Services.Netcode
         }
 
         public event Action? StateRestored;
+        public World World => _world;
         public SkyPiratesSessionModel Model { get; private set; } = null!;
         public WorldData GetSnapshot(int tick) => _history.GetSnapshot(tick);
         public void ApplySnapshot(WorldData snapshot, int tick)
@@ -109,7 +114,7 @@ namespace SlyPirates.Shared.Services.Netcode
             }
 
             var journal = new MemoryCommandJournal();
-            var model = new SkyPiratesSessionModel(start.Step, _history, _systems, _inTickables, _entityRegistry);
+            var model = new SkyPiratesSessionModel(start.Step, _world, _history, _systems, _inTickables, _entityRegistry);
             Model = model;
             model.StateRestored += () => StateRestored?.Invoke();
             var host = new SessionHost(

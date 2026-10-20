@@ -18,6 +18,7 @@ namespace SlyPirates.Shared.Tools.Json
     {
         private static readonly ThreadLocal<Writers> _writers = new(() => new());
         private static readonly ConditionalWeakTable<World, JsonSerializerOptions> _optionsByWorld = new();
+        private static readonly ConditionalWeakTable<World, JsonSerializerOptions> _optionsFastByWorld = new();
         public static readonly JsonSerializerOptions Options;
         public static readonly JsonSerializerOptions OptionsFast;
         static SerializationUTF8()
@@ -42,7 +43,7 @@ namespace SlyPirates.Shared.Tools.Json
             Options.Converters.Add(new ImmutableSortedDictionaryConverterFactory());
             Options.Converters.Add(new ReadOnlyCollectionConverterFactory());
             Options.Converters.Add(new WorldDataConverter());
-            Options.Converters.Add(new ComponentDataSetConverter());
+            Options.Converters.Add(new EntityDataJsonConverter());
             Options.Converters.Add(new ComponentIdListConverter());
 
             Options.Converters.Add(new VectorConverter<fix, fix2>());
@@ -79,6 +80,15 @@ namespace SlyPirates.Shared.Tools.Json
             return Encoding.UTF8.GetString(buffer.WrittenSpan);
         }
 
+        public static string Serialize<T>(T data, World world)
+        {
+            var buffer = _writers.Value.Buffer;
+            buffer.Clear();
+            Serialize(data, buffer, world);
+
+            return Encoding.UTF8.GetString(buffer.WrittenSpan);
+        }
+
         public static T Deserialize<T>(string json)
         {
             var buffer = _writers.Value.Buffer;
@@ -106,6 +116,13 @@ namespace SlyPirates.Shared.Tools.Json
             var writer = _writers.Value.Writer;
             writer.Reset(to);
             JsonSerializer.Serialize(writer, data, Options);
+        }
+
+        public static void Serialize<T>(T data, IBufferWriter<byte> to, World world)
+        {
+            var writer = _writers.Value.Writer;
+            writer.Reset(to);
+            JsonSerializer.Serialize(writer, data, GetOptions(world));
         }
 
         public static T Deserialize<T>(ReadOnlyMemory<byte> data)
@@ -144,11 +161,31 @@ namespace SlyPirates.Shared.Tools.Json
             Compress(buffer.WrittenMemory, to);
         }
 
+        public static void SerializeCompressed<T>(T data, IBufferWriter<byte> to, World world)
+        {
+            var buffer = _writers.Value.Buffer;
+            buffer.Clear();
+            Serialize(data, buffer, world);
+            Compress(buffer.WrittenMemory, to);
+        }
+
         public static string SerializeOrdered<T>(T data)
         {
             var buffer = _writers.Value.Buffer;
             var writer = _writers.Value.Writer;
             var document = JsonSerializer.SerializeToDocument(data, Options);
+            buffer.Clear();
+            writer.Reset(buffer);
+            writer.WriteOrdered(document.RootElement);
+            writer.Flush();
+            return Encoding.UTF8.GetString(buffer.WrittenSpan);
+        }
+
+        public static string SerializeOrdered<T>(T data, World world)
+        {
+            var buffer = _writers.Value.Buffer;
+            var writer = _writers.Value.Writer;
+            var document = JsonSerializer.SerializeToDocument(data, GetOptions(world));
             buffer.Clear();
             writer.Reset(buffer);
             writer.WriteOrdered(document.RootElement);
@@ -165,6 +202,15 @@ namespace SlyPirates.Shared.Tools.Json
             writer.Flush();
         }
 
+        public static void SerializeOrdered<T>(T data, IBufferWriter<byte> to, World world)
+        {
+            var writer = _writers.Value.Writer;
+            var document = JsonSerializer.SerializeToDocument(data, GetOptions(world));
+            writer.Reset(to);
+            writer.WriteOrdered(document.RootElement);
+            writer.Flush();
+        }
+
         public static ulong GetHashSum<T>(T data)
         {
             var buffer = _writers.Value.Buffer;
@@ -172,6 +218,16 @@ namespace SlyPirates.Shared.Tools.Json
             buffer.Clear();
             writer.Reset(buffer);
             JsonSerializer.Serialize(writer, data, OptionsFast);
+            return JsonHash.GetHash(buffer.WrittenMemory);
+        }
+
+        public static ulong GetHashSum<T>(T data, World world)
+        {
+            var buffer = _writers.Value.Buffer;
+            var writer = _writers.Value.FastWriter;
+            buffer.Clear();
+            writer.Reset(buffer);
+            JsonSerializer.Serialize(writer, data, GetFastOptions(world));
             return JsonHash.GetHash(buffer.WrittenMemory);
         }
 
@@ -192,14 +248,17 @@ namespace SlyPirates.Shared.Tools.Json
         }
 
         private static JsonSerializerOptions GetOptions(World world)
-            => _optionsByWorld.GetValue(world, CreateOptions);
+            => _optionsByWorld.GetValue(world, static currentWorld => CreateOptions(Options, currentWorld));
 
-        private static JsonSerializerOptions CreateOptions(World world)
+        private static JsonSerializerOptions GetFastOptions(World world)
+            => _optionsFastByWorld.GetValue(world, static currentWorld => CreateOptions(OptionsFast, currentWorld));
+
+        private static JsonSerializerOptions CreateOptions(JsonSerializerOptions source, World world)
         {
-            var options = new JsonSerializerOptions(Options);
+            var options = new JsonSerializerOptions(source);
             for (int i = 0; i < options.Converters.Count; i++)
             {
-                if (options.Converters[i] is not ComponentDataSetConverter)
+                if (options.Converters[i] is not EntityDataJsonConverter)
                 {
                     continue;
                 }
@@ -208,7 +267,7 @@ namespace SlyPirates.Shared.Tools.Json
                 break;
             }
 
-            options.Converters.Add(new ComponentDataSetConverter(world));
+            options.Converters.Add(new EntityDataJsonConverter(world));
             return options;
         }
 

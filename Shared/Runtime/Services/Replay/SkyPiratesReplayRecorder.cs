@@ -1,3 +1,4 @@
+using Delta.ECS;
 using Delta.Netcode;
 using SlyPirates.Shared.Data;
 using SlyPirates.Shared.Ecs;
@@ -10,13 +11,15 @@ namespace SlyPirates.Shared.Services.Replay
     public sealed class SkyPiratesReplayRecorder
     {
         private readonly SessionHost _session;
+        private readonly World _world;
         private readonly IWorldHistory _history;
         private readonly CommandCursor _commandCursor;
         private readonly SkyPiratesReplayData _replay;
 
-        public SkyPiratesReplayRecorder(SessionHost session, IWorldHistory history, WorldData initialWorld, long initialStep)
+        public SkyPiratesReplayRecorder(SessionHost session, World world, IWorldHistory history, WorldData initialWorld, long initialStep)
         {
             _session = session ?? throw new ArgumentNullException(nameof(session));
+            _world = world ?? throw new ArgumentNullException(nameof(world));
             _history = history ?? throw new ArgumentNullException(nameof(history));
             _replay = new SkyPiratesReplayData
             {
@@ -62,7 +65,7 @@ namespace SlyPirates.Shared.Services.Replay
                 _replay.EndHashCheck = new SkyPiratesReplayHashCheck
                 {
                     Step = currentStep,
-                    Hash = SerializationUTF8.GetHashSum(currentWorld),
+                    Hash = SerializationUTF8.GetHashSum(currentWorld, _world),
                 };
             }
 

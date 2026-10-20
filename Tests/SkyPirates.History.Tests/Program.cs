@@ -291,7 +291,7 @@ internal static class Program
         if (unit.IsValid && world.Has<Health>(unit))
             Check(world.Get<Health>(unit).Value == map.Get<Health>()[981].Value, "Defaulting must preserve imported Health.");
         simulation.Tick(0);
-        var recorder = new SkyPiratesReplayRecorder(session.Session, history, history.GetSnapshot(0), 0);
+        var recorder = new SkyPiratesReplayRecorder(session.Session, world, history, history.GetSnapshot(0), 0);
         session.Send(new SpawnSquadCommand(), 1);
         var input = default(JoystickCommand);
         for (int tick = 0; tick <= 20; tick++)
@@ -372,33 +372,33 @@ internal static class Program
         session.ApplySnapshot(map, -1);
         session.Start(new AuthorId(1));
         simulation.Tick(1);
-        var recorder = new SkyPiratesReplayRecorder(session.Session, history, history.GetSnapshot(1), 1);
+        var recorder = new SkyPiratesReplayRecorder(session.Session, game.GetInstance<World>(), history, history.GetSnapshot(1), 1);
         var key = session.Send(new SpawnSquadCommand(), 2);
         simulation.Tick(8);
         var recording = recorder.Capture();
         Check(recording.Commands.Count == 1, "Rollback test requires an accepted command.");
-        ulong withCommand = SerializationUTF8.GetHashSum(session.GetSnapshot(8));
+        ulong withCommand = SerializationUTF8.GetHashSum(session.GetSnapshot(8), session.World);
         Check(session.Session.Cancel(key) == CommandResult.Cancelled, "Live commands can be cancelled.");
         simulation.Tick(8);
-        ulong withoutCommand = SerializationUTF8.GetHashSum(session.GetSnapshot(8));
+        ulong withoutCommand = SerializationUTF8.GetHashSum(session.GetSnapshot(8), session.World);
         Check(withCommand != withoutCommand, "Cancelling a past command recomputes the branch.");
         Check(session.ComputedStep == 8 && session.CurrentStep == 8, "Recomputation advances the fixed frontier.");
         var command = recording.Commands[0];
         var header = new CommandHeader(new CommandKey(session.Session.Start.SessionId, new AuthorId(command.AuthorId), 999), command.TypeId, command.Step, command.Order);
         session.ApplyReplayCommand(header, command.Payload);
         simulation.Tick(8);
-        Check(SerializationUTF8.GetHashSum(session.GetSnapshot(8)) == withCommand, "Re-adding the same command reproduces its fixed state.");
+        Check(SerializationUTF8.GetHashSum(session.GetSnapshot(8), session.World) == withCommand, "Re-adding the same command reproduces its fixed state.");
         simulation.Tick(0);
         Check(session.ComputedStep == 8, "Moving the display cursor preserves the frontier.");
         simulation.Tick(8);
-        Check(SerializationUTF8.GetHashSum(session.GetSnapshot(8)) == withCommand, "Cached forward traversal keeps the result.");
+        Check(SerializationUTF8.GetHashSum(session.GetSnapshot(8), session.World) == withCommand, "Cached forward traversal keeps the result.");
         int restores = 0;
         session.StateRestored += () => restores++;
         var state = new ArrayBufferWriter<byte>();
         var model = game.GetInstance<SkyPiratesSessionSetup>().Model;
         model.Save(state);
         model.Load(state.WrittenSpan);
-        Check(restores == 1 && game.GetInstance<IWorldHistory>().OldestTick == 8 && SerializationUTF8.GetHashSum(session.GetSnapshot(8)) == withCommand,
+        Check(restores == 1 && game.GetInstance<IWorldHistory>().OldestTick == 8 && SerializationUTF8.GetHashSum(session.GetSnapshot(8), session.World) == withCommand,
             "Network model snapshot loading prepares gameplay and notifies the view binder.");
     }
 
@@ -571,7 +571,8 @@ internal static class Program
         Replay(longWindow);
         FirstPassModes(longWindow);
         CommandRollback();
-        SkyPiratesReplayFile.Save(Path.Combine(Path.GetTempPath(), "skypirates-history-validation-replay.json"), longWindow);
+        using var world = WorldFactory.Create();
+        SkyPiratesReplayFile.Save(Path.Combine(Path.GetTempPath(), "skypirates-history-validation-replay.json"), longWindow, world);
         Console.WriteLine($"PASS: {_checks} checks for WorldHistory.");
     }
 }

@@ -1,3 +1,4 @@
+using Delta.ECS;
 using Delta;
 using SlyPirates.Shared.Data;
 using Delta.Netcode;
@@ -37,6 +38,7 @@ namespace SlyPirates.Shared.Services.Netcode
         public event Action<long>? ServerStepReceived;
 
         public SessionHost Session { get; private set; }
+        public World World => _setup.World;
 
         public bool IsReady { get; private set; }
 

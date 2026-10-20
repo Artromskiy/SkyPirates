@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Delta.ECS;
+using System.Collections.Generic;
 
 namespace SlyPirates.Shared.Data
 {
@@ -6,7 +7,7 @@ namespace SlyPirates.Shared.Data
 
     public class ComponentDefaultsData
     {
-        public ComponentDataSet Default = default!;
+        public EntityData Default = default!;
         public ComponentIdList CopyFrom = default!;
         public ComponentIdList CopyTo = default!;
     }

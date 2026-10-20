@@ -40,10 +40,10 @@ namespace SlyPirates.Server.Services
             return (snaphsots, _session.Session.CaptureSnapshot());
         }
 
-        private static void Save(string path, object obj)
+        private void Save(string path, object obj)
         {
             ArrayBufferWriter<byte> buffer = new();
-            SerializationUTF8.SerializeCompressed(obj, buffer);
+            SerializationUTF8.SerializeCompressed(obj, buffer, _session.World);
             using var file = File.Open(path, FileMode.Create, FileAccess.ReadWrite);
             file.Write(buffer.WrittenSpan);
         }

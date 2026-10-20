@@ -1,5 +1,4 @@
 using Delta.ECS;
-using SlyPirates.Shared.Data;
 
 namespace SlyPirates.Shared.Components.Runtime
 {
@@ -10,6 +9,6 @@ namespace SlyPirates.Shared.Components.Runtime
     {
         public SyncId ShipId;
         public SyncId SquadId;
-        public ComponentDataSet Components;
+        public EntityData Components;
     }
 }

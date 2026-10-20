@@ -13,7 +13,7 @@ namespace SlyPirates.Shared.Services.Netcode
         public SkyPiratesCommandPayloadHandler(World world) => _world = world;
 
         public void Write<T>(in T payload, IBufferWriter<byte> output)
-            => SerializationUTF8.SerializeCompressed(payload, output);
+            => SerializationUTF8.SerializeCompressed(payload, output, _world);
 
         public T Read<T>(ReadOnlySpan<byte> payload)
             => SerializationUTF8.DeserializeCompressed<T>(payload.ToArray(), _world);
