@@ -20,8 +20,8 @@
   <ItemGroup>
     <PackageReference Include="Delta.Diagnostics" Version="0.0.8" />
     <PackageReference Include="DeltaNetcode" Version="0.0.8" />
-    <PackageReference Include="DeltaECS" Version="0.0.62" />
-    <PackageReference Include="DeltaECS.Generators" Version="0.0.62" PrivateAssets="all" />
+    <PackageReference Include="DeltaECS" Version="0.0.63" />
+    <PackageReference Include="DeltaECS.Generators" Version="0.0.63" PrivateAssets="all" />
     <PackageReference Include="DeltaMaths" Version="0.0.14" />
     <PackageReference Include="CommunityToolkit.HighPerformance" Version="8.2.2" />
     <PackageReference Include="RiptideNetworking.Riptide" Version="2.2.1" />

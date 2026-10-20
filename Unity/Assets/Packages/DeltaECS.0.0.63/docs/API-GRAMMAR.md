@@ -219,6 +219,9 @@ CLR type is known only at runtime:
 
 ```text
 layouts.GetComponentType(I) -> Type
+layouts.GetSchemaId(I) -> SchemaId
+layouts.IsTag(I) -> bool
+layouts.GetComponentIds() -> ReadOnlySpan<ComponentId>
 layouts.TryGetComponentId(SchemaId, out ComponentId) -> bool
 layouts.GetPrimary<T>() -> ComponentId
 layouts.TryGetPrimary<T>(out ComponentId) -> bool
@@ -287,7 +290,10 @@ public struct Health { public int Value; }
 `TryGetComponentId` returns `false` and `ComponentId.Invalid` when a schema is
 unknown. `AddAlias` accepts repeated registration of the same alias/ID pair and
 rejects an alias mapped to another component. `TryGetAlias` returns `false` for
-an unknown alias, while `GetAlias` throws. Group membership is deduplicated.
+an unknown alias, while `GetAlias` throws. `GetAliases(id)` returns aliases in
+insertion order without copying, or an empty span when none are registered.
+The borrowed span must not be retained across alias additions for that component.
+Group membership is deduplicated.
 `GetGroup` accepts exactly one enum value as its lookup key; it does not combine
 multiple group values. Runtime `AddGroup` also adds one exact enum value at a
 time, so call it once per desired flag when adding a flags-based component
@@ -305,6 +311,7 @@ layouts.GetComponentType(ComponentId) -> Type
 layouts.AddAlias(string, ComponentId)
 layouts.TryGetAlias(string, out ComponentId) -> bool
 layouts.GetAlias(string) -> ComponentId
+layouts.GetAliases(ComponentId) -> ReadOnlySpan<string>
 layouts.AddGroup<TEnum>(TEnum, ComponentId)
 layouts.GetGroup<TEnum>(TEnum) -> ReadOnlySpan<ComponentId>
 world.TryGetAlias(string, out ComponentId) -> bool
@@ -342,37 +349,23 @@ which may be stale. Tags have no stored payload, but writable tag access still
 reports a change. Writes made by an operation's own callback are not reported
 to that same operation a second time.
 
-## Runtime integration contract
+## Object-based component access
 
-`World` implements `IEcsWorld` explicitly. Cast it to this neutral contract
-when a tooling or runtime bridge needs registration IDs and object-based
-component access:
+Tooling uses the ordinary `World` and its component registry:
 
 ```text
-IEcsWorld integration = world
-integration.Catalog -> RuntimeComponentCatalog
-catalog.Components -> ReadOnlyMemory<ComponentDescriptor>
-descriptor.Id / Schema / Name / ValueType / Capabilities / AllowsNull / IsTag
-ComponentCapabilities = None | Read | Write
-integration.Initialize() / Update() / Shutdown()
-integration.IsAlive(e) -> bool
-integration.Create(D) -> Entity
-integration.Destroy(e) -> bool
-integration.Add(e, D) / Remove(e, D) -> bool
-integration.TryGetComponents(e, Span<ComponentId>, out totalCount) -> bool
-integration.TryRead(e, I, out ComponentSnapshot, out EcsReadError) -> bool
-integration.TryWrite(e, I, object?, out EcsWriteError) -> bool
-snapshot.Value
-EcsReadErrorCode = None | EntityNotAlive | ComponentUnknown | ComponentMissing | Unsupported
-EcsWriteErrorCode = None | EntityNotAlive | ComponentUnknown | ComponentMissing | InvalidValue | Unsupported
+world.Components.GetComponentIds() -> ReadOnlySpan<ComponentId>
+world.Components.GetSchemaId(I) -> SchemaId
+world.Components.GetComponentType(I) -> Type
+world.Components.IsTag(I) -> bool
+world.TryRead(e, I, out object? value) -> bool
+world.TryWrite(e, I, object? value) -> bool
 ```
 
-`TryGetComponents` writes the ascending prefix that fits in the destination
-and reports the full count. `TryWrite` writes the supplied value without a
-version check. The error enums distinguish missing entities or components,
-unsupported object access, and invalid values. This contract works without
-generated consumer code; the component catalog itself is produced by the
-registration generator.
+`TryRead` returns a shallow copy of a component value or the default tag value.
+`TryWrite` adds or replaces a value of the exact registered CLR type. A null
+write value is rejected by an exception. Struct values are boxed; prefer typed
+access in hot code. Neither method requires generated consumer code.
 
 ## Generated iteration forms
 
@@ -548,6 +541,9 @@ registrations; tags have no stored value.
 
 ```text
 new EntityData() -> EntityData
+data.Add(world, entity) -> int // Adds missing entries; returns additions.
+data.Set(world, entity) -> int // Updates matching entries; returns applications, including tags.
+data.AddOrSet(world, entity) -> void // Adds or updates; preserves entries absent from the entity.
 data.Add<T>(I, V) -> bool
 data.AddOrSet<T>(I, V) -> void
 data.AddTag(I) -> bool
