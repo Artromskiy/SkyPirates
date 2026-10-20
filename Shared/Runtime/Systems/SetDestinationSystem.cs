@@ -14,21 +14,23 @@ namespace SlyPirates.Shared.Systems
             WhereAll<Position, Rotation, DesiredPosition, DesiredRotation>().Alive().NotDisabled();
 
         private readonly World _world;
+        private readonly IOperation _setDestinations;
 
         public SetDestinationSystem(World world)
         {
             _world = world;
-        }
-
-        public void Tick(int tick, fix deltaTime)
-        {
             var desc = _desc;
-            _world.ForEach<Position, Rotation, DesiredPosition, DesiredRotation>(in desc,
+            _setDestinations = world.ForEach<Position, Rotation, DesiredPosition, DesiredRotation>(in desc,
                 static (in Position position, in Rotation rotation, ref DesiredPosition desiredPosition, ref DesiredRotation desiredRotation) =>
                 {
                     desiredPosition.Value = position;
                     desiredRotation.Value = rotation;
-                }).Invoke();
+                });
+        }
+
+        public void Tick(int tick, fix deltaTime)
+        {
+            _setDestinations.Invoke();
         }
     }
 }

@@ -20,39 +20,34 @@ namespace SlyPirates.Shared.Systems
             WhereAll<Position, CachePosition, Radius, Collide>().Alive().NotDisabled();
 
         public static event Action<Segment[], fix2, fix2, fix>? OnFailedToSolve;
-        private readonly ThreadLocal<List<Segment>> _segmentsCache = new(() => new List<Segment>());
+        private readonly ThreadLocal<SegmentBuffer> _segmentsCache = new(() => new SegmentBuffer());
         private readonly World _world;
+        private readonly IResultOperation<Entity> _findMap;
+        private (HexMap HexMap, ThreadLocal<SegmentBuffer> SegmentsCache) _state;
+        private readonly IOperation<(HexMap HexMap, ThreadLocal<SegmentBuffer> SegmentsCache)> _solveMovement;
 
         public HexMapCollisionSystem(World world)
         {
             _world = world;
-        }
+            Query mapQuery = world.WhereAll<HexMap>();
+            _findMap = mapQuery.First();
 
-        public void Tick(int tick, fix deltaTime)
-        {
-            var hexMapEntity = _world.WhereAll<HexMap>()
-                .First()
-                .Invoke();
-            if (!hexMapEntity.IsValid)
-            {
-                return;
-            }
-
-            var hexMap = _world.Get<HexMap>(hexMapEntity);
-            if (hexMap.Data == null)
-            {
-                return;
-            }
-
-            (HexMap HexMap, ThreadLocal<List<Segment>> SegmentsCache) state = (hexMap, _segmentsCache);
+            _state = (default, _segmentsCache);
             var desc = _desc;
-            _world.ForEach<(HexMap HexMap, ThreadLocal<List<Segment>> SegmentsCache), Position, CachePosition, Radius>(in desc, ref state,
-                static (ref (HexMap HexMap, ThreadLocal<List<Segment>> SegmentsCache) state, ref Position position, in CachePosition cachePosition, in Radius radius) =>
+            _solveMovement = world.ForEach<(HexMap HexMap, ThreadLocal<SegmentBuffer> SegmentsCache), Position, CachePosition, Radius>(in desc, ref _state,
+                static (ref (HexMap HexMap, ThreadLocal<SegmentBuffer> SegmentsCache) state, ref Position position, in CachePosition cachePosition, in Radius radius) =>
                 {
-                    var segments = state.SegmentsCache.Value;
+                    SegmentBuffer buffer = state.SegmentsCache.Value;
+                    var segments = buffer.Segments;
                     segments.Clear();
                     FindSegments(state.HexMap, segments, cachePosition);
-                    Solvers.Segments = segments.ToArray();
+                    if (buffer.Array.Length < segments.Count)
+                    {
+                        Array.Resize(ref buffer.Array, Math.Max(segments.Count, buffer.Array.Length * 2));
+                    }
+                    segments.CopyTo(buffer.Array);
+                    Solvers.Segments = new Memory<Segment>(buffer.Array, 0, segments.Count);
+
                     fix2 solvedPos = fix2.zero;
                     bool failed = false;
                     try
@@ -67,8 +62,25 @@ namespace SlyPirates.Shared.Systems
                         position.Value = cachePosition;
                         OnFailedToSolve?.Invoke(Solvers.Segments.ToArray(), cachePosition.Value.xz, position.Value.xz, radius);
                     }
-                    //Delta.Diagnostics.Trace.Assert(!failed, "Failed to solve collision");
-                }).Invoke(ref state);
+                });
+        }
+
+        public void Tick(int tick, fix deltaTime)
+        {
+            var hexMapEntity = _findMap.Invoke();
+            if (!hexMapEntity.IsValid)
+            {
+                return;
+            }
+
+            var hexMap = _world.Get<HexMap>(hexMapEntity);
+            if (hexMap.Data == null)
+            {
+                return;
+            }
+
+            _state.HexMap = hexMap;
+            _solveMovement.Invoke(ref _state);
         }
 
         private static void FindSegments(HexMap hexMap, List<Segment> segments, fix3 from)
@@ -91,6 +103,12 @@ namespace SlyPirates.Shared.Systems
                     segments.Add(new(s, e));
                 }
             }
+        }
+
+        private sealed class SegmentBuffer
+        {
+            public readonly List<Segment> Segments = new();
+            public Segment[] Array = System.Array.Empty<Segment>();
         }
 
         internal static bool IsWalkable(HexMap hexMap, int3 axial)

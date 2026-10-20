@@ -24,14 +24,24 @@ namespace SlyPirates.Shared.Systems
         private readonly World _world;
         private readonly IConfigedEntityFactory<GoodsId> _configedEntityFactory;
 
-        private readonly List<(Entity Entity, int SyncId)> _dead = new();
+        private List<(Entity Entity, int SyncId)> _dead = new();
         private readonly List<DropInfo> _dropInfos = new();
         private readonly Dictionary<int, int> _remainingMembers = new();
+        private readonly IOperation<List<(Entity Entity, int SyncId)>> _collectDead;
 
         public GoodsDropSystem(World world, IConfigedEntityFactory<GoodsId> configedEntityFactory)
         {
             _world = world;
             _configedEntityFactory = configedEntityFactory;
+            var desc = _createDesc;
+            _collectDead = world.ForEachEntity<List<(Entity Entity, int SyncId)>, SyncId, Health>(in desc, ref _dead,
+                static (ref List<(Entity Entity, int SyncId)> dead, EntityRef entity, in SyncId syncId, in Health health) =>
+                {
+                    if (health <= fix.Zero)
+                    {
+                        dead.Add(((Entity)entity, syncId.Value));
+                    }
+                });
         }
 
         public void Tick(int tick, fix deltaTime)
@@ -40,16 +50,11 @@ namespace SlyPirates.Shared.Systems
             _dropInfos.Clear();
             _remainingMembers.Clear();
 
-            var dead = _dead;
-            var desc = _createDesc;
-            _world.ForEachEntity<List<(Entity Entity, int SyncId)>, SyncId, Health>(in desc, ref dead,
-                static (ref List<(Entity Entity, int SyncId)> dead, EntityRef entity, in SyncId syncId, in Health health) =>
-                {
-                    if (health <= fix.Zero)
-                    {
-                        dead.Add(((Entity)entity, syncId.Value));
-                    }
-                }).Invoke(ref dead);
+            _collectDead.Invoke(ref _dead);
+            if (_dead.Count == 0)
+            {
+                return;
+            }
 
             _dead.Sort(static (left, right) => left.SyncId.CompareTo(right.SyncId));
             foreach (var deadEntity in _dead)
@@ -60,9 +65,9 @@ namespace SlyPirates.Shared.Systems
                 ImmutableSortedDictionary<GoodsId, int>.Builder? squadValues = null;
                 bool tookSquadGoods = false;
 
-                if (_world.Has<SquadMember>(entity))
+                if (_world.TryGet(entity, out SquadMember squadMember))
                 {
-                    var squadId = _world.Get<SquadMember>(entity).SquadId;
+                    var squadId = squadMember.SquadId;
                     squad = _world.GetEntity(squadId);
                     if (!_remainingMembers.TryGetValue(squadId.Value, out int membersCount))
                     {

@@ -16,30 +16,18 @@ namespace SlyPirates.Shared.Systems
             WhereAll<Position, CachePosition, Radius, Collide>().Alive().NotDisabled();
 
         private readonly World _world;
+        private readonly IResultOperation<Entity> _findMap;
+        private HexMap _mapState;
+        private readonly IOperation<HexMap> _adjustHeights;
 
         public SimpleHeightSystem(World world)
         {
             _world = world;
-        }
-
-        public void Tick(int tick, fix deltaTime)
-        {
-            var hexMapEntity = _world.WhereAll<HexMap>()
-                .First()
-                .Invoke();
-            if (!hexMapEntity.IsValid)
-            {
-                return;
-            }
-
-            var hexMap = _world.Get<HexMap>(hexMapEntity);
-            if (hexMap.Data == null)
-            {
-                return;
-            }
+            Query mapQuery = world.WhereAll<HexMap>();
+            _findMap = mapQuery.First();
 
             var desc = _desc;
-            _world.ForEach<HexMap, Position>(in desc, ref hexMap,
+            _adjustHeights = world.ForEach<HexMap, Position>(in desc, ref _mapState,
                 static (ref HexMap map, ref Position position) =>
                 {
                     var axial = Hex.WorldToAxial(position);
@@ -67,7 +55,25 @@ namespace SlyPirates.Shared.Systems
                     }
 
                     Delta.Diagnostics.Debug.Assert(false, context: "Wrong height behaviour detected");
-                }).Invoke(ref hexMap);
+                });
+        }
+
+        public void Tick(int tick, fix deltaTime)
+        {
+            var hexMapEntity = _findMap.Invoke();
+            if (!hexMapEntity.IsValid)
+            {
+                return;
+            }
+
+            var hexMap = _world.Get<HexMap>(hexMapEntity);
+            if (hexMap.Data == null)
+            {
+                return;
+            }
+
+            _mapState = hexMap;
+            _adjustHeights.Invoke(ref _mapState);
         }
     }
 }

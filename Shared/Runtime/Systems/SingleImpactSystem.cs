@@ -16,17 +16,15 @@ namespace SlyPirates.Shared.Systems
             WhereAll<BehaviourState, Damage, ImpactDistance, Position, Target>().WhereNone<Ranged>().Alive().NotDisabled();
 
         private readonly World _world;
+        private World _worldContext;
+        private readonly IOperation<World> _applyImpact;
 
         public SingleImpactSystem(World world)
         {
             _world = world;
-        }
-
-        public void Tick(int tick, fix deltaTime)
-        {
-            var world = _world;
+            _worldContext = world;
             var desc = _desc;
-            _world.ForEach<World, BehaviourState, Damage, ImpactDistance, Position, Target>(in desc, ref world,
+            _applyImpact = world.ForEach<World, BehaviourState, Damage, ImpactDistance, Position, Target>(in desc, ref _worldContext,
                 static (ref World world, in BehaviourState behaviour, in Damage damage, in ImpactDistance impactDistance,
                     in Position position, in Target target) =>
                 {
@@ -42,7 +40,12 @@ namespace SlyPirates.Shared.Systems
                     {
                         world.GetRef<RecivedDamage>(targetEntity) += (fix)damage;
                     }
-                }).Invoke(ref world);
+                });
+        }
+
+        public void Tick(int tick, fix deltaTime)
+        {
+            _applyImpact.Invoke(ref _worldContext);
         }
     }
 }

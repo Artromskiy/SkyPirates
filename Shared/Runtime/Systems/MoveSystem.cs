@@ -21,16 +21,14 @@ namespace SlyPirates.Shared.Systems
 
         private readonly World _world;
         private const int RotateSpeed = 720;
+        private fix _deltaTime;
+        private readonly IOperation<fix> _move;
+
         public MoveSystem(World world)
         {
             _world = world;
-        }
-
-        public void Tick(int tick, fix deltaTime)
-        {
-            var delta = deltaTime;
             var desc = _desc;
-            _world.ForEach<fix, Position, Rotation, DesiredPosition, DesiredRotation, MaxSpeed, Target>(in desc, ref delta,
+            _move = world.ForEach<fix, Position, Rotation, DesiredPosition, DesiredRotation, MaxSpeed, Target>(in desc, ref _deltaTime,
                 static (ref fix deltaTime, ref Position position, ref Rotation rotation, in DesiredPosition desiredPosition, in DesiredRotation desiredRotation, in MaxSpeed moveSpeed, in Target target) =>
                 {
                     var currentPosition = (fix3)position;
@@ -45,7 +43,13 @@ namespace SlyPirates.Shared.Systems
                         : desiredRotation.Value;
 
                     rotation = Maths.RotateTowards(rotation, rotateTo, RotateSpeed * deltaTime);
-                }).Invoke(ref delta);
+                });
+        }
+
+        public void Tick(int tick, fix deltaTime)
+        {
+            _deltaTime = deltaTime;
+            _move.Invoke(ref _deltaTime);
         }
     }
 }

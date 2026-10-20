@@ -6,8 +6,6 @@ using SlyPirates.Shared.Components.Framed;
 using SlyPirates.Shared.Components.Runtime;
 using SlyPirates.Shared.IServices;
 using SlyPirates.Shared.IServices.TickableExecutors;
-using System.Collections.Generic;
-
 namespace SlyPirates.Shared.Systems
 {
     public class SetMultiTargetSystem : IDeltaTickableExecutor
@@ -18,29 +16,26 @@ namespace SlyPirates.Shared.Systems
             Alive().NotDisabled();
 
         private readonly World _world;
-        private readonly ITargetSearchSystem _targetSearch;
-
-        private readonly List<SyncId> _targetsCache = new();
+        private ITargetSearchSystem _targetSearchContext;
+        private readonly IOperation<ITargetSearchSystem> _setTargets;
 
         public SetMultiTargetSystem(World world, ITargetSearchSystem targetSearch)
         {
             _world = world;
-            _targetSearch = targetSearch;
+            _targetSearchContext = targetSearch;
+            var desc = _desc;
+            _setTargets = world.ForEach<ITargetSearchSystem, TargetSearchDistance, TargetSearchPosition, Targets, TeamId>(in desc, ref _targetSearchContext,
+                static (ref ITargetSearchSystem targetSearch, in TargetSearchDistance searchDistance, in TargetSearchPosition searchPosition, ref Targets target, in TeamId team) =>
+                {
+                    target.SyncIds ??= new();
+                    target.SyncIds.Clear();
+                    targetSearch.FindTargets(in searchDistance, in searchPosition, in team, target.SyncIds);
+                });
         }
 
         public void Tick(int tick, fix deltaTime)
         {
-            (ITargetSearchSystem TargetSearch, List<SyncId> TargetsCache) state = (_targetSearch, _targetsCache);
-            var desc = _desc;
-            _world.ForEach<(ITargetSearchSystem TargetSearch, List<SyncId> TargetsCache), TargetSearchDistance, TargetSearchPosition, Targets, TeamId>(in desc, ref state,
-                static (ref (ITargetSearchSystem TargetSearch, List<SyncId> TargetsCache) state, in TargetSearchDistance searchDistance, in TargetSearchPosition searchPosition, ref Targets target, in TeamId team) =>
-                {
-                    state.TargetsCache.Clear();
-                    state.TargetSearch.FindTargets(in searchDistance, in searchPosition, in team, state.TargetsCache);
-                    target.SyncIds ??= new();
-                    target.SyncIds.Clear();
-                    target.SyncIds.AddRange(state.TargetsCache);
-                }).Invoke(ref state);
+            _setTargets.Invoke(ref _targetSearchContext);
         }
     }
 }

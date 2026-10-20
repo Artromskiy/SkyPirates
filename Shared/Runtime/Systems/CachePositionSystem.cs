@@ -14,17 +14,19 @@ namespace SlyPirates.Shared.Systems
             WhereAll<Position, CachePosition>().Alive().NotDisabled();
 
         private readonly World _world;
+        private readonly IOperation _cachePositions;
 
         public CachePositionSystem(World world)
         {
             _world = world;
+            var desc = _desc;
+            _cachePositions = world.ForEach<Position, CachePosition>(in desc,
+                static (in Position position, ref CachePosition cachePosition) => cachePosition = (fix3)position);
         }
 
         public void Tick(int tick, fix deltaTime)
         {
-            var desc = _desc;
-            _world.ForEach<Position, CachePosition>(in desc,
-                static (in Position position, ref CachePosition cachePosition) => cachePosition = (fix3)position).Invoke();
+            _cachePositions.Invoke();
         }
     }
 }

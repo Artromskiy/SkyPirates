@@ -19,23 +19,25 @@ namespace SlyPirates.Shared.Systems
             WhereAll<Position, TargetSearchDistance, TargetSearchPosition, Target, TeamId>().Alive().NotDisabled();
 
         private readonly World _world;
-        private readonly ITargetSearchSystem _targetSearch;
+        private (ITargetSearchSystem TargetSearch, World World) _state;
+        private readonly IOperation<(ITargetSearchSystem TargetSearch, World World)> _setTargets;
+
         public SetSingleTargetSystem(World world, ITargetSearchSystem targetSearch)
         {
             _world = world;
-            _targetSearch = targetSearch;
+            _state = (targetSearch, world);
+            var desc = _desc;
+            _setTargets = world.ForEach<(ITargetSearchSystem TargetSearch, World World), Position, TargetSearchDistance, TargetSearchPosition, Target, TeamId>(in desc, ref _state,
+                static (ref (ITargetSearchSystem TargetSearch, World World) state, in Position position, in TargetSearchDistance searchDistance, in TargetSearchPosition searchPosition, ref Target target, in TeamId team) =>
+                {
+                    Entity? found = state.TargetSearch.FindTarget(in position, in searchDistance, in searchPosition, in team);
+                    target.SyncId = found.HasValue ? state.World.Get<SyncId>(found.Value) : null;
+                });
         }
 
         public void Tick(int tick, fix deltaTime)
         {
-            (ITargetSearchSystem TargetSearch, World World) targetSearch = (_targetSearch, _world);
-            var desc = _desc;
-            _world.ForEach<(ITargetSearchSystem TargetSearch, World World), Position, TargetSearchDistance, TargetSearchPosition, Target, TeamId>(in desc, ref targetSearch,
-                static (ref (ITargetSearchSystem TargetSearch, World World) targetSearch, in Position position, in TargetSearchDistance searchDistance, in TargetSearchPosition searchPosition, ref Target target, in TeamId team) =>
-                {
-                    Entity? found = targetSearch.TargetSearch.FindTarget(in position, in searchDistance, in searchPosition, in team);
-                    target.SyncId = found.HasValue ? targetSearch.World.Get<SyncId>(found.Value) : null;
-                }).Invoke(ref targetSearch);
+            _setTargets.Invoke(ref _state);
         }
     }
 }

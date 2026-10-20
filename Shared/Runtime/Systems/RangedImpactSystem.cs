@@ -21,21 +21,16 @@ namespace SlyPirates.Shared.Systems
 
         private readonly World _world;
         private readonly IEntityFactory _entityFactory;
-        private readonly List<Attack> _attacks = new();
+        private List<Attack> _attacks = new();
+        private readonly IOperation<List<Attack>> _collectAttacks;
 
         public RangedImpactSystem(World world, IEntityFactory entityFactory)
         {
             _world = world;
             _entityFactory = entityFactory;
-        }
-
-        public void Tick(int tick, fix deltaTime)
-        {
-            _attacks.Clear();
-            var state = _attacks;
             var desc = _desc;
-            _world.ForEach<List<Attack>, BehaviourState, Damage, ImpactDistance, Position, Target, Ranged, SyncId>(in desc, ref state,
-                static (ref List<Attack> state, in BehaviourState behaviour, in Damage damage,
+            _collectAttacks = world.ForEach<List<Attack>, BehaviourState, Damage, ImpactDistance, Position, Target, Ranged, SyncId>(in desc, ref _attacks,
+                static (ref List<Attack> attacks, in BehaviourState behaviour, in Damage damage,
                     in ImpactDistance impactDistance, in Position position, in Target target, in Ranged ranged, in SyncId syncId) =>
                 {
                     if (behaviour.State != StateId.Constants.PreAttack || behaviour.Percent != 1 || !target.SyncId.HasValue)
@@ -43,10 +38,16 @@ namespace SlyPirates.Shared.Systems
                         return;
                     }
 
-                    state.Add(new Attack(syncId, position.Value,
+                    attacks.Add(new Attack(syncId, position.Value,
                         target.SyncId.Value, damage, impactDistance, (fix)ranged.ProjectileSpeed,
                         ranged.ProjectileViewToken));
-                }).Invoke(ref state);
+                });
+        }
+
+        public void Tick(int tick, fix deltaTime)
+        {
+            _attacks.Clear();
+            _collectAttacks.Invoke(ref _attacks);
 
             for (int i = 0; i < _attacks.Count; i++)
             {

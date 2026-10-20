@@ -19,42 +19,43 @@ namespace SlyPirates.Shared.Systems
             WhereAll<BehaviourState>().Alive().NotDisabled();
 
         private readonly World _world;
+        private fix _deltaTime;
+        private readonly IOperation _switchStates;
+        private readonly IOperation<fix> _advanceStates;
 
         public SimpleBehaviourSystem(World world)
         {
             _world = world;
-        }
-
-        public void Tick(int tick, fix deltaTime)
-        {
             var switchDesc = _descSwitch;
-            _world.ForEach<BehaviourState, BehaviourConfig>(in switchDesc,
+            _switchStates = world.ForEach<BehaviourState, BehaviourConfig>(in switchDesc,
                 static (ref BehaviourState behaviour, in BehaviourConfig behaviourConfig) =>
                 {
-                // skip if no force state and we are at none
-                if (behaviour.ForceState == null && (
-                    behaviour.Percent != 1 || behaviour.State.IsNone))
-                {
-                    return;
-                }
+                    if (behaviour.ForceState == null && (behaviour.Percent != 1 || behaviour.State.IsNone))
+                    {
+                        return;
+                    }
 
-                StateId targetState = behaviour.ForceState ??=
-                    behaviourConfig.Scenario[behaviour.State];
+                    StateId targetState = behaviour.ForceState ??= behaviourConfig.Scenario[behaviour.State];
+                    behaviour.ForceState = null;
+                    behaviour.State = targetState;
+                    behaviour.Duration = behaviourConfig.Durations[behaviour.State];
+                    behaviour.Percent = 0;
+                });
 
-                behaviour.ForceState = null;
-                behaviour.State = targetState;
-                behaviour.Duration = behaviourConfig.Durations[behaviour.State];
-                behaviour.Percent = 0;
-                }).Invoke();
-
-            var delta = deltaTime;
             var tickDesc = _descTick;
-            _world.ForEach<fix, BehaviourState>(in tickDesc, ref delta,
+            _advanceStates = world.ForEach<fix, BehaviourState>(in tickDesc, ref _deltaTime,
                 static (ref fix deltaTime, ref BehaviourState behaviour) =>
                 {
                     fix step = behaviour.Duration == 0 ? 1 : deltaTime / behaviour.Duration;
                     behaviour.Percent = Maths.MoveTowards(behaviour.Percent, 1, step);
-                }).Invoke(ref delta);
+                });
+        }
+
+        public void Tick(int tick, fix deltaTime)
+        {
+            _switchStates.Invoke();
+            _deltaTime = deltaTime;
+            _advanceStates.Invoke(ref _deltaTime);
         }
     }
 }

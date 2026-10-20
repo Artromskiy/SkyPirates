@@ -22,37 +22,32 @@ namespace SlyPirates.Shared.Systems
             WhereAll<Squad, SyncId, Position, Rotation, SquadMemberCount>().Alive().NotDisabled();
 
         private readonly World _world;
-        private readonly PackedCirclesConfig _circlesConfig;
 
-        private readonly Lookup<int> _orderPerUnit = new();
         private readonly Lookup<SquadData> _dataPerSquad = new();
+        private Lookup<SquadData> _dataState;
+        private readonly IOperation<Lookup<SquadData>> _collectSquads;
+        private SquadMemberOrderState _orderState;
+        private readonly IOperation<SquadMemberOrderState> _applyOrder;
 
         public SquadMemberDestinationSystem(World world, PackedCirclesConfig circlesConfig)
         {
             _world = world;
-            _circlesConfig = circlesConfig;
+            _dataState = _dataPerSquad;
+            var squadsDesc = _squadsDesc;
+            _collectSquads = world.ForEach<Lookup<SquadData>, SyncId, Position, Rotation, SquadMemberCount>(in squadsDesc, ref _dataState,
+                static (ref Lookup<SquadData> data, in SyncId syncId, in Position position, in Rotation rotation, in SquadMemberCount memberCount) =>
+                    data[syncId.Value] = new(position, rotation, memberCount));
+
             var units = _unitsDesc;
             var squadIdComparer = default(SquadIdComparer);
             var syncIdComparer = default(SyncIdComparer);
             _orderedUnitsDesc = units
                 .OrderBy(ref squadIdComparer)
                 .ThenBy(ref syncIdComparer);
-        }
-
-        public void Tick(int tick, fix deltaTime)
-        {
-            _orderPerUnit.Clear();
-            _dataPerSquad.Clear();
-
-            var dataPerSquad = _dataPerSquad;
-            var squadsDesc = _squadsDesc;
-            _world.ForEach<Lookup<SquadData>, SyncId, Position, Rotation, SquadMemberCount>(in squadsDesc, ref dataPerSquad,
-                static (ref Lookup<SquadData> data, in SyncId syncId, in Position position, in Rotation rotation, in SquadMemberCount memberCount) =>
-                    data[syncId.Value] = new(position, rotation, memberCount)).Invoke(ref dataPerSquad);
-
-            var orderState = new SquadMemberOrderState { OrderPerUnit = _orderPerUnit };
-            _orderedUnitsDesc.ForEach(ref orderState,
-                static (ref SquadMemberOrderState state, in SquadMember member, in SyncId syncId) =>
+            _orderState = new SquadMemberOrderState { DataPerSquad = _dataPerSquad, CirclesConfig = circlesConfig };
+            _applyOrder = _orderedUnitsDesc.ForEach(ref _orderState,
+                static (ref SquadMemberOrderState state, in SquadMember member,
+                    ref DesiredPosition desiredPosition, ref DesiredRotation desiredRotation) =>
                 {
                     if (!state.HasCurrentSquad || state.CurrentSquadId != member.SquadId.Value)
                     {
@@ -61,21 +56,23 @@ namespace SlyPirates.Shared.Systems
                         state.HasCurrentSquad = true;
                     }
 
-                    state.OrderPerUnit[syncId.Value] = state.CurrentSquadOrder++;
-                }).Invoke(ref orderState);
-
-            (Lookup<int> OrderPerUnit, Lookup<SquadData> DataPerSquad, PackedCirclesConfig CirclesConfig) applyState = (_orderPerUnit, _dataPerSquad, _circlesConfig);
-            var unitsDesc = _unitsDesc;
-            _world.ForEach<(Lookup<int> OrderPerUnit, Lookup<SquadData> DataPerSquad, PackedCirclesConfig CirclesConfig), SyncId, SquadMember, DesiredPosition, DesiredRotation>(in unitsDesc, ref applyState,
-                static (ref (Lookup<int> OrderPerUnit, Lookup<SquadData> DataPerSquad, PackedCirclesConfig CirclesConfig) state, in SyncId syncId, in SquadMember member, ref DesiredPosition desiredPosition, ref DesiredRotation desiredRotation) =>
-                {
                     var squad = state.DataPerSquad[member.SquadId.Value];
                     var circles = state.CirclesConfig[squad.MemberCount];
-                    int order = state.OrderPerUnit[syncId.Value];
-                    var local = circles.Points[order];
+                    var local = circles.Points[state.CurrentSquadOrder++];
                     desiredPosition.Value = squad.Position + local.x_y;
                     desiredRotation.Value = squad.Rotation;
-                }).Invoke(ref applyState);
+                });
+        }
+
+        public void Tick(int tick, fix deltaTime)
+        {
+            _dataPerSquad.Clear();
+            _collectSquads.Invoke(ref _dataState);
+
+            _orderState.CurrentSquadId = default;
+            _orderState.CurrentSquadOrder = default;
+            _orderState.HasCurrentSquad = false;
+            _applyOrder.Invoke(ref _orderState);
         }
 
         internal readonly struct SquadData
@@ -96,7 +93,8 @@ namespace SlyPirates.Shared.Systems
 
     internal struct SquadMemberOrderState
     {
-        public Lookup<int> OrderPerUnit;
+        public Lookup<SquadMemberDestinationSystem.SquadData> DataPerSquad;
+        public PackedCirclesConfig CirclesConfig;
         public int CurrentSquadId;
         public int CurrentSquadOrder;
         public bool HasCurrentSquad;

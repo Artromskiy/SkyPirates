@@ -13,13 +13,18 @@ namespace SlyPirates.Shared.Systems
         private readonly World _world;
         private readonly DependencyData[] _dependencies;
         private readonly ComponentId[] _framedComponentIds;
-        private readonly Query[] _clearQueries;
+        private readonly IOperation[] _clearOperations;
 
         public FramedComponentsSystem(FramedComponentDependenciesConfig componentDependencies, World world)
         {
             _world = world;
             _framedComponentIds = world.GetGroup(Group.Temporary).ToArray();
-            _clearQueries = Array.ConvertAll(_framedComponentIds, id => world.WhereAll(id));
+            _clearOperations = new IOperation[_framedComponentIds.Length];
+            for (int i = 0; i < _framedComponentIds.Length; i++)
+            {
+                var query = world.WhereAll(_framedComponentIds[i]);
+                _clearOperations[i] = world.ForEach(in query, _framedComponentIds[i], typeof(ClearFramedComponent<>));
+            }
             _dependencies = componentDependencies.ConvertAll(dependency => CreateDependency(world, dependency)).ToArray();
         }
 
@@ -27,8 +32,7 @@ namespace SlyPirates.Shared.Systems
         {
             for (int i = 0; i < _framedComponentIds.Length; i++)
             {
-                var query = _clearQueries[i];
-                _world.ForEach(in query, _framedComponentIds[i], typeof(ClearFramedComponent<>)).Invoke();
+                _clearOperations[i].Invoke();
             }
 
             Span<ComponentId> component = stackalloc ComponentId[1];

@@ -23,31 +23,28 @@ namespace SlyPirates.Shared.Systems
             WhereAll<Squad, SyncId, SquadMemberCount, TargetSearchDistance>().Alive().NotDisabled();
 
         private readonly Dictionary<int, fix> _maxImpactDistancePerSquad = new();
-        private readonly PackedCirclesConfig _circlesConfig;
         private readonly World _world;
+        private Dictionary<int, fix> _distanceState;
+        private readonly IOperation<Dictionary<int, fix>> _collectImpactDistances;
+        private (PackedCirclesConfig Config, Dictionary<int, fix> MaxImpactDistancePerSquad) _applyState;
+        private readonly IOperation<(PackedCirclesConfig Config, Dictionary<int, fix> MaxImpactDistancePerSquad)> _applySearchDistances;
 
 
         public SquadTargetSearchDistanceSystem(PackedCirclesConfig circlesConfig, World world)
         {
-            _circlesConfig = circlesConfig;
             _world = world;
-        }
-
-        public void Tick(int tick, fix deltaTime)
-        {
-            _maxImpactDistancePerSquad.Clear();
-            var maxDistances = _maxImpactDistancePerSquad;
+            _distanceState = _maxImpactDistancePerSquad;
             var members = _squadsMembers;
-            _world.ForEach<Dictionary<int, fix>, SquadMember, ImpactDistance>(in members, ref maxDistances,
+            _collectImpactDistances = world.ForEach<Dictionary<int, fix>, SquadMember, ImpactDistance>(in members, ref _distanceState,
                 static (ref Dictionary<int, fix> distances, in SquadMember member, in ImpactDistance impactDistance) =>
                 {
                     var currentImpactDistance = distances.GetValueOrDefault(member.SquadId.Value);
                     distances[member.SquadId.Value] = Maths.Max(currentImpactDistance, impactDistance);
-                }).Invoke(ref maxDistances);
+                });
 
-            (PackedCirclesConfig Config, Dictionary<int, fix> MaxImpactDistancePerSquad) applyState = (_circlesConfig, _maxImpactDistancePerSquad);
+            _applyState = (circlesConfig, _maxImpactDistancePerSquad);
             var squads = _squadsDesc;
-            _world.ForEach<(PackedCirclesConfig Config, Dictionary<int, fix> MaxImpactDistancePerSquad), SyncId, SquadMemberCount, TargetSearchDistance>(in squads, ref applyState,
+            _applySearchDistances = world.ForEach<(PackedCirclesConfig Config, Dictionary<int, fix> MaxImpactDistancePerSquad), SyncId, SquadMemberCount, TargetSearchDistance>(in squads, ref _applyState,
                 static (ref (PackedCirclesConfig Config, Dictionary<int, fix> MaxImpactDistancePerSquad) state, in SyncId syncId, in SquadMemberCount memberCount, ref TargetSearchDistance searchDistance) =>
                 {
                     fix squadRadius = memberCount == 0 ? 0 : state.Config[memberCount].Radius;
@@ -55,7 +52,14 @@ namespace SlyPirates.Shared.Systems
                     searchDistance = memberCount == 0
                         ? fix.Zero
                         : maxImpactDistance + _baseRange + squadRadius;
-                }).Invoke(ref applyState);
+                });
+        }
+
+        public void Tick(int tick, fix deltaTime)
+        {
+            _maxImpactDistancePerSquad.Clear();
+            _collectImpactDistances.Invoke(ref _distanceState);
+            _applySearchDistances.Invoke(ref _applyState);
         }
     }
 }

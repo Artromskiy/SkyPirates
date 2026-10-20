@@ -16,25 +16,19 @@ namespace SlyPirates.Shared.Systems
             WhereAll<BehaviourState, Damage, ImpactDistance, Position, Targets>().Alive().NotDisabled();
 
         private readonly World _world;
+        private World _worldContext;
+        private readonly IOperation<World> _applyImpacts;
 
         public MultiImpactSystem(World world)
         {
             _world = world;
-        }
-
-        public void Tick(int tick, fix deltaTime)
-        {
-            var world = _world;
+            _worldContext = world;
             var desc = _desc;
-            _world.ForEach(in desc, ref world,
+            _applyImpacts = world.ForEach<World, BehaviourState, Damage, ImpactDistance, Position, Targets>(in desc, ref _worldContext,
                 static (ref World world, in BehaviourState behaviour, in Damage damage, in ImpactDistance impactDistance, in Position position, in Targets targets) =>
                 {
-                    if (behaviour.State != StateId.Constants.PreAttack || behaviour.Percent != 1)
-                    {
-                        return;
-                    }
-
-                    if (targets.SyncIds == null || targets.SyncIds.Count == 0)
+                    if (behaviour.State != StateId.Constants.PreAttack || behaviour.Percent != 1
+                        || targets.SyncIds == null || targets.SyncIds.Count == 0)
                     {
                         return;
                     }
@@ -44,16 +38,17 @@ namespace SlyPirates.Shared.Systems
                     {
                         Entity targetEntity = world.GetEntity(targets.SyncIds[i]);
                         var targetPos = world.Get<Position>(targetEntity);
-                        var sqrDistance = fix3.SqrDistance(targetPos, position);
-
-                        if (sqrDistance > impactSqrDistance)
+                        if (fix3.SqrDistance(targetPos, position) <= impactSqrDistance)
                         {
-                            continue;
+                            world.GetRef<RecivedDamage>(targetEntity) += (fix)damage;
                         }
-
-                        world.GetRef<RecivedDamage>(targetEntity) += (fix)damage;
                     }
-                }).Invoke(ref world);
+                });
+        }
+
+        public void Tick(int tick, fix deltaTime)
+        {
+            _applyImpacts.Invoke(ref _worldContext);
         }
     }
 

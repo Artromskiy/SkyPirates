@@ -14,22 +14,15 @@ namespace SlyPirates.Shared.Systems
             WhereAll<Position, FlyDestination, MaxSpeed>().Alive().NotDisabled();
 
         private readonly World _world;
+        private fix _deltaTime;
+        private readonly IOperation<fix> _move;
         private readonly EcsResultOperation<int> _removeFinished;
 
         public FlyMoveSystem(World world)
         {
             _world = world;
             Query query = _desc;
-            _removeFinished = world.Where(in query,
-                static (in Position position, in FlyDestination fly) => position == fly.EndPosition)
-                .Remove<FlyDestination>();
-        }
-
-        public void Tick(int tick, fix deltaTime)
-        {
-            var desc = _desc;
-            var delta = deltaTime;
-            _world.ForEach<fix, Position, FlyDestination, MaxSpeed>(in desc, ref delta,
+            _move = world.ForEach<fix, Position, FlyDestination, MaxSpeed>(in query, ref _deltaTime,
                 static (ref fix deltaTime, ref Position position, in FlyDestination fly, in MaxSpeed maxSpeed) =>
                 {
                     const int ArcHeight = 4;
@@ -46,7 +39,16 @@ namespace SlyPirates.Shared.Systems
 
                     var arc = 4 * percent * (1 - percent);
                     position = new fix3(currentXZ.x, currentY + arc * ArcHeight, currentXZ.y);
-                }).Invoke(ref delta);
+                });
+            _removeFinished = world.Where(in query,
+                static (in Position position, in FlyDestination fly) => position == fly.EndPosition)
+                .Remove<FlyDestination>();
+        }
+
+        public void Tick(int tick, fix deltaTime)
+        {
+            _deltaTime = deltaTime;
+            _move.Invoke(ref _deltaTime);
             _removeFinished.Invoke();
         }
     }

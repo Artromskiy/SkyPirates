@@ -19,40 +19,36 @@ namespace SlyPirates.Shared.Systems
             WhereAll<BehaviourState, ImpactDistance, Position, Target>().Alive().NotDisabled();
 
         private readonly World _world;
+        private World _worldContext;
+        private readonly IOperation<World> _checkTargets;
+
         public SinglePreAttackSystem(World world)
         {
             _world = world;
+            _worldContext = world;
+            var desc = _desc;
+            _checkTargets = world.ForEach<World, BehaviourState, ImpactDistance, Position, Target>(in desc, ref _worldContext,
+                static (ref World world, ref BehaviourState behaviour, in ImpactDistance impactDistance, in Position position, in Target target) =>
+                {
+                    if (behaviour.State != StateId.None || !target.SyncId.HasValue)
+                    {
+                        return;
+                    }
+
+                    Entity targetEntity = world.GetEntity(target.SyncId.Value);
+                    var targetPos = world.Get<Position>(targetEntity);
+                    var sqrDistance = fix3.SqrDistance(targetPos, position);
+                    var impactSqrDistance = (fix)impactDistance * impactDistance;
+                    if (sqrDistance <= impactSqrDistance)
+                    {
+                        behaviour.ForceState = StateId.Constants.PreAttack;
+                    }
+                });
         }
 
         public void Tick(int tick, fix deltaTime)
         {
-            var world = _world;
-            var desc = _desc;
-            _world.ForEach<World, BehaviourState, ImpactDistance, Position, Target>(in desc, ref world,
-                static (ref World world, ref BehaviourState behaviour, in ImpactDistance impactDistance, in Position position, in Target target) =>
-                {
-                if (behaviour.State != StateId.None)
-                {
-                    return;
-                }
-
-                if (!target.SyncId.HasValue)
-                {
-                    return;
-                }
-
-                Entity targetEntity = world.GetEntity(target.SyncId.Value);
-                var targetPos = world.Get<Position>(targetEntity);
-                var sqrDistance = fix3.SqrDistance(targetPos, position);
-                var impactSqrDistance = (fix)impactDistance * impactDistance;
-
-                if (sqrDistance > impactSqrDistance)
-                {
-                    return;
-                }
-
-                behaviour.ForceState = StateId.Constants.PreAttack;
-                }).Invoke(ref world);
+            _checkTargets.Invoke(ref _worldContext);
         }
     }
 }

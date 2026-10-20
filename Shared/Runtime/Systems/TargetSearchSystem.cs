@@ -18,7 +18,7 @@ namespace SlyPirates.Shared.Systems
         TargetSearchSystem : ITargetSearchSystem // Should be used before any Position/Team writes for accurate search
     {
         private Query? _descCache;
-        private Query _desc => _descCache ??= _world.WhereAll<RecivedDamage, Position, TeamId>().Alive().NotDisabled();
+        private Query _desc => _descCache ??= _world.WhereAll<RecivedDamage, Position, TeamId, SyncId>().Alive().NotDisabled();
 
         private const int SquareSize = 5;
 
@@ -27,12 +27,44 @@ namespace SlyPirates.Shared.Systems
         // teamId -> quad -> cached target position and entity
         private readonly Dictionary<int, Lookup2D<List<TargetEntry>>> _targets = new();
         private readonly List<TargetEntry> _targetsCache = new();
-
-        private readonly Lookup _entitiesLookup = new();
+        private readonly List<List<TargetEntry>> _targetListPool = new();
+        private (Dictionary<int, Lookup2D<List<TargetEntry>>> Targets, List<List<TargetEntry>> Lists, int NextList) _buildState;
+        private readonly IOperation<(Dictionary<int, Lookup2D<List<TargetEntry>>> Targets, List<List<TargetEntry>> Lists, int NextList)> _buildTargets;
 
         public TargetSearchSystem(World world)
         {
             _world = world;
+            _buildState = (_targets, _targetListPool, 0);
+            var desc = _desc;
+            _buildTargets = world.ForEachEntity<
+                (Dictionary<int, Lookup2D<List<TargetEntry>>> Targets, List<List<TargetEntry>> Lists, int NextList),
+                Position, TeamId, SyncId>(in desc, ref _buildState,
+                static (ref (Dictionary<int, Lookup2D<List<TargetEntry>>> Targets, List<List<TargetEntry>> Lists, int NextList) state,
+                    EntityRef entity, in Position position, in TeamId teamId, in SyncId syncId) =>
+                {
+                    var quad = GetQuantizedSquare(position.Value.xz);
+                    if (!state.Targets.TryGetValue(teamId, out var team))
+                    {
+                        state.Targets[teamId] = team = new();
+                    }
+
+                    if (!team.TryGetValue(quad.x, quad.y, out var list))
+                    {
+                        if (state.NextList == state.Lists.Count)
+                        {
+                            list = new List<TargetEntry>(8);
+                            state.Lists.Add(list);
+                        }
+                        else
+                        {
+                            list = state.Lists[state.NextList];
+                        }
+                        state.NextList++;
+                        team[quad.x, quad.y] = list;
+                    }
+
+                    list.Add(new TargetEntry(entity, syncId, position.Value));
+                });
         }
 
         public Entity? FindTarget(
@@ -59,11 +91,11 @@ namespace SlyPirates.Shared.Systems
                 {
                     best = target.Entity;
                     bestDist = dist;
-                    bestSyncId = _world.Get<SyncId>(target.Entity).Value;
+                    bestSyncId = target.SyncId.Value;
                 }
                 else if (dist == bestDist)
                 {
-                    int syncId = _world.Get<SyncId>(target.Entity).Value;
+                    int syncId = target.SyncId.Value;
                     if (syncId < bestSyncId)
                     {
                         best = target.Entity;
@@ -86,7 +118,7 @@ namespace SlyPirates.Shared.Systems
 
             for (int i = 0; i < _targetsCache.Count; i++)
             {
-                targets.Add(_world.Get<SyncId>(_targetsCache[i].Entity));
+                targets.Add(_targetsCache[i].SyncId);
             }
         }
 
@@ -96,7 +128,6 @@ namespace SlyPirates.Shared.Systems
             in TeamId team,
             List<TargetEntry> targets)
         {
-            _entitiesLookup.Clear();
             var center = ((fix3)searchPosition).xz;
             fix distance = searchDistance;
 
@@ -127,16 +158,10 @@ namespace SlyPirates.Shared.Systems
                         for (int i = 0; i < list.Count; i++)
                         {
                             var target = list[i];
-                            if (_entitiesLookup.Has(target.Entity.Index))
-                            {
-                                continue;
-                            }
-
                             if (fix2.SqrDistance(target.Position.xz, searchPositionXZ) <
                                 sqrSearchDistance)
                             {
                                 targets.Add(target);
-                                _entitiesLookup.Add(target.Entity.Index);
                             }
                         }
                     }
@@ -146,41 +171,30 @@ namespace SlyPirates.Shared.Systems
 
         public void Tick(int tick, fix deltaTime)
         {
+            for (int i = 0; i < _buildState.NextList; i++)
+            {
+                _targetListPool[i].Clear();
+            }
+
             foreach (var team in _targets.Values)
             {
                 team.Clear();
             }
 
-            var targets = _targets;
-            var desc = _desc;
-            _world.ForEachEntity<Dictionary<int, Lookup2D<List<TargetEntry>>>, Position, TeamId>(in desc, ref targets,
-                static (ref Dictionary<int, Lookup2D<List<TargetEntry>>> targets, EntityRef entity, in Position position,
-                    in TeamId teamId) =>
-                {
-                    var quad = GetQuantizedSquare(position.Value.xz);
-
-                    if (!targets.TryGetValue(teamId, out var team))
-                    {
-                        targets[teamId] = team = new();
-                    }
-
-                    if (!team.TryGetValue(quad.x, quad.y, out var list))
-                    {
-                        team[quad.x, quad.y] = list = new List<TargetEntry>(8);
-                    }
-
-                    list.Add(new TargetEntry(entity, position.Value));
-                }).Invoke(ref targets);
+            _buildState.NextList = 0;
+            _buildTargets.Invoke(ref _buildState);
         }
 
         private readonly struct TargetEntry
         {
             public readonly Entity Entity;
+            public readonly SyncId SyncId;
             public readonly fix3 Position;
 
-            public TargetEntry(Entity entity, fix3 position)
+            public TargetEntry(Entity entity, SyncId syncId, fix3 position)
             {
                 Entity = entity;
+                SyncId = syncId;
                 Position = position;
             }
         }

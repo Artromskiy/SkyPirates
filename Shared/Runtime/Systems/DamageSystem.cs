@@ -14,21 +14,23 @@ namespace SlyPirates.Shared.Systems
             WhereAll<Health, RecivedDamage>().Alive().NotDisabled();
 
         private readonly World _world;
+        private readonly IOperation _applyDamage;
 
         public DamageSystem(World world)
         {
             _world = world;
-        }
-
-        public void Tick(int tick, fix deltaTime)
-        {
             var desc = _desc;
-            _world.ForEach<Health, RecivedDamage>(in desc,
+            _applyDamage = world.ForEach<Health, RecivedDamage>(in desc,
                 static (ref Health health, ref RecivedDamage recivedDamage) =>
                 {
                     health -= (fix)recivedDamage;
                     recivedDamage = fix.Zero;
-                }).Invoke();
+                });
+        }
+
+        public void Tick(int tick, fix deltaTime)
+        {
+            _applyDamage.Invoke();
         }
     }
 }

@@ -23,6 +23,13 @@ namespace SlyPirates.Shared.Systems
         private Entity _mapEntity;
         private readonly List<Transition> _transitions = new();
         private readonly List<Entity> _members = new();
+        private readonly IResultOperation<Entity> _findMap;
+        private (World World, EntityIdMap EntityIdMap, HexMap Map, List<Transition> Transitions, int Tick) _tickState;
+        private readonly IOperation<(World World, EntityIdMap EntityIdMap, HexMap Map, List<Transition> Transitions, int Tick)> _processShips;
+        private (SyncId SquadId, List<Entity> Members) _collectMembersState;
+        private readonly IOperation<(SyncId SquadId, List<Entity> Members)> _collectMembersOperation;
+        private (SyncId SquadId, List<Entity> Members) _collectPassengersState;
+        private readonly IOperation<(SyncId SquadId, List<Entity> Members)> _collectPassengersOperation;
 
         private Query? _shipsCache;
         private Query Ships => _shipsCache ??= _world
@@ -50,26 +57,15 @@ namespace SlyPirates.Shared.Systems
                 world.Components.GetPrimary<Alive>(),
                 world.Components.GetPrimary<SyncId>(),
             };
-        }
 
-        public void Tick(int tick, fix deltaTime)
-        {
-            _transitions.Clear();
+            Query mapQuery = world.WhereAll<HexMap>();
+            _findMap = mapQuery.First();
 
-            if (!_mapEntity.IsValid)
-            {
-                _mapEntity = _world.WhereAll<HexMap>().First().Invoke();
-            }
-
-            HexMap map = _mapEntity.IsValid ? _world.Get<HexMap>(_mapEntity) : default;
-            EntityIdMap entityIdMap = _world.GetEntityIdMap();
-
-            var state = (World: _world, EntityIdMap: entityIdMap, Map: map, Transitions: _transitions, Tick: tick);
+            _tickState = (world, world.GetEntityIdMap(), default, _transitions, 0);
             Query ships = Ships;
-            _world.ForEachEntity<(World World, EntityIdMap EntityIdMap, HexMap Map, List<Transition> Transitions, int Tick),
-                Ship, SyncId, Position>(
-                in ships,
-                ref state,
+            _processShips = world.ForEachEntity<
+                (World World, EntityIdMap EntityIdMap, HexMap Map, List<Transition> Transitions, int Tick),
+                Ship, SyncId, Position>(in ships, ref _tickState,
                 static (ref (World World, EntityIdMap EntityIdMap, HexMap Map, List<Transition> Transitions, int Tick) state,
                     EntityRef shipRef, ref Ship ship, in SyncId shipId, in Position shipPosition) =>
                 {
@@ -126,7 +122,48 @@ namespace SlyPirates.Shared.Systems
                     ship.TransitionReadyTick = state.Tick + TransitionCooldownTicks;
                     state.Transitions.Add(new Transition((Entity)shipRef, squad, ship.SquadId, shipId,
                         default, TransitionKind.Board));
-                }).Invoke(ref state);
+                });
+
+            _collectMembersState = (default, _members);
+            Query members = Members;
+            _collectMembersOperation = world.ForEachEntity<(SyncId SquadId, List<Entity> Members), SquadMember>(in members, ref _collectMembersState,
+                static (ref (SyncId SquadId, List<Entity> Members) state, EntityRef entity, in SquadMember member) =>
+                {
+                    if (member.SquadId.Value == state.SquadId.Value)
+                    {
+                        state.Members.Add(entity);
+                    }
+                });
+
+            _collectPassengersState = (default, _members);
+            Query passengers = Passengers;
+            _collectPassengersOperation = world.ForEachEntity<(SyncId SquadId, List<Entity> Members), OnShip, SyncId>(in passengers, ref _collectPassengersState,
+                static (ref (SyncId SquadId, List<Entity> Members) state, EntityRef entity,
+                    in OnShip onShip, in SyncId syncId) =>
+                {
+                    if (onShip.SquadId.Value == state.SquadId.Value && syncId.Value != state.SquadId.Value)
+                    {
+                        state.Members.Add(entity);
+                    }
+                });
+        }
+
+        public void Tick(int tick, fix deltaTime)
+        {
+            _transitions.Clear();
+
+            if (!_mapEntity.IsValid)
+            {
+                _mapEntity = _findMap.Invoke();
+            }
+
+            HexMap map = _mapEntity.IsValid ? _world.Get<HexMap>(_mapEntity) : default;
+            EntityIdMap entityIdMap = _world.GetEntityIdMap();
+
+            _tickState.EntityIdMap = entityIdMap;
+            _tickState.Map = map;
+            _tickState.Tick = tick;
+            _processShips.Invoke(ref _tickState);
 
             for (int i = 0; i < _transitions.Count; i++)
             {
@@ -199,32 +236,15 @@ namespace SlyPirates.Shared.Systems
         private void CollectMembers(SyncId squadId)
         {
             _members.Clear();
-            (SyncId SquadId, List<Entity> Members) state = (squadId, _members);
-            Query members = Members;
-            _world.ForEachEntity<(SyncId SquadId, List<Entity> Members), SquadMember>(in members, ref state,
-                static (ref (SyncId SquadId, List<Entity> Members) state, EntityRef entity, in SquadMember member) =>
-                {
-                    if (member.SquadId.Value == state.SquadId.Value)
-                    {
-                        state.Members.Add(entity);
-                    }
-                }).Invoke(ref state);
+            _collectMembersState.SquadId = squadId;
+            _collectMembersOperation.Invoke(ref _collectMembersState);
         }
 
         private void CollectPassengers(SyncId squadId)
         {
             _members.Clear();
-            (SyncId SquadId, List<Entity> Members) state = (squadId, _members);
-            Query passengers = Passengers;
-            _world.ForEachEntity<(SyncId SquadId, List<Entity> Members), OnShip, SyncId>(in passengers, ref state,
-                static (ref (SyncId SquadId, List<Entity> Members) state, EntityRef entity,
-                    in OnShip onShip, in SyncId syncId) =>
-                {
-                    if (onShip.SquadId.Value == state.SquadId.Value && syncId.Value != state.SquadId.Value)
-                    {
-                        state.Members.Add(entity);
-                    }
-                }).Invoke(ref state);
+            _collectPassengersState.SquadId = squadId;
+            _collectPassengersOperation.Invoke(ref _collectPassengersState);
         }
 
         private void BoardEntity(Entity entity, SyncId squadId, SyncId shipId)

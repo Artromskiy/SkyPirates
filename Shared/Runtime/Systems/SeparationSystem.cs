@@ -24,23 +24,22 @@ namespace SlyPirates.Shared.Systems
             Alive().NotDisabled();
 
         private readonly Lookup2D<List<SeparatorEntry>> _partitioning = new();
+        private readonly List<List<SeparatorEntry>> _partitionLists = new();
         private readonly HashSet<int> _syncIdCache = new();
+        private PartitionBuildState _partitionState;
+        private readonly IOperation<PartitionBuildState> _buildPartitioning;
+        private (HashSet<int> Written, Lookup2D<List<SeparatorEntry>> Grid) _separationState;
+        private readonly IOperation<(HashSet<int> Written, Lookup2D<List<SeparatorEntry>> Grid)> _applySeparation;
 
         private readonly World _world;
 
         public SeparationSystem(World world)
         {
             _world = world;
-        }
-
-        public void Tick(int tick, fix deltaTime)
-        {
-            _partitioning.Clear();
-
-            var partitioning = _partitioning;
+            _partitionState = new PartitionBuildState(_partitioning, _partitionLists);
             var separatorDesc = _separatorDesc;
-            _world.ForEach<Lookup2D<List<SeparatorEntry>>, SyncId, Position, Separator, Radius>(in separatorDesc, ref partitioning,
-                static (ref Lookup2D<List<SeparatorEntry>> grid, in SyncId syncId, in Position position, in Separator separator, in Radius radius) =>
+            _buildPartitioning = world.ForEach<PartitionBuildState, SyncId, Position, Separator, Radius>(in separatorDesc, ref _partitionState,
+                static (ref PartitionBuildState state, in SyncId syncId, in Position position, in Separator separator, in Radius radius) =>
                 {
                     var pos = ((fix3)position).xz;
                     var range = new fix2(radius.Value);
@@ -50,18 +49,25 @@ namespace SlyPirates.Shared.Systems
                     for (int y = minQ.y; y <= maxQ.y; y++)
                     for (int x = minQ.x; x <= maxQ.x; x++)
                     {
-                        if (!grid.TryGetValue(x, y, out var list))
+                        if (!state.Grid.TryGetValue(x, y, out var list))
                         {
-                            grid[x, y] = list = new List<SeparatorEntry>(8);
+                            if (state.NextList == state.Buffers.Count)
+                            {
+                                state.Buffers.Add(new List<SeparatorEntry>(8));
+                            }
+
+                            list = state.Buffers[state.NextList++];
+                            list.Clear();
+                            state.Grid[x, y] = list;
                         }
 
                         list.Add(new SeparatorEntry(syncId, position, separator, radius.Value));
                     }
-                }).Invoke(ref partitioning);
+                });
 
-            (HashSet<int> Written, Lookup2D<List<SeparatorEntry>> Grid) state = (_syncIdCache, _partitioning);
+            _separationState = (_syncIdCache, _partitioning);
             var separationDesc = _separationDesc;
-            _world.ForEach<(HashSet<int> Written, Lookup2D<List<SeparatorEntry>> Grid), Position, Separation>(in separationDesc, ref state,
+            _applySeparation = world.ForEach<(HashSet<int> Written, Lookup2D<List<SeparatorEntry>> Grid), Position, Separation>(in separationDesc, ref _separationState,
                 static (ref (HashSet<int> Written, Lookup2D<List<SeparatorEntry>> Grid) state, ref Position position, in Separation separation) =>
                 {
                     state.Written.Clear();
@@ -111,7 +117,37 @@ namespace SlyPirates.Shared.Systems
                         var offset = separation.Value / forcesCount * totalForce;
                         position += offset.x_y;
                     }
-                }).Invoke(ref state);
+                });
+        }
+
+        public void Tick(int tick, fix deltaTime)
+        {
+            for (int i = 0; i < _partitionState.NextList; i++)
+            {
+                _partitionLists[i].Clear();
+            }
+
+            _partitioning.Clear();
+            _partitionState.NextList = 0;
+            _buildPartitioning.Invoke(ref _partitionState);
+            if (_partitionState.NextList != 0)
+            {
+                _applySeparation.Invoke(ref _separationState);
+            }
+        }
+
+        private struct PartitionBuildState
+        {
+            public readonly Lookup2D<List<SeparatorEntry>> Grid;
+            public readonly List<List<SeparatorEntry>> Buffers;
+            public int NextList;
+
+            public PartitionBuildState(Lookup2D<List<SeparatorEntry>> grid, List<List<SeparatorEntry>> buffers)
+            {
+                Grid = grid;
+                Buffers = buffers;
+                NextList = 0;
+            }
         }
 
         private static int2 GetQuantizedSquare(fix2 position)

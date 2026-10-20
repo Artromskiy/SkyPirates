@@ -47,9 +47,10 @@ namespace SlyPirates.Shared.Ecs
             _capacity = maxCapacity;
             _frames = new FrameRing<PresenceFrame>(initialCapacity);
             ComponentId pendingId = world.Components.GetPrimary<PendingDestroy>();
+            ComponentId syncId = world.Components.GetPrimary<SyncId>();
             var columns = new List<HistoryColumn>();
             var ids = new List<ComponentId>();
-            var visitor = new CreateColumns(world, this, columns);
+            var visitor = new CreateColumns(world, this, columns, syncId, pendingId);
             for (int i = 0; i < componentIds.Length; i++)
             {
                 if (componentIds[i] != pendingId && !ids.Contains(componentIds[i]))
@@ -59,7 +60,6 @@ namespace SlyPirates.Shared.Ecs
                 }
             }
 
-            ComponentId syncId = world.Components.GetPrimary<SyncId>();
             if (!ids.Contains(syncId))
             {
                 ids.Add(syncId);
@@ -760,9 +760,12 @@ namespace SlyPirates.Shared.Ecs
             private readonly World _world;
             private readonly WorldHistory _owner;
             private readonly List<HistoryColumn> _columns;
-            public CreateColumns(World world, WorldHistory owner, List<HistoryColumn> columns)
-            { _world = world; _owner = owner; _columns = columns; }
-            public void Visit<T>(ComponentId id) where T : struct => _columns.Add(new HistoryColumn<T>(_world, _owner, id));
+            private readonly ComponentId _syncId;
+            private readonly ComponentId _pendingId;
+            public CreateColumns(World world, WorldHistory owner, List<HistoryColumn> columns, ComponentId syncId, ComponentId pendingId)
+            { _world = world; _owner = owner; _columns = columns; _syncId = syncId; _pendingId = pendingId; }
+            public void Visit<T>(ComponentId id) where T : struct
+                => _columns.Add(new HistoryColumn<T>(_world, _owner, id, _syncId, _pendingId));
         }
 
         private readonly struct CreateResources : IStructComponentVisitor<IDisposable>
@@ -1018,11 +1021,16 @@ namespace SlyPirates.Shared.Ecs
         private int? _stateTick;
         private int _worldTick;
 
-        public HistoryColumn(World world, WorldHistory owner, ComponentId id) : base(id)
+        public HistoryColumn(World world, WorldHistory owner, ComponentId id, ComponentId syncId, ComponentId pendingId) : base(id)
         {
             _world = world;
             _owner = owner;
-            _query = world.WhereAll(id);
+            Query query = world.WhereAll(id);
+            if (id != syncId)
+            {
+                query = query.WhereAll(syncId);
+            }
+            _query = query.WhereNone(pendingId);
             var context = this;
             _captureOperation = world.ForEachEntity(in _query, ref context, id, typeof(HistoryCaptureComponent<>));
             _changeOperation = world.ForEachChange<T>(id, OnChanged);
@@ -1098,11 +1106,6 @@ namespace SlyPirates.Shared.Ecs
 
         internal void CaptureRow(Entity entity, in T value)
         {
-            if (!_owner.IsPresent(entity))
-            {
-                return;
-            }
-
             Record(entity, true, value);
         }
 

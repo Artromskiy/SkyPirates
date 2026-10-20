@@ -6,6 +6,7 @@ using SlyPirates.Shared.Core.Collections;
 using SlyPirates.Shared.Components.Config;
 using SlyPirates.Shared.Ids;
 using SlyPirates.Shared.IServices.TickableExecutors;
+using System;
 using System.Collections.Generic;
 
 namespace SlyPirates.Shared.Systems
@@ -20,6 +21,20 @@ namespace SlyPirates.Shared.Systems
         private readonly Lookup<List<GoodsData>> _collectorsDrops = new();
 
         private readonly List<Entity> _removeDrops = new();
+        private readonly List<List<DropRef>> _dropListPool = new();
+        private readonly List<List<GoodsData>> _collectorDropListPool = new();
+        private Entity[] _entityBatch = System.Array.Empty<Entity>();
+
+        private (Lookup2D<List<DropRef>> Grid, List<List<DropRef>> Lists, int NextList) _buildDropsState;
+        private readonly IOperation<(Lookup2D<List<DropRef>> Grid, List<List<DropRef>> Lists, int NextList)> _buildDropGrid;
+        private (Lookup2D<List<DropRef>> Grid, Lookup<BestCollector> Best, int BestCount) _findCollectorsState;
+        private readonly IOperation<(Lookup2D<List<DropRef>> Grid, Lookup<BestCollector> Best, int BestCount)> _findCollectors;
+        private (Lookup<BestCollector> Best, Lookup<List<GoodsData>> CollectorsDrops, List<Entity> RemoveDrops,
+            List<List<GoodsData>> CollectorLists, int NextList) _moveDropsState;
+        private readonly IOperation<(Lookup<BestCollector> Best, Lookup<List<GoodsData>> CollectorsDrops, List<Entity> RemoveDrops,
+            List<List<GoodsData>> CollectorLists, int NextList)> _moveDrops;
+        private Lookup<List<GoodsData>> _applyCollectedState;
+        private readonly IOperation<Lookup<List<GoodsData>>> _applyCollectedGoods;
 
         private Query? _dropsDescCache;
 
@@ -40,118 +55,135 @@ namespace SlyPirates.Shared.Systems
         public GoodsCollectorSystem(World world)
         {
             _world = world;
-        }
-
-        public void Tick(int tick, fix deltaTime)
-        {
-            _partitioning.Clear();
-            _bestCollectors.Clear();
-            _collectorsDrops.Clear();
-            _removeDrops.Clear();
-
-            var partitioning = _partitioning;
+            _buildDropsState = (_partitioning, _dropListPool, 0);
             var dropsDesc = _dropsDesc;
-            _world.ForEach<Lookup2D<List<DropRef>>, SyncId, Position>(in dropsDesc, ref partitioning,
-                static (ref Lookup2D<List<DropRef>> grid, in SyncId syncId, in Position position) =>
+            _buildDropGrid = world.ForEach<
+                (Lookup2D<List<DropRef>> Grid, List<List<DropRef>> Lists, int NextList), SyncId, Position>(in dropsDesc,
+                ref _buildDropsState,
+                static (ref (Lookup2D<List<DropRef>> Grid, List<List<DropRef>> Lists, int NextList) state,
+                    in SyncId syncId, in Position position) =>
                 {
                     var posXZ = ((fix3)position).xz;
                     var quad = GetQuantizedSquare(posXZ);
-                    if (!grid.TryGetValue(quad.x, quad.y, out var list))
+                    if (!state.Grid.TryGetValue(quad.x, quad.y, out var list))
                     {
-                        grid[quad.x, quad.y] = list = new List<DropRef>(8);
+                        if (state.NextList == state.Lists.Count)
+                        {
+                            list = new List<DropRef>(8);
+                            state.Lists.Add(list);
+                        }
+                        else
+                        {
+                            list = state.Lists[state.NextList];
+                        }
+                        state.NextList++;
+                        state.Grid[quad.x, quad.y] = list;
                     }
 
                     list.Add(new DropRef { SyncId = syncId.Value, PositionXZ = posXZ });
-                }).Invoke(ref partitioning);
+                });
 
-            (World World, Lookup2D<List<DropRef>> Grid, Lookup<BestCollector> Best) bestState =
-                (_world, _partitioning, _bestCollectors);
+            _findCollectorsState = (_partitioning, _bestCollectors, 0);
             var collectorsDesc = _collectorsDesc;
-            _world
-                .ForEachEntity<(World World, Lookup2D<List<DropRef>> Grid, Lookup<BestCollector> Best), SyncId, Position,
-                    GoodsCollectorRadius>(in collectorsDesc, ref bestState,
-                    static (ref (World World, Lookup2D<List<DropRef>> Grid, Lookup<BestCollector> Best) state,
-                        EntityRef collector, in SyncId collectorId, in Position collectorPos, in GoodsCollectorRadius radius) =>
-                    {
-                        Entity collectorEntity = collector;
-                        SyncId ownerId = state.World.Has<SquadMember>(collectorEntity)
-                            ? state.World.Get<SquadMember>(collectorEntity).SquadId
-                            : collectorId;
-                        fix2 center = ((fix3)collectorPos).xz;
-                        fix searchRadius = radius;
-                        fix sqrSearchRadius = searchRadius * searchRadius;
-                        var range = new fix2(searchRadius, searchRadius);
-                        var min = GetQuantizedSquare(center - range);
-                        var max = GetQuantizedSquare(center + range);
+            _findCollectors = world.ForEachEntity<
+                (Lookup2D<List<DropRef>> Grid, Lookup<BestCollector> Best, int BestCount),
+                SyncId, Position, GoodsCollectorRadius>(in collectorsDesc, ref _findCollectorsState,
+                static (ref (Lookup2D<List<DropRef>> Grid, Lookup<BestCollector> Best, int BestCount) state,
+                    EntityRef collector, in SyncId collectorId, in Position collectorPos, in GoodsCollectorRadius radius) =>
+                {
+                    SyncId ownerId = collector.TryGet(out SquadMember member)
+                        ? member.SquadId
+                        : collectorId;
+                    fix2 center = ((fix3)collectorPos).xz;
+                    fix searchRadius = radius;
+                    fix sqrSearchRadius = searchRadius * searchRadius;
+                    var range = new fix2(searchRadius, searchRadius);
+                    var min = GetQuantizedSquare(center - range);
+                    var max = GetQuantizedSquare(center + range);
 
-                        for (int y = min.y; y <= max.y; y++)
-                        for (int x = min.x; x <= max.x; x++)
+                    for (int y = min.y; y <= max.y; y++)
+                    for (int x = min.x; x <= max.x; x++)
+                    {
+                        if (!state.Grid.TryGetValue(x, y, out var drops))
                         {
-                            if (!state.Grid.TryGetValue(x, y, out var drops))
+                            continue;
+                        }
+
+                        for (int i = 0; i < drops.Count; i++)
+                        {
+                            var drop = drops[i];
+                            var sqrDist = fix2.SqrDistance(drop.PositionXZ, center);
+                            if (sqrDist > sqrSearchRadius)
                             {
                                 continue;
                             }
 
-                            for (int i = 0; i < drops.Count; i++)
+                            int dropId = drop.SyncId;
+                            bool hasCurrent = state.Best.TryGetValue(dropId, out var current);
+                            if (!hasCurrent ||
+                                sqrDist < current.SqrDistance ||
+                                (sqrDist == current.SqrDistance && collectorId.Value < current.CollectorSyncId.Value))
                             {
-                                var drop = drops[i];
-                                var sqrDist = fix2.SqrDistance(drop.PositionXZ, center);
-                                if (sqrDist > sqrSearchRadius)
+                                if (!hasCurrent)
                                 {
-                                    continue;
+                                    state.BestCount++;
                                 }
 
-                                int dropId = drop.SyncId;
-                                if (!state.Best.TryGetValue(dropId, out var current) ||
-                                    sqrDist < current.SqrDistance ||
-                                    (sqrDist == current.SqrDistance &&
-                                     collectorId.Value < current.CollectorSyncId.Value))
+                                state.Best[dropId] = new BestCollector
                                 {
-                                    state.Best[dropId] = new BestCollector
-                                    {
-                                        CollectorSyncId = collectorId,
-                                        OwnerSyncId = ownerId,
-                                        SqrDistance = sqrDist,
-                                        Position = collectorPos,
-                                    };
-                                }
+                                    CollectorSyncId = collectorId,
+                                    OwnerSyncId = ownerId,
+                                    SqrDistance = sqrDist,
+                                    Position = collectorPos,
+                                };
                             }
                         }
-                    }).Invoke(ref bestState);
+                    }
+                });
 
-            (Lookup<BestCollector> Best, Lookup<List<GoodsData>> CollectorsDrops, List<Entity> RemoveDrops) applyState =
-                (_bestCollectors, _collectorsDrops, _removeDrops);
-            _world
-                .ForEachEntity<(Lookup<BestCollector> Best, Lookup<List<GoodsData>> CollectorsDrops, List<Entity>
-                    RemoveDrops), SyncId, GoodsId, GoodsAmount, Position, MaxSpeed>(in dropsDesc, ref applyState,
-                    static (
-                        ref (Lookup<BestCollector> Best, Lookup<List<GoodsData>> CollectorsDrops, List<Entity>
-                            RemoveDrops) state, EntityRef entity, in SyncId dropId, in GoodsId goodsId,
-                        in GoodsAmount goodsAmount, ref Position position, in MaxSpeed maxSpeed) =>
+            _moveDropsState = (_bestCollectors, _collectorsDrops, _removeDrops, _collectorDropListPool, 0);
+            _moveDrops = world.ForEachEntity<
+                (Lookup<BestCollector> Best, Lookup<List<GoodsData>> CollectorsDrops, List<Entity> RemoveDrops,
+                    List<List<GoodsData>> CollectorLists, int NextList),
+                SyncId, GoodsId, GoodsAmount, Position, MaxSpeed>(in dropsDesc, ref _moveDropsState,
+                static (ref (Lookup<BestCollector> Best, Lookup<List<GoodsData>> CollectorsDrops, List<Entity> RemoveDrops,
+                    List<List<GoodsData>> CollectorLists, int NextList) state, EntityRef entity, in SyncId dropId,
+                    in GoodsId goodsId, in GoodsAmount goodsAmount, ref Position position, in MaxSpeed maxSpeed) =>
+                {
+                    if (!state.Best.TryGetValue(dropId.Value, out var best))
                     {
-                        if (!state.Best.TryGetValue(dropId.Value, out var best))
+                        return;
+                    }
+
+                    position = fix3.MoveTowards(position, best.Position, maxSpeed);
+                    if (fix3.SqrDistance(position, best.Position) >= fix.One / 10)
+                    {
+                        return;
+                    }
+
+                    state.RemoveDrops.Add(entity);
+                    if (!state.CollectorsDrops.TryGetValue(best.OwnerSyncId.Value, out var collected))
+                    {
+                        if (state.NextList == state.CollectorLists.Count)
                         {
-                            return;
+                            collected = new List<GoodsData>();
+                            state.CollectorLists.Add(collected);
                         }
-
-                        position = fix3.MoveTowards(position, best.Position, maxSpeed);
-                        if (fix3.SqrDistance(position, best.Position) >= fix.One / 10)
+                        else
                         {
-                            return;
+                            collected = state.CollectorLists[state.NextList];
                         }
+                        state.NextList++;
+                        state.CollectorsDrops[best.OwnerSyncId.Value] = collected;
+                    }
 
-                        state.RemoveDrops.Add(entity);
-                        if (!state.CollectorsDrops.TryGetValue(best.OwnerSyncId.Value, out var collected))
-                        {
-                            state.CollectorsDrops[best.OwnerSyncId.Value] = collected = new List<GoodsData>();
-                        }
+                    collected.Add(new() { GoodsId = goodsId, GoodsAmount = goodsAmount });
+                });
 
-                        collected.Add(new() { GoodsId = goodsId, GoodsAmount = goodsAmount });
-                    }).Invoke(ref applyState);
-
-            var collectorsDrops = _collectorsDrops;
+            _applyCollectedState = _collectorsDrops;
             var goodsOwnersDesc = _goodsOwnersDesc;
-            _world.ForEach<Lookup<List<GoodsData>>, SyncId, GoodsDrop>(in goodsOwnersDesc, ref collectorsDrops,
+            _applyCollectedGoods = world.ForEach<Lookup<List<GoodsData>>, SyncId, GoodsDrop>(in goodsOwnersDesc,
+                ref _applyCollectedState,
                 static (ref Lookup<List<GoodsData>> collectedDrops, in SyncId collectorId, ref GoodsDrop drop) =>
                 {
                     if (!collectedDrops.TryGetValue(collectorId.Value, out var toCollect))
@@ -171,13 +203,62 @@ namespace SlyPirates.Shared.Systems
                     }
 
                     drop = new() { Values = values.ToImmutable() };
-                }).Invoke(ref collectorsDrops);
+                });
+        }
 
-            foreach (var item in _removeDrops)
+        public void Tick(int tick, fix deltaTime)
+        {
+            for (int i = 0; i < _buildDropsState.NextList; i++)
             {
-                _world.Add<PendingDestroy>(item);
-                _world.Remove<Alive>(item);
+                _dropListPool[i].Clear();
             }
+            for (int i = 0; i < _moveDropsState.NextList; i++)
+            {
+                _collectorDropListPool[i].Clear();
+            }
+
+            _partitioning.Clear();
+            _bestCollectors.Clear();
+            _collectorsDrops.Clear();
+            _removeDrops.Clear();
+            _findCollectorsState.BestCount = 0;
+
+            _buildDropsState.NextList = 0;
+            _buildDropGrid.Invoke(ref _buildDropsState);
+
+            if (_buildDropsState.NextList != 0)
+            {
+                _findCollectors.Invoke(ref _findCollectorsState);
+            }
+
+            _moveDropsState.NextList = 0;
+            if (_findCollectorsState.BestCount != 0)
+            {
+                _moveDrops.Invoke(ref _moveDropsState);
+            }
+
+            if (_moveDropsState.NextList != 0)
+            {
+                _applyCollectedGoods.Invoke(ref _applyCollectedState);
+            }
+
+            if (_removeDrops.Count != 0)
+            {
+                ReadOnlySpan<Entity> batch = Batch(_removeDrops);
+                _world.Add<PendingDestroy>(batch);
+                _world.Remove<Alive>(batch);
+            }
+        }
+
+        private ReadOnlySpan<Entity> Batch(List<Entity> entities)
+        {
+            if (_entityBatch.Length < entities.Count)
+            {
+                System.Array.Resize(ref _entityBatch, System.Math.Max(entities.Count, _entityBatch.Length * 2));
+            }
+
+            entities.CopyTo(_entityBatch);
+            return _entityBatch.AsSpan(0, entities.Count);
         }
 
         private static int2 GetQuantizedSquare(fix2 position)

@@ -14,21 +14,25 @@ namespace SlyPirates.Shared.Systems
             WhereAll<Position, Direction, MaxSpeed>().Alive().NotDisabled();
 
         private readonly World _world;
+        private fix _deltaTime;
+        private readonly IOperation<fix> _move;
+
         public DirectionMoveSystem(World world)
         {
             _world = world;
-        }
-
-        public void Tick(int tick, fix deltaTime)
-        {
-            var delta = deltaTime;
             var desc = _desc;
-            _world.ForEach<fix, Position, Direction, MaxSpeed>(in desc, ref delta,
+            _move = world.ForEach<fix, Position, Direction, MaxSpeed>(in desc, ref _deltaTime,
                 static (ref fix deltaTime, ref Position position, in Direction direction, in MaxSpeed maxSpeed) =>
                 {
                     var deltaMove = ((fix2)direction * maxSpeed * deltaTime).x_y;
                     position += deltaMove;
-                }).Invoke(ref delta);
+                });
+        }
+
+        public void Tick(int tick, fix deltaTime)
+        {
+            _deltaTime = deltaTime;
+            _move.Invoke(ref _deltaTime);
         }
     }
 }

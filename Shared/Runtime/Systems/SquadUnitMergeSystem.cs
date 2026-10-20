@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Delta;
 using Delta.ECS;
@@ -16,6 +17,10 @@ namespace SlyPirates.Shared.Systems
 
         private readonly World _world;
         private readonly Dictionary<(int SquadId, UnitId UnitId, int Level), List<Unit>> _unitsPerGroup = new();
+        private readonly List<Entity> _destroy = new();
+        private Entity[] _entityBatch = System.Array.Empty<Entity>();
+        private Dictionary<(int SquadId, UnitId UnitId, int Level), List<Unit>> _collectState;
+        private readonly IOperation<Dictionary<(int SquadId, UnitId UnitId, int Level), List<Unit>>> _collectUnits;
 
         private Query? _unitsQueryCache;
         private Query _unitsQuery => _unitsQueryCache ??= _world.
@@ -25,6 +30,23 @@ namespace SlyPirates.Shared.Systems
         public SquadUnitMergeSystem(World world)
         {
             _world = world;
+            _collectState = _unitsPerGroup;
+            var query = _unitsQuery;
+            _collectUnits = world.ForEachEntity<Dictionary<(int SquadId, UnitId UnitId, int Level), List<Unit>>,
+                SquadMember, UnitId, SyncId, Health, MaxHealth, Damage>(in query, ref _collectState,
+                static (ref Dictionary<(int SquadId, UnitId UnitId, int Level), List<Unit>> unitsPerGroup,
+                    EntityRef entity, in SquadMember member, in UnitId unitId, in SyncId syncId, in Health health,
+                    in MaxHealth maxHealth, in Damage damage) =>
+                {
+                    int level = entity.TryGet(out Level unitLevel) ? unitLevel.Value : 1;
+                    var groupId = (member.SquadId.Value, unitId, level);
+                    if (!unitsPerGroup.TryGetValue(groupId, out var units))
+                    {
+                        unitsPerGroup.Add(groupId, units = new List<Unit>());
+                    }
+
+                    units.Add(new Unit(entity, syncId.Value, level, maxHealth.Value, damage.Value));
+                });
         }
 
         public void Tick(int tick, fix deltaTime)
@@ -33,35 +55,17 @@ namespace SlyPirates.Shared.Systems
             {
                 units.Clear();
             }
+            _destroy.Clear();
 
-            var state = (_world, _unitsPerGroup);
-            var query = _unitsQuery;
-            _world.ForEachEntity<(World World, Dictionary<(int SquadId, UnitId UnitId, int Level), List<Unit>> UnitsPerGroup), SquadMember, UnitId, SyncId, Health, MaxHealth, Damage>(
-                in query,
-                ref state,
-                static (ref (World World, Dictionary<(int SquadId, UnitId UnitId, int Level), List<Unit>> UnitsPerGroup) state,
-                    EntityRef entity,
-                    in SquadMember member,
-                    in UnitId unitId,
-                    in SyncId syncId,
-                    in Health health,
-                    in MaxHealth maxHealth,
-                    in Damage damage) =>
-                {
-                    var level = state.World.Has<Level>(entity)
-                        ? state.World.Get<Level>(entity).Value
-                        : 1;
-                    var groupId = (member.SquadId.Value, unitId, level);
-                    if (!state.UnitsPerGroup.TryGetValue(groupId, out var units))
-                    {
-                        state.UnitsPerGroup.Add(groupId, units = new List<Unit>());
-                    }
-
-                    units.Add(new Unit(entity, syncId.Value, level, maxHealth.Value, damage.Value));
-                }).Invoke(ref state);
+            _collectUnits.Invoke(ref _collectState);
 
             foreach (var units in _unitsPerGroup.Values)
             {
+                if (units.Count < 3)
+                {
+                    continue;
+                }
+
                 units.Sort(static (left, right) => left.SyncId.CompareTo(right.SyncId));
                 while (units.Count >= 3)
                 {
@@ -86,6 +90,13 @@ namespace SlyPirates.Shared.Systems
                     units.Sort(static (left, right) => left.SyncId.CompareTo(right.SyncId));
                 }
             }
+
+            if (_destroy.Count != 0)
+            {
+                ReadOnlySpan<Entity> batch = Batch(_destroy);
+                _world.Add<PendingDestroy>(batch);
+                _world.Remove<Alive>(batch);
+            }
         }
 
         private Unit Merge(Unit strongest, Unit first, Unit second, Unit third)
@@ -109,18 +120,15 @@ namespace SlyPirates.Shared.Systems
 
             if (first.SyncId != strongest.SyncId)
             {
-                _world.Add<PendingDestroy>(first.Entity);
-                _world.Remove<Alive>(first.Entity);
+                _destroy.Add(first.Entity);
             }
             if (second.SyncId != strongest.SyncId)
             {
-                _world.Add<PendingDestroy>(second.Entity);
-                _world.Remove<Alive>(second.Entity);
+                _destroy.Add(second.Entity);
             }
             if (third.SyncId != strongest.SyncId)
             {
-                _world.Add<PendingDestroy>(third.Entity);
-                _world.Remove<Alive>(third.Entity);
+                _destroy.Add(third.Entity);
             }
 
             return merged;
@@ -156,6 +164,17 @@ namespace SlyPirates.Shared.Systems
             }
 
             return value * Three;
+        }
+
+        private ReadOnlySpan<Entity> Batch(List<Entity> entities)
+        {
+            if (_entityBatch.Length < entities.Count)
+            {
+                System.Array.Resize(ref _entityBatch, System.Math.Max(entities.Count, _entityBatch.Length * 2));
+            }
+
+            entities.CopyTo(_entityBatch);
+            return _entityBatch.AsSpan(0, entities.Count);
         }
 
         private readonly struct Unit

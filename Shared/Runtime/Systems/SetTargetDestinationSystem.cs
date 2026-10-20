@@ -20,23 +20,21 @@ namespace SlyPirates.Shared.Systems
             WhereAll<DesiredPosition, DesiredRotation, Position, Rotation, ImpactDistance, Target>().Alive().NotDisabled();
 
         private readonly World _world;
+        private World _worldContext;
+        private readonly IOperation<World> _setDestinations;
 
         public SetTargetDestinationSystem(World world)
         {
             _world = world;
-        }
-
-        public void Tick(int tick, fix deltaTime)
-        {
-            var world = _world;
+            _worldContext = world;
             var desc = _desc;
-            _world.ForEach<World, Position, Rotation, DesiredPosition, DesiredRotation, ImpactDistance, Target>(in desc, ref world,
+            _setDestinations = world.ForEach<World, Position, Rotation, DesiredPosition, DesiredRotation, ImpactDistance, Target>(in desc, ref _worldContext,
                 static (ref World world, in Position position, in Rotation rotation, ref DesiredPosition desiredPosition, ref DesiredRotation desiredRotation, in ImpactDistance impactDistance, in Target target) =>
                 {
-                if (!target.SyncId.HasValue)
-                {
+                    if (!target.SyncId.HasValue)
+                    {
                         return;
-                }
+                    }
 
                     desiredPosition.Value = position;
                     desiredRotation.Value = rotation;
@@ -45,7 +43,6 @@ namespace SlyPirates.Shared.Systems
                     fix3 targetPos = world.Get<Position>(targetEntity);
                     var impactReduced = impactDistance - _reduceImpactDistance;
                     var impactSqrDistance = impactReduced * impactReduced;
-
                     var sqrDistance = fix3.SqrDistance(targetPos, position);
 
                     if (sqrDistance != 0)
@@ -55,10 +52,15 @@ namespace SlyPirates.Shared.Systems
                     }
 
                     if (sqrDistance > impactSqrDistance)
-                {
+                    {
                         desiredPosition.Value = fix3.MoveTowards(targetPos, position, impactReduced);
-                }
-                }).Invoke(ref world);
+                    }
+                });
+        }
+
+        public void Tick(int tick, fix deltaTime)
+        {
+            _setDestinations.Invoke(ref _worldContext);
         }
     }
 }
