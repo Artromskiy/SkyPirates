@@ -205,13 +205,14 @@ absent; `Add<T>` is the operation that creates a missing row.
 
 ## Build entity data and apply it
 
-`EntityData` collects values and tags without holding a `World`. Use explicit
-component IDs when building the set, then pass it to a single-entity operation:
+`EntityData` collects component IDs and optional typed values without holding a
+`World`. Use typed `Add` when you have a value, or add an ID alone and let the
+world resolve whether it is a data component or a tag when applying the set:
 
 ```csharp
 var initialData = new EntityData();
 initialData.Add(positionId, new Position(new Vector2(4, 8)));
-initialData.AddTag(aliveId);
+initialData.Add(aliveId);
 Entity spawned = world.Create(initialData);
 
 var movementData = new EntityData();
@@ -222,17 +223,59 @@ world.AddOrSet(spawned, movementData);
 var positionUpdate = new EntityData();
 positionUpdate.Add(positionId, new Position(new Vector2(20, 8)));
 int updated = world.Set(spawned, positionUpdate); // 1: Position was applied
+
+var capturedData = new EntityData();
+int capturedEntries = capturedData.Add(world, spawned);
+Console.WriteLine($"Copied {capturedEntries} component entries");
+foreach (ComponentId componentId in capturedData.ComponentIds)
+{
+    Console.WriteLine($"Captured component registration {componentId.Value}");
+}
 ```
 
 `EntityData.Add` returns `false` for an ID already in the set and leaves its
-value unchanged. `AddOrSet` replaces a value already in the set. When applying
-data to a world, `Add` initializes only missing components, `AddOrSet` also
-replaces values already present, and `Set` writes only if every entry is
-already present. `World.Add` returns the number of newly added components and
+value unchanged. `AddOrSet` replaces a typed value already in the set. An ID
+added without a CLR type carries no value: when the world applies it, a data
+component is created with its default value and a tag contributes membership.
+When applying data to a world, `Add` initializes only missing components,
+`AddOrSet` also replaces stored values already present, and `Set` writes only
+if every entry is already present. Presence-only entries do not overwrite
+existing values. `World.Add` returns the number of newly added components and
 tags. `World.Set` returns the number of entries applied, or zero if any entry
-is missing. Use `AddTag` for tags; they carry no value. The same data set can
-be reused for later entities, and the world checks registrations and CLR
-types when each operation is invoked.
+is missing. The same data set can be reused for later entities, and the world
+checks registrations and CLR types when each operation is invoked.
+
+## React to component changes
+
+Keep one `ForEachChange<T>` operation and invoke it to consume changes. Its
+first invocation reports existing instances as `Added`; later invocations
+report additions, writable accesses, and removals since the previous invocation:
+
+```csharp
+Entity tracked = world.Create(healthId);
+world.GetRef<Health>(tracked, healthId).Value = 100;
+
+var healthChanges = world.ForEachChange<Health>(healthId,
+    static (Entity changedEntity, ChangeKind kind, ref Health health) =>
+    {
+        if (kind == ChangeKind.Removed)
+        {
+            Console.WriteLine($"Health removed from {changedEntity}");
+        }
+        else
+        {
+            Console.WriteLine($"{kind}: {changedEntity} has {health.Value} health");
+        }
+    });
+
+healthChanges.Invoke(); // Added
+world.GetRef<Health>(tracked, healthId).Value = 75;
+healthChanges.Invoke(); // Modified
+```
+
+For `Removed`, the component reference is null and must not be read. This API
+uses one explicit `ComponentId`, requires no query or source generator, and
+reports writable access as a change even if the value stays the same.
 
 ## Change an explicit batch
 

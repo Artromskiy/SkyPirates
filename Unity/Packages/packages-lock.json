@@ -1,7 +1,7 @@
 {
   "dependencies": {
     "com.artromskiy.deltaecs.unity": {
-      "version": "0.0.63",
+      "version": "0.0.64",
       "depth": 0,
       "source": "registry",
       "dependencies": {},

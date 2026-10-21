@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "com.artromskiy.deltaecs.unity": "0.0.63",
+    "com.artromskiy.deltaecs.unity": "0.0.64",
     "com.artromskiy.skypirates.shared": "file:../../Shared",
     "com.github-glitchenzo.nugetforunity": "https://github.com/GlitchEnzo/NuGetForUnity.git?path=/src/NuGetForUnity",
     "com.unity.2d.sprite": "1.0.0",

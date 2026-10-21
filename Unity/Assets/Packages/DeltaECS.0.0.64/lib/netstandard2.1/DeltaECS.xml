@@ -585,66 +585,65 @@
             <summary>Executes this operation and returns its result.</summary>
         </member>
         <member name="T:Delta.ECS.EntityData">
-            <summary>Stores typed component values and tags under explicit component IDs.</summary>
+            <summary>Stores component values and component IDs under explicit component IDs.</summary>
             <remarks>This data is independent of a world. Component IDs are validated when a world consumes it.</remarks>
         </member>
         <member name="P:Delta.ECS.EntityData.Count">
-            <summary>Gets the number of components and tags stored in this data.</summary>
+            <summary>Gets the number of component IDs stored in this data.</summary>
         </member>
         <member name="P:Delta.ECS.EntityData.ComponentIds">
-            <summary>Gets the IDs of the stored component values and tags in insertion order.</summary>
+            <summary>Gets the stored component IDs in insertion order.</summary>
             <remarks>The span borrows this instance's storage and must not be retained across modifications.</remarks>
         </member>
         <member name="M:Delta.ECS.EntityData.Add(Delta.ECS.World,Delta.ECS.Entity)">
-            <summary>Copies missing component values and tags from an entity, preserving existing entries.</summary>
+            <summary>Copies missing component values and IDs from an entity, preserving existing entries.</summary>
             <returns>The number of entries added.</returns>
         </member>
         <member name="M:Delta.ECS.EntityData.Set(Delta.ECS.World,Delta.ECS.Entity)">
-            <summary>Copies component values and tags from an entity into existing entries only.</summary>
-            <returns>The number of matching entries applied, including present tags.</returns>
+            <summary>Copies component values and IDs from an entity into existing entries only.</summary>
+            <returns>The number of matching entries applied.</returns>
         </member>
         <member name="M:Delta.ECS.EntityData.AddOrSet(Delta.ECS.World,Delta.ECS.Entity)">
-            <summary>Copies all component values and tags from an entity, adding or updating entries.</summary>
+            <summary>Copies component values and IDs from an entity, adding or updating entries.</summary>
             <remarks>Entries absent from the entity are preserved. Values are shallow copies.</remarks>
         </member>
+        <member name="M:Delta.ECS.EntityData.Add(Delta.ECS.ComponentId)">
+            <summary>Adds a component ID without a CLR type or value.</summary>
+            <remarks>The consuming world resolves the ID; data components receive their default value when added, and tags receive membership.</remarks>
+            <returns><see langword="true"/> when the ID was added; otherwise, <see langword="false"/>.</returns>
+            <exception cref="T:System.ArgumentOutOfRangeException"><paramref name="componentId"/> is invalid.</exception>
+        </member>
         <member name="M:Delta.ECS.EntityData.Add``1(Delta.ECS.ComponentId,``0@)">
-            <summary>Tries to add a component value without replacing an existing value.</summary>
+            <summary>Adds a component value, or only presence when <typeparamref name="T"/> is a tag, without replacing an existing entry.</summary>
             <param name="componentId">The explicit component registration ID.</param>
             <param name="value">The component value to store.</param>
             <returns><see langword="true"/> when the value was added; otherwise, <see langword="false"/>.</returns>
             <exception cref="T:System.ArgumentOutOfRangeException"><paramref name="componentId"/> is invalid.</exception>
-            <exception cref="T:System.InvalidOperationException">The ID is already stored with a different type or as a tag.</exception>
+            <exception cref="T:System.InvalidOperationException">The ID is already stored with a different CLR type.</exception>
         </member>
         <member name="M:Delta.ECS.EntityData.AddOrSet``1(Delta.ECS.ComponentId,``0@)">
-            <summary>Adds a component value or replaces the value stored under its ID.</summary>
+            <summary>Adds a component value or presence, or replaces the stored value under its ID.</summary>
             <param name="componentId">The explicit component registration ID.</param>
             <param name="value">The component value to store.</param>
             <exception cref="T:System.ArgumentOutOfRangeException"><paramref name="componentId"/> is invalid.</exception>
-            <exception cref="T:System.InvalidOperationException">The ID is already stored with a different type or as a tag.</exception>
-        </member>
-        <member name="M:Delta.ECS.EntityData.AddTag(Delta.ECS.ComponentId)">
-            <summary>Adds a tag and returns whether its ID was new.</summary>
-            <param name="componentId">The explicit tag registration ID.</param>
-            <returns><see langword="true"/> when the tag was added; otherwise, <see langword="false"/>.</returns>
-            <exception cref="T:System.ArgumentOutOfRangeException"><paramref name="componentId"/> is invalid.</exception>
-            <exception cref="T:System.InvalidOperationException">The ID is already stored as a component value.</exception>
+            <exception cref="T:System.InvalidOperationException">The ID is already stored with a different CLR type.</exception>
         </member>
         <member name="M:Delta.ECS.EntityData.Has(Delta.ECS.ComponentId)">
-            <summary>Reports whether a component value or tag is stored under the ID.</summary>
+            <summary>Reports whether the component ID is stored.</summary>
         </member>
         <member name="M:Delta.ECS.EntityData.TryGet``1(Delta.ECS.ComponentId,``0@)">
             <summary>Tries to copy a stored component value of the requested CLR type.</summary>
-            <remarks>Tags have no value and return <see langword="false"/>.</remarks>
+            <remarks>Entries without a stored value return <see langword="false"/>.</remarks>
         </member>
         <member name="M:Delta.ECS.EntityData.Get``1(Delta.ECS.ComponentId)">
             <summary>Gets a stored component value of the requested CLR type.</summary>
             <exception cref="T:System.Collections.Generic.KeyNotFoundException">No component value is stored under the ID.</exception>
-            <exception cref="T:System.InvalidOperationException">The stored value has a different CLR type or is a tag.</exception>
+            <exception cref="T:System.InvalidOperationException">No value of the requested CLR type is stored under the ID.</exception>
         </member>
         <member name="M:Delta.ECS.EntityData.Set``1(Delta.ECS.ComponentId,``0@)">
             <summary>Tries to replace a stored component value without adding a new entry.</summary>
             <returns><see langword="true"/> when the value was replaced; otherwise, <see langword="false"/>.</returns>
-            <exception cref="T:System.InvalidOperationException">The ID is stored with a different type or as a tag.</exception>
+            <exception cref="T:System.InvalidOperationException">The ID is stored with a different CLR type.</exception>
         </member>
         <member name="M:Delta.ECS.EntityData.GetRef``1(Delta.ECS.ComponentId)">
             <summary>Gets a writable reference to a stored component value.</summary>
@@ -655,11 +654,11 @@
             <summary>Gets a read-only reference to a stored component value.</summary>
         </member>
         <member name="M:Delta.ECS.EntityData.Remove(Delta.ECS.ComponentId)">
-            <summary>Removes a stored component value or tag.</summary>
+            <summary>Removes a stored component ID.</summary>
             <returns><see langword="true"/> when an entry was removed.</returns>
         </member>
         <member name="M:Delta.ECS.EntityData.Clear">
-            <summary>Removes all stored component values and tags.</summary>
+            <summary>Removes all stored component IDs and values.</summary>
         </member>
         <member name="T:Delta.ECS.EntityRef">
             <summary>A scoped entity handle for an entity-aware iteration callback.</summary>
