@@ -50,7 +50,7 @@ namespace SlyPirates.Shared.DI
 
             RegisterSingleton<TimelineWriter>();
 
-            RegisterSingleton(typeof(IEntityConfigFactory<>), typeof(EntityConfigFactory<>));
+            RegisterSingleton<IEntityConfigFactory, EntityConfigFactory>();
             RegisterSingleton(typeof(IConfigedEntityFactory<>), typeof(ConfigedEntityFactory<>));
             RegisterFactorySingleton<IGlobalConfigFactory, GlobalConfigFactory, GlobalConfig>();
             RegisterFactorySingleton<IPackedCirclesFactory, PackedCirclesFactory, PackedCirclesConfig>();

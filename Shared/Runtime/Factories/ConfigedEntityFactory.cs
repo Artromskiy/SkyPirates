@@ -11,12 +11,12 @@ namespace SlyPirates.Shared.Factories
         where T : struct, IId, IEquatable<T>
     {
         private readonly IEntityFactory _entityFactory;
-        private readonly IEntityConfigFactory<T> _entityConfigFactory;
+        private readonly IEntityConfigFactory _entityConfigFactory;
         private readonly IComponentDependenciesService _entityDependencyService;
         private readonly IComponentDefaultsService _componentDefaultsService;
         private readonly World _world;
 
-        public ConfigedEntityFactory(IEntityFactory entityFactory, IEntityConfigFactory<T> entityConfigFactory, IComponentDependenciesService entityDependencyService, IComponentDefaultsService componentDefaultsService, World world)
+        public ConfigedEntityFactory(IEntityFactory entityFactory, IEntityConfigFactory entityConfigFactory, IComponentDependenciesService entityDependencyService, IComponentDefaultsService componentDefaultsService, World world)
         {
             _entityFactory = entityFactory;
             _entityConfigFactory = entityConfigFactory;
@@ -27,7 +27,7 @@ namespace SlyPirates.Shared.Factories
 
         public Entity Create((T Id, EntityParameters parameters) parameters)
         {
-            var config = _entityConfigFactory.Create(parameters.Id);
+            var config = _entityConfigFactory.Create(parameters.Id.Value);
             var entity = _entityFactory.Create(parameters.parameters);
             _world.AddOrSet(entity, config);
             _entityDependencyService.Apply(entity);

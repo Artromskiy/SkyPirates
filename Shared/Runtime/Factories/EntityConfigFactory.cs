@@ -1,59 +1,34 @@
-﻿using SlyPirates.Shared.Core.Ids;
+using SlyPirates.Shared.Core.Ids;
 using SlyPirates.Shared.Data;
 using SlyPirates.Shared.IFactories;
-using Delta.ECS;
 using System;
 using System.Collections.Generic;
+using Delta.ECS;
 
 namespace SlyPirates.Shared.Factories
 {
-    public class EntityConfigFactory<T> : IEntityConfigFactory<T> where T : struct, IId, IEquatable<T>
+    public sealed class EntityConfigFactory : IEntityConfigFactory
     {
-        private readonly Dictionary<T, ComponentDataSet> _entities = new();
-        private readonly ComponentId _keyComponentId;
+        private readonly Dictionary<string, EntityData> _entities = new(StringComparer.Ordinal);
 
-        public EntityConfigFactory(GlobalConfig config, World world)
+        public EntityConfigFactory(GlobalConfig config)
         {
-            _keyComponentId = world.Components.GetPrimary<T>();
+            Add(config.UnitsStats);
+            Add(config.CactusesStats);
+            Add(config.TreesStats);
+            Add(config.RocksStats);
+            Add(config.GoodsStats);
+        }
 
-            foreach (var item in config.UnitsStats)
+        private void Add<TId>(IEnumerable<KeyValuePair<TId, EntityData>> entities)
+            where TId : struct, IId, IEquatable<TId>
+        {
+            foreach (var item in entities)
             {
-                TryAdd(item.Value, world);
-            }
-
-            foreach (var item in config.CactusesStats)
-            {
-                TryAdd(item.Value, world);
-            }
-
-            foreach (var item in config.TreesStats)
-            {
-                TryAdd(item.Value, world);
-            }
-
-            foreach (var item in config.RocksStats)
-            {
-                TryAdd(item.Value, world);
-            }
-
-            foreach (var item in config.GoodsStats)
-            {
-                TryAdd(item.Value, world);
+                _entities.Add(item.Key.Value, item.Value);
             }
         }
 
-        private void TryAdd(ComponentDataSet data, World world)
-        {
-            if (data.TryGet(world, _keyComponentId, out T key))
-            {
-                _entities.Add(key, data);
-            }
-        }
-
-        public ComponentDataSet Create(T parameters)
-        {
-            _entities.TryGetValue(parameters, out var entityData);
-            return entityData;
-        }
+        public EntityData Create(string id) => _entities[id];
     }
 }

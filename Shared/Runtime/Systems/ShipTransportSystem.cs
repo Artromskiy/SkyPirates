@@ -5,10 +5,10 @@ using SlyPirates.Shared.Components.Framed;
 using SlyPirates.Shared.Components.Runtime;
 using SlyPirates.Shared.Core;
 using SlyPirates.Shared.Data;
+using SlyPirates.Shared.Ecs;
 using SlyPirates.Shared.IServices.TickableExecutors;
 using SlyPirates.Shared.Ids;
 using System.Collections.Generic;
-using SlyPirates.Shared.Ecs;
 
 namespace SlyPirates.Shared.Systems
 {
@@ -197,7 +197,7 @@ namespace SlyPirates.Shared.Systems
                 _world.Get<SyncId>(left).Value.CompareTo(_world.Get<SyncId>(right).Value));
 
             OnShip squadState = _world.Get<OnShip>(transition.Squad);
-            _world.SetEntityData(transition.Squad, squadState.Components);
+            _world.AddOrSet(transition.Squad, squadState.Components);
             _world.Remove<OnShip>(transition.Squad);
             _world.GetRef<Position>(transition.Squad) = transition.Landing;
             _world.GetRef<Direction>(transition.Squad).Value = fix2.zero;
@@ -214,7 +214,7 @@ namespace SlyPirates.Shared.Systems
                 {
                     Entity member = _members[i];
                     OnShip memberState = _world.Get<OnShip>(member);
-                    _world.SetEntityData(member, memberState.Components);
+                    _world.AddOrSet(member, memberState.Components);
                     _world.Remove<OnShip>(member);
 
                     fix3 position = transition.Landing.Value + formation.Points[i].x_y;
@@ -249,12 +249,14 @@ namespace SlyPirates.Shared.Systems
 
         private void BoardEntity(Entity entity, SyncId squadId, SyncId shipId)
         {
-            ComponentDataSet components = ComponentDataSet.Capture(_world, entity, _retainedComponents);
-            ComponentId[] componentIds = components.GetComponentIds(_world);
-            if (componentIds.Length != 0)
+            var components = new EntityData();
+            components.AddOrSet(_world, entity);
+            for (int i = 0; i < _retainedComponents.Length; i++)
             {
-                _world.Remove(entity, componentIds);
+                components.Remove(_retainedComponents[i]);
             }
+
+            _world.Remove(entity, components.ComponentIds);
 
             _world.Add(entity, new OnShip
             {

@@ -20,9 +20,9 @@ namespace SlyPirates.Shared.Services
         {
             foreach (var item in _componentDefaultsConfig)
             {
-                foreach (var entry in item.Default)
+                foreach (ComponentId componentId in item.Default.ComponentIds)
                 {
-                    entry.Visit(_world, new SetDefaultAction(_world, entity));
+                    _world.Components.Visit(componentId, new SetDefaultAction(_world, entity, item.Default));
                 }
             }
 
@@ -35,22 +35,24 @@ namespace SlyPirates.Shared.Services
             }
         }
 
-        private readonly struct SetDefaultAction : IStructDataVisitor
+        private readonly struct SetDefaultAction : IStructComponentVisitor
         {
             private readonly World _world;
             private readonly Entity _entity;
+            private readonly EntityData _defaults;
 
-            public SetDefaultAction(World world, Entity entity)
+            public SetDefaultAction(World world, Entity entity, EntityData defaults)
             {
                 _world = world;
                 _entity = entity;
+                _defaults = defaults;
             }
 
-            public readonly void Visit<T>(ComponentId componentId, in T value) where T : struct
+            public readonly void Visit<T>(ComponentId componentId) where T : struct
             {
                 if (_world.Has(_entity, componentId))
                 {
-                    _world.GetRef<T>(_entity, componentId) = value;
+                    _world.GetRef<T>(_entity, componentId) = _defaults.Get<T>(componentId);
                 }
             }
         }
