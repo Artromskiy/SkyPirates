@@ -25,7 +25,7 @@ namespace SlyPirates.Shared.Factories
 
         public Entity Create((EntityParameters entityParameters, TeamId team) parameters)
         {
-            var entity = _entityFactory.Create(parameters.entityParameters);
+            var entity = _entityFactory.Create(parameters.entityParameters, _squadStats[0].ComponentIds);
             _world.Add<Squad>(entity);
             _world.AddOrSet(entity, _squadStats[0]);
             _entityDependencyService.Apply(entity);

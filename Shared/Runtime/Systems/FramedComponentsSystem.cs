@@ -4,7 +4,6 @@ using SlyPirates.Shared.Components;
 using SlyPirates.Shared.Components.Runtime;
 using SlyPirates.Shared.Data;
 using SlyPirates.Shared.IServices.TickableExecutors;
-using System;
 
 namespace SlyPirates.Shared.Systems
 {
@@ -35,14 +34,11 @@ namespace SlyPirates.Shared.Systems
                 _clearOperations[i].Invoke();
             }
 
-            Span<ComponentId> component = stackalloc ComponentId[1];
             foreach (var data in _dependencies)
             {
-                for (int i = 0; i < data.AddComponentIds.Length; i++)
+                foreach (var query in data.AddQueries)
                 {
-                    var query = data.AddQueries[i];
-                    component[0] = data.AddComponentIds[i];
-                    _world.Add(in query, component);
+                    _world.Add(in query, data.AddComponentIds);
                 }
             }
         }

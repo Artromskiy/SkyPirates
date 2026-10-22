@@ -28,7 +28,7 @@ namespace SlyPirates.Shared.Factories
         public Entity Create((T Id, EntityParameters parameters) parameters)
         {
             var config = _entityConfigFactory.Create(parameters.Id.Value);
-            var entity = _entityFactory.Create(parameters.parameters);
+            var entity = _entityFactory.Create(parameters.parameters, config.ComponentIds);
             _world.AddOrSet(entity, config);
             _entityDependencyService.Apply(entity);
             _componentDefaultsService.Apply(entity);

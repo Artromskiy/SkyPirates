@@ -1,6 +1,7 @@
 using Delta.ECS;
 using SlyPirates.Shared.Data;
 using SlyPirates.Shared.IServices;
+using System;
 using System.Collections.Generic;
 
 namespace SlyPirates.Shared.Services
@@ -10,6 +11,7 @@ namespace SlyPirates.Shared.Services
         private readonly World _world;
         private readonly (ComponentId[] Has, ComponentId[] Add)[] _dependencies;
         private readonly HashSet<ComponentId> _expanded = new();
+        private ComponentId[] _components = Array.Empty<ComponentId>();
 
         public ComponentDependenciesService(World world, ComponentDependenciesConfig dependencies)
         {
@@ -35,21 +37,12 @@ namespace SlyPirates.Shared.Services
                 return;
             }
 
-            _expanded.Clear();
-            foreach (ComponentId componentId in _world.Components.GetComponentIds())
-            {
-                if (_world.Has(entity, componentId))
-                {
-                    _expanded.Add(componentId);
-                }
-            }
-
-            ComponentId[] componentIds = Expand();
-            _world.Add(entity, componentIds);
+            _world.Add(entity, Expand(entity));
         }
 
-        private ComponentId[] Expand()
+        private ReadOnlySpan<ComponentId> Expand(Entity entity)
         {
+            _expanded.Clear();
             bool addedComponent;
             do
             {
@@ -60,7 +53,7 @@ namespace SlyPirates.Shared.Services
                     bool hasAll = true;
                     for (int j = 0; j < dependency.Has.Length; j++)
                     {
-                        if (!_expanded.Contains(dependency.Has[j]))
+                        if (!_expanded.Contains(dependency.Has[j]) && !_world.Has(entity, dependency.Has[j]))
                         {
                             hasAll = false;
                             break;
@@ -74,15 +67,22 @@ namespace SlyPirates.Shared.Services
 
                     for (int j = 0; j < dependency.Add.Length; j++)
                     {
-                        addedComponent |= _expanded.Add(dependency.Add[j]);
+                        if (!_world.Has(entity, dependency.Add[j]))
+                        {
+                            addedComponent |= _expanded.Add(dependency.Add[j]);
+                        }
                     }
                 }
             }
             while (addedComponent);
 
-            var result = new ComponentId[_expanded.Count];
-            _expanded.CopyTo(result);
-            return result;
+            if (_components.Length < _expanded.Count)
+            {
+                Array.Resize(ref _components, Math.Max(_expanded.Count, _components.Length * 2));
+            }
+
+            _expanded.CopyTo(_components);
+            return _components.AsSpan(0, _expanded.Count);
         }
     }
 }

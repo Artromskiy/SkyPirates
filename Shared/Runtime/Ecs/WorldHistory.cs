@@ -15,6 +15,7 @@ namespace SlyPirates.Shared.Ecs
         private readonly HistoryColumn[] _columns;
         private readonly HistoryColumn<SyncId> _syncIds;
         private readonly ComponentId[] _componentIds;
+        private readonly ComponentId[] _restoreComponents;
         private readonly FrameRing<PresenceFrame> _frames;
         private readonly EntityValueMap<int> _references = new();
         private readonly EntityValueMap<int> _owned = new();
@@ -67,6 +68,7 @@ namespace SlyPirates.Shared.Ecs
             }
             _columns = columns.ToArray();
             _componentIds = ids.ToArray();
+            _restoreComponents = new ComponentId[_columns.Length];
             _syncIds = (HistoryColumn<SyncId>)columns.Find(c => c.Id == syncId)!;
             _ownershipChanges = world.ForEachChange<SyncId>(syncId, OnOwnershipChanged);
             _pendingChanges = world.ForEachChange<PendingDestroy>(pendingId, OnPendingChanged);
@@ -247,19 +249,35 @@ namespace SlyPirates.Shared.Ecs
                         _restored.Add(entity);
                     }
                 }
-                else if (!pending)
+                else
                 {
                     _transitions.Add(entity);
                 }
             }
             if (_transitions.Count != 0)
             {
-                _world.Add<PendingDestroy>(Batch(_transitions));
+                ReadOnlySpan<Entity> entities = Batch(_transitions);
+                _world.Add<PendingDestroy>(entities);
+                // A logically absent entity has no historical components at this tick.
+                _world.Remove(entities, _componentIds);
             }
 
             if (_restored.Count != 0)
             {
                 _world.Remove<PendingDestroy>(Batch(_restored));
+                foreach (Entity entity in _restored)
+                {
+                    int count = 0;
+                    for (int i = 0; i < _columns.Length; i++)
+                    {
+                        if (_columns[i].ContainsAt(tick, entity))
+                        {
+                            _restoreComponents[count++] = _columns[i].Id;
+                        }
+                    }
+
+                    _world.Add(entity, _restoreComponents.AsSpan(0, count));
+                }
             }
 
             for (int i = 0; i < _columns.Length; i++)
@@ -993,6 +1011,7 @@ namespace SlyPirates.Shared.Ecs
         protected HistoryColumn(ComponentId id) => Id = id;
         public abstract void Capture(int tick, bool replace, List<Entity> appeared, List<Entity> disappeared);
         public abstract void Restore(int tick);
+        public abstract bool ContainsAt(int tick, Entity entity);
         public abstract void Rollback(int tick);
         public abstract void DropFirst();
         public abstract void Export(WorldData snapshot, int tick, Dictionary<Entity, int> syncIds);
@@ -1185,6 +1204,8 @@ namespace SlyPirates.Shared.Ecs
             _stateTick = tick;
             return _state;
         }
+
+        public override bool ContainsAt(int tick, Entity entity) => StateAt(tick).TryGetValue(entity, out _);
 
         public override void Restore(int tick)
         {
