@@ -971,6 +971,7 @@
         </member>
         <member name="M:Delta.ECS.World.Destroy(System.ReadOnlySpan{Delta.ECS.Entity})">
             <summary>Destroys the alive entities in a caller-provided span.</summary>
+            <exception cref="T:System.ArgumentException">The span contains the same entity more than once.</exception>
         </member>
         <member name="M:Delta.ECS.World.IsAlive(Delta.ECS.Entity)">
             <summary>Determines whether an entity handle is alive in this world.</summary>
@@ -989,6 +990,7 @@
         </member>
         <member name="M:Delta.ECS.World.Add(System.ReadOnlySpan{Delta.ECS.Entity},System.ReadOnlySpan{Delta.ECS.ComponentId})">
             <summary>Adds the component set to every entity in a caller-owned batch.</summary>
+            <exception cref="T:System.ArgumentException">The entity span contains duplicates.</exception>
         </member>
         <member name="M:Delta.ECS.World.Add(System.ReadOnlySpan{Delta.ECS.Entity},Delta.ECS.ComponentId[])">
             <summary>Adds the registrations supplied by an array to each entity in a caller-owned batch.</summary>
@@ -1004,6 +1006,7 @@
         </member>
         <member name="M:Delta.ECS.World.Remove(System.ReadOnlySpan{Delta.ECS.Entity},System.ReadOnlySpan{Delta.ECS.ComponentId})">
             <summary>Removes the component set from every entity in a caller-owned batch.</summary>
+            <exception cref="T:System.ArgumentException">The entity span contains duplicates.</exception>
         </member>
         <member name="M:Delta.ECS.World.Remove(System.ReadOnlySpan{Delta.ECS.Entity},Delta.ECS.ComponentId)">
             <summary>Removes one component registration from each entity in a caller-owned batch.</summary>
@@ -1148,6 +1151,7 @@
         <member name="M:Delta.ECS.World.Add``1(System.ReadOnlySpan{Delta.ECS.Entity},``0@)">
             <summary>Adds the primary component for <typeparamref name="T"/> to each entity that does not already have it.</summary>
             <returns>The number of entities whose composition changed.</returns>
+            <exception cref="T:System.ArgumentException">The entity span contains duplicates.</exception>
         </member>
         <member name="M:Delta.ECS.World.Set``1(Delta.ECS.Entity,``0@)">
             <summary>Sets the primary component value when the entity already has the component.</summary>
@@ -1161,10 +1165,12 @@
         <member name="M:Delta.ECS.World.Set``1(System.ReadOnlySpan{Delta.ECS.Entity},``0@)">
             <summary>Sets the primary component on entities that already have it.</summary>
             <returns>The number of entities whose value or tag change was applied.</returns>
+            <exception cref="T:System.ArgumentException">The entity span contains duplicates.</exception>
         </member>
         <member name="M:Delta.ECS.World.Set``1(System.ReadOnlySpan{Delta.ECS.Entity},Delta.ECS.ComponentId,``0@)">
             <summary>Sets the selected component on entities that already have it.</summary>
             <returns>The number of entities whose value or tag change was applied.</returns>
+            <exception cref="T:System.ArgumentException">The entity span contains duplicates.</exception>
         </member>
         <member name="M:Delta.ECS.World.AddOrSet``1(Delta.ECS.Entity,``0@)">
             <summary>Adds or sets the primary component value on one entity.</summary>
@@ -1174,9 +1180,11 @@
         </member>
         <member name="M:Delta.ECS.World.AddOrSet``1(System.ReadOnlySpan{Delta.ECS.Entity},``0@)">
             <summary>Adds or sets the primary component value on each entity.</summary>
+            <exception cref="T:System.ArgumentException">The entity span contains duplicates.</exception>
         </member>
         <member name="M:Delta.ECS.World.AddOrSet``1(System.ReadOnlySpan{Delta.ECS.Entity},Delta.ECS.ComponentId,``0@)">
             <summary>Adds or sets the selected component value on each entity.</summary>
+            <exception cref="T:System.ArgumentException">The entity span contains duplicates.</exception>
         </member>
         <member name="M:Delta.ECS.World.Remove``1(Delta.ECS.Entity)">
             <summary>Removes the primary component for <typeparamref name="T"/> from one entity.</summary>
