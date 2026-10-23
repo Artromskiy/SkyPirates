@@ -1,5 +1,6 @@
 using Delta;
 using Delta.ECS;
+using Delta.ECS.Unity;
 using Common.Rendering;
 using Common.Rendering.HexTerrainStencilShadow;
 using Common.Rendering.SphereOverlay;
@@ -44,6 +45,7 @@ namespace SlyPirates.Client.Systems
         private readonly Vector2[] _sourceUvs;
         private readonly FaceTriangle[] _sourceTriangles;
         private readonly ComponentChangeOperation<HexTile> _tileChanges;
+        private readonly Query _tilesToHide;
         private readonly ComponentChangeOperation<TileId> _tileIdChanges;
         private readonly ComponentChangeOperation<PendingDestroy> _lifetimeChanges;
         private readonly List<ChunkKey> _dirtyQueue = new();
@@ -104,6 +106,7 @@ namespace SlyPirates.Client.Systems
             _root = new GameObject("Hex Map Chunks");
             _root.AddComponent<SphereOverlayReceiverView>();
 
+            _tilesToHide = world.WhereAll<HexTile>().WhereNone<HideFromEntityHierarchy>();
             _tileChanges = world.ForEachChange<HexTile>(world.Components.GetPrimary<HexTile>(), OnHexTileChanged);
             _tileIdChanges = world.ForEachChange<TileId>(world.Components.GetPrimary<TileId>(), OnTileIdChanged);
             _lifetimeChanges = world.ForEachChange<PendingDestroy>(world.Components.GetPrimary<PendingDestroy>(), OnLifetimeChanged);
@@ -113,6 +116,7 @@ namespace SlyPirates.Client.Systems
 
         public void Tick(int tick)
         {
+            _world.Add<HideFromEntityHierarchy>(in _tilesToHide);
             _tileChanges.Invoke();
             _tileIdChanges.Invoke();
             _lifetimeChanges.Invoke();
