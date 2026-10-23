@@ -15,6 +15,8 @@ namespace SlyPirates.Shared.Systems
 {
     public sealed class HexMapCollisionSystem : IDeltaTickableExecutor
     {
+        private const int MaxClimbElevation = 2;
+
         private Query? _descCache;
         private Query _desc => _descCache ??= _world.
             WhereAll<Position, CachePosition, Radius, Collide>().Alive().NotDisabled();
@@ -37,10 +39,17 @@ namespace SlyPirates.Shared.Systems
             _solveMovement = world.ForEach<(HexMap HexMap, ThreadLocal<SegmentBuffer> SegmentsCache), Position, CachePosition, Radius>(in desc, ref _state,
                 static (ref (HexMap HexMap, ThreadLocal<SegmentBuffer> SegmentsCache) state, ref Position position, in CachePosition cachePosition, in Radius radius) =>
                 {
+                    int3 source = Hex.WorldToAxial(cachePosition.Value);
+                    if (!TryGetSurfaceElevation(state.HexMap, source.xz, out int sourceElevation))
+                    {
+                        position.Value = cachePosition;
+                        return;
+                    }
+
                     SegmentBuffer buffer = state.SegmentsCache.Value;
                     var segments = buffer.Segments;
                     segments.Clear();
-                    FindSegments(state.HexMap, segments, cachePosition);
+                    FindSegments(state.HexMap, segments, source.xz, sourceElevation);
                     if (buffer.Array.Length < segments.Count)
                     {
                         Array.Resize(ref buffer.Array, Math.Max(segments.Count, buffer.Array.Length * 2));
@@ -56,7 +65,18 @@ namespace SlyPirates.Shared.Systems
                     }
                     catch { failed = true; }
                     position.Value.xz = solvedPos;
-                    failed |= !IsWalkable(state.HexMap, Hex.WorldToAxial(position.Value));
+                    int3 destination = Hex.WorldToAxial(position.Value);
+                    if (!failed
+                        && TryGetSurfaceElevation(state.HexMap, destination.xz, out int destinationElevation)
+                        && destinationElevation - sourceElevation <= MaxClimbElevation)
+                    {
+                        position.Value.y = Hex.AxialToWorldY(destinationElevation);
+                    }
+                    else
+                    {
+                        failed = true;
+                    }
+
                     if (failed)
                     {
                         position.Value = cachePosition;
@@ -83,19 +103,18 @@ namespace SlyPirates.Shared.Systems
             _solveMovement.Invoke(ref _state);
         }
 
-        private static void FindSegments(HexMap hexMap, List<Segment> segments, fix3 from)
+        private static void FindSegments(HexMap hexMap, List<Segment> segments, int2 from, int sourceElevation)
         {
-            var axialFrom = Hex.WorldToAxial(from);
-
             foreach (var item in Hex.AxialNear)
             {
-                var offsetted = item.x_y + axialFrom;
-                if (IsWalkable(hexMap, offsetted))
+                int2 neighbor = item + from;
+                if (TryGetSurfaceElevation(hexMap, neighbor, out int destinationElevation)
+                    && destinationElevation - sourceElevation <= MaxClimbElevation)
                 {
                     continue;
                 }
 
-                var worldFloor = Hex.AxialToWorld(offsetted.xz);
+                var worldFloor = Hex.AxialToWorld(neighbor);
                 for (int i = 0; i < Hex.Points.Length; i++)
                 {
                     var s = worldFloor + Hex.Points[i];
@@ -113,13 +132,39 @@ namespace SlyPirates.Shared.Systems
 
         internal static bool IsWalkable(HexMap hexMap, int3 axial)
         {
-            bool zero = hexMap.Data.ContainsKey(axial);
-            var up = new int3(0, 1, 0);
-            bool p1 = hexMap.Data.ContainsKey(axial + up);
-            bool p2 = hexMap.Data.ContainsKey(axial + up * 2);
-            bool p3 = hexMap.Data.ContainsKey(axial + up * 3);
-            bool m1 = hexMap.Data.ContainsKey(axial - up);
-            return (zero && !p1 && !p2) || (p1 && !p2 && !p3) || (m1 && !zero && !p1);
+            return TryGetSurfaceElevation(hexMap, axial.xz, out int elevation)
+                && Math.Abs((long)axial.y - elevation) <= 1;
+        }
+
+        private static bool TryGetSurfaceElevation(HexMap hexMap, int2 column, out int elevation)
+        {
+            if (hexMap.SurfaceElevations != null)
+            {
+                return hexMap.SurfaceElevations.TryGetValue(column, out elevation);
+            }
+
+            // Keep direct callers working with maps created without HexMapUpdateSystem.
+            if (hexMap.Data != null)
+            {
+                bool found = false;
+                elevation = int.MinValue;
+                foreach (int3 coordinate in hexMap.Data.Keys)
+                {
+                    if (coordinate.x == column.x && coordinate.z == column.y && coordinate.y > elevation)
+                    {
+                        elevation = coordinate.y;
+                        found = true;
+                    }
+                }
+
+                if (found)
+                {
+                    return true;
+                }
+            }
+
+            elevation = default;
+            return false;
         }
     }
 }

@@ -10,5 +10,6 @@ namespace SlyPirates.Shared.Components.Config
     public struct HexMap
     {
         public Dictionary<int3, TileId> Data;
+        public Dictionary<int2, int> SurfaceElevations;
     }
 }

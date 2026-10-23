@@ -25,10 +25,32 @@ namespace SlyPirates.Shared.Core.Physics
 		public static bool CircleCast(fix2 from, fix2 to, fix radius, out Collision collision)
 		{
 			fix bestSqrDist = fix.MaxValue;
+			var sqrRadius = radius * radius;
+			var movement = to - from;
 			collision = default;
 			bool found = false;
 			foreach (var segment in Segments.Span)
 			{
+				var projection = Spatial.Projection(from, segment.Start, segment.End);
+				var separation = from - projection;
+				var sqrDistance = fix2.SqrLength(separation);
+				if (sqrDistance < sqrRadius && sqrDistance > fix.Zero)
+				{
+					// A drop can leave the circle overlapping the cliff behind it.
+					// Allow it to leave the overlap; block only movement into the wall.
+					if (fix2.Dot(movement, separation) < fix.Zero)
+					{
+						Spatial.CombineCollision(fix.Zero, new Collision
+						{
+							Contact = from,
+							Normal = separation * Maths.InverseSqrt(sqrDistance),
+						}, ref bestSqrDist, ref collision);
+						found = true;
+					}
+
+					continue;
+				}
+
 				var dir = segment.End - segment.Start;
 
 				var normal = new fix2(-dir.y, dir.x);
@@ -58,27 +80,6 @@ namespace SlyPirates.Shared.Core.Physics
 				var offsetted2 = new Segment(segment.Start - offset, segment.End - offset);
 				found |= Spatial.Intersects(offsetted1, from, to, ref bestSqrDist, ref collision);
 				found |= Spatial.Intersects(offsetted2, from, to, ref bestSqrDist, ref collision);
-
-				var sqrRadius = radius * radius;
-				if (bestSqrDist < sqrRadius)
-                {
-                    continue;
-                }
-
-                var proj = Spatial.Projection(from, segment.Start, segment.End);
-				var delta = from - proj;
-				var sqrDist = fix2.SqrLength(delta);
-				if (sqrDist < sqrRadius)
-				{
-					var normalInside = sqrDist == fix.Zero ? normal : delta * Maths.InverseSqrt(sqrDist);
-					var currentCollision = new Collision
-					{
-						Normal = normalInside,
-						Contact = proj + normalInside * radius,
-					};
-					Spatial.CombineCollision(sqrRadius, currentCollision, ref bestSqrDist, ref collision);
-					found |= true;
-				}
 			}
 			return found;
 		}

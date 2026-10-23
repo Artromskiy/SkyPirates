@@ -13,6 +13,7 @@ namespace SlyPirates.Shared.Systems
         private readonly World _world;
         private readonly Dictionary<Entity, int3> _coordinatesByEntity = new();
         private readonly Dictionary<int3, TileId> _tiles;
+        private readonly Dictionary<int2, int> _surfaceElevations;
         private readonly ComponentChangeOperation<HexTile> _hexTileChanges;
         private readonly ComponentChangeOperation<TileId> _tileIdChanges;
         private readonly ComponentChangeOperation<PendingDestroy> _lifetime;
@@ -22,7 +23,12 @@ namespace SlyPirates.Shared.Systems
             _world = world;
             Entity mapEntity = world.Create<HexMap>();
             _tiles = new Dictionary<int3, TileId>();
-            world.GetRef<HexMap>(mapEntity).Data = _tiles;
+            _surfaceElevations = new Dictionary<int2, int>();
+            world.GetRef<HexMap>(mapEntity) = new HexMap
+            {
+                Data = _tiles,
+                SurfaceElevations = _surfaceElevations
+            };
             _hexTileChanges = world.ForEachChange<HexTile>(world.Components.GetPrimary<HexTile>(), OnHexTileChanged);
             _tileIdChanges = world.ForEachChange<TileId>(world.Components.GetPrimary<TileId>(), OnTileIdChanged);
             _lifetime = world.ForEachChange<PendingDestroy>(world.Components.GetPrimary<PendingDestroy>(), OnLifetimeChanged);
@@ -104,6 +110,11 @@ namespace SlyPirates.Shared.Systems
 
             _coordinatesByEntity[entity] = coordinate;
             _tiles[coordinate] = tileId;
+            int2 column = coordinate.xz;
+            if (!_surfaceElevations.TryGetValue(column, out int elevation) || coordinate.y > elevation)
+            {
+                _surfaceElevations[column] = coordinate.y;
+            }
         }
 
         private void RemoveTile(Entity entity)
@@ -115,6 +126,28 @@ namespace SlyPirates.Shared.Systems
 
             _coordinatesByEntity.Remove(entity);
             _tiles.Remove(coordinate);
+            int2 column = coordinate.xz;
+            if (!_surfaceElevations.TryGetValue(column, out int surface) || surface != coordinate.y)
+            {
+                return;
+            }
+
+            for (int offset = 1; offset <= _tiles.Count; offset++)
+            {
+                int elevation = surface - offset;
+                if (elevation >= surface)
+                {
+                    break;
+                }
+
+                if (_tiles.ContainsKey(new int3(column.x, elevation, column.y)))
+                {
+                    _surfaceElevations[column] = elevation;
+                    return;
+                }
+            }
+
+            _surfaceElevations.Remove(column);
         }
 
         private static int3 ToCoordinate(in HexTile tile)
