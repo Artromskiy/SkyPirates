@@ -76,7 +76,7 @@ namespace SlyPirates.Shared.Systems
             _targetsCache.Clear();
             FindEntityTargets(in searchDistance, in searchPosition, in team, _targetsCache);
 
-            var origin = ((fix3)position).xz;
+            var origin = (fix3)position;
 
             Entity? best = null;
             fix bestDist = fix.MaxValue;
@@ -84,8 +84,7 @@ namespace SlyPirates.Shared.Systems
 
             foreach (var target in _targetsCache)
             {
-                var targetPosXZ = target.Position.xz;
-                var dist = fix2.SqrDistance(targetPosXZ, origin);
+                var dist = fix3.SqrDistance(target.Position, origin);
 
                 if (best == null || dist < bestDist)
                 {
@@ -128,13 +127,12 @@ namespace SlyPirates.Shared.Systems
             in TeamId team,
             List<TargetEntry> targets)
         {
-            var center = ((fix3)searchPosition).xz;
+            var center = (fix3)searchPosition;
             fix distance = searchDistance;
 
             var range = new fix2(distance, distance);
-            var min = GetQuantizedSquare(center - range);
-            var max = GetQuantizedSquare(center + range);
-            var searchPositionXZ = center;
+            var min = GetQuantizedSquare(center.xz - range);
+            var max = GetQuantizedSquare(center.xz + range);
             var sqrSearchDistance = distance * distance;
 
             foreach (var kv in _targets)
@@ -158,7 +156,7 @@ namespace SlyPirates.Shared.Systems
                         for (int i = 0; i < list.Count; i++)
                         {
                             var target = list[i];
-                            if (fix2.SqrDistance(target.Position.xz, searchPositionXZ) <
+                            if (fix3.SqrDistance(target.Position, center) <
                                 sqrSearchDistance)
                             {
                                 targets.Add(target);

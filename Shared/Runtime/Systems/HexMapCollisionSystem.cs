@@ -40,11 +40,7 @@ namespace SlyPirates.Shared.Systems
                 static (ref (HexMap HexMap, ThreadLocal<SegmentBuffer> SegmentsCache) state, ref Position position, in CachePosition cachePosition, in Radius radius) =>
                 {
                     int3 source = Hex.WorldToAxial(cachePosition.Value);
-                    if (!TryGetSurfaceElevation(state.HexMap, source.xz, out int sourceElevation))
-                    {
-                        position.Value = cachePosition;
-                        return;
-                    }
+                    int sourceElevation = source.y;
 
                     SegmentBuffer buffer = state.SegmentsCache.Value;
                     var segments = buffer.Segments;
@@ -65,10 +61,8 @@ namespace SlyPirates.Shared.Systems
                     }
                     catch { failed = true; }
                     position.Value.xz = solvedPos;
-                    int3 destination = Hex.WorldToAxial(position.Value);
                     if (!failed
-                        && TryGetSurfaceElevation(state.HexMap, destination.xz, out int destinationElevation)
-                        && destinationElevation - sourceElevation <= MaxClimbElevation)
+                        && TryGetSupportElevation(state.HexMap, solvedPos, radius, sourceElevation, out int destinationElevation))
                     {
                         position.Value.y = Hex.AxialToWorldY(destinationElevation);
                     }
@@ -128,6 +122,41 @@ namespace SlyPirates.Shared.Systems
         {
             public readonly List<Segment> Segments = new();
             public Segment[] Array = System.Array.Empty<Segment>();
+        }
+
+        private static bool TryGetSupportElevation(HexMap map, fix2 position, fix radius, int sourceElevation, out int elevation)
+        {
+            int2 column = Hex.WorldToAxial(position);
+            int maxElevation = sourceElevation + MaxClimbElevation;
+            fix sqrRadius = radius * radius;
+            bool found = TryGetSurfaceElevation(map, column, out elevation) && elevation <= maxElevation;
+            if (!found)
+            {
+                elevation = int.MinValue;
+            }
+
+            foreach (int2 offset in Hex.AxialNear)
+            {
+                int2 neighbor = column + offset;
+                if (!TryGetSurfaceElevation(map, neighbor, out int height) || height <= elevation || height > maxElevation)
+                {
+                    continue;
+                }
+
+                // Fold the hex into its first quadrant: only the top edge and one diagonal remain.
+                fix2 local = position - Hex.AxialToWorld(neighbor);
+                local = new fix2(Maths.Abs(local.x), Maths.Abs(local.y));
+                fix2 closest = local.x <= Hex.OuterRadius / 2
+                    ? new fix2(local.x, Hex.InnerRadius)
+                    : Spatial.Projection(local, Hex.Points[0], Hex.Points[1]);
+                if (fix2.SqrDistance(local, closest) <= sqrRadius)
+                {
+                    elevation = height;
+                    found = true;
+                }
+            }
+
+            return found;
         }
 
         internal static bool IsWalkable(HexMap hexMap, int3 axial)

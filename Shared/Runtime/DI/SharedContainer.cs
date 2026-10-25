@@ -118,7 +118,6 @@ namespace SlyPirates.Shared.DI
             typeof(MoveSystem),
             typeof(SeparationSystem),
             typeof(HexMapCollisionSystem),
-            typeof(SimpleHeightSystem),
             typeof(SimpleBehaviourSystem),
             typeof(SinglePreAttackSystem),
             typeof(MultiPreAttackSystem),
