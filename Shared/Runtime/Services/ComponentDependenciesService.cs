@@ -13,14 +13,16 @@ namespace SlyPirates.Shared.Services
     {
         private readonly World _world;
         private readonly Dependency[] _dependencies;
+        private readonly IOperation<HashSet<Entity>>[] _collectCandidates;
         private readonly HashSet<ComponentId> _expanded = new();
-        private readonly HashSet<Entity> _candidates = new();
+        private HashSet<Entity> _candidates = new();
         private ComponentId[] _components = Array.Empty<ComponentId>();
 
         public ComponentDependenciesService(World world, ComponentDependenciesConfig dependencies)
         {
             _world = world;
             _dependencies = new Dependency[dependencies.Count];
+            var collectCandidates = new List<IOperation<HashSet<Entity>>>();
             ComponentId alive = world.Components.GetPrimary<Alive>();
 
             for (int i = 0; i < _dependencies.Length; i++)
@@ -32,31 +34,25 @@ namespace SlyPirates.Shared.Services
                 has.CopyTo(queryComponents, 0);
                 queryComponents[has.Length] = alive;
 
-                var dependency = new Dependency(world, has, add, world.WhereAll(queryComponents), _candidates);
-                dependency.CollectCandidates = world.ForEachEntity<TickState>(in dependency.Query,
-                    ref dependency.State,
-                    static (ref TickState state, EntityRef entity) =>
-                    {
-                        for (int i = 0; i < state.Add.Length; i++)
-                        {
-                            if (!state.World.Has(entity, state.Add[i]))
-                            {
-                                state.Candidates.Add(entity);
-                                return;
-                            }
-                        }
-                    });
-                _dependencies[i] = dependency;
+                for (int j = 0; j < add.Length; j++)
+                {
+                    Query query = world.WhereAll(queryComponents).WhereNone(add[j]);
+                    collectCandidates.Add(world.ForEachEntity<HashSet<Entity>>(in query, ref _candidates,
+                        static (ref HashSet<Entity> candidates, EntityRef entity) => candidates.Add(entity)));
+                }
+
+                _dependencies[i] = new Dependency(has, add);
             }
+
+            _collectCandidates = collectCandidates.ToArray();
         }
 
         public void Tick(int tick, fix deltaTime)
         {
             _candidates.Clear();
-            for (int i = 0; i < _dependencies.Length; i++)
+            for (int i = 0; i < _collectCandidates.Length; i++)
             {
-                ref Dependency dependency = ref _dependencies[i];
-                dependency.CollectCandidates.Invoke(ref dependency.State);
+                _collectCandidates[i].Invoke(ref _candidates);
             }
 
             foreach (Entity entity in _candidates)
@@ -130,32 +126,11 @@ namespace SlyPirates.Shared.Services
         {
             public readonly ComponentId[] Has;
             public readonly ComponentId[] Add;
-            public readonly Query Query;
-            public TickState State;
-            public IOperation<TickState> CollectCandidates;
 
-            public Dependency(World world, ComponentId[] has, ComponentId[] add, Query query,
-                HashSet<Entity> candidates)
+            public Dependency(ComponentId[] has, ComponentId[] add)
             {
                 Has = has;
                 Add = add;
-                Query = query;
-                State = new TickState(world, add, candidates);
-                CollectCandidates = default!;
-            }
-        }
-
-        private struct TickState
-        {
-            public readonly World World;
-            public readonly ComponentId[] Add;
-            public readonly HashSet<Entity> Candidates;
-
-            public TickState(World world, ComponentId[] add, HashSet<Entity> candidates)
-            {
-                World = world;
-                Add = add;
-                Candidates = candidates;
             }
         }
     }

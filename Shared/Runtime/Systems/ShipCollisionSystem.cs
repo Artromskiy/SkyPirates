@@ -9,11 +9,9 @@ using SlyPirates.Shared.Ecs;
 using SlyPirates.Shared.IServices.TickableExecutors;
 using System;
 using System.Collections.Generic;
-using Delta.Diagnostics;
 
 namespace SlyPirates.Shared.Systems
 {
-    [AgentTip("Class is overcomplicated in terms of math especially 3-depth-loop")]
     public sealed class ShipCollisionSystem : IDeltaTickableExecutor
     {
         private readonly World _world;
@@ -39,28 +37,17 @@ namespace SlyPirates.Shared.Systems
                     state.Segments.Clear();
                     int2 center = Hex.WorldToAxial(from);
                     int range = (int)Maths.Ceil((fix2.Distance(from, to) + radius.Value + Hex.OuterRadius) / Hex.InnerRadius);
-                    for (int q = -range; q <= range; q++)
+                    ReadOnlySpan<int2> neighbors = Hex.AxialNear;
+                    int2[] offsets = state.GetSearchOffsets(range);
+                    for (int i = 0; i < offsets.Length; i++)
                     {
-                        for (int r = -range; r <= range; r++)
+                        int2 column = center + offsets[i];
+                        if (!state.Map.SurfaceElevations.ContainsKey(column))
                         {
-                            int2 column = center + new int2(q, r);
-                            if (!state.Map.SurfaceElevations.ContainsKey(column))
-                            {
-                                continue;
-                            }
-
-                            fix2 tilePosition = Hex.AxialToWorld(column);
-                            for (int edge = 0; edge < Hex.Points.Length; edge++)
-                            {
-                                if (state.Map.SurfaceElevations.ContainsKey(column + Hex.AxialNear[(edge + 1) % 6]))
-                                {
-                                    continue;
-                                }
-
-                                state.Segments.Add(new Segment(tilePosition + Hex.Points[edge],
-                                    tilePosition + Hex.Points[(edge + 1) % 6]));
-                            }
+                            continue;
                         }
+
+                        AddBoundarySegments(state.Map.SurfaceElevations, column, neighbors, state.Segments);
                     }
 
                     if (state.Buffer.Length < state.Segments.Count)
@@ -87,11 +74,53 @@ namespace SlyPirates.Shared.Systems
             _collide.Invoke(ref _state);
         }
 
+        private static void AddBoundarySegments(Dictionary<int2, int> surfaceElevations, int2 column,
+            ReadOnlySpan<int2> neighbors, List<Segment> segments)
+        {
+            fix2 tilePosition = Hex.AxialToWorld(column);
+            ReadOnlySpan<fix2> points = Hex.Points;
+            for (int edge = 0; edge < points.Length; edge++)
+            {
+                int next = (edge + 1) % points.Length;
+                if (surfaceElevations.ContainsKey(column + neighbors[next]))
+                {
+                    continue;
+                }
+
+                segments.Add(new Segment(tilePosition + points[edge], tilePosition + points[next]));
+            }
+        }
+
         private sealed class CollisionState
         {
+            private readonly Dictionary<int, int2[]> _searchOffsetsByRange = new();
+
             public HexMap Map;
             public readonly List<Segment> Segments = new();
             public Segment[] Buffer = Array.Empty<Segment>();
+
+            public int2[] GetSearchOffsets(int range)
+            {
+                if (_searchOffsetsByRange.TryGetValue(range, out int2[] offsets))
+                {
+                    return offsets;
+                }
+
+                var result = new List<int2>();
+                for (int q = -range; q <= range; q++)
+                {
+                    int minR = q < 0 ? -range - q : -range;
+                    int maxR = q > 0 ? range - q : range;
+                    for (int r = minR; r <= maxR; r++)
+                    {
+                        result.Add(new int2(q, r));
+                    }
+                }
+
+                offsets = result.ToArray();
+                _searchOffsetsByRange.Add(range, offsets);
+                return offsets;
+            }
         }
     }
 }
