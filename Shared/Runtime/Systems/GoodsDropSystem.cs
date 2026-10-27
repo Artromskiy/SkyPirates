@@ -209,7 +209,6 @@ namespace SlyPirates.Shared.Systems
             }
         }
 
-        [AgentTip("Overcomplicated 2-nested-loop")]
         private static fix3 FindDropPosition(HexMap map, Position origin, fix xOffset, fix zOffset)
         {
             fix3 originPosition = origin;
@@ -219,53 +218,17 @@ namespace SlyPirates.Shared.Systems
                 return new fix3(desiredPosition.x, originPosition.y, desiredPosition.y);
             }
 
-            fix maxDistanceSquared = DropRange * DropRange;
-            fix nearestDistanceSquared = maxDistanceSquared;
-            int2 center = Hex.WorldToAxial(desiredPosition);
-            int range = (int)Maths.Ceil(DropRange / Hex.InnerRadius) + 1;
-            int2 nearestColumn = default;
-            int nearestElevation = default;
-            bool found = false;
-
-            for (int q = -range; q <= range; q++)
+            int2 landingColumn = Hex.WorldToAxial(desiredPosition);
+            if (!map.SurfaceElevations.TryGetValue(landingColumn, out int landingElevation))
             {
-                for (int r = -range; r <= range; r++)
+                landingColumn = Hex.WorldToAxial(originPosition.xz);
+                if (!map.SurfaceElevations.TryGetValue(landingColumn, out landingElevation))
                 {
-                    int2 column = center + new int2(q, r);
-                    if (!map.SurfaceElevations.TryGetValue(column, out int elevation))
-                    {
-                        continue;
-                    }
-
-                    fix3 hexCenter = Hex.AxialToWorld(new int3(column.x, elevation, column.y));
-                    fix distanceSquared = fix2.SqrDistance(desiredPosition, hexCenter.xz);
-                    if (distanceSquared > nearestDistanceSquared)
-                    {
-                        continue;
-                    }
-
-                    if (found && distanceSquared == nearestDistanceSquared
-                              && Compare(column, nearestColumn) >= 0)
-                    {
-                        continue;
-                    }
-
-                    found = true;
-                    nearestDistanceSquared = distanceSquared;
-                    nearestColumn = column;
-                    nearestElevation = elevation;
+                    return originPosition;
                 }
             }
 
-            if (!found)
-            {
-                int2 originColumn = Hex.WorldToAxial(originPosition.xz);
-                return map.SurfaceElevations.TryGetValue(originColumn, out int originElevation)
-                    ? Hex.AxialToWorld(new int3(originColumn.x, originElevation, originColumn.y))
-                    : originPosition;
-            }
-
-            fix3 landingPosition = Hex.AxialToWorld(new int3(nearestColumn.x, nearestElevation, nearestColumn.y));
+            fix3 landingPosition = Hex.AxialToWorld(new int3(landingColumn.x, landingElevation, landingColumn.y));
             return FindLastFreeDropPosition(map, originPosition, landingPosition);
         }
 
@@ -317,12 +280,6 @@ namespace SlyPirates.Shared.Systems
             fix2 xz = start.xz + (end.xz - start.xz) * percent;
             fix y = Maths.Lerp(start.y, end.y, percent) + 4 * percent * (1 - percent) * arcHeight;
             return new fix3(xz.x, y, xz.y);
-        }
-
-        private static int Compare(int2 left, int2 right)
-        {
-            int x = left.x.CompareTo(right.x);
-            return x != 0 ? x : left.y.CompareTo(right.y);
         }
 
         private struct DropInfo
