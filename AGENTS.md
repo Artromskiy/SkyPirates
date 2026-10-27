@@ -9,3 +9,7 @@
 - For a replaceable view load, cancel and dispose the previous `CancellationTokenSource` before starting a new request. Keep the new source as the active request and pass its token to the loader.
 - After `await`, compare the captured source with the active source. If it is stale, release any returned instance through `AddressableLoader` and ignore it. Cancel and dispose the active source when releasing the view.
 - Do not inspect `CancellationTokenSource.IsCancellationRequested` after `await` to decide what a `null` result means. If the loader returns `null`, return immediately.
+
+## Sheet parser boundary
+
+- Do not modify `Shared/Runtime/Core/Sheets/SheetParser.cs` or its generic DSV parsing behavior. Adapt sheet layouts, converters, and consuming code instead.

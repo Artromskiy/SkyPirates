@@ -100,6 +100,7 @@ namespace SlyPirates.Shared.DI
             typeof(EntityCacheSystem),
             typeof(HexMapUpdateSystem),
             typeof(FramedComponentsSystem), // cleanups
+            typeof(ComponentDependenciesService), // apply the shared component dependency table
             typeof(FlagDisabledSystem),
             typeof(CachePositionSystem),
             typeof(SetDestinationSystem),
@@ -117,6 +118,7 @@ namespace SlyPirates.Shared.DI
             typeof(SetTargetDestinationSystem), // sets destination to target or skips
             typeof(MoveSystem),
             typeof(SeparationSystem),
+            typeof(ShipCollisionSystem),
             typeof(HexMapCollisionSystem),
             typeof(SimpleBehaviourSystem),
             typeof(SinglePreAttackSystem),

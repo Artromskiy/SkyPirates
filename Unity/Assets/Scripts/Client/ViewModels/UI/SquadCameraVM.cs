@@ -7,6 +7,7 @@ using SlyPirates.Client.IViewModels;
 using SlyPirates.Shared.Components.Config;
 using SlyPirates.Shared.Data;
 using SlyPirates.Shared.IServices;
+using SlyPirates.Shared.Ecs;
 
 namespace SlyPirates.Client.ViewModels.UI
 {
@@ -48,6 +49,10 @@ namespace SlyPirates.Client.ViewModels.UI
 
                 SyncId syncId = new() { Value = _player.CurrentEntityId.Value };
                 _entityRegistry.TryGet(syncId, out var squad);
+                if (_world.TryGet(squad, out OnShip passenger))
+                {
+                    squad = _world.GetEntity(passenger.ShipId);
+                }
                 if (_world.IsAlive(squad) && _world.Has<Position>(squad))
                 {
                     return (float3)_world.Get<Position>(squad).Value;
@@ -98,6 +103,11 @@ namespace SlyPirates.Client.ViewModels.UI
             if (!_entityRegistry.TryGet(_player.CurrentEntityId.Value, out var squad))
             {
                 return range;
+            }
+
+            if (_world.TryGet(squad, out OnShip passenger))
+            {
+                squad = _world.GetEntity(passenger.ShipId);
             }
 
             float searchDistance = (float)_world.Get<TargetSearchDistance>(squad).Value;

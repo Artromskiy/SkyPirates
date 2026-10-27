@@ -16,47 +16,47 @@ MonoBehaviour:
   m_GUID: 60fc7d4485a5c4212a21301152e0ca70
   m_SerializeEntries:
   - m_GUID: 0b543c738273a9f4db1ebcbf2a5b5064
-    m_Address: units/buccaneer/icon
+    m_Address: units.buccaneer.icon
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 57b7af96800d6154e8c68aa021d282d3
-    m_Address: units/militia/icon
+    m_Address: units.militia.icon
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 82b467bdeca8bdf4e8140e2c5fac44bd
-    m_Address: units/skelly/icon
+    m_Address: units.skelly.icon
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 858472270a3b28d40ab714d164390648
-    m_Address: units/pirate/icon
+    m_Address: units.pirate.icon
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 873462d4a63c51b4eb5beafac204a2c8
-    m_Address: units/daemon/icon
+    m_Address: units.daemon.icon
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 919059167ffba114a9bd434bdab302f5
-    m_Address: units/imp/icon
+    m_Address: units.imp.icon
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: b6a90fbad59a862439c97ade114d2fa3
-    m_Address: units/sailor/icon
+    m_Address: units.sailor.icon
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: c51eb1257e2b1b14eb5e089f71cff65f
-    m_Address: units/bonny/icon
+    m_Address: units.bonny.icon
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: fa741ed7ec933a443a7c72547b48fa82
-    m_Address: units/rogue/icon
+    m_Address: units.rogue.icon
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

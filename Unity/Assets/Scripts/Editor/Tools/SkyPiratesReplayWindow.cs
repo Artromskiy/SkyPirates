@@ -13,7 +13,7 @@ namespace SlyPirates.Editor
         private SkyPiratesReplayController? _replayController;
         private long _frame;
 
-        [MenuItem("Sky Pirates/Tools/Replay")]
+        [MenuItem("SkyPirates/Replay")]
         private static void Open() => GetWindow<SkyPiratesReplayWindow>("Sky Pirates Replay");
 
         private void OnEnable() => EditorApplication.update += Repaint;

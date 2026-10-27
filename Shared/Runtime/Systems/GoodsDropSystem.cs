@@ -19,7 +19,7 @@ namespace SlyPirates.Shared.Systems
         private static readonly fix DropRange = fix.One * 5 / 2;
         private Query? _createDescCache;
         private Query _createDesc => _createDescCache ??= _world.
-            WhereAll<Health, GoodsDrop, Position, SyncId, SyncIdReserve, RandomSeed>().Alive().NotDisabled();
+            WhereAll<Health, Position, SyncId, SyncIdReserve, RandomSeed>().Alive().NotDisabled();
 
         private readonly World _world;
         private readonly IConfigedEntityFactory<GoodsId> _configedEntityFactory;
@@ -60,7 +60,9 @@ namespace SlyPirates.Shared.Systems
             foreach (var deadEntity in _dead)
             {
                 Entity entity = deadEntity.Entity;
-                var values = _world.Get<GoodsDrop>(entity).Values.ToBuilder();
+                var values = _world.TryGet(entity, out GoodsDrop entityGoods)
+                    ? entityGoods.Values.ToBuilder()
+                    : ImmutableSortedDictionary.CreateBuilder<GoodsId, int>();
                 Entity squad = default;
                 ImmutableSortedDictionary<GoodsId, int>.Builder? squadValues = null;
                 bool tookSquadGoods = false;
@@ -183,13 +185,13 @@ namespace SlyPirates.Shared.Systems
                 var drop = _configedEntityFactory.Create((item.GoodsId, parameters));
                 _world.GetRef<Position>(drop) = item.Position;
                 _world.GetRef<Rotation>(drop) = item.Rotation;
-                _world.GetOrAdd<GoodsAmount>(drop) = item.Amount;
+                _world.AddOrSet(drop, (GoodsAmount)item.Amount);
 
-                _world.GetOrAdd<FlyDestination>(drop) = new()
+                _world.AddOrSet(drop, new FlyDestination
                 {
                     StartPosition = item.Position,
                     EndPosition = item.Position + item.Direction.x_y,
-                };
+                });
             }
         }
 

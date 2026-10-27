@@ -16,8 +16,6 @@ namespace SlyPirates.Client.ViewModels.UI
         private readonly IEntityRegistry _entityRegistry;
 
         private readonly Dictionary<GoodsId, int> _goods = new();
-        private Query? _squadMembersCache;
-        private Query _squadMembers => _squadMembersCache ??= _world.WhereAll<SquadMember, GoodsDrop>().WhereAll<Alive>();
 
         public GoodsVM(World world, IPlayer player, IEntityRegistry entityRegistry)
         {
@@ -46,37 +44,15 @@ namespace SlyPirates.Client.ViewModels.UI
                     return _goods;
                 }
 
-                var squadGoods = _world.Get<GoodsDrop>(squad);
-                if (squadGoods.Values != null)
+                var goods = _world.Get<GoodsDrop>(squad);
+                if (goods.Values != null)
                 {
-                    foreach (var item in squadGoods.Values)
+                    foreach (var item in goods.Values)
                     {
                         _goods.Add(item.Key, item.Value);
                     }
                 }
 
-                var query = _squadMembers;
-                (int SquadId, Dictionary<GoodsId, int> Goods) goodsState = (_player.SquadEntityId.Value, _goods);
-                _world.ForEach<(int SquadId, Dictionary<GoodsId, int> Goods), SquadMember, GoodsDrop>(in query, ref goodsState, static (ref (int SquadId, Dictionary<GoodsId, int> Goods) context, SquadMember member, GoodsDrop drop) =>
-                {
-                    if (drop.Values == null || member.SquadId != context.SquadId)
-                    {
-                        return;
-                    }
-
-                    foreach (var item in drop.Values)
-                    {
-                        if (item.Value <= 0)
-                        {
-                            continue;
-                        }
-
-                        if (!context.Goods.TryAdd(item.Key, item.Value))
-                        {
-                            context.Goods[item.Key] += item.Value;
-                        }
-                    }
-                }).Invoke(ref goodsState);
                 return _goods;
             }
         }

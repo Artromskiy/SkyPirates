@@ -7,11 +7,7 @@
         "HealLoadPercent": 1
       }
     },
-    "CopyFrom": {
-      "MaxHealth": true
-    },
-    "CopyTo": {
-      "Health": true
-    }
+    "CopyFrom": "MaxHealth",
+    "CopyTo": "Health"
   }
 ]

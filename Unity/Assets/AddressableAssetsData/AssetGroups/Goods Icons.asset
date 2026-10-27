@@ -16,47 +16,47 @@ MonoBehaviour:
   m_GUID: 4b0e59ea8e8654d1fa447ad846629969
   m_SerializeEntries:
   - m_GUID: 212681ee1ab6bcd46adc586710f0a2be
-    m_Address: goods/wood/icon
+    m_Address: goods.wood.icon
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 526859aa06a6d4b4a9f2acf729c6afc0
-    m_Address: goods/gold/icon
+    m_Address: goods.gold.icon
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 59aee2b19787f944fa2fb5c990afd189
-    m_Address: goods/coffee/icon
+    m_Address: goods.coffee.icon
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 683acabfb2813f548969e016acaeabb4
-    m_Address: goods/sugar/icon
+    m_Address: goods.sugar.icon
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 6e4b6f548da58ab40a4b16933dd9708f
-    m_Address: goods/sail/icon
+    m_Address: goods.sail.icon
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 714f93ce84ab9e64bace35e5ce96ba5d
-    m_Address: goods/tea/icon
+    m_Address: goods.tea.icon
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 99e1c3085c55cdb4dae33dfe260b5dfa
-    m_Address: goods/spice/icon
+    m_Address: goods.spice.icon
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: cf0d5eb147b9f8a4596d72c3e3f8aa49
-    m_Address: goods/rope/icon
+    m_Address: goods.rope.icon
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: daa0008703383fb4191f756685caaa0d
-    m_Address: goods/rum/icon
+    m_Address: goods.rum.icon
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

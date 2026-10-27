@@ -1,84 +1,62 @@
 [
   {
-    "Has": {
-      "Squad": true
-    },
-    "Add": {
-      "Position": true,
-      "Rotation": true,
-      "TeamId": true,
-      "Collide": true,
-      "Direction": true,
-      "Fixation": true,
-      "TargetSearchDistance": true
-    }
+    "Has": "Squad",
+    "Add": "Position, Rotation, TeamId, Collide, Direction, Fixation, TargetSearchDistance"
   },
   {
-    "Has": {
-      "UnitId": true
-    },
-    "Add": {
-      "Position": true,
-      "Rotation": true,
-      "TeamId": true,
-      "Collide": true
-    }
+    "Has": "UnitId",
+    "Add": "Position, Rotation, TeamId, Collide"
   },
   {
-    "Has": {
-      "CactusId": true
-    },
-    "Add": {
-      "Position": true,
-      "Rotation": true,
-      "TeamId": true
-    }
+    "Has": "CactusId",
+    "Add": "Position, Rotation, TeamId"
   },
   {
-    "Has": {
-      "TreeId": true
-    },
-    "Add": {
-      "Position": true,
-      "Rotation": true,
-      "TeamId": true
-    }
+    "Has": "TreeId",
+    "Add": "Position, Rotation, TeamId"
   },
   {
-    "Has": {
-      "RockId": true
-    },
-    "Add": {
-      "Position": true,
-      "Rotation": true,
-      "TeamId": true
-    }
+    "Has": "RockId",
+    "Add": "Position, Rotation, TeamId"
   },
   {
-    "Has": {
-      "GoodsId": true
-    },
-    "Add": {
-      "Position": true,
-      "Rotation": true,
-      "GoodsAmount": true
-    }
+    "Has": "GoodsId",
+    "Add": "Position, Rotation, GoodsAmount"
   },
   {
-    "Has": {
-      "MaxHealth": true
-    },
-    "Add": {
-      "AutoHeal": true,
-      "Health": true
-    }
+    "Has": "MaxHealth",
+    "Add": "AutoHeal, Health"
   },
   {
-    "Has": {
-      "BehaviourConfig": true
-    },
-    "Add": {
-      "BehaviourState": true
-    }
+    "Has": "BehaviourConfig",
+    "Add": "BehaviourState"
+  },
+  {
+    "Has": "Ship",
+    "Add": "Position, Rotation, TeamId, Direction, Fixation"
+  },
+  {
+    "Has": "UnitId",
+    "Add": "Target, DesiredPosition, DesiredRotation"
+  },
+  {
+    "Has": "CactusId",
+    "Add": "Targets"
+  },
+  {
+    "Has": "MaxHealth",
+    "Add": "RecivedDamage"
+  },
+  {
+    "Has": "Position",
+    "Add": "CachePosition"
+  },
+  {
+    "Has": "Position, TargetSearchDistance",
+    "Add": "TargetSearchPosition"
+  },
+  {
+    "Has": "Squad",
+    "Add": "SquadMemberCount"
   }
 ]

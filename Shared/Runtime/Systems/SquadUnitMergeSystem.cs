@@ -101,8 +101,8 @@ namespace SlyPirates.Shared.Systems
 
         private Unit Merge(Unit strongest, Unit first, Unit second, Unit third)
         {
-            ref var level = ref _world.GetOrAdd<Level>(strongest.Entity);
-            level.Value = strongest.Level + 1;
+            Level level = strongest.Level + 1;
+            _world.AddOrSet(strongest.Entity, level);
 
             ref var health = ref _world.GetRef<Health>(strongest.Entity);
             health.Value = TripleStat(health.Value);

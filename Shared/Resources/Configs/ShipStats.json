@@ -1,0 +1,16 @@
+[
+  {
+    "ViewToken": {
+      "Value": "ship"
+    },
+    "ShipId": "Kite",
+    "MaxSpeed": 7,
+    "Radius": 0.65,
+    "TargetSearchDistance": 4,
+    "GoodsCollectorRadius": 5,
+    "Ship": {
+      "BoardingRadius": 1.5,
+      "DisembarkDistance": 2
+    }
+  }
+]

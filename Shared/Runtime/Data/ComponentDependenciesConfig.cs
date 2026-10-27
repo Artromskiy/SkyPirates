@@ -3,7 +3,6 @@
 namespace SlyPirates.Shared.Data
 {
     public sealed class ComponentDependenciesConfig : List<ComponentDependenciesData> { }
-    public class FramedComponentDependenciesConfig : List<ComponentDependenciesData> { }
 
     public class ComponentDependenciesData
     {

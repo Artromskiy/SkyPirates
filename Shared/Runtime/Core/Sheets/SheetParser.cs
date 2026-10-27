@@ -9,7 +9,6 @@ namespace SlyPirates.Shared.Core.Sheets
 	public static class SheetParser
 	{
 		private const char Split = '/';
-		private const string Insertion = "{0}";
 		public static JsonArray DsvToJsonObject(string dsv, int headerRows, char separator) =>
 			ParseTable(ParseDsv(dsv, separator), headerRows);
 
@@ -34,9 +33,7 @@ namespace SlyPirates.Shared.Core.Sheets
                     }
 
                     var path = BuildPath(table, c, headerRows);
-					var replace = path.IndexOf(Insertion);
-					path.RemoveAt(replace);
-					path.InsertRange(replace, value.Split(Split));
+					path.AddRange(value.Split(Split));
 
 					Insert(obj, path);
 					hasData = true;
@@ -114,11 +111,6 @@ namespace SlyPirates.Shared.Core.Sheets
 			}
 
 			path.Reverse();
-
-			if (!path.Contains(Insertion))
-            {
-                path.Add(Insertion);
-            }
 
             return path;
 		}

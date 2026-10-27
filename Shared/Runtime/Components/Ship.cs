@@ -12,10 +12,10 @@ namespace SlyPirates.Shared.Components.Runtime
         public SyncId SquadId;
         public fix BoardingRadius;
         public fix DisembarkDistance;
-        /// <summary>Consecutive fixed ticks spent inside BoardingRadius.</summary>
-        public int BoardingTicks;
-        /// <summary>Earliest fixed tick at which the next boarding transition may occur.</summary>
-        public int TransitionReadyTick;
+        /// <summary>Seconds spent continuously inside BoardingRadius.</summary>
+        public fix BoardingElapsedSeconds;
+        /// <summary>Seconds remaining before another ship transition is allowed.</summary>
+        public fix TransitionCooldownSeconds;
         /// <summary>Tracks island-range entry edges, including while transitions are on cooldown.</summary>
         public bool WasInsideDisembarkRange;
     }

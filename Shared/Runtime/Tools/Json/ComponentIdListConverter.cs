@@ -9,48 +9,48 @@ namespace SlyPirates.Shared.Tools.Json
     {
         public override ComponentIdList Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            if (reader.TokenType != JsonTokenType.StartObject)
+            var result = new ComponentIdList();
+            if (reader.TokenType == JsonTokenType.String)
             {
-                throw new JsonException("Component list must be an object.");
+                AddNames(result, reader.GetString());
+                return result;
             }
 
-            var result = new ComponentIdList();
-            while (reader.Read() && reader.TokenType != JsonTokenType.EndObject)
+            if (reader.TokenType != JsonTokenType.StartArray)
             {
-                if (reader.TokenType != JsonTokenType.PropertyName)
-                {
-                    throw new JsonException("Expected a component name.");
-                }
+                throw new JsonException("Component list must be an array of names or a comma-separated name string.");
+            }
 
-                var name = reader.GetString();
-                if (string.IsNullOrWhiteSpace(name))
-                {
-                    throw new JsonException("Component name cannot be empty.");
-                }
+            while (reader.Read() && reader.TokenType != JsonTokenType.EndArray)
+            {
+                if (reader.TokenType != JsonTokenType.String)
+                    throw new JsonException("Component names must be strings.");
 
-                if (!reader.Read() || (reader.TokenType != JsonTokenType.True && reader.TokenType != JsonTokenType.False))
-                {
-                    throw new JsonException("Component list values must be booleans.");
-                }
-
-                if (reader.TokenType == JsonTokenType.True)
-                {
-                    result.Add(name);
-                }
+                AddNames(result, reader.GetString());
             }
 
             return result;
         }
 
+        private static void AddNames(ComponentIdList result, string? names)
+        {
+            if (string.IsNullOrWhiteSpace(names)) return;
+            foreach (string name in names.Split(','))
+            {
+                string trimmed = name.Trim();
+                if (trimmed.Length != 0) result.Add(trimmed);
+            }
+        }
+
         public override void Write(Utf8JsonWriter writer, ComponentIdList value, JsonSerializerOptions options)
         {
-            writer.WriteStartObject();
+            writer.WriteStartArray();
             foreach (var item in value)
             {
-                writer.WriteBoolean(item, true);
+                writer.WriteStringValue(item);
             }
 
-            writer.WriteEndObject();
+            writer.WriteEndArray();
         }
     }
 }

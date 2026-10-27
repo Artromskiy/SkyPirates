@@ -27,12 +27,6 @@
         "None": "None"
       }
     },
-    "GoodsDrop": {
-      "Values": {
-        "Gold": 5,
-        "Rum": 2
-      }
-    },
     "ViewToken": {
       "Value": "unit"
     }
@@ -63,12 +57,6 @@
         "PostAttack": "Reload",
         "Reload": "None",
         "None": "None"
-      }
-    },
-    "GoodsDrop": {
-      "Values": {
-        "Gold": 5,
-        "Rum": 2
       }
     },
     "ViewToken": {
@@ -103,12 +91,6 @@
         "None": "None"
       }
     },
-    "GoodsDrop": {
-      "Values": {
-        "Gold": 5,
-        "Rum": 2
-      }
-    },
     "ViewToken": {
       "Value": "unit"
     }
@@ -139,12 +121,6 @@
         "PostAttack": "Reload",
         "Reload": "None",
         "None": "None"
-      }
-    },
-    "GoodsDrop": {
-      "Values": {
-        "Gold": 5,
-        "Rum": 2
       }
     },
     "ViewToken": {
@@ -179,12 +155,6 @@
         "None": "None"
       }
     },
-    "GoodsDrop": {
-      "Values": {
-        "Gold": 5,
-        "Rum": 2
-      }
-    },
     "ViewToken": {
       "Value": "unit"
     }
@@ -215,12 +185,6 @@
         "PostAttack": "Reload",
         "Reload": "None",
         "None": "None"
-      }
-    },
-    "GoodsDrop": {
-      "Values": {
-        "Gold": 5,
-        "Rum": 2
       }
     },
     "ViewToken": {
@@ -255,22 +219,12 @@
         "None": "None"
       }
     },
-    "GoodsDrop": {
-      "Values": {
-        "Gold": 5,
-        "Rum": 2
-      }
-    },
     "ViewToken": {
       "Value": "unit"
     }
   },
   {
     "UnitId": "Buccaneer",
-    "Ranged": {
-      "ProjectileSpeed": 22,
-      "ProjectileViewToken": "projectile"
-    },
     "MaxHealth": 10,
     "Damage": 15,
     "ImpactDistance": 5,
@@ -295,12 +249,6 @@
         "PostAttack": "Reload",
         "Reload": "None",
         "None": "None"
-      }
-    },
-    "GoodsDrop": {
-      "Values": {
-        "Gold": 5,
-        "Rum": 2
       }
     },
     "ViewToken": {
@@ -333,12 +281,6 @@
         "PostAttack": "Reload",
         "Reload": "None",
         "None": "None"
-      }
-    },
-    "GoodsDrop": {
-      "Values": {
-        "Gold": 5,
-        "Rum": 2
       }
     },
     "ViewToken": {

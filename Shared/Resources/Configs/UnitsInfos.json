@@ -1,65 +1,65 @@
 [
   {
-    "Key": "Sailor",
+    "UnitId": "Sailor",
+    "Cost": 1,
     "LocalizationKey": "units.sailor.name",
-    "Cost": 1,
     "PrefabAddressable": "unit",
-    "IconAddressable": "units/sailor/icon"
+    "IconAddressable": "units.sailor.icon"
   },
   {
-    "Key": "Rogue",
+    "UnitId": "Rogue",
+    "Cost": 1,
     "LocalizationKey": "units.rogue.name",
-    "Cost": 1,
     "PrefabAddressable": "unit",
-    "IconAddressable": "units/rogue/icon"
+    "IconAddressable": "units.rogue.icon"
   },
   {
-    "Key": "Pirate",
+    "UnitId": "Pirate",
+    "Cost": 2,
     "LocalizationKey": "units.pirate.name",
-    "Cost": 2,
     "PrefabAddressable": "unit",
-    "IconAddressable": "units/pirate/icon"
+    "IconAddressable": "units.pirate.icon"
   },
   {
-    "Key": "Skelly",
+    "UnitId": "Skelly",
+    "Cost": 2,
     "LocalizationKey": "units.skelly.name",
-    "Cost": 2,
     "PrefabAddressable": "unit",
-    "IconAddressable": "units/skelly/icon"
+    "IconAddressable": "units.skelly.icon"
   },
   {
-    "Key": "Militia",
-    "LocalizationKey": "units.militia.name",
+    "UnitId": "Militia",
     "Cost": 3,
+    "LocalizationKey": "units.militia.name",
     "PrefabAddressable": "unit",
-    "IconAddressable": "units/militia/icon"
+    "IconAddressable": "units.militia.icon"
   },
   {
-    "Key": "Imp",
-    "LocalizationKey": "units.imp.name",
+    "UnitId": "Imp",
     "Cost": 1,
+    "LocalizationKey": "units.imp.name",
     "PrefabAddressable": "unit",
-    "IconAddressable": "units/imp/icon"
+    "IconAddressable": "units.imp.icon"
   },
   {
-    "Key": "Daemon",
+    "UnitId": "Daemon",
+    "Cost": 2,
     "LocalizationKey": "units.daemon.name",
-    "Cost": 2,
     "PrefabAddressable": "unit",
-    "IconAddressable": "units/daemon/icon"
+    "IconAddressable": "units.daemon.icon"
   },
   {
-    "Key": "Buccaneer",
+    "UnitId": "Buccaneer",
+    "Cost": 2,
     "LocalizationKey": "units.buccaneer.name",
-    "Cost": 2,
     "PrefabAddressable": "unit",
-    "IconAddressable": "units/buccaneer/icon"
+    "IconAddressable": "units.buccaneer.icon"
   },
   {
-    "Key": "Bonny",
-    "LocalizationKey": "units.bonny.name",
+    "UnitId": "Bonny",
     "Cost": 2,
+    "LocalizationKey": "units.bonny.name",
     "PrefabAddressable": "unit",
-    "IconAddressable": "units/bonny/icon"
+    "IconAddressable": "units.bonny.icon"
   }
 ]

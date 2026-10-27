@@ -29,3 +29,5 @@ MonoBehaviour:
     _prefab: {fileID: 3537932759143078318, guid: 792d12099816d404799cc4dcb105e6dd, type: 3}
   - _id: projectile
     _prefab: {fileID: 100000, guid: c301b9b9f8a54068a99fbf2ee1a6077e, type: 3}
+  - _id: ship
+    _prefab: {fileID: 100000, guid: 4a0f230e44e94d109e5b9a46bc63f0ef, type: 3}

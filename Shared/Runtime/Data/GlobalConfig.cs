@@ -10,11 +10,11 @@
         public GoodsInfoConfig GoodsInfos = default!;
         public UnitsInfoConfig UnitsInfos = default!;
 
-        public FramedComponentDependenciesConfig FramedComponentDependencies = default!;
         public ComponentDependenciesConfig ComponentDependencies = default!;
         public ComponentDefaultsConfig ComponentDefaults = default!;
 
         public SquadStatsConfig SquadStats = default!;
+        public ShipStatsConfig ShipStats = default!;
         public CameraConfig CameraConfig = default!;
     }
 }
