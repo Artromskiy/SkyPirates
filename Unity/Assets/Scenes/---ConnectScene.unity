@@ -796,7 +796,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 455145759d37c074ba9d7cb973b25077, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DVG.Tools.FpsUnlimiter
-  _fpsLimit: 500
+  _fpsLimit: 5000
 --- !u!4 &1996084661
 Transform:
   m_ObjectHideFlags: 0

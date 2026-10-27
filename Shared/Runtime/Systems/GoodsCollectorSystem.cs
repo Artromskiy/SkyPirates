@@ -63,7 +63,8 @@ namespace SlyPirates.Shared.Systems
                 static (ref (Lookup2D<List<DropRef>> Grid, List<List<DropRef>> Lists, int NextList) state,
                     in SyncId syncId, in Position position) =>
                 {
-                    var posXZ = ((fix3)position).xz;
+                    fix3 dropPosition = (fix3)position;
+                    fix2 posXZ = dropPosition.xz;
                     var quad = GetQuantizedSquare(posXZ);
                     if (!state.Grid.TryGetValue(quad.x, quad.y, out var list))
                     {
@@ -80,7 +81,7 @@ namespace SlyPirates.Shared.Systems
                         state.Grid[quad.x, quad.y] = list;
                     }
 
-                    list.Add(new DropRef { SyncId = syncId.Value, PositionXZ = posXZ });
+                    list.Add(new DropRef { SyncId = syncId.Value, Position = dropPosition });
                 });
 
             _findCollectorsState = (_partitioning, _bestCollectors, 0);
@@ -94,12 +95,12 @@ namespace SlyPirates.Shared.Systems
                     SyncId ownerId = collector.TryGet(out SquadMember member)
                         ? member.SquadId
                         : collectorId;
-                    fix2 center = ((fix3)collectorPos).xz;
+                    fix3 center = (fix3)collectorPos;
                     fix searchRadius = radius;
                     fix sqrSearchRadius = searchRadius * searchRadius;
                     var range = new fix2(searchRadius, searchRadius);
-                    var min = GetQuantizedSquare(center - range);
-                    var max = GetQuantizedSquare(center + range);
+                    var min = GetQuantizedSquare(center.xz - range);
+                    var max = GetQuantizedSquare(center.xz + range);
 
                     for (int y = min.y; y <= max.y; y++)
                     for (int x = min.x; x <= max.x; x++)
@@ -112,7 +113,7 @@ namespace SlyPirates.Shared.Systems
                         for (int i = 0; i < drops.Count; i++)
                         {
                             var drop = drops[i];
-                            var sqrDist = fix2.SqrDistance(drop.PositionXZ, center);
+                            var sqrDist = fix3.SqrDistance(drop.Position, center);
                             if (sqrDist > sqrSearchRadius)
                             {
                                 continue;
@@ -271,7 +272,7 @@ namespace SlyPirates.Shared.Systems
         internal struct DropRef
         {
             public int SyncId;
-            public fix2 PositionXZ;
+            public fix3 Position;
         }
 
         internal struct GoodsData

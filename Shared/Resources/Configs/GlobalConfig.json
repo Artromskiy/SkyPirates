@@ -1919,7 +1919,8 @@
         "Position",
         "Rotation",
         "TeamId",
-        "Collide"
+        "Collide",
+        "GoodsDrop"
       ],
       "Has": [
         "UnitId"
@@ -3266,10 +3267,10 @@
   },
   "ShipStats": [
     {
+      "ShipId": "Kite",
       "ViewToken": {
         "Value": "ship"
       },
-      "ShipId": "Kite",
       "MaxSpeed": 7,
       "Radius": 0.649993896484375,
       "TargetSearchDistance": 4,

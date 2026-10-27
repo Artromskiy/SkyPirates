@@ -116,24 +116,24 @@ MonoBehaviour:
   _textPrefab: {fileID: 8826519172505657572, guid: d31f37f109a6a439c992c4997495b275, type: 3}
   _textParent: {fileID: 1617045662870036245}
   _timingDuration: 5
-  _textUpdateSeconds: 0.5
+  _textUpdateSeconds: 0.3
   _all:
-    Median: 0
-    Average: 1
-    MinTen: 1
+    Median: 1
+    Average: 0
+    MinTen: 0
     MaxTen: 0
   _cpu:
-    Median: 0
-    Average: 1
-    MinTen: 1
+    Median: 1
+    Average: 0
+    MinTen: 0
     MaxTen: 0
   _gpu:
-    Median: 0
+    Median: 1
     Average: 0
     MinTen: 0
     MaxTen: 0
   _render:
-    Median: 0
+    Median: 1
     Average: 0
     MinTen: 0
     MaxTen: 0

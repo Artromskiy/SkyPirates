@@ -7,7 +7,7 @@ namespace SlyPirates.Tooling.Editor
     {
         private const string ConfigPath = "Assets/Settings/Configs/SkyPiratesGoogleSheets.asset";
 
-        [MenuItem("SkyPirates/Configs")]
+        [MenuItem("Sky Pirates/Configs")]
         private static void OpenConfigs()
         {
             var config = AssetDatabase.LoadAssetAtPath<GoogleSheetsConfigLoader>(ConfigPath);

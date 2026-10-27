@@ -7,10 +7,13 @@ using SlyPirates.Shared.Components.Config;
 using SlyPirates.Shared.Components.Framed;
 using SlyPirates.Shared.Data;
 using SlyPirates.Shared.Ids;
+using SlyPirates.Shared.Core;
 using SlyPirates.Shared.IFactories;
 using SlyPirates.Shared.IServices.TickableExecutors;
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using Delta.Diagnostics;
 
 namespace SlyPirates.Shared.Systems
 {
@@ -18,11 +21,12 @@ namespace SlyPirates.Shared.Systems
     {
         private static readonly fix DropRange = fix.One * 5 / 2;
         private Query? _createDescCache;
-        private Query _createDesc => _createDescCache ??= _world.
-            WhereAll<Health, Position, SyncId, SyncIdReserve, RandomSeed>().Alive().NotDisabled();
+        private Query _createDesc => _createDescCache ??= _world.WhereAll<Health, Position, SyncId, SyncIdReserve, RandomSeed>().Alive().NotDisabled();
 
         private readonly World _world;
         private readonly IConfigedEntityFactory<GoodsId> _configedEntityFactory;
+        private readonly IResultOperation<Entity> _findMap;
+        private Entity _mapEntity;
 
         private List<(Entity Entity, int SyncId)> _dead = new();
         private readonly List<DropInfo> _dropInfos = new();
@@ -33,6 +37,7 @@ namespace SlyPirates.Shared.Systems
         {
             _world = world;
             _configedEntityFactory = configedEntityFactory;
+            _findMap = world.WhereAll<HexMap>().First();
             var desc = _createDesc;
             _collectDead = world.ForEachEntity<List<(Entity Entity, int SyncId)>, SyncId, Health>(in desc, ref _dead,
                 static (ref List<(Entity Entity, int SyncId)> dead, EntityRef entity, in SyncId syncId, in Health health) =>
@@ -49,6 +54,13 @@ namespace SlyPirates.Shared.Systems
             _dead.Clear();
             _dropInfos.Clear();
             _remainingMembers.Clear();
+
+            if (!_mapEntity.IsValid)
+            {
+                _mapEntity = _findMap.Invoke();
+            }
+
+            HexMap map = _mapEntity.IsValid ? _world.Get<HexMap>(_mapEntity) : default;
 
             _collectDead.Invoke(ref _dead);
             if (_dead.Count == 0)
@@ -75,6 +87,7 @@ namespace SlyPirates.Shared.Systems
                     {
                         membersCount = _world.Get<SquadMemberCount>(squad).Value;
                     }
+
                     _remainingMembers[squadId.Value] = membersCount - 1;
 
                     var goods = _world.Get<GoodsDrop>(squad);
@@ -102,6 +115,7 @@ namespace SlyPirates.Shared.Systems
                         {
                             personalAmount = 0;
                         }
+
                         values[item.Key] = personalAmount + amount;
                     }
                 }
@@ -114,6 +128,7 @@ namespace SlyPirates.Shared.Systems
                         typesCount++;
                     }
                 }
+
                 if (typesCount == 0)
                 {
                     continue;
@@ -155,20 +170,19 @@ namespace SlyPirates.Shared.Systems
                             continue;
                         }
 
+                        fix xOffset = seed.NextFixRange(-DropRange, DropRange);
+                        fix zOffset = seed.NextFixRange(-DropRange, DropRange);
                         _dropInfos.Add(new DropInfo
                         {
                             Position = position,
+                            EndPosition = FindDropPosition(map, position, xOffset, zOffset),
                             GoodsId = item.Key,
                             Amount = amount,
                             SyncId = syncIdReserve.GetNext(),
-                            Direction =
-                            {
-                                x = seed.NextFixRange(-DropRange, DropRange),
-                                y = seed.NextFixRange(-DropRange, DropRange),
-                            },
                             Rotation = seed.NextFixRange(0, 360)
                         });
                     }
+
                     typeIndex++;
                 }
             }
@@ -190,18 +204,134 @@ namespace SlyPirates.Shared.Systems
                 _world.AddOrSet(drop, new FlyDestination
                 {
                     StartPosition = item.Position,
-                    EndPosition = item.Position + item.Direction.x_y,
+                    EndPosition = item.EndPosition,
                 });
             }
         }
 
-        internal struct DropInfo
+        [AgentTip("Overcomplicated 2-nested-loop")]
+        private static fix3 FindDropPosition(HexMap map, Position origin, fix xOffset, fix zOffset)
+        {
+            fix3 originPosition = origin;
+            fix2 desiredPosition = originPosition.xz + new fix2(xOffset, zOffset);
+            if (map.SurfaceElevations == null)
+            {
+                return new fix3(desiredPosition.x, originPosition.y, desiredPosition.y);
+            }
+
+            fix maxDistanceSquared = DropRange * DropRange;
+            fix nearestDistanceSquared = maxDistanceSquared;
+            int2 center = Hex.WorldToAxial(desiredPosition);
+            int range = (int)Maths.Ceil(DropRange / Hex.InnerRadius) + 1;
+            int2 nearestColumn = default;
+            int nearestElevation = default;
+            bool found = false;
+
+            for (int q = -range; q <= range; q++)
+            {
+                for (int r = -range; r <= range; r++)
+                {
+                    int2 column = center + new int2(q, r);
+                    if (!map.SurfaceElevations.TryGetValue(column, out int elevation))
+                    {
+                        continue;
+                    }
+
+                    fix3 hexCenter = Hex.AxialToWorld(new int3(column.x, elevation, column.y));
+                    fix distanceSquared = fix2.SqrDistance(desiredPosition, hexCenter.xz);
+                    if (distanceSquared > nearestDistanceSquared)
+                    {
+                        continue;
+                    }
+
+                    if (found && distanceSquared == nearestDistanceSquared
+                              && Compare(column, nearestColumn) >= 0)
+                    {
+                        continue;
+                    }
+
+                    found = true;
+                    nearestDistanceSquared = distanceSquared;
+                    nearestColumn = column;
+                    nearestElevation = elevation;
+                }
+            }
+
+            if (!found)
+            {
+                int2 originColumn = Hex.WorldToAxial(originPosition.xz);
+                return map.SurfaceElevations.TryGetValue(originColumn, out int originElevation)
+                    ? Hex.AxialToWorld(new int3(originColumn.x, originElevation, originColumn.y))
+                    : originPosition;
+            }
+
+            fix3 landingPosition = Hex.AxialToWorld(new int3(nearestColumn.x, nearestElevation, nearestColumn.y));
+            return FindLastFreeDropPosition(map, originPosition, landingPosition);
+        }
+
+        private static fix3 FindLastFreeDropPosition(HexMap map, fix3 start, fix3 landing)
+        {
+            if (map.Data == null || map.SurfaceElevations == null)
+            {
+                return landing;
+            }
+
+            int2 startColumn = Hex.WorldToAxial(start.xz);
+            fix horizontalDistance = fix2.Distance(start.xz, landing.xz);
+            fix verticalDistance = Maths.Abs(landing.y - start.y) + 8;
+            fix sampleDistance = Hex.InnerRadius / 2;
+            int sampleCount = Math.Max(1,
+                (int)Maths.Ceil((horizontalDistance + verticalDistance) / sampleDistance));
+            fix3 lastFreePosition = start;
+
+            for (int i = 1; i < sampleCount; i++)
+            {
+                fix percent = (fix)i / sampleCount;
+                fix3 pathPosition = GetDropFlightPosition(start, landing, percent);
+                int3 coordinate = Hex.WorldToAxial(pathPosition);
+                if (coordinate.xz != startColumn && map.Data.ContainsKey(coordinate))
+                {
+                    int2 lastFreeColumn = Hex.WorldToAxial(lastFreePosition.xz);
+                    if (map.SurfaceElevations.TryGetValue(lastFreeColumn, out int elevation))
+                    {
+                        return Hex.AxialToWorld(new int3(lastFreeColumn.x, elevation, lastFreeColumn.y));
+                    }
+
+                    if (map.SurfaceElevations.TryGetValue(startColumn, out int startElevation))
+                    {
+                        return Hex.AxialToWorld(new int3(startColumn.x, startElevation, startColumn.y));
+                    }
+
+                    return landing;
+                }
+
+                lastFreePosition = pathPosition;
+            }
+
+            return landing;
+        }
+
+        private static fix3 GetDropFlightPosition(fix3 start, fix3 end, fix percent)
+        {
+            const int arcHeight = 4;
+            fix2 xz = start.xz + (end.xz - start.xz) * percent;
+            fix y = Maths.Lerp(start.y, end.y, percent) + 4 * percent * (1 - percent) * arcHeight;
+            return new fix3(xz.x, y, xz.y);
+        }
+
+        private static int Compare(int2 left, int2 right)
+        {
+            int x = left.x.CompareTo(right.x);
+            return x != 0 ? x : left.y.CompareTo(right.y);
+        }
+
+        private struct DropInfo
         {
             public Position Position;
+            public fix3 EndPosition;
             public Rotation Rotation;
             public GoodsId GoodsId;
             public SyncId SyncId;
-            public fix2 Direction;
             public int Amount;
         }
     }
