@@ -33,18 +33,21 @@ namespace SlyPirates.Shared.Systems
         private readonly IOperation<(SyncId SquadId, List<Entity> Members)> _collectPassengersOperation;
 
         private Query? _shipsCache;
+
         private Query Ships => _shipsCache ??= _world
             .WhereAll<Ship, SyncId, Position, Direction, Fixation, MaxSpeed>()
             .WhereNone<PendingDestroy>()
             .Alive();
 
         private Query? _membersCache;
+
         private Query Members => _membersCache ??= _world
             .WhereAll<SquadMember>()
             .WhereNone<PendingDestroy>()
             .Alive();
 
         private Query? _passengersCache;
+
         private Query Passengers => _passengersCache ??= _world
             .WhereAll<OnShip, SyncId>()
             .Alive();
@@ -88,18 +91,17 @@ namespace SlyPirates.Shared.Systems
                         return;
                     }
 
-                    bool hasOnShip = state.World.Has<OnShip>(squad);
-                    if (hasOnShip && state.World.Get<OnShip>(squad).ShipId.Value != shipId.Value)
+                    if (state.World.TryGet(squad, out OnShip onShip))
                     {
-                        ship.BoardingElapsedSeconds = fix.Zero;
-                        return;
-                    }
-                    bool isBoarded = hasOnShip;
+                        if (onShip.ShipId.Value != shipId.Value)
+                        {
+                            ship.BoardingElapsedSeconds = fix.Zero;
+                            return;
+                        }
 
-                    if (isBoarded)
-                    {
                         Position landing = default;
-                        bool insideDisembarkRange = state.Map.Data != null
+                        bool insideDisembarkRange =
+                            state.Map.Data != null
                             && TryFindLanding(state.Map, shipPosition.Value, ship.DisembarkDistance, out landing);
                         ship.BoardingElapsedSeconds = fix.Zero;
                         if (insideDisembarkRange && !ship.WasInsideDisembarkRange && !wasCoolingDown)
@@ -128,11 +130,12 @@ namespace SlyPirates.Shared.Systems
                         return;
                     }
 
-                    ship.WasInsideDisembarkRange = state.Map.Data != null
-                                                   && TryFindLanding(state.Map, shipPosition.Value, ship.DisembarkDistance, out _);
+                    ship.WasInsideDisembarkRange =
+                        state.Map.Data != null
+                        && TryFindLanding(state.Map, shipPosition.Value, ship.DisembarkDistance, out _);
                     ship.BoardingElapsedSeconds = fix.Zero;
                     ship.TransitionCooldownSeconds = TransitionCooldownDuration;
-                    state.Transitions.Add(new Transition((Entity)shipRef, squad, ship.SquadId, shipId,
+                    state.Transitions.Add(new Transition(shipRef, squad, ship.SquadId, shipId,
                         default, TransitionKind.Board));
                 });
 
@@ -285,7 +288,9 @@ namespace SlyPirates.Shared.Systems
             int range = (int)Maths.Ceil(distance / Hex.InnerRadius) + 1;
             for (int q = -range; q <= range; q++)
             {
-                for (int r = -range; r <= range; r++)
+                int minR = q < 0 ? -range - q : -range;
+                int maxR = q > 0 ? range - q : range;
+                for (int r = minR; r <= maxR; r++)
                 {
                     int2 column = center + new int2(q, r);
                     if (!map.SurfaceElevations.TryGetValue(column, out int elevation)
@@ -298,13 +303,9 @@ namespace SlyPirates.Shared.Systems
 
                     fix3 tilePosition = Hex.AxialToWorld(coordinate);
                     fix distanceSquared = fix2.SqrDistance(shipPosition.xz, tilePosition.xz);
-                    if (distanceSquared > maxDistanceSquared)
-                    {
-                        continue;
-                    }
-
-                    if (found && (distanceSquared > nearestDistanceSquared
-                                  || (distanceSquared == nearestDistanceSquared && Compare(coordinate, nearestCoordinate) >= 0)))
+                    if (distanceSquared > maxDistanceSquared
+                        || (found && (distanceSquared > nearestDistanceSquared
+                                      || (distanceSquared == nearestDistanceSquared && Compare(coordinate, nearestCoordinate) >= 0))))
                     {
                         continue;
                     }
