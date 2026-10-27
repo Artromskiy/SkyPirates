@@ -10,11 +10,9 @@ using SlyPirates.Shared.Ecs;
 using SlyPirates.Shared.IServices.TickableExecutors;
 using SlyPirates.Shared.Ids;
 using System.Collections.Generic;
-using Delta.Diagnostics;
 
 namespace SlyPirates.Shared.Systems
 {
-    [AgentTip("System is overcomplicated in terms of conditions and and differences between Passengers/Members etc")]
     public sealed class ShipTransportSystem : IDeltaTickableExecutor
     {
         private static readonly fix BoardingDuration = (fix)0.5;
@@ -30,9 +28,8 @@ namespace SlyPirates.Shared.Systems
         private readonly IResultOperation<Entity> _findMap;
         private (World World, EntityIdMap EntityIdMap, HexMap Map, List<Transition> Transitions, fix DeltaTime) _tickState;
         private readonly IOperation<(World World, EntityIdMap EntityIdMap, HexMap Map, List<Transition> Transitions, fix DeltaTime)> _processShips;
-        private (SyncId SquadId, List<Entity> Members) _collectMembersState;
+        private (SyncId SquadId, List<Entity> Members) _collectState;
         private readonly IOperation<(SyncId SquadId, List<Entity> Members)> _collectMembersOperation;
-        private (SyncId SquadId, List<Entity> Members) _collectPassengersState;
         private readonly IOperation<(SyncId SquadId, List<Entity> Members)> _collectPassengersOperation;
 
         private Query? _shipsCache;
@@ -139,9 +136,9 @@ namespace SlyPirates.Shared.Systems
                         default, TransitionKind.Board));
                 });
 
-            _collectMembersState = (default, _members);
+            _collectState = (default, _members);
             Query members = Members;
-            _collectMembersOperation = world.ForEachEntity<(SyncId SquadId, List<Entity> Members), SquadMember>(in members, ref _collectMembersState,
+            _collectMembersOperation = world.ForEachEntity<(SyncId SquadId, List<Entity> Members), SquadMember>(in members, ref _collectState,
                 static (ref (SyncId SquadId, List<Entity> Members) state, EntityRef entity, in SquadMember member) =>
                 {
                     if (member.SquadId.Value == state.SquadId.Value)
@@ -150,9 +147,8 @@ namespace SlyPirates.Shared.Systems
                     }
                 });
 
-            _collectPassengersState = (default, _members);
             Query passengers = Passengers;
-            _collectPassengersOperation = world.ForEachEntity<(SyncId SquadId, List<Entity> Members), OnShip, SyncId>(in passengers, ref _collectPassengersState,
+            _collectPassengersOperation = world.ForEachEntity<(SyncId SquadId, List<Entity> Members), OnShip, SyncId>(in passengers, ref _collectState,
                 static (ref (SyncId SquadId, List<Entity> Members) state, EntityRef entity,
                     in OnShip onShip, in SyncId syncId) =>
                 {
@@ -196,7 +192,7 @@ namespace SlyPirates.Shared.Systems
 
         private void Board(in Transition transition)
         {
-            CollectMembers(transition.SquadId);
+            CollectEntities(transition.SquadId, _collectMembersOperation);
             BoardEntity(transition.Squad, transition.SquadId, transition.ShipId, true);
 
             for (int i = 0; i < _members.Count; i++)
@@ -207,7 +203,7 @@ namespace SlyPirates.Shared.Systems
 
         private void Disembark(in Transition transition)
         {
-            CollectPassengers(transition.SquadId);
+            CollectEntities(transition.SquadId, _collectPassengersOperation);
             _members.Sort((left, right) =>
                 _world.Get<SyncId>(left).Value.CompareTo(_world.Get<SyncId>(right).Value));
 
@@ -247,18 +243,11 @@ namespace SlyPirates.Shared.Systems
             ship.TransitionCooldownSeconds = TransitionCooldownDuration;
         }
 
-        private void CollectMembers(SyncId squadId)
+        private void CollectEntities(SyncId squadId, IOperation<(SyncId SquadId, List<Entity> Members)> operation)
         {
             _members.Clear();
-            _collectMembersState.SquadId = squadId;
-            _collectMembersOperation.Invoke(ref _collectMembersState);
-        }
-
-        private void CollectPassengers(SyncId squadId)
-        {
-            _members.Clear();
-            _collectPassengersState.SquadId = squadId;
-            _collectPassengersOperation.Invoke(ref _collectPassengersState);
+            _collectState.SquadId = squadId;
+            operation.Invoke(ref _collectState);
         }
 
         private void BoardEntity(Entity entity, SyncId squadId, SyncId shipId, bool isSquad)
