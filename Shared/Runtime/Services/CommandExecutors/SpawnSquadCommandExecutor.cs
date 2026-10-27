@@ -10,11 +10,9 @@ using SlyPirates.Shared.IFactories;
 using SlyPirates.Shared.IServices;
 using System;
 using System.Collections.Generic;
-using Delta.Diagnostics;
 
 namespace SlyPirates.Shared.Services.CommandExecutors
 {
-    [AgentTip("Api looks overcomplicated and needs refactoring. Data of spawn point and it's place for ship should be shared in one component and host should just select random spawn point with bounded locations of squad and ship")]
     public class SpawnSquadCommandExecutor : ICommandExecutorRegistration, ICommandExecutor<SpawnSquadCommand>
     {
         private readonly ISquadFactory _squadFactory;
@@ -71,29 +69,15 @@ namespace SlyPirates.Shared.Services.CommandExecutors
         private SpawnLocation GetSpawnLocation(ref RandomSeed seed)
         {
             _spawnLocations.Clear();
-            var land = new HashSet<int2>();
-            Query tiles = _world.WhereAll<HexTile>().WhereNone<PendingDestroy>();
-            _world.ForEach<HashSet<int2>, HexTile>(in tiles, ref land,
-                static (ref HashSet<int2> columns, in HexTile tile) => columns.Add(tile.Coordinates)).Invoke(ref land);
-            var locations = (Locations: _spawnLocations, Land: land);
+            var locations = _spawnLocations;
             var query = _spawnPointQuery;
-            _world.ForEach<(List<SpawnLocation> Locations, HashSet<int2> Land), SyncId, HexTile>(in query, ref locations,
-                static (ref (List<SpawnLocation> Locations, HashSet<int2> Land) result, in SyncId syncId, in HexTile tile) =>
+            _world.ForEach<List<SpawnLocation>, SyncId, HexTile, SpawnPoint>(in query, ref locations,
+                static (ref List<SpawnLocation> locations, in SyncId syncId, in HexTile tile, in SpawnPoint spawnPoint) =>
                 {
-                    foreach (int2 offset in Hex.AxialNear)
-                    {
-                        int2 water = tile.Coordinates + offset;
-                        if (result.Land.Contains(water))
-                        {
-                            continue;
-                        }
-
-                        var coordinates = new int3(tile.Coordinates.x, tile.Elevation, tile.Coordinates.y);
-                        result.Locations.Add(new SpawnLocation(syncId.Value,
-                            new Position { Value = Hex.AxialToWorld(coordinates) },
-                            new Position { Value = Hex.AxialToWorld(water).x_y }));
-                        break;
-                    }
+                    var coordinates = new int3(tile.Coordinates.x, tile.Elevation, tile.Coordinates.y);
+                    locations.Add(new SpawnLocation(syncId.Value,
+                        new Position { Value = Hex.AxialToWorld(coordinates) },
+                        new Position { Value = Hex.AxialToWorld(spawnPoint.ShipCoordinates).x_y }));
                 }).Invoke(ref locations);
             _spawnLocations.Sort(static (left, right) => left.SyncId.CompareTo(right.SyncId));
 

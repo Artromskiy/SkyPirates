@@ -40307,10 +40307,18 @@
   "Squad": {},
   "SquadMember": {},
   "SpawnPoint": {
-    "10015": {},
-    "10111": {},
-    "12680": {},
-    "12860": {}
+    "10015": {
+      "ShipCoordinates": [-16, -4]
+    },
+    "10111": {
+      "ShipCoordinates": [-15, 21]
+    },
+    "12680": {
+      "ShipCoordinates": [14, -18]
+    },
+    "12860": {
+      "ShipCoordinates": [16, 5]
+    }
   },
   "SyncId": {
     "10000": 10000,

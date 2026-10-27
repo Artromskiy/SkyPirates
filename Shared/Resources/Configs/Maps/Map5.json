@@ -533563,10 +533563,18 @@
   "Squad": {},
   "SquadMember": {},
   "SpawnPoint": {
-    "50209": {},
-    "52680": {},
-    "62773": {},
-    "89165": {}
+    "50209": {
+      "ShipCoordinates": [-46, 5]
+    },
+    "52680": {
+      "ShipCoordinates": [7, 40]
+    },
+    "62773": {
+      "ShipCoordinates": [-7, -39]
+    },
+    "89165": {
+      "ShipCoordinates": [35, 10]
+    }
   },
   "SyncId": {
     "50000": 50000,

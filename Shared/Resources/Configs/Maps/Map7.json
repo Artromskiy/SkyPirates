@@ -614959,10 +614959,18 @@
   "Squad": {},
   "SquadMember": {},
   "SpawnPoint": {
-    "250244": {},
-    "266845": {},
-    "270836": {},
-    "296027": {}
+    "250244": {
+      "ShipCoordinates": [-44, 4]
+    },
+    "266845": {
+      "ShipCoordinates": [-1, 43]
+    },
+    "270836": {
+      "ShipCoordinates": [-2, -40]
+    },
+    "296027": {
+      "ShipCoordinates": [39, 7]
+    }
   },
   "SyncId": {
     "250000": 250000,

@@ -638977,10 +638977,18 @@
   "Squad": {},
   "SquadMember": {},
   "SpawnPoint": {
-    "158026": {},
-    "173107": {},
-    "181672": {},
-    "198260": {}
+    "158026": {
+      "ShipCoordinates": [-40, -6]
+    },
+    "173107": {
+      "ShipCoordinates": [-5, -41]
+    },
+    "181672": {
+      "ShipCoordinates": [6, 41]
+    },
+    "198260": {
+      "ShipCoordinates": [45, 1]
+    }
   },
   "SyncId": {
     "150000": 150000,

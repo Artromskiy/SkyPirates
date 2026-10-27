@@ -1,3 +1,4 @@
+using Delta;
 using Delta.ECS;
 
 namespace SlyPirates.Shared.Components.Config
@@ -7,5 +8,6 @@ namespace SlyPirates.Shared.Components.Config
     [ComponentGroup(Group.History)]
     public struct SpawnPoint
     {
+        public int2 ShipCoordinates;
     }
 }
