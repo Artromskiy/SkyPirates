@@ -6,153 +6,210 @@ using System.Text.Json.Nodes;
 
 namespace SlyPirates.Shared.Core.Sheets
 {
-	public static class SheetParser
-	{
-		private const char Split = '/';
-		public static JsonArray DsvToJsonObject(string dsv, int headerRows, char separator) =>
-			ParseTable(ParseDsv(dsv, separator), headerRows);
+    public static class SheetParser
+    {
+        private const char Split = '/';
 
-		private static JsonArray ParseTable(string[,] table, int headerRows)
-		{
-			int rowCount = table.GetLength(0);
-			int colCount = table.GetLength(1);
+        public static JsonArray DsvToJsonObject(string dsv, int headerRows, char separator) =>
+            ParseTable(ParseDsv(dsv, separator), headerRows);
 
-			var result = new JsonArray();
+        private static JsonArray ParseTable(string?[,] table, int headerRows)
+        {
+            var fields = Enumerable.Range(0, table.GetLength(1))
+                .Select(column => (Column: column, Path: BuildPath(table, column, headerRows)))
+                .Where(field => field.Path.Length != 0).ToArray();
+            int[] verticalColumns = fields.Where(field => field.Path.Any(part => part.EndsWith("[]", StringComparison.Ordinal)))
+                .Select(field => field.Column).ToArray();
+            var result = new JsonArray();
+            foreach ((int start, int end) in PreParseRows(table, headerRows, verticalColumns))
+            {
+                result.Add(ParseObject(table, fields, start, end));
+            }
+            return result;
+        }
 
-			for (int r = headerRows; r < rowCount; r++)
-			{
-				var obj = new JsonObject();
-				bool hasData = false;
-
-				for (int c = 0; c < colCount; c++)
-				{
-					var value = table[r, c];
-					if (value == null)
+        private static IEnumerable<(int Start, int End)> PreParseRows(string?[,] table, int headerRows, int[] verticalColumns)
+        {
+            int start = headerRows;
+            for (int r = headerRows; r < table.GetLength(0); r++)
+            {
+                if (table[r, 0] == null && verticalColumns.Any(column => table[r, column] != null))
+                {
+                    if (table[start, 0] == null)
                     {
-                        continue;
+                        throw new InvalidOperationException($"Row {r + 1}: array continuation has no parent record.");
                     }
 
-                    var path = BuildPath(table, c, headerRows);
-					path.AddRange(value.Split(Split));
-
-					Insert(obj, path);
-					hasData = true;
-				}
-
-				if (hasData)
-                {
-                    result.Add(obj);
+                    continue;
                 }
+                if (r > start)
+                {
+                    yield return (start, r);
+                }
+
+                start = r;
             }
-
-			return result;
-		}
-
-
-		private static string[,] ParseDsv(string csv, char divisor)
-		{
-			var lines = csv
-				.Split('\n')
-				.Select(l => l.TrimEnd())
-				.Where(l => !string.IsNullOrWhiteSpace(l))
-				.ToList();
-
-			int rows = lines.Count;
-			int cols = lines.Max(l => l.Split(divisor).Length);
-
-			var table = new string[rows, cols];
-
-			for (int r = 0; r < rows; r++)
-			{
-				var cells = lines[r].Split(divisor);
-				for (int c = 0; c < cells.Length; c++)
-                {
-                    table[r, c] = string.IsNullOrWhiteSpace(cells[c]) ? null : cells[c];
-                }
+            if (start < table.GetLength(0))
+            {
+                yield return (start, table.GetLength(0));
             }
+        }
 
-			return table;
-		}
-
-		private static List<string> BuildPath(string[,] table, int col, int headerRows)
-		{
-			var path = new List<string>();
-
-			int startRow = headerRows - 1;
-			int startCol = col;
-
-			int c = startCol;
-			int r;
-
-			while (c >= 0)
-			{
-				r = startRow;
-
-				while (r >= 0 && table[r, c] == null)
+        private static JsonObject ParseObject(string?[,] table, (int Column, string[] Path)[] fields, int start, int end)
+        {
+            var result = new JsonObject();
+            foreach (var group in fields.GroupBy(field => field.Path[0]))
+            {
+                string key = group.Key;
+                int marker = key.EndsWith(']') ? key.IndexOf('[') : -1;
+                string? separator = marker >= 0 ? key.Substring(marker + 1, key.Length - marker - 2) : null;
+                if (marker >= 0)
                 {
-                    r--;
+                    key = key.Substring(0, marker);
                 }
 
-                if (r < 0)
-				{
-					c--;
-				}
-				else
-				{
-					path.AddRange(table[r, c].Split(Split).Reverse());
+                if (key.Length == 0)
+                {
+                    throw new InvalidOperationException("An array header must have a field name.");
+                }
 
-					startRow = r - 1;
+                var children = group.Select(field => (field.Column, Path: field.Path.Skip(1).ToArray())).ToArray();
+                bool leaf = children.All(field => field.Path.Length == 0);
+                if (!leaf && children.Any(field => field.Path.Length == 0))
+                {
+                    throw new InvalidOperationException($"Field '{key}' is declared as both a value and an object.");
+                }
 
-					if (r == 0)
+                if (separator == string.Empty)
+                {
+                    var array = new JsonArray();
+                    if (leaf)
                     {
-                        break;
+                        string[] values = ReadValues(table, children, start, end).ToArray();
+                        if (values.Length > 1 && values.Contains("[]"))
+                        {
+                            throw new InvalidOperationException($"Empty-array marker conflicts with items in '{key}'.");
+                        }
+
+                        foreach (string value in values.Where(value => value != "[]"))
+                        {
+                            array.Add(ParseValue(value));
+                        }
+                    }
+                    else
+                    {
+                        for (int r = start; r < end; r++)
+                        {
+                            if (ReadValues(table, children, r, r + 1).Any())
+                            {
+                                array.Add(ParseObject(table, children, r, r + 1));
+                            }
+                        }
+                    }
+                    result[key] = array;
+                }
+                else if (leaf)
+                {
+                    string? value = ReadValues(table, children, start, end).LastOrDefault();
+                    if (separator != null)
+                    {
+                        result[key] = value == null ? new JsonArray() : ParseArray(value, separator);
+                    }
+                    else if (value != null)
+                    {
+                        result[key] = ParseValue(value);
                     }
                 }
-			}
+                else
+                {
+                    if (separator != null)
+                    {
+                        throw new InvalidOperationException("An inline-array delimiter belongs on the final field header.");
+                    }
 
-			path.Reverse();
+                    JsonObject child = ParseObject(table, children, start, end);
+                    if (child.Count != 0)
+                    {
+                        result[key] = child;
+                    }
+                }
+            }
+            return result;
+        }
 
-            return path;
-		}
-
-		private static void Insert(JsonObject root, List<string> path)
-		{
-			JsonObject current = root;
-			for (int i = 0; i < path.Count - 2; i++)
-			{
-				var key = path[i];
-				if (!current.TryGetPropertyValue(key, out var next))
-				{
-					next = new JsonObject();
-					current[key] = next;
-				}
-				current = next.AsObject();
-			}
-
-			current[path[^2]] = ParseValue(path[^1]);
-			return;
-		}
-
-
-
-		private static JsonNode ParseValue(string value)
-		{
-			if (int.TryParse(value, out var i))
+        private static IEnumerable<string> ReadValues(string?[,] table, (int Column, string[] Path)[] fields, int start, int end)
+        {
+            for (int r = start; r < end; r++)
             {
-                return JsonValue.Create(i);
+                foreach (var field in fields)
+                {
+                    if (table[r, field.Column] is string value)
+                    {
+                        yield return value;
+                    }
+                }
+            }
+        }
+
+        private static string?[,] ParseDsv(string dsv, char separator)
+        {
+            string[][] rows = dsv.Split('\n').Select(line => line.TrimEnd())
+                .Where(line => !string.IsNullOrWhiteSpace(line)).Select(line => line.Split(separator)).ToArray();
+            string?[,] table = new string?[rows.Length, rows.Max(row => row.Length)];
+            for (int r = 0; r < rows.Length; r++)
+            for (int c = 0; c < rows[r].Length; c++)
+            {
+                table[r, c] = string.IsNullOrWhiteSpace(rows[r][c]) ? null : rows[r][c];
             }
 
-            if (decimal.TryParse(value, NumberStyles.Any, CultureInfo.InvariantCulture, out var f))
+            return table;
+        }
+
+        private static string[] BuildPath(string?[,] table, int column, int headerRows)
+        {
+            var path = new List<string>();
+            int row = headerRows - 1;
+            while (column >= 0 && row >= 0)
             {
-                return JsonValue.Create(f);
+                int header = row;
+                while (header >= 0 && table[header, column] == null)
+                {
+                    header--;
+                }
+
+                if (header < 0)
+                {
+                    column--;
+                    continue;
+                }
+                path.InsertRange(0, table[header, column]!.Split(Split));
+                row = header - 1;
+            }
+            return path.ToArray();
+        }
+
+        private static JsonArray ParseArray(string value, string separator) => value == "[]"
+            ? new JsonArray()
+            : new JsonArray(value.Split(new[] { separator }, StringSplitOptions.RemoveEmptyEntries).Select(ParseValue).ToArray());
+
+        private static JsonNode ParseValue(string value)
+        {
+            if (int.TryParse(value, out int integer))
+            {
+                return JsonValue.Create(integer);
             }
 
-            if (bool.TryParse(value, out var b))
+            if (decimal.TryParse(value, NumberStyles.Any, CultureInfo.InvariantCulture, out decimal number))
             {
-                return JsonValue.Create(b);
+                return JsonValue.Create(number);
+            }
+
+            if (bool.TryParse(value, out bool boolean))
+            {
+                return JsonValue.Create(boolean);
             }
 
             return JsonValue.Create(value);
-		}
-	}
+        }
+    }
 }
